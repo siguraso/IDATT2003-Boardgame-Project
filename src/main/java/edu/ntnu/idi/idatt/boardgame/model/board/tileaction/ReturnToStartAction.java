@@ -4,25 +4,28 @@ import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.player.Player;
 
 /**
- * Interface for the special actions that can be performed on a special tile.
+ * A special action that returns a player to the starting tile on the board.
  *
  * @author siguraso
  * @version 1.0
  * @since 1.0
  */
-public class MoveToRandomTile implements TileAction {
+public class ReturnToStartAction implements TileAction {
 
   Board board;
 
-  public MoveToRandomTile(Board board) {
+  /**
+   * Constructor for the ReturnToStartAction class.
+   *
+   * @param board the board that contains all the tiles.
+   */
+  public ReturnToStartAction(Board board) {
     this.board = board;
   }
 
   @Override
   public void performAction(Player player) {
-    // TODO implement piss
-    //player.move(board.getTiles().get((int) (Math.random() * board.getTiles().size())));
+    player.move(board.getTiles().get(1));
   }
-
 
 }

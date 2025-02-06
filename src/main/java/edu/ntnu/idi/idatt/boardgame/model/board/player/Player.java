@@ -13,6 +13,7 @@ public class Player {
 
   private final String name;
   private Tile currentTile;
+  private boolean isWinner = false;
 
   /**
    * Constructor for the Player class.
@@ -43,6 +44,15 @@ public class Player {
     return currentTile;
   }
 
+  /**
+   * Used to check if the player is a winner of the game.
+   *
+   * @return Boolean, true if the player is a winner, false otherwise.
+   */
+  public boolean isWinner() {
+    return isWinner;
+  }
+
   // mutator methods
 
   /**
@@ -52,6 +62,14 @@ public class Player {
    */
   public void move(Tile newTile) {
     currentTile = newTile;
+  }
+
+  /**
+   * Used to set a player as a winner of the game. This method is used when a player reaches a
+   * WinnerTile.
+   */
+  public void setWinner() {
+    this.isWinner = true;
   }
 
 }
