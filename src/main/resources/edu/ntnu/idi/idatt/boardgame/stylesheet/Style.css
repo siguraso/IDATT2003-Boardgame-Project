@@ -1,0 +1,37 @@
+* {
+    /* Font */
+    -fx-font-size: 16px;
+    -fx-font-family: "Arial";
+
+    /*
+    ! Forklaring til Sigurd: !
+    "--" angir variabler i css man kan bruke senere. under lager jeg et sett med farger
+    som jeg kan bruke i koden.
+     */
+
+
+    /* Main Colors */
+    --bg-800: #2F3E46;
+    --bg-700: #354F52;
+    --bg-600: #52796F;
+    --bg-500: #84A98C;
+    --bg-200: #CAD2C5;
+    --bg-100: #e0e6e0;
+
+    /* Text Colors */
+    --text-blk: #1d1f20;
+    --text-wht: #eeefee;
+
+    /* Call to action */
+    --cta-orange: #df9323;
+    --cta-red: #e6314f;
+    --cta-green: #3cec5f;
+
+    -fx-background-color: var(--bg-800);
+    -fx-text-fill: var(--text-wht);
+}
+
+.root {
+    -fx-background-color: var(--bg-700);
+    -fx-text-fill: var(--bg-100);
+}
