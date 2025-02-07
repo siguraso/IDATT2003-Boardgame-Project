@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
-import edu.ntnu.idi.idatt.boardgame.model.board.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
 /**
  * A special action that allows a player to throw the die again.
