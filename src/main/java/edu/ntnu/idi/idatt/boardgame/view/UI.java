@@ -15,14 +15,10 @@ import javafx.stage.Stage;
  * @since 1.0
  */
 public class UI extends Application {
-  public void start() {
-    // TODO: Write testdata
-  }
-  public void init() {
-    // TODO: Initialize the application
 
-    // Creating a stage
-    Stage stage = new Stage();
+  @Override
+  public void start(Stage primaryStage) {
+    primaryStage = new Stage();
 
     // Fetching dimensions of the screen
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -35,12 +31,20 @@ public class UI extends Application {
 
     // Creating a scene
     Scene scene = new Scene(root, screenWidth, screenHeight);
-    scene.getStylesheets().add("Style.css");
-    stage.setScene(scene);
+    scene.getStylesheets().add(
+        "Style.css");
+    primaryStage.setScene(scene);
 
-    stage.setTitle("Stage");
+    primaryStage.setTitle("Stage");
 
-    stage.show();
+    primaryStage.show();
+  }
+
+  public void init() {
+    // TODO: Initialize the application
+
+    // Creating a stage
+
   }
 
 
