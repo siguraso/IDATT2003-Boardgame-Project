@@ -1,7 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
-import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.LadderAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.ReturnToStartAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RollAgainAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.SwapPlayersAction;
@@ -9,6 +8,13 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import java.util.HashMap;
 
+/**
+ * Tile that performs a random action when a player lands on it.
+ *
+ * @author siguraso
+ * @version 1.0
+ * @since 1.0
+ */
 public class RandomActionTile extends SpecialTile {
 
   TileAction[] tileActions = new TileAction[3];

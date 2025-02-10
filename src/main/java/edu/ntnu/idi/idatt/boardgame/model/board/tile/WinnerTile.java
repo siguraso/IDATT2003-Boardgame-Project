@@ -3,6 +3,13 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.WinnerAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
+/**
+ * The final tile on the board, where if a player lands on it, they win the game.
+ *
+ * @author siguraso
+ * @version 1.0
+ * @since 1.0
+ */
 public class WinnerTile extends SpecialTile {
 
   /**

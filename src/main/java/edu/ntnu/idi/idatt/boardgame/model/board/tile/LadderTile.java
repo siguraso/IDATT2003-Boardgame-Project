@@ -3,6 +3,14 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.LadderAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
+/**
+ * A special tile on the board, where if a player lands on it, the player will move up or down a
+ * ladder.
+ *
+ * @author siguraso
+ * @version 1.0
+ * @since 1.0
+ */
 public class LadderTile extends SpecialTile {
 
   private final Tile destinationTile;
