@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 /**
  * The main class of the application that launches the javaFX application.
  *
- * @author MagnusNaessanGaarder
+ * @author MagnusNaessanGaarder & siguraso
  * @version 1.0
  * @since 1.0
  */
@@ -31,8 +31,8 @@ public class UI extends Application {
 
     // Creating a scene
     Scene scene = new Scene(root, screenWidth, screenHeight);
-    scene.getStylesheets().add(
-        "Style.css");
+    // String css = this.getClass().getResource("Style.css").toExternalForm();
+    scene.getStylesheets().add("file:Style.css");
     primaryStage.setScene(scene);
 
     primaryStage.setTitle("Stage");
@@ -46,6 +46,4 @@ public class UI extends Application {
     // Creating a stage
 
   }
-
-
 }
