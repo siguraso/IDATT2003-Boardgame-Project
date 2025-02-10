@@ -12,9 +12,10 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
  */
 public abstract class SpecialTile implements Tile {
 
-  private int tileNumber;
-  private int[] onscreenPosition;
-  private TileAction tileAction;
+  protected int tileNumber;
+  protected int[] onscreenPosition;
+  protected TileAction tileAction;
+
 
   @Override
   public int getTileNumber() {
