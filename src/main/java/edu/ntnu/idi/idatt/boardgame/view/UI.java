@@ -32,7 +32,7 @@ public class UI extends Application {
     // Creating a scene
     Scene scene = new Scene(root, screenWidth, screenHeight);
     // String css = this.getClass().getResource("Style.css").toExternalForm();
-    scene.getStylesheets().add("file:Style.css");
+    scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
     primaryStage.setScene(scene);
 
     primaryStage.setTitle("Stage");
