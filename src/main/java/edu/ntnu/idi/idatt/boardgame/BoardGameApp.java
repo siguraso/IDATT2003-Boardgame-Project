@@ -1,9 +1,13 @@
 package edu.ntnu.idi.idatt.boardgame;
 
+import edu.ntnu.idi.idatt.boardgame.view.UI;
+
+import static javafx.application.Application.launch;
+
 /**
  * The main class of the application that launches the javaFX application.
  *
- * @author siguraso
+ * @author siguraso & MagnusNaesanGaarder
  * @version 1.0
  * @since 1.0
  */
@@ -15,6 +19,6 @@ public class BoardGameApp {
    * @param args The arguments passed to the application.
    */
   public static void main(String[] args) {
-    System.out.println("Jeg trenger masse hjelp med å gå på do.");
+    launch(UI.class, args);
   }
 }
