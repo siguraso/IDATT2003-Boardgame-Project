@@ -1,6 +1,4 @@
-package edu.ntnu.idi.idatt.boardgame.view;
-
-import javafx.scene.Scene;
+package edu.ntnu.idi.idatt.boardgame.view.window;
 
 /**
  * Interface for displaying a window, includes basic methods like show and init.

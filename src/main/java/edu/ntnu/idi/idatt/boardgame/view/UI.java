@@ -1,10 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.view;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import edu.ntnu.idi.idatt.boardgame.view.window.BoardGameWindow;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
