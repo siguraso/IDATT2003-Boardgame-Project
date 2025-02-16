@@ -16,28 +16,13 @@ import javafx.stage.Stage;
  */
 public class UI extends Application {
 
+
   @Override
   public void start(Stage primaryStage) {
-    primaryStage = new Stage();
+    BoardGameWindow window = new BoardGameWindow();
 
-    // Fetching dimensions of the screen
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    double screenWidth = screenSize.getWidth();
-    double screenHeight = screenSize.getHeight();
-
-    // Creating a horizontal box
-    HBox root = new HBox();
-    root.getStyleClass().add("root");
-
-    // Creating a scene
-    Scene scene = new Scene(root, screenWidth, screenHeight);
-    // String css = this.getClass().getResource("Style.css").toExternalForm();
-    scene.getStylesheets().add("file:Style.css");
-    primaryStage.setScene(scene);
-
-    primaryStage.setTitle("Stage");
-
-    primaryStage.show();
+    window.init();
+    window.show();
   }
 
   public void init() {
