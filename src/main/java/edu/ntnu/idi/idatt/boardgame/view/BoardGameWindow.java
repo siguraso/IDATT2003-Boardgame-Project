@@ -35,7 +35,7 @@ public class BoardGameWindow implements Window {
     root.setLeft(getBoardRegion());
     root.setRight(getSidebar());
 
-    Scene scene = new Scene(root, 1400, 900);
+    Scene scene = new Scene(root, 1400, 800);
 
     scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
 
@@ -53,13 +53,13 @@ public class BoardGameWindow implements Window {
   private StackPane getBoardRegion() {
     StackPane boardDisplay = new StackPane();
     boardDisplay.setMinWidth(1000);
-    boardDisplay.setMinHeight(900);
+    boardDisplay.setMinHeight(800);
     boardDisplay.getStyleClass().add("root");
 
     ImageView boardImage = new ImageView(
         new Image("file:src/main/resources/Images/placeholder.jpg"));
-    boardImage.setFitHeight(850);
-    boardImage.setFitWidth(850);
+    boardImage.setFitHeight(700);
+    boardImage.setFitWidth(700);
 
     boardDisplay.getChildren().add(boardImage);
 
