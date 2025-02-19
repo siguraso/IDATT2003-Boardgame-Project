@@ -9,13 +9,11 @@ import javafx.scene.Node;
  * @version 1.0
  * @since 1.0
  */
-public interface DialogMessage {
+public interface WindowComponent {
 
   /**
-   * Retrieves the node that is hte
-   *
-   * @param message The message that is displayed to the user.
+   * Retrieves the node that contains the window component
    */
-  Node getDialog(String message);
+  Node getComponent();
 
 }

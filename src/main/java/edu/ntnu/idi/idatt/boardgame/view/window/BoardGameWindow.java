@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
-import edu.ntnu.idi.idatt.boardgame.view.window.components.DialogMessage;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,20 +12,17 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialog;
-
 /**
  * Class to create a window that displays a board game, with a sidebar.
  *
- * @author siguraso
+ * @author siguraso & MagnusNaesanGaarder
  * @version 1.0
  * @since 1.0
  */
 public class BoardGameWindow implements Window {
 
   private final Stage window = new Stage();
-  private Node dialog;
-  private final VBox sidebar = new VBox();
+  private final BorderPane sidebar = new BorderPane();
 
   // methods for window initializing, opening and closing a window.
 
@@ -54,15 +52,15 @@ public class BoardGameWindow implements Window {
   }
 
   /**
-   * Method to change the dialog window when needed
+   * Method to change the dialog window when needed.
    *
    * @param dialog the node of the dialog that is to be displayed.
    */
-  public void setDialog(DialogMessage dialog, String message) {
-    sidebar.getChildren().remove(this.dialog);
+  public void setDialog(WindowComponent dialog) {
+    sidebar.setTop(null);
 
-    this.dialog = dialog.getDialog(message);
-    sidebar.getChildren().addFirst(this.dialog);
+    Node dialog1 = dialog.getComponent();
+    sidebar.setTop(dialog1);
   }
 
   // individual methods for setting up different parts of the window.
@@ -74,20 +72,18 @@ public class BoardGameWindow implements Window {
     boardDisplay.getStyleClass().add("root");
 
     ImageView boardImage = new ImageView(
-        new Image("file:src/main/resources/Images/placeholder.jpg"));
-    boardImage.setFitHeight(700);
-    boardImage.setFitWidth(700);
+        new Image("file:src/main/resources/Images/LadderGameBoard.png"));
+    boardImage.setFitHeight(800);
+    boardImage.setFitWidth(800);
 
     boardDisplay.getChildren().add(boardImage);
 
     return boardDisplay;
   }
 
-  private VBox getSidebar() {
+  private BorderPane getSidebar() {
     sidebar.setMinWidth(400);
     sidebar.setPadding(new javafx.geometry.Insets(20, 10, 20, 10));
-    sidebar.setSpacing(20);
-    sidebar.setAlignment(javafx.geometry.Pos.CENTER);
 
     // placeholder for die
     // TODO get actual sprites for the die
@@ -95,19 +91,23 @@ public class BoardGameWindow implements Window {
         new Image("file:src/main/resources/Images/placeholder.jpg"));
     diePlaceholder.setFitWidth(200);
     diePlaceholder.setFitHeight(200);
-
     // TODO make the button actually roll the die
     Button rollDieButton = new Button("Roll die");
-    rollDieButton.getStyleClass().add("button");
     rollDieButton.setOnAction(e -> {
       rollDieButton.setDisable(true);
       diePlaceholder.setImage(new Image("file:src/main/resources/Images/placeholder2.png"));
-      setDialog(new HappeningDialog(), "morra di er mann");
+      setDialog(new HappeningDialogBox("morra di er mann "));
     });
 
-    sidebar.getChildren().addAll(diePlaceholder, rollDieButton);
+    VBox dieBox = new VBox(diePlaceholder, rollDieButton);
+    dieBox.setAlignment(javafx.geometry.Pos.CENTER);
+    dieBox.setSpacing(20);
+    dieBox.getStyleClass().add("sidebar");
 
-    setDialog(new HappeningDialog(), "This is a test message");
+    setDialog(new HappeningDialogBox(
+        "This is a test message that i both love and hate, as i, as a male in society, has come to accept."));
+
+    sidebar.setCenter(dieBox);
 
     sidebar.getStyleClass().add("sidebar");
     return sidebar;

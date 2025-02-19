@@ -56,3 +56,10 @@
   -fx-background-radius: 10, 10, 0, 0;
   -fx-border-radius: 10, 10, 0, 0;
 }
+
+.dialog-text {
+  -fx-background-color: bg_000;
+  -fx-text-fill: text_blk;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+}
