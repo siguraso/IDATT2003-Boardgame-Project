@@ -25,7 +25,7 @@ public class ReturnToStartAction implements TileAction {
 
   @Override
   public void performAction(Player player) {
-    player.move(board.getTiles().get(1));
+    player.move(board.getTiles().get(0));
   }
 
 }

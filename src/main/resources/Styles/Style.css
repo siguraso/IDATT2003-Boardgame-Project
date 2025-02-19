@@ -14,12 +14,13 @@
   bg_700: #354F52;
   bg_600: #52796F;
   bg_500: #84A98C;
-  bg_200: #CAD2C5;
+  bg_200: #c8dccc;
   bg_100: #e0e6e0;
+  bg_000: #eeefee;
 
   /* Text Colors */
   text_blk: #1d1f20;
-  text_wht: #eeefee;
+  text_wht: bg_000;
 
   /* Call to action */
   cta_orange: #df9323;
@@ -28,6 +29,10 @@
 
   -fx-background-color: bg_800;
   -fx-text-fill: text_wht;
+}
+
+.text {
+  -fx-text-fill: text_blk;
 }
 
 .game {
@@ -43,4 +48,18 @@
 .button {
   -fx-background-color: bg_800;
   -fx-text-fill: bg_100;
+}
+
+.dialog-box {
+  -fx-background-color: bg_200;
+  -fx-text-fill: bg_100;
+  -fx-background-radius: 10, 10, 0, 0;
+  -fx-border-radius: 10, 10, 0, 0;
+}
+
+.dialog-text {
+  -fx-background-color: bg_000;
+  -fx-text-fill: text_blk;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
 }
