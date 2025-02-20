@@ -1,7 +1,12 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
+import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
+import java.util.HashMap;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,6 +28,7 @@ public class BoardGameWindow implements Window {
 
   private final Stage window = new Stage();
   private final BorderPane sidebar = new BorderPane();
+  private Leaderboard leaderboard;
 
   // methods for window initializing, opening and closing a window.
 
@@ -59,8 +65,20 @@ public class BoardGameWindow implements Window {
   public void setDialog(WindowComponent dialog) {
     sidebar.setTop(null);
 
-    Node dialog1 = dialog.getComponent();
-    sidebar.setTop(dialog1);
+    Node newDialog = dialog.getComponent();
+    sidebar.setTop(newDialog);
+  }
+
+  /**
+   * Method to update the leaderboard with the current players in the game.
+   *
+   * @param players The players in the game.
+   */
+  public void updateLeaderboard(HashMap<Integer, Player> players) {
+    sidebar.setBottom(null);
+
+    leaderboard.updateLeaderboard(players);
+    sidebar.setBottom(leaderboard.getComponent());
   }
 
   // individual methods for setting up different parts of the window.
@@ -97,6 +115,7 @@ public class BoardGameWindow implements Window {
       rollDieButton.setDisable(true);
       diePlaceholder.setImage(new Image("file:src/main/resources/Images/placeholder2.png"));
       setDialog(new HappeningDialogBox("morra di er mann "));
+      updateLeaderboard(new HashMap<>());
     });
 
     VBox dieBox = new VBox(diePlaceholder, rollDieButton);
@@ -108,6 +127,21 @@ public class BoardGameWindow implements Window {
         "This is a test message that i both love and hate, as i, as a male in society, has come to accept."));
 
     sidebar.setCenter(dieBox);
+
+    // add leaderboard
+    HashMap<Integer, Player> players = new HashMap<>();
+    players.put(1, new Player("Player 1"));
+    players.get(1).move(new NormalTile(1, new int[]{12, 12}));
+
+    players.put(2, new Player("Player 2"));
+    players.get(2).move(new NormalTile(2, new int[]{12, 12}));
+
+    players.put(3, new Player("Player 3"));
+    players.get(3).move(new NormalTile(3, new int[]{12, 12}));
+
+    leaderboard = new Leaderboard(players);
+
+    sidebar.setBottom(leaderboard.getComponent());
 
     sidebar.getStyleClass().add("sidebar");
     return sidebar;
