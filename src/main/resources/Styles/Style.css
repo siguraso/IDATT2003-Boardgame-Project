@@ -79,3 +79,8 @@
 .header {
   -fx-font-size: 24px;
 }
+
+.die-image {
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+}

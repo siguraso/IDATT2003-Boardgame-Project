@@ -1,12 +1,16 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
-import java.util.HashMap;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+
+import edu.ntnu.idi.idatt.boardgame.util.WaitTime;
+import javax.swing.JPasswordField;
 
 /**
  * A class that contructs the dice component for the game window.
@@ -17,31 +21,40 @@ import javafx.scene.layout.VBox;
  */
 public class DieComponent implements WindowComponent {
 
-  private final Die die;
-  private ImageView diePlaceholder;
+  private final Die die = new Die(6);
+  private ImageView dieImage;
+  private Button rollDieButton = new Button("Roll die");
+
+  // constant for the path to the die images
+  private final String IMAGE_PATH = "file:src/main/resources/Images/die-Faces/";
 
   /**
    * Constructor for the DiceComponent class.
-   *
-   * @param die The die object that returns a random number when rolled.
    */
-  public DieComponent(Die die) {
-    this.die = die;
+  public DieComponent() {
+
   }
 
   @Override
   public Node getComponent() {
-    // placeholder for die
-    // TODO get actual sprites for the die
-    diePlaceholder = new ImageView(
-        new Image("file:src/main/resources/Images/placeholder.jpg"));
-    diePlaceholder.setFitWidth(200);
-    diePlaceholder.setFitHeight(200);
-    // TODO make the button actually roll the die
-    Button rollDieButton = new Button("Roll die");
-    rollDieButton.setOnAction(e -> rollDieAction());
+    dieImage = new ImageView(
+        new Image(IMAGE_PATH + "1.jpg"));
+    dieImage.setFitWidth(200);
+    dieImage.setFitHeight(200);
+    dieImage.getStyleClass().add("die-image");
 
-    VBox dieBox = new VBox(diePlaceholder, rollDieButton);
+    rollDieButton = new Button("Roll die");
+    rollDieButton.setOnAction(onPress -> {
+      Timeline dieAnimation = new Timeline(
+          new KeyFrame(javafx.util.Duration.millis(200), animation ->
+              dieImage.setImage(new Image(IMAGE_PATH + "dice-animation.gif"))
+          ));
+
+      dieAnimation.play();
+
+    });
+
+    VBox dieBox = new VBox(dieImage, rollDieButton);
     dieBox.setAlignment(javafx.geometry.Pos.CENTER);
     dieBox.setSpacing(20);
 
@@ -57,38 +70,28 @@ public class DieComponent implements WindowComponent {
     return this.die.getCurrentThrow();
   }
 
+  public void enableRollDieButton() {
+    rollDieButton.setDisable(false);
+  }
+
   private void rollDieAction() {
     this.die.throwDie();
 
     System.out.println("Die rolled: " + this.die.getCurrentThrow());
 
     switch (this.die.getCurrentThrow()) {
-      case 1 -> {
-        // TODO get actual sprites for the die
-        diePlaceholder.setImage(new Image("file:src/main/resources/Images/placeholder2.png"));
-      }
-      case 2 -> {
-        // TODO get actual sprites for the die
-        diePlaceholder.setImage(new Image("file:src/main/resources/Images/placeholder.jpg"));
-      }
-      case 3 -> {
-        // TODO get actual sprites for the die
-        diePlaceholder.setImage(new Image("file:src/main/resources/Images/placeholder.jpg"));
-      }
-      case 4 -> {
-        // TODO get actual sprites for the die
-        diePlaceholder.setImage(new Image("file:src/main/resources/Images/placeholder2.png"));
-      }
-      case 5 -> {
-        // TODO get actual sprites for the die
-        diePlaceholder.setImage(new Image("file:src/main/resources/Images/placeholder.jpg"));
-      }
-      case 6 -> {
-        // TODO get actual sprites for the die
-        diePlaceholder.setImage(new Image("file:src/main/resources/Images/placeholder2.png"));
-      }
+      case 1 -> dieImage.setImage(new Image(IMAGE_PATH + "1.jpg"));
+
+      case 2 -> dieImage.setImage(new Image(IMAGE_PATH + "2.jpg"));
+
+      case 3 -> dieImage.setImage(new Image(IMAGE_PATH + "3.jpg"));
+
+      case 4 -> dieImage.setImage(new Image(IMAGE_PATH + "4.jpg"));
+
+      case 5 -> dieImage.setImage(new Image(IMAGE_PATH + "5.jpg"));
+
+      case 6 -> dieImage.setImage(new Image(IMAGE_PATH + "6.jpg"));
+
     }
-
-
   }
 }

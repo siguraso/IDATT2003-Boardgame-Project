@@ -34,7 +34,7 @@ public class BoardGameWindow implements Window {
   // different components of the window
   private final BorderPane sidebar = new BorderPane();
   private Leaderboard leaderboard;
-  private final DieComponent dieBox = new DieComponent(new Die(6));
+  private final DieComponent dieBox = new DieComponent();
 
   // methods for window initializing, opening and closing a window.
 
