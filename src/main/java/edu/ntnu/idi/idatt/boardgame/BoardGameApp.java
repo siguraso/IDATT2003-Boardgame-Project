@@ -1,7 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame;
 
 import edu.ntnu.idi.idatt.boardgame.view.UI;
-
 import static javafx.application.Application.launch;
 
 /**
