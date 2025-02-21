@@ -2,11 +2,8 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import javafx.scene.Node;
-import javafx.scene.control.Cell;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -51,23 +48,39 @@ public class Leaderboard implements WindowComponent {
 
   @Override
   public Node getComponent() {
-    GridPane leaderboard = new GridPane();
-    leaderboard.setMinHeight(123);
-    leaderboard.setMinWidth(300);
-    leaderboard.setHgap(30);
-    leaderboard.setVgap(10);
-    leaderboard.getColumnConstraints().addAll(
-        new ColumnConstraints(100),
-        new ColumnConstraints(100),
-        new ColumnConstraints(100)
+    VBox leaderboard = new VBox();
+    leaderboard.setMinHeight(150);
+    leaderboard.setMaxHeight(150);
+    leaderboard.setMinWidth(380);
+    leaderboard.setMaxWidth(380);
+    leaderboard.setAlignment(javafx.geometry.Pos.TOP_CENTER);
+    leaderboard.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
+    leaderboard.setSpacing(10);
+
+    GridPane leaderboardGrid = new GridPane();
+    leaderboardGrid.setHgap(30);
+    leaderboardGrid.setVgap(12);
+    leaderboardGrid.setAlignment(javafx.geometry.Pos.CENTER);
+
+    leaderboardGrid.getColumnConstraints().addAll(
+        new ColumnConstraints(50),
+        new ColumnConstraints(200),
+        new ColumnConstraints(50)
     );
 
     this.players.keySet().forEach(player -> {
-      leaderboard.add(new Label(players.get(player).getName()), 0, player);
-      leaderboard.add(new Label(players.get(player).getCurrentTile().getTileNumber() + ""), 1,
+      leaderboardGrid.add(new Label(players.get(player).getCurrentTile().getTileNumber() + "."), 0,
           player);
-      leaderboard.add(new Label(player + 1 + "."), 2, player);
+      leaderboardGrid.add(new Label(players.get(player).getName()), 1, player);
+      leaderboardGrid.add(new Label(player + 1 + ""), 2, player);
     });
+
+    Label header = new Label("Top 3 Players");
+    header.getStyleClass().add("header");
+
+    leaderboard.getChildren().addAll(header, leaderboardGrid);
+
+    leaderboard.getStyleClass().add("leaderboard");
 
     return leaderboard;
   }

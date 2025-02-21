@@ -95,6 +95,7 @@ public class BoardGameWindow implements Window {
     boardImage.setFitWidth(800);
 
     boardDisplay.getChildren().add(boardImage);
+    boardDisplay.getStyleClass().add("board-region");
 
     return boardDisplay;
   }
@@ -130,13 +131,13 @@ public class BoardGameWindow implements Window {
 
     // add leaderboard
     HashMap<Integer, Player> players = new HashMap<>();
-    players.put(1, new Player("Player 1"));
+    players.put(1, new Player("Donny yommy"));
     players.get(1).move(new NormalTile(1, new int[]{12, 12}));
 
-    players.put(2, new Player("Player 2"));
+    players.put(2, new Player("Doniell tommy"));
     players.get(2).move(new NormalTile(2, new int[]{12, 12}));
 
-    players.put(3, new Player("Player 3"));
+    players.put(3, new Player("morra di er mann og faren din liker menn"));
     players.get(3).move(new NormalTile(3, new int[]{12, 12}));
 
     leaderboard = new Leaderboard(players);
