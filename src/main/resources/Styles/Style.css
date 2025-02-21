@@ -32,7 +32,7 @@
 
 /* Global styling for different node types. */
 .label {
-  -fx-text-fill: txt_blk;
+  -fx-text-fill: text_blk;
 }
 
 .button {

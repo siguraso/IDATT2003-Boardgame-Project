@@ -1,8 +1,10 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
+import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.DialogBox;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
@@ -26,9 +28,13 @@ import javafx.stage.Stage;
  */
 public class BoardGameWindow implements Window {
 
+  // window stage
   private final Stage window = new Stage();
+
+  // different components of the window
   private final BorderPane sidebar = new BorderPane();
   private Leaderboard leaderboard;
+  private final DieComponent dieBox = new DieComponent(new Die(6));
 
   // methods for window initializing, opening and closing a window.
 
@@ -103,31 +109,10 @@ public class BoardGameWindow implements Window {
   private BorderPane getSidebar() {
     sidebar.setMinWidth(400);
     sidebar.setPadding(new javafx.geometry.Insets(20, 10, 20, 10));
-
-    // placeholder for die
-    // TODO get actual sprites for the die
-    ImageView diePlaceholder = new ImageView(
-        new Image("file:src/main/resources/Images/placeholder.jpg"));
-    diePlaceholder.setFitWidth(200);
-    diePlaceholder.setFitHeight(200);
-    // TODO make the button actually roll the die
-    Button rollDieButton = new Button("Roll die");
-    rollDieButton.setOnAction(e -> {
-      rollDieButton.setDisable(true);
-      diePlaceholder.setImage(new Image("file:src/main/resources/Images/placeholder2.png"));
-      setDialog(new HappeningDialogBox("morra di er mann "));
-      updateLeaderboard(new HashMap<>());
-    });
-
-    VBox dieBox = new VBox(diePlaceholder, rollDieButton);
-    dieBox.setAlignment(javafx.geometry.Pos.CENTER);
-    dieBox.setSpacing(20);
-    dieBox.getStyleClass().add("sidebar");
-
-    setDialog(new HappeningDialogBox(
-        "This is a test message that i both love and hate, as i, as a male in society, has come to accept."));
-
-    sidebar.setCenter(dieBox);
+    sidebar.setTop(new HappeningDialogBox(
+        "this is a test message that i, as a male in modern society, has come to accept.")
+        .getComponent());
+    sidebar.setCenter(dieBox.getComponent());
 
     // add leaderboard
     HashMap<Integer, Player> players = new HashMap<>();
