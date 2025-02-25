@@ -114,13 +114,6 @@ public class BoardGameWindow implements Window {
     return boardDisplay;
   }
 
-  private BorderPane setupBoard() {
-    BorderPane board = new BorderPane();
-    board.setMinWidth(1000);
-    board.setMinHeight(800);
-    board.getStyleClass().add("root");
-  }
-
   private BorderPane getSidebar() {
     sidebar.setMinWidth(400);
     sidebar.setPadding(new javafx.geometry.Insets(20, 10, 20, 10));
