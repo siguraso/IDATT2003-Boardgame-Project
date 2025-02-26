@@ -27,36 +27,64 @@
   cta_red: #e6314f;
   cta_green: #3cec5f;
 
+  /* Board */
+  /* TODO: Add board colors from figma-board */
+
   -fx-background-color: bg_800;
   -fx-text-fill: text_wht;
 }
 
+/* Board and tile styles */
+.board {
+  /* TODO: add colors */
+}
+.normalTile {
+  /* TODO: add colors */
+}
+.randomActionTile {
+  /* TODO: add colors */
+}
+.returnToStartTile {
+  /* TODO: add colors */
+}
+.LadderTile {
+  /* TODO: add colors */
+}
+.endpointGreenTile {
+  /* TODO: add colors */
+}
+.endpointRedTile {
+  /* TODO: add colors */
+}
+.winnerTile {
+  /* TODO: add colors */
+}
+
+
+/* Text styles */
 .text {
   -fx-text-fill: text_blk;
 }
 
+/* JavaFX element styles */
 .game {
   -fx-background-color: bg_700;
   -fx-text-fill: bg_100;
 }
-
 .sidebar {
   -fx-background-color: bg_500;
   -fx-text-fill: bg_100;
 }
-
 .button {
   -fx-background-color: bg_800;
   -fx-text-fill: bg_100;
 }
-
 .dialog-box {
   -fx-background-color: bg_200;
   -fx-text-fill: bg_100;
   -fx-background-radius: 10, 10, 0, 0;
   -fx-border-radius: 10, 10, 0, 0;
 }
-
 .dialog-text {
   -fx-background-color: bg_000;
   -fx-text-fill: text_blk;

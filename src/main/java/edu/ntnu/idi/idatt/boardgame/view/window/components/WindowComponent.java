@@ -15,5 +15,4 @@ public interface WindowComponent {
    * Retrieves the node that contains the window component
    */
   Node getComponent();
-
 }
