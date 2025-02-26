@@ -61,7 +61,7 @@ public class Player {
    * @param newTile The new tile that the player moves to.
    */
   public void move(Tile newTile) {
-    currentTile = newTile;
+    this.currentTile = newTile;
   }
 
   /**

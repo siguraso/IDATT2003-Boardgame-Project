@@ -3,7 +3,13 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
+import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
+import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.DialogBox;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,10 +33,15 @@ import javafx.stage.Stage;
  */
 public class BoardGameWindow implements Window {
 
+  // window stage
   private final Stage window = new Stage();
+
+  // different components of the window
   private final BorderPane sidebar = new BorderPane();
   private final BorderPane board = new BorderPane();
   private Board gameBoard;
+  private Leaderboard leaderboard;
+  private final DieComponent dieBox = new DieComponent();
 
   // methods for window initializing, opening and closing a window.
 
@@ -67,8 +78,20 @@ public class BoardGameWindow implements Window {
   public void setDialog(WindowComponent dialog) {
     sidebar.setTop(null);
 
-    Node dialog1 = dialog.getComponent();
-    sidebar.setTop(dialog1);
+    Node newDialog = dialog.getComponent();
+    sidebar.setTop(newDialog);
+  }
+
+  /**
+   * Method to update the leaderboard with the current players in the game.
+   *
+   * @param players The players in the game.
+   */
+  public void updateLeaderboard(HashMap<Integer, Player> players) {
+    sidebar.setBottom(null);
+
+    leaderboard.updateLeaderboard(players);
+    sidebar.setBottom(leaderboard.getComponent());
   }
 
   // individual methods for setting up different parts of the window.
@@ -110,6 +133,7 @@ public class BoardGameWindow implements Window {
     }
 
     boardDisplay.getChildren().add(boardImage);
+    boardDisplay.getStyleClass().add("board-region");
 
     return boardDisplay;
   }
@@ -117,30 +141,25 @@ public class BoardGameWindow implements Window {
   private BorderPane getSidebar() {
     sidebar.setMinWidth(400);
     sidebar.setPadding(new javafx.geometry.Insets(20, 10, 20, 10));
+    sidebar.setTop(new HappeningDialogBox(
+        "this is a test message that i, as a male in modern society, has come to accept.")
+        .getComponent());
+    sidebar.setCenter(dieBox.getComponent());
 
-    // placeholder for die
-    // TODO get actual sprites for the die
-    ImageView diePlaceholder = new ImageView(
-        new Image("file:src/main/resources/Images/placeholder.jpg"));
-    diePlaceholder.setFitWidth(200);
-    diePlaceholder.setFitHeight(200);
-    // TODO make the button actually roll the die
-    Button rollDieButton = new Button("Roll die");
-    rollDieButton.setOnAction(e -> {
-      rollDieButton.setDisable(true);
-      diePlaceholder.setImage(new Image("file:src/main/resources/Images/placeholder2.png"));
-      setDialog(new HappeningDialogBox("morra di er mann "));
-    });
+    // add leaderboard
+    HashMap<Integer, Player> players = new HashMap<>();
+    players.put(1, new Player("Donny yommy"));
+    players.get(1).move(new NormalTile(1, new int[]{12, 12}));
 
-    VBox dieBox = new VBox(diePlaceholder, rollDieButton);
-    dieBox.setAlignment(javafx.geometry.Pos.CENTER);
-    dieBox.setSpacing(20);
-    dieBox.getStyleClass().add("sidebar");
+    players.put(2, new Player("Doniell tommy"));
+    players.get(2).move(new NormalTile(2, new int[]{12, 12}));
 
-    setDialog(new HappeningDialogBox(
-        "This is a test message that i both love and hate, as i, as a male in society, has come to accept."));
+    players.put(3, new Player("morra di er mann og faren din liker menn"));
+    players.get(3).move(new NormalTile(3, new int[]{12, 12}));
 
-    sidebar.setCenter(dieBox);
+    leaderboard = new Leaderboard(players);
+
+    sidebar.setBottom(leaderboard.getComponent());
 
     sidebar.getStyleClass().add("sidebar");
     return sidebar;

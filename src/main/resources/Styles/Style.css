@@ -1,7 +1,7 @@
 * {
   /* Font */
+  -fx-font-family: 'Roboto', sans-serif;
   -fx-font-size: 16px;
-  -fx-font-family: "Arial";
 
   /*
   ! Forklaring til Sigurd: !
@@ -30,8 +30,17 @@
   /* Board */
   /* TODO: Add board colors from figma-board */
 
+}
+
+
+/* Global styling for different node types. */
+.label {
+  -fx-text-fill: text_blk;
+}
+
+.button {
   -fx-background-color: bg_800;
-  -fx-text-fill: text_wht;
+  -fx-text-fill: bg_100;
 }
 
 /* Board and tile styles */
@@ -69,6 +78,11 @@
 /* JavaFX element styles */
 .game {
   -fx-background-color: bg_700;
+}
+/* Styling for different window components */
+
+.board-region {
+  -fx-background-color: bg_800;
   -fx-text-fill: bg_100;
 }
 .sidebar {
@@ -79,15 +93,35 @@
   -fx-background-color: bg_800;
   -fx-text-fill: bg_100;
 }
+
 .dialog-box {
   -fx-background-color: bg_200;
   -fx-text-fill: bg_100;
-  -fx-background-radius: 10, 10, 0, 0;
-  -fx-border-radius: 10, 10, 0, 0;
+  -fx-background-radius: 10;
+  -fx-border-radius: 10;
 }
+
+.leaderboard {
+  -fx-background-color: bg_200;
+
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+}
+
+/* Styling for different sub-components in the different components */
+
 .dialog-text {
   -fx-background-color: bg_000;
   -fx-text-fill: text_blk;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+}
+
+.header {
+  -fx-font-size: 24px;
+}
+
+.die-image {
   -fx-border-radius: 10;
   -fx-background-radius: 10;
 }
