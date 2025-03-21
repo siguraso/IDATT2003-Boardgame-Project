@@ -20,7 +20,6 @@ public class RandomActionTile extends SpecialTile {
 
   private final TileType type = TileType.RANDOM_ACTION;
   private final TileAction[] tileActions = new TileAction[3];
-  private final HashMap<Integer, Player> playerMap;
   private transient final Board board;
 
   /**
@@ -29,14 +28,12 @@ public class RandomActionTile extends SpecialTile {
    * @param tileNumber       The number of the tile on the board.
    * @param onscreenPosition The position of the tile on the screen.
    */
-  public RandomActionTile(int tileNumber, int[] onscreenPosition, Board board,
-      HashMap<Integer, Player> playerMap) {
+  public RandomActionTile(int tileNumber, int[] onscreenPosition, Board board) {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
     this.board = board;
-    this.playerMap = playerMap;
 
-    initializeTileActions();
+    initializeTileActions(null);
   }
 
   @Override
@@ -53,11 +50,19 @@ public class RandomActionTile extends SpecialTile {
     return "RandomActionTile";
   }
 
-  // method to initialize the tileActions array.
-  private void initializeTileActions() {
+  /**
+   * Method that initializes the tile actions that can be performed when a player lands on the tile.
+   * The tile actions are ReturnToStartAction, RollAgainAction and SwapPlayersAction.
+   *
+   * @param players a {@link HashMap} containing the players that can be swapped with.
+   * @since 1.0
+   * @version 1.0
+   * @author siguraso
+   */
+  public void initializeTileActions(HashMap<Integer, Player> playerMap) {
     tileActions[0] = new ReturnToStartAction(board);
     tileActions[1] = new RollAgainAction();    // TODO: make this work after implementing the roll again action
-    tileActions[2] = new SwapPlayersAction(this.playerMap);
+    tileActions[2] = new SwapPlayersAction(playerMap);
   }
 
 }

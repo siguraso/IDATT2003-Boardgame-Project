@@ -1,21 +1,37 @@
 {
-  "tiles": {
-    "1": {
+  "tiles": [
+    {
       "type": "NORMAL",
-      "tileNumber": 1
+      "tileNumber": 1,
+      "onscreenPosition": [
+        0,
+        0
+      ]
     },
-    "2": {
+    {
       "type": "NORMAL",
-      "tileNumber": 2
+      "tileNumber": 2,
+      "onscreenPosition": [
+        0,
+        0
+      ]
     },
-    "3": {
+    {
       "type": "LADDER",
       "destinationTileNumber": 1,
-      "tileNumber": 3
+      "tileNumber": 3,
+      "onscreenPosition": [
+        0,
+        0
+      ]
     },
-    "4": {
+    {
       "type": "RETURN_TO_START",
-      "tileNumber": 4
+      "tileNumber": 4,
+      "onscreenPosition": [
+        0,
+        0
+      ]
     }
-  }
+  ]
 }
