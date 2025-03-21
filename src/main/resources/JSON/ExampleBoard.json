@@ -10,10 +10,7 @@
     },
     "3": {
       "type": "LADDER",
-      "destinationTile": {
-        "type": "NORMAL",
-        "tileNumber": 1
-      },
+      "destinationTileNumber": 1,
       "tileNumber": 3
     },
     "4": {

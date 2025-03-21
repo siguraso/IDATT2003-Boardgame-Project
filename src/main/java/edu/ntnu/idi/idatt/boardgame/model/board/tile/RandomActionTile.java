@@ -21,8 +21,6 @@ public class RandomActionTile extends SpecialTile {
   private final TileType type = TileType.RANDOM_ACTION;
   private final TileAction[] tileActions = new TileAction[3];
   private final HashMap<Integer, Player> playerMap;
-
-  @Expose(serialize = false, deserialize = false)
   private transient final Board board;
 
   /**

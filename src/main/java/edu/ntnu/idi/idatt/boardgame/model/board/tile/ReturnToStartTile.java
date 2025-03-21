@@ -16,8 +16,7 @@ public class ReturnToStartTile extends SpecialTile {
 
   private final TileType type = TileType.RETURN_TO_START;
 
-  // expose the board to not start a loop in the serialization
-  @Expose(serialize = false, deserialize = false)
+
   private transient final Board board;
 
 
