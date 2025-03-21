@@ -1,0 +1,24 @@
+{
+  "tiles": {
+    "1": {
+      "type": "NORMAL",
+      "tileNumber": 1
+    },
+    "2": {
+      "type": "NORMAL",
+      "tileNumber": 2
+    },
+    "3": {
+      "type": "LADDER",
+      "destinationTile": {
+        "type": "NORMAL",
+        "tileNumber": 1
+      },
+      "tileNumber": 3
+    },
+    "4": {
+      "type": "RETURN_TO_START",
+      "tileNumber": 4
+    }
+  }
+}

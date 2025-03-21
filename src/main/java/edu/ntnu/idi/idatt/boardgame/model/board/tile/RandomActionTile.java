@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
+import com.google.gson.annotations.Expose;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.ReturnToStartAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RollAgainAction;
@@ -17,9 +18,12 @@ import java.util.HashMap;
  */
 public class RandomActionTile extends SpecialTile {
 
-  TileAction[] tileActions = new TileAction[3];
-  HashMap<Integer, Player> playerMap = new HashMap<>();
-  private final Board board;
+  private final TileType type = TileType.RANDOM_ACTION;
+  private final TileAction[] tileActions = new TileAction[3];
+  private final HashMap<Integer, Player> playerMap;
+
+  @Expose(serialize = false, deserialize = false)
+  private transient final Board board;
 
   /**
    * Constructor for the RandomActionTile class.
@@ -44,6 +48,11 @@ public class RandomActionTile extends SpecialTile {
     this.tileAction = tileActions[randomAction];
 
     tileAction.performAction(player);
+  }
+
+  @Override
+  public String getTileType() {
+    return "RandomActionTile";
   }
 
   // method to initialize the tileActions array.

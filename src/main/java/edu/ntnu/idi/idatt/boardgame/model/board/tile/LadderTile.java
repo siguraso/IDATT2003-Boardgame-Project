@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
+import com.google.gson.annotations.Expose;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.LadderAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
@@ -13,6 +14,7 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class LadderTile extends SpecialTile {
 
+  private final TileType type = TileType.LADDER;
   private final Tile destinationTile;
 
   /**
@@ -33,6 +35,11 @@ public class LadderTile extends SpecialTile {
     this.tileAction = new LadderAction(destinationTile);
 
     tileAction.performAction(player);
+  }
+
+  @Override
+  public String getTileType() {
+    return "LadderTile";
   }
 
 }
