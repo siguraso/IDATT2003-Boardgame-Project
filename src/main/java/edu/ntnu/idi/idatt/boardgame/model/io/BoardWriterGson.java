@@ -33,6 +33,11 @@ public class BoardWriterGson implements BoardFileWriter {
     }
   }
 
+  /**
+   * test method to write a board to a file.
+   *
+   * @param args command line arguments
+   */
   public static void main(String[] args) {
     Board board = new Board(new HashMap<>());
 
