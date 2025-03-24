@@ -9,9 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
-import edu.ntnu.idi.idatt.boardgame.util.WaitTime;
 import javafx.scene.shape.Rectangle;
-import javax.swing.JPasswordField;
 
 /**
  * A class that contructs the dice component for the game window.
