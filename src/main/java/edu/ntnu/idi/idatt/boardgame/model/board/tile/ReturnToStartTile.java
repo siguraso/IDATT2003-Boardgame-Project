@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
-import com.google.gson.annotations.Expose;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.ReturnToStartAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;

@@ -12,9 +12,9 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 public class Player {
 
   private final String name;
+  private final PlayerPieces piece;
   private Tile currentTile;
   private boolean isWinner = false;
-  private final PlayerPieces piece;
 
   /**
    * Constructor for the Player class.

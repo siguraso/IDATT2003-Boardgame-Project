@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
-import com.google.gson.annotations.Expose;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.ReturnToStartAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RollAgainAction;
@@ -55,13 +54,14 @@ public class RandomActionTile extends SpecialTile {
    * The tile actions are ReturnToStartAction, RollAgainAction and SwapPlayersAction.
    *
    * @param playerMap a {@link HashMap} containing the players that can be swapped with.
-   * @since 1.0
    * @version 1.0
    * @author siguraso
+   * @since 1.0
    */
   public void initializeTileActions(HashMap<Integer, Player> playerMap) {
     tileActions[0] = new ReturnToStartAction(board);
-    tileActions[1] = new RollAgainAction();    // TODO: make this work after implementing the roll again action
+    tileActions[1] =
+        new RollAgainAction();    // TODO: make this work after implementing the roll again action
     tileActions[2] = new SwapPlayersAction(playerMap);
   }
 

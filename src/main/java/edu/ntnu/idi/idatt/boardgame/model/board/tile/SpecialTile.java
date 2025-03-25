@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
+import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import java.io.Serializable;
 
 /**
