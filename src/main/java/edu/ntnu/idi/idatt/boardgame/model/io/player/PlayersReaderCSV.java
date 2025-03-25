@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.io.player;
 
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPieces;
+import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -33,7 +33,7 @@ public class PlayersReaderCSV {
       while ((line = br.readLine()) != null) {
         String[] values = line.split(",");
 
-        Player player = new Player(values[0], PlayerPieces.valueOf(values[1]));
+        Player player = new Player(values[0], PlayerPiece.valueOf(values[1]));
         players.put(values[0], player);
       }
       return players;

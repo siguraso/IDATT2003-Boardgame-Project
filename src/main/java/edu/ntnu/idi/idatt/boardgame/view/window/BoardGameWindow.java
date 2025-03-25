@@ -2,30 +2,20 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
-import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPieces;
+import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
-import edu.ntnu.idi.idatt.boardgame.view.window.components.DialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
 import java.util.HashMap;
-import java.util.Iterator;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Box;
 import javafx.stage.Stage;
 
 /**
@@ -116,7 +106,6 @@ public class BoardGameWindow implements Window {
     StackPane boardGrid = new StackPane();
     boardGrid.getChildren().add(boardGridDisplay.getComponent());
 
-
     ImageView boardImage = new ImageView(
         new Image("file:src/main/resources/Images/LadderGameBoard.png"));
     boardImage.setFitHeight(800);
@@ -141,13 +130,14 @@ public class BoardGameWindow implements Window {
 
     // add leaderboard
     HashMap<Integer, Player> players = new HashMap<>();
-    players.put(1, new Player("Donny yommy", PlayerPieces.PAUL));
+    players.put(1, new Player("Donny yommy", PlayerPiece.PAUL));
     players.get(1).move(new NormalTile(1, new int[]{12, 12}));
 
-    players.put(2, new Player("Doniell tommy", PlayerPieces.EVIL_PAUL));
+    players.put(2, new Player("Doniell tommy", PlayerPiece.EVIL_PAUL));
     players.get(2).move(new NormalTile(2, new int[]{12, 12}));
 
-    players.put(3, new Player("morra di er mann og faren din liker menn", PlayerPieces.MARIOTINELLI));
+    players.put(3,
+        new Player("morra di er mann og faren din liker menn", PlayerPiece.MARIOTINELLI));
     players.get(3).move(new NormalTile(3, new int[]{12, 12}));
 
     leaderboard = new Leaderboard(players);

@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.io.player;
 
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPieces;
+import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -48,9 +48,9 @@ public class PlayersWriterCSV implements PlayersFileWriter {
 
     // Create a new HashMap with players
     HashMap<String, Player> players = new HashMap<>();
-    players.put("player1", new Player("player1", PlayerPieces.LOCKED_IN_SNOWMAN));
-    players.put("player2", new Player("player2", PlayerPieces.PAUL));
-    players.put("player3", new Player("player3", PlayerPieces.PROPELLER_ACCESSORIES));
+    players.put("player1", new Player("player1", PlayerPiece.LOCKED_IN_SNOWMAN));
+    players.put("player2", new Player("player2", PlayerPiece.PAUL));
+    players.put("player3", new Player("player3", PlayerPiece.PROPELLER_ACCESSORIES));
 
     // Write the players to a file
     playersWriterCSV.writePlayersFile("/users/sigurdandris/Desktop/", "players", players);

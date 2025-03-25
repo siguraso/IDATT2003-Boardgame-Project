@@ -7,7 +7,7 @@ package edu.ntnu.idi.idatt.boardgame.model.player;
  * @since 1.0
  * @author siguraso
  */
-public enum PlayerPieces {
+public enum PlayerPiece {
   KONKEY_DONG,
   MARIOTINELLI, // gabriel martinelli and mario infused into one
   PAUL, // literally just luigi without his hat

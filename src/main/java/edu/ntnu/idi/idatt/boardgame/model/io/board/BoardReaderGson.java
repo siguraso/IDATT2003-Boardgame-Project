@@ -16,9 +16,9 @@ import java.util.HashMap;
 /**
  * A class that reads a board from a file in JSON format using the Gson library.
  *
+ * @author siguraso
  * @version 1.0
  * @since 1.0
- * @author siguraso
  */
 public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> {
 
@@ -76,6 +76,7 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
       case RETURN_TO_START -> new ReturnToStartTile(tileNumber, onscreenPosition, board);
       case RANDOM_ACTION -> new RandomActionTile(tileNumber, onscreenPosition, board);
       case WINNER -> new WinnerTile(tileNumber, onscreenPosition);
+      case ROLL_AGAIN -> new RandomActionTile(tileNumber, onscreenPosition, board);
     };
 
   }
