@@ -5,12 +5,11 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import java.util.HashMap;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
-public class BoardDisplay implements WindowComponent{
+public class BoardDisplay implements WindowComponent {
   private GridPane boardGrid;
   private final int ROWS = 10;
   private final int COLS = 9;
@@ -25,23 +24,22 @@ public class BoardDisplay implements WindowComponent{
 
     for (int i = 0; i < 90; i++) {
       int row = (ROWS - 1) - (i / COLS);
-      int col = ((row % 2) == (ROWS % 2)) ? i % COLS : (COLS - 1 - i % COLS);
+      int col = ((row % 2) == (ROWS % 2)) ? (COLS - 1 - i % COLS) : i % COLS;
 
-      int[] position = new int[]{col, row}; // Create a NEW array for each tile
+      int[] position = new int[] {col, row};
       Tile tile = new NormalTile(i + 1, position);
       tiles.put(tile.getTileNumber(), tile);
     }
 
     // Debugging: Print all tile positions
     System.out.println("All tiles: ");
-    tiles.values().forEach(t -> System.out.println(
+    /*tiles.values().forEach(t -> System.out.println(
         "Tile " + t.getTileNumber() + " -> Row: " + t.getOnscreenPosition()[1] +
-            ", Col: " + t.getOnscreenPosition()[0]));
-
+            ", Col: " + t.getOnscreenPosition()[0]));*/
     return new Board(tiles);
   }
 
-  private HBox createTileNode(Tile tile, int w, int h) {
+  private HBox createTileNode(int w, int h) {
     HBox tileBox = new HBox();
     //Tile width: 82px, height: 75px
     tileBox.setMaxWidth(w);
@@ -59,20 +57,21 @@ public class BoardDisplay implements WindowComponent{
     boardGrid = new GridPane();
     boardGrid.setMaxWidth(width * COLS);
     boardGrid.setMaxHeight(height * ROWS);
-    //boardGrid.setPadding(new javafx.geometry.Insets(28, 29, 28, 29));
     boardGrid.setAlignment(javafx.geometry.Pos.CENTER);
 
     board.getTiles().values().forEach(t -> {
-      HBox tileBox = createTileNode(t, width, height);
+      HBox tileBox = createTileNode(width, height);
       final int row = t.getOnscreenPosition()[1];
       final int col = t.getOnscreenPosition()[0];
-
+      /*
+      Code for placeholder picture.
       ImageView iv = new ImageView("file:src/main/resources/Images/placeholder.jpg");
       iv.setFitHeight(height);
       iv.setFitWidth(width);
-
+      iv.setOpacity((double) t.getTileNumber() / 90);
 
       tileBox.getChildren().add(iv);
+      */
       tileBox.setAlignment(javafx.geometry.Pos.CENTER);
 
       // Debug print
