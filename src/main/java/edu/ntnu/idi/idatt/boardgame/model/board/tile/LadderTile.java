@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
+import com.google.gson.annotations.Expose;
+import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.LadderAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
@@ -13,7 +15,9 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class LadderTile extends SpecialTile {
 
-  private final Tile destinationTile;
+  private final TileType type = TileType.LADDER;
+  private final int destinationTileNumber;
+  private transient final Board board;
 
   /**
    * Constructor for the LadderTile class.
@@ -21,18 +25,25 @@ public class LadderTile extends SpecialTile {
    * @param tileNumber       The number of the tile on the board.
    * @param onscreenPosition The position of the tile on the screen.
    */
-  public LadderTile(int tileNumber, int[] onscreenPosition, Tile destinationTile) {
+  public LadderTile(int tileNumber, int[] onscreenPosition, int destinationTileNumber,
+      Board board) {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
-    this.destinationTile = destinationTile;
+    this.destinationTileNumber = destinationTileNumber;
+    this.board = board;
   }
 
   @Override
   public void performAction(Player player) {
     // initialize the tileAction with a LadderAction
-    this.tileAction = new LadderAction(destinationTile);
+    this.tileAction = new LadderAction(board.getTiles().get(destinationTileNumber));
 
     tileAction.performAction(player);
+  }
+
+  @Override
+  public String getTileType() {
+    return "LadderTile";
   }
 
 }

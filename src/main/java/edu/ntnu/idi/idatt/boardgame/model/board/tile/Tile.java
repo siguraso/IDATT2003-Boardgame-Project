@@ -7,7 +7,7 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tile;
  * @version 1.0
  * @since 1.0
  */
-public interface Tile {
+public interface Tile extends java.io.Serializable {
 
   /**
    * Used to get the number of the tile, which is used as the identifier of the tile.
@@ -22,5 +22,12 @@ public interface Tile {
    * @return An array with two elements, the x (as index 0) and y position (as index 1) of the tile.
    */
   int[] getOnscreenPosition();
+
+  /**
+   * Used to get the type of the tile.
+   *
+   * @return The type of the tile as a string.
+   */
+  String getTileType();
 
 }

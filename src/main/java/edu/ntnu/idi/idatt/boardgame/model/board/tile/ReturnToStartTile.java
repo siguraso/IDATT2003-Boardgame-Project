@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
+import com.google.gson.annotations.Expose;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.ReturnToStartAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
@@ -13,7 +14,11 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class ReturnToStartTile extends SpecialTile {
 
-  private final Board board;
+  private final TileType type = TileType.RETURN_TO_START;
+
+
+  private transient final Board board;
+
 
   /**
    * Constructor for the ReturnToStartTile class.
@@ -33,6 +38,11 @@ public class ReturnToStartTile extends SpecialTile {
     this.tileAction = new ReturnToStartAction(board);
 
     tileAction.performAction(player);
+  }
+
+  @Override
+  public String getTileType() {
+    return "ReturnToStartTile";
   }
 
 }
