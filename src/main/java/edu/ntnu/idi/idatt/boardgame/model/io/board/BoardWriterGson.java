@@ -13,6 +13,13 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.HashMap;
 
+/**
+ * A class that writes a {@link Board} object to a file in JSON format using the Gson library.
+ *
+ * @version 1.0
+ * @since 1.0
+ * @author siguraso
+ */
 public class BoardWriterGson implements BoardFileWriter {
 
   private final Gson gson;

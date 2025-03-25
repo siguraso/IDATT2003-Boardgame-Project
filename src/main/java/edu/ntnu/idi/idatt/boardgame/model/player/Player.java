@@ -82,7 +82,7 @@ public class Player {
    *
    * @return The piece that the player uses on the board.
    */
-  public PlayerPieces getPiece() {
+  public PlayerPieces getPieceType() {
     return piece;
   }
 

@@ -1,5 +1,12 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
+/**
+ * An enum representing the different player pieces available in the game.
+ *
+ * @version 1.0
+ * @since 1.0
+ * @author siguraso
+ */
 public enum PlayerPieces {
   KONKEY_DONG,
   MARIOTINELLI, // gabriel martinelli and mario infused into one

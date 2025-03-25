@@ -13,6 +13,13 @@ import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 
+/**
+ * A class that reads a board from a file in JSON format using the Gson library.
+ *
+ * @version 1.0
+ * @since 1.0
+ * @author siguraso
+ */
 public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> {
 
   private final Gson gson;

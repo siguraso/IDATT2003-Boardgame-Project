@@ -6,6 +6,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPieces;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
@@ -140,13 +141,13 @@ public class BoardGameWindow implements Window {
 
     // add leaderboard
     HashMap<Integer, Player> players = new HashMap<>();
-    players.put(1, new Player("Donny yommy"));
+    players.put(1, new Player("Donny yommy", PlayerPieces.PAUL));
     players.get(1).move(new NormalTile(1, new int[]{12, 12}));
 
-    players.put(2, new Player("Doniell tommy"));
+    players.put(2, new Player("Doniell tommy", PlayerPieces.EVIL_PAUL));
     players.get(2).move(new NormalTile(2, new int[]{12, 12}));
 
-    players.put(3, new Player("morra di er mann og faren din liker menn"));
+    players.put(3, new Player("morra di er mann og faren din liker menn", PlayerPieces.MARIOTINELLI));
     players.get(3).move(new NormalTile(3, new int[]{12, 12}));
 
     leaderboard = new Leaderboard(players);
