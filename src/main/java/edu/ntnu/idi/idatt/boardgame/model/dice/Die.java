@@ -9,8 +9,8 @@ package edu.ntnu.idi.idatt.boardgame.model.dice;
  */
 public class Die {
 
-  private int currentThrow;
   private final int sides;
+  private int currentThrow;
 
   /**
    * Creates a new die with the given number of sides.

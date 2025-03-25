@@ -19,7 +19,7 @@ class TestPlayer {
   @BeforeEach
   void setUp() {
     player = new Player("Player 1");
-    tile = new NormalTile(1, new int[]{0, 0});
+    tile = new NormalTile(1, new int[] {0, 0});
     player.move(tile);
   }
 
@@ -39,7 +39,7 @@ class TestPlayer {
   void testIsWinner() {
     try {
       assertFalse(player.isWinner());
-      WinnerTile winnerTile = new WinnerTile(2, new int[]{0, 0});
+      WinnerTile winnerTile = new WinnerTile(2, new int[] {0, 0});
       player.move(winnerTile);
       winnerTile.performAction(player);
       assertTrue(player.isWinner());
@@ -53,7 +53,7 @@ class TestPlayer {
   void testMove() {
     try {
       assertEquals(player.getCurrentTile().getTileNumber(), 1);
-      NormalTile newTile = new NormalTile(2, new int[]{0, 0});
+      NormalTile newTile = new NormalTile(2, new int[] {0, 0});
       player.move(newTile);
       assertEquals(player.getCurrentTile().getTileNumber(), 2);
     } catch (Exception e) {

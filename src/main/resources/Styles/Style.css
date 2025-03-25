@@ -1,127 +1,137 @@
 * {
-  /* Font */
-  -fx-font-family: 'Roboto', sans-serif;
-  -fx-font-size: 16px;
+    /* Font */
+    -fx-font-family: 'Roboto', sans-serif;
+    -fx-font-size: 16px;
 
-  /*
-  ! Forklaring til Sigurd: !
-  "--" angir variabler i css man kan bruke senere. under lager jeg et sett med farger
-  som jeg kan bruke i koden.
-   */
+    /*
+    ! Forklaring til Sigurd: !
+    "--" angir variabler i css man kan bruke senere. under lager jeg et sett med farger
+    som jeg kan bruke i koden.
+     */
 
-  /* Main Colors */
-  bg_800: #2F3E46;
-  bg_700: #354F52;
-  bg_600: #52796F;
-  bg_500: #84A98C;
-  bg_200: #c8dccc;
-  bg_100: #e0e6e0;
-  bg_000: #eeefee;
+    /* Main Colors */
+    bg_800: #2F3E46;
+    bg_700: #354F52;
+    bg_600: #52796F;
+    bg_500: #84A98C;
+    bg_200: #c8dccc;
+    bg_100: #e0e6e0;
+    bg_000: #eeefee;
 
-  /* Text Colors */
-  text_blk: #1d1f20;
-  text_wht: bg_000;
+    /* Text Colors */
+    text_blk: #1d1f20;
+    text_wht: bg_000;
 
-  /* Call to action */
-  cta_orange: #df9323;
-  cta_red: #e6314f;
-  cta_green: #3cec5f;
+    /* Call to action */
+    cta_orange: #df9323;
+    cta_red: #e6314f;
+    cta_green: #3cec5f;
 
-  /* Board */
-  /* TODO: Add board colors from figma-board */
+    /* Board */
+    /* TODO: Add board colors from figma-board */
 
 }
 
 
 /* Global styling for different node types. */
 .label {
-  -fx-text-fill: text_blk;
+    -fx-text-fill: text_blk;
 }
 
 .button {
-  -fx-background-color: bg_800;
-  -fx-text-fill: bg_100;
+    -fx-background-color: bg_800;
+    -fx-text-fill: bg_100;
 }
 
 /* Board and tile styles */
 .board {
-  /* TODO: add colors */
+    /* TODO: add colors */
 }
+
 .normalTile {
-  /* TODO: add colors */
+    /* TODO: add colors */
 }
+
 .randomActionTile {
-  /* TODO: add colors */
+    /* TODO: add colors */
 }
+
 .returnToStartTile {
-  /* TODO: add colors */
+    /* TODO: add colors */
 }
+
 .LadderTile {
-  /* TODO: add colors */
+    /* TODO: add colors */
 }
+
 .endpointGreenTile {
-  /* TODO: add colors */
+    /* TODO: add colors */
 }
+
 .endpointRedTile {
-  /* TODO: add colors */
+    /* TODO: add colors */
 }
+
 .winnerTile {
-  /* TODO: add colors */
+    /* TODO: add colors */
 }
 
 
 /* Text styles */
 .text {
-  -fx-text-fill: text_blk;
+    -fx-text-fill: text_blk;
 }
 
 /* JavaFX element styles */
 .game {
-  -fx-background-color: bg_700;
+    -fx-background-color: bg_700;
 }
+
 /* Styling for different window components */
 
 .board-region {
-  -fx-background-color: bg_800;
-  -fx-text-fill: bg_100;
+    -fx-background-color: bg_800;
+    -fx-text-fill: bg_100;
 }
+
 .sidebar {
-  -fx-background-color: bg_500;
-  -fx-text-fill: bg_100;
+    -fx-background-color: bg_500;
+    -fx-text-fill: bg_100;
 }
+
 .button {
-  -fx-background-color: bg_800;
-  -fx-text-fill: bg_100;
+    -fx-background-color: bg_800;
+    -fx-text-fill: bg_100;
 }
 
 .dialog-box {
-  -fx-background-color: bg_200;
-  -fx-text-fill: bg_100;
-  -fx-background-radius: 10;
-  -fx-border-radius: 10;
+    -fx-background-color: bg_200;
+    -fx-text-fill: bg_100;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
 }
 
 .leaderboard {
-  -fx-background-color: bg_200;
+    -fx-background-color: bg_200;
 
-  -fx-border-radius: 10;
-  -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
 }
 
 /* Styling for different sub-components in the different components */
 
 .dialog-text {
-  -fx-background-color: bg_000;
-  -fx-text-fill: text_blk;
-  -fx-border-radius: 10;
-  -fx-background-radius: 10;
+    -fx-background-color: bg_000;
+    -fx-text-fill: text_blk;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
 }
 
 .header {
-  -fx-font-size: 24px;
+    -fx-font-size: 24px;
 }
 
 .die-image {
-  -fx-border-radius: 10;
-  -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
 }

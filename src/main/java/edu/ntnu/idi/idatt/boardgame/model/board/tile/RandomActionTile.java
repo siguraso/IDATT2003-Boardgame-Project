@@ -17,9 +17,9 @@ import java.util.HashMap;
  */
 public class RandomActionTile extends SpecialTile {
 
+  private final Board board;
   TileAction[] tileActions = new TileAction[3];
   HashMap<Integer, Player> playerMap = new HashMap<>();
-  private final Board board;
 
   /**
    * Constructor for the RandomActionTile class.
@@ -28,7 +28,7 @@ public class RandomActionTile extends SpecialTile {
    * @param onscreenPosition The position of the tile on the screen.
    */
   public RandomActionTile(int tileNumber, int[] onscreenPosition, Board board,
-      HashMap<Integer, Player> playerMap) {
+                          HashMap<Integer, Player> playerMap) {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
     this.board = board;
@@ -49,7 +49,8 @@ public class RandomActionTile extends SpecialTile {
   // method to initialize the tileActions array.
   private void initializeTileActions() {
     tileActions[0] = new ReturnToStartAction(board);
-    tileActions[1] = new RollAgainAction();    // TODO: make this work after implementing the roll again action
+    tileActions[1] =
+        new RollAgainAction();    // TODO: make this work after implementing the roll again action
     tileActions[2] = new SwapPlayersAction(this.playerMap);
   }
 
