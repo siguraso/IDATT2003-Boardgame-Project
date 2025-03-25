@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 public class BoardDisplay implements WindowComponent {
+
   private GridPane boardGrid;
   private final int ROWS = 10;
   private final int COLS = 9;
@@ -26,7 +27,7 @@ public class BoardDisplay implements WindowComponent {
       int row = (ROWS - 1) - (i / COLS);
       int col = ((row % 2) == (ROWS % 2)) ? (COLS - 1 - i % COLS) : i % COLS;
 
-      int[] position = new int[] {col, row};
+      int[] position = new int[]{col, row};
       Tile tile = new NormalTile(i + 1, position);
       tiles.put(tile.getTileNumber(), tile);
     }
@@ -95,6 +96,10 @@ public class BoardDisplay implements WindowComponent {
 
     init(tileWidth, tileHeight);
     owner.getChildren().add(getComponent());
+  }
+
+  public HashMap<Integer, HBox> getGridTiles() {
+    return gridTiles;
   }
 
   @Override
