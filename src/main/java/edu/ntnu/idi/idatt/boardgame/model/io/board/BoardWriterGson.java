@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.boardgame.model.io;
+package edu.ntnu.idi.idatt.boardgame.model.io.board;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -54,10 +54,10 @@ public class BoardWriterGson implements BoardFileWriter {
     Board board = new Board(new HashMap<>());
 
     HashMap<Integer, Tile> tiles = new HashMap<>();
-    tiles.put(1, new NormalTile(1, new int[] {0, 0}));
-    tiles.put(2, new NormalTile(2, new int[] {0, 0}));
-    tiles.put(3, new LadderTile(3, new int[] {0, 0}, 1, board));
-    tiles.put(4, new ReturnToStartTile(4, new int[] {0, 0}, board));
+    tiles.put(1, new NormalTile(1, new int[]{0, 0}));
+    tiles.put(2, new NormalTile(2, new int[]{0, 0}));
+    tiles.put(3, new LadderTile(3, new int[]{0, 0}, 1, board));
+    tiles.put(4, new ReturnToStartTile(4, new int[]{0, 0}, board));
 
     board.setTiles(tiles);
 

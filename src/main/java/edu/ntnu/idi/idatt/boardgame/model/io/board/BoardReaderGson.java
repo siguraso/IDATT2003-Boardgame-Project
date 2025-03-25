@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.boardgame.model.io;
+package edu.ntnu.idi.idatt.boardgame.model.io.board;
 
 import com.google.gson.*;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
@@ -10,6 +10,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.WinnerTile;
 import java.io.FileReader;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 
 public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> {
@@ -32,7 +33,7 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
     try (FileReader fileReader = new FileReader(filePath)) {
       // get the "tiles" jsonarray from the file
       JsonArray jsonArray = JsonParser.parseReader(fileReader).getAsJsonObject().get("tiles")
-                            .getAsJsonArray();
+          .getAsJsonArray();
 
       jsonArray.forEach(jsonElement -> {
         Tile tile = gson.fromJson(jsonElement, Tile.class);
@@ -47,9 +48,13 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
   }
 
   @Override
-  public Tile deserialize(JsonElement jsonElement, java.lang.reflect.Type type,
+  public Tile deserialize(JsonElement jsonElement, Type type,
       JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+
+    // create a json object from the given json element
     JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+    // get the tile type from the json object
     TileType tileType = TileType.valueOf(jsonObject.get("type").getAsString());
 
     int tileNumber = jsonObject.get("tileNumber").getAsInt();
@@ -59,8 +64,8 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
 
     return switch (tileType) {
       case NORMAL -> new NormalTile(tileNumber, onscreenPosition);
-      case LADDER ->
-          new LadderTile(tileNumber, onscreenPosition, jsonObject.get("destinationTileNumber").getAsInt(), board);
+      case LADDER -> new LadderTile(tileNumber, onscreenPosition,
+          jsonObject.get("destinationTileNumber").getAsInt(), board);
       case RETURN_TO_START -> new ReturnToStartTile(tileNumber, onscreenPosition, board);
       case RANDOM_ACTION -> new RandomActionTile(tileNumber, onscreenPosition, board);
       case WINNER -> new WinnerTile(tileNumber, onscreenPosition);

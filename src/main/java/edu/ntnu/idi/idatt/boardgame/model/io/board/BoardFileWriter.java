@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.boardgame.model.io;
+package edu.ntnu.idi.idatt.boardgame.model.io.board;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 

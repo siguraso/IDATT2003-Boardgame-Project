@@ -14,14 +14,18 @@ public class Player {
   private final String name;
   private Tile currentTile;
   private boolean isWinner = false;
+  private final PlayerPieces piece;
 
   /**
    * Constructor for the Player class.
    *
-   * @param name The name of the player.
+   * @param name        The name of the player.
+   * @param playerPiece The piece that the player uses on the board, as defined in the
+   *                    {@link PlayerPieces} enum.
    */
-  public Player(String name) {
+  public Player(String name, PlayerPieces playerPiece) {
     this.name = name;
+    this.piece = playerPiece;
   }
 
   // accessor methods
@@ -70,6 +74,16 @@ public class Player {
    */
   public void setWinner() {
     this.isWinner = true;
+  }
+
+  /**
+   * Used to get the {@link PlayerPieces} enum that represents the piece that the player uses on the
+   * board.
+   *
+   * @return The piece that the player uses on the board.
+   */
+  public PlayerPieces getPiece() {
+    return piece;
   }
 
 }
