@@ -1,6 +1,10 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
+import edu.ntnu.idi.idatt.boardgame.model.Observable;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
+import edu.ntnu.idi.idatt.boardgame.view.controller.BoardGameObserver;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A player in a board game.
@@ -9,7 +13,8 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
  * @version 1.0
  * @since 1.0
  */
-public class Player {
+public class Player extends Observable {
+  private final List<BoardGameObserver> observerList = new ArrayList<>();
 
   private final String name;
   private final PlayerPieces piece;
@@ -66,6 +71,7 @@ public class Player {
    */
   public void move(Tile newTile) {
     this.currentTile = newTile;
+    notifyObservers(); // Notify observers that the player has moved
   }
 
   /**
@@ -74,6 +80,7 @@ public class Player {
    */
   public void setWinner() {
     this.isWinner = true;
+    notifyObservers(); // Notify observers that the player is a winner
   }
 
   /**
@@ -84,6 +91,23 @@ public class Player {
    */
   public PlayerPieces getPiece() {
     return piece;
+  }
+
+  @Override
+  public void addObserver(BoardGameObserver o) {
+    observerList.add(o);
+  }
+
+  @Override
+  public void removeObserver(BoardGameObserver o) {
+    observerList.remove(o);
+  }
+
+  @Override
+  public void notifyObservers() {
+    for (BoardGameObserver observer : observerList) {
+      observer.update(this);
+    }
   }
 
 }
