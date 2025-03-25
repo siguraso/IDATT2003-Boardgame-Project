@@ -13,12 +13,10 @@ import java.util.HashMap;
  */
 public class SwapPlayersAction implements TileAction {
 
-  HashMap<Integer, Player> playersToSwapWith;
+  private HashMap<Integer, Player> playersToSwapWith;
 
   /**
    * Constructor for the SwapPlayersAction class.
-   *
-   * @param playersToSwapWith The player to swap positions with.
    */
   public SwapPlayersAction(HashMap<Integer, Player> playersToSwapWith) {
     this.playersToSwapWith = playersToSwapWith;

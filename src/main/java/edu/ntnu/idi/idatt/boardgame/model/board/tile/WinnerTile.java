@@ -12,6 +12,8 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class WinnerTile extends SpecialTile {
 
+  TileType type = TileType.WINNER;
+
   /**
    * Constructor for the WinnerTile class.
    *
@@ -29,6 +31,11 @@ public class WinnerTile extends SpecialTile {
     this.tileAction = new WinnerAction();
 
     tileAction.performAction(player);
+  }
+
+  @Override
+  public String getTileType() {
+    return "WinnerTile";
   }
 
 }

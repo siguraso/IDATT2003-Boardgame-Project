@@ -33,4 +33,13 @@ public class Board {
   public HashMap<Integer, Tile> getTiles() {
     return tiles;
   }
+
+  /**
+   * Mutator method for the tiles {@link HashMap}.
+   *
+   * @param tiles A {@link HashMap} containing all the tiles on the board.
+   */
+  public void setTiles(HashMap<Integer, Tile> tiles) {
+    this.tiles = tiles;
+  }
 }

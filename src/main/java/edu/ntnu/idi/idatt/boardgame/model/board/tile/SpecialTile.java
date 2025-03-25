@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
+import java.io.Serializable;
 
 /**
  * A special tile on the board, where the player can move to, and a TileAction happens.
@@ -10,7 +11,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
  * @version 1.0
  * @since 1.0
  */
-public abstract class SpecialTile implements Tile {
+public abstract class SpecialTile implements Tile, Serializable {
 
   protected int tileNumber;
   protected int[] onscreenPosition;
@@ -34,5 +35,10 @@ public abstract class SpecialTile implements Tile {
    */
   public void performAction(Player player) {
     tileAction.performAction(player);
+  }
+
+  @Override
+  public String getTileType() {
+    return "SpecialTile";
   }
 }
