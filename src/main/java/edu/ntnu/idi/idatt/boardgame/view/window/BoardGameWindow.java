@@ -6,6 +6,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
@@ -19,6 +20,8 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Box;
@@ -42,6 +45,8 @@ public class BoardGameWindow implements Window {
   private Board gameBoard;
   private Leaderboard leaderboard;
   private final DieComponent dieBox = new DieComponent();
+
+  private final BoardDisplay boardGridDisplay = new BoardDisplay();
 
   // methods for window initializing, opening and closing a window.
 
@@ -98,41 +103,28 @@ public class BoardGameWindow implements Window {
 
   private StackPane getBoardRegion() {
     StackPane boardDisplay = new StackPane();
+    // padding top: 28px, side: 29px
     boardDisplay.setMinWidth(1000);
     boardDisplay.setMinHeight(800);
     boardDisplay.getStyleClass().add("root");
-    int tileWidth = (int) boardDisplay.getWidth() / 9;
-    int tileHeight = (int) boardDisplay.getHeight() / 10;
+    int tileWidth = (800 - (2 * 29)) / 9;
+    int tileHeight = (800 - (2 * 28)) / 10;
+
+    boardGridDisplay.init(tileWidth, tileHeight);
+
+    StackPane boardGrid = new StackPane();
+    boardGrid.getChildren().add(boardGridDisplay.getComponent());
+
 
     ImageView boardImage = new ImageView(
         new Image("file:src/main/resources/Images/LadderGameBoard.png"));
     boardImage.setFitHeight(800);
     boardImage.setFitWidth(800);
 
-    // Create the tiles for the board
-    HashMap<Integer, Tile> tiles = new HashMap<>();
-    for (int i = 0; i < 10; i++) {
-      for (int j = 0; j < 9; j++) {
-        Tile tile = new NormalTile(i * 10 + j + 1, new int[]{j, i});
-        tiles.put(tile.getTileNumber(), tile);
-      }
-    }
-    gameBoard = new Board(tiles);
+    //: TODO: changing tiles into special tiles according to the boardlayout
 
-    //: TODO: changing special tiles.
-
-    //creating the visual elements for the tiles
-    Iterator<Tile> tileIterator = gameBoard.getTiles().values().iterator();
-    while (tileIterator.hasNext()) {
-      Tile tile = tileIterator.next();
-      Box tileBox = new Box(tileWidth, tileHeight, 10);
-
-      //: TODO: changing the tile colors based on type of tile.
-
-      boardDisplay.getChildren().add(tileBox);
-    }
-
-    boardDisplay.getChildren().add(boardImage);
+    boardDisplay.getChildren().addAll(boardImage, boardGrid);
+    boardDisplay.setAlignment(javafx.geometry.Pos.CENTER);
     boardDisplay.getStyleClass().add("board-region");
 
     return boardDisplay;
