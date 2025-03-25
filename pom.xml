@@ -85,7 +85,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>edu.ntnu.idi.idatt.boardgame.BoardGameApp</mainClass>
+              <mainClass>edu.ntnu.idi.idatt.boardgame.apps.BoardGameApp</mainClass>
             </manifest>
           </archive>
         </configuration>

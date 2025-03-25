@@ -9,8 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
-import edu.ntnu.idi.idatt.boardgame.util.WaitTime;
-import javax.swing.JPasswordField;
+import javafx.scene.shape.Rectangle;
 
 /**
  * A class that contructs the dice component for the game window.
@@ -37,11 +36,18 @@ public class DieComponent implements WindowComponent {
 
   @Override
   public Node getComponent() {
-    dieImage = new ImageView(
-        new Image(IMAGE_PATH + "1.jpg"));
+    dieImage = new ImageView(IMAGE_PATH + "1.jpg");
     dieImage.setFitWidth(200);
     dieImage.setFitHeight(200);
     dieImage.getStyleClass().add("die-image");
+
+    Rectangle clip = new Rectangle(
+        dieImage.getFitWidth(), dieImage.getFitHeight()
+    );
+    clip.setStyle("-fx-background-radius: 10; -fx-border-radius: 10;");
+
+    dieImage.setClip(clip);
+
 
     rollDieButton = new Button("Roll die");
     rollDieButton.setOnAction(onPress -> {
