@@ -1,6 +1,9 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
+import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import edu.ntnu.idi.idatt.boardgame.view.window.BoardGameWindow;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -52,12 +55,18 @@ public class DieComponent implements WindowComponent {
 
     dieImage.setClip(clip);
 
+    Player foo = new Player("foo", PlayerPiece.EVIL_PAUL);
+    foo.move(new NormalTile(1, new int[]{0, 0}));
+
     rollDieButton = new Button("Roll die");
     rollDieButton.setOnAction(onPress -> {
 
-      die.throwDie();
-      parentWindow.moveCurrentPlayer(die.getCurrentThrow(), 1);
+      int count = foo.getCurrentTile().getTileNumber();
 
+      die.throwDie();
+      parentWindow.moveCurrentPlayer(die.getCurrentThrow(), foo.getCurrentTile().getTileNumber());
+
+      foo.move(new NormalTile(count + die.getCurrentThrow(), new int[]{0, 0}));
     });
 
     VBox dieBox = new VBox(dieImage, rollDieButton);

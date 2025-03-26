@@ -4,11 +4,13 @@ import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
+import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
+import edu.ntnu.idi.idatt.boardgame.util.sound.SoundPlayer;
 import java.util.HashMap;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -170,11 +172,13 @@ public class BoardGameWindow implements Window {
     for (int i = 1; i <= steps; i++) {
       int nextPosition = currentPlayerPosition + i;
 
-      KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), event -> {
+      KeyFrame keyFrame = new KeyFrame(Duration.millis(400 * i), event -> {
         // Remove the player from the current position
         boardGridDisplay.getGridTiles().get(nextPosition - 1).getChildren().clear();
         // Add the player to the new position
         boardGridDisplay.getGridTiles().get(nextPosition).getChildren().add(currentPlayerPiece);
+
+        SoundPlayer.playSound(SoundFile.MOVE_PLAYER);
       });
 
       timeline.getKeyFrames().add(keyFrame);

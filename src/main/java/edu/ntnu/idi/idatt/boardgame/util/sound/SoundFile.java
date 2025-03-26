@@ -7,13 +7,14 @@ package edu.ntnu.idi.idatt.boardgame.util.sound;
  * @version 1.0
  * @since 1.0
  */
-enum SoundFile {
+public enum SoundFile {
   // TODO: Add more sound files
   BG_MUSIC("bg_music.wav"),
   BUTTON_CLICK("button_click.wav"),
   GAME_WON("game_won.wav"),
   PIECE_PLACED("piece_placed.wav"),
-  PIECE_MOVED("/src/main/resources/Sounds/move_player.m4a");
+  MOVE_PLAYER(
+      "/Sounds/move_player.wav");
 
   private final String filePath;
 
