@@ -22,6 +22,27 @@ public class BoardWriterGson implements BoardFileWriter {
     this.gson = new GsonBuilder().setPrettyPrinting().create();
   }
 
+  /**
+   * Test method to write a board to a file.
+   *
+   * @param args command line arguments
+   */
+  public static void main(String[] args) {
+    Board board = new Board(new HashMap<>());
+
+    HashMap<Integer, Tile> tiles = new HashMap<>();
+    tiles.put(1, new NormalTile(1, new int[] {0, 0}));
+    tiles.put(2, new NormalTile(2, new int[] {0, 0}));
+    tiles.put(3, new LadderTile(3, new int[] {0, 0}, 1, board));
+    tiles.put(4, new ReturnToStartTile(4, new int[] {0, 0}, board));
+
+    board.setTiles(tiles);
+
+    BoardWriterGson boardWriterGson = new BoardWriterGson();
+    boardWriterGson.writeBoardFile(board,
+        "/Users/sigurdandris/Documents/IdeaProjects/IDATT2003-Boardgame-Project/src/main/resources/JSON/ExampleBoard.json");
+  }
+
   @Override
   public void writeBoardFile(Board board, String filePath) {
     // Create a json array with the tiles in the board
@@ -38,31 +59,10 @@ public class BoardWriterGson implements BoardFileWriter {
     String jsonString = gson.toJson(jsonObject);
 
     try (FileWriter fileWriter = new FileWriter(filePath);
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
       bufferedWriter.write(jsonString);
     } catch (Exception e) {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Test method to write a board to a file.
-   *
-   * @param args command line arguments
-   */
-  public static void main(String[] args) {
-    Board board = new Board(new HashMap<>());
-
-    HashMap<Integer, Tile> tiles = new HashMap<>();
-    tiles.put(1, new NormalTile(1, new int[]{0, 0}));
-    tiles.put(2, new NormalTile(2, new int[]{0, 0}));
-    tiles.put(3, new LadderTile(3, new int[]{0, 0}, 1, board));
-    tiles.put(4, new ReturnToStartTile(4, new int[]{0, 0}, board));
-
-    board.setTiles(tiles);
-
-    BoardWriterGson boardWriterGson = new BoardWriterGson();
-    boardWriterGson.writeBoardFile(board,
-        "/Users/sigurdandris/Documents/IdeaProjects/IDATT2003-Boardgame-Project/src/main/resources/JSON/ExampleBoard.json");
   }
 }

@@ -1,6 +1,14 @@
 package edu.ntnu.idi.idatt.boardgame.model.io.board;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
@@ -23,6 +31,12 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
         .setPrettyPrinting()
         .registerTypeAdapter(Tile.class, this)
         .create();
+  }
+
+  public static void main(String[] args) {
+    BoardReaderGson boardReaderGson = new BoardReaderGson();
+    Board board = boardReaderGson.readBoardFile(
+        "/Users/sigurdandris/Documents/IdeaProjects/IDATT2003-Boardgame-Project/src/main/resources/JSON/ExampleBoard.json");
   }
 
   @Override
@@ -49,7 +63,8 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
 
   @Override
   public Tile deserialize(JsonElement jsonElement, Type type,
-      JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+                          JsonDeserializationContext jsonDeserializationContext)
+      throws JsonParseException {
 
     // create a json object from the given json element
     JsonObject jsonObject = jsonElement.getAsJsonObject();
@@ -70,14 +85,5 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
       case RANDOM_ACTION -> new RandomActionTile(tileNumber, onscreenPosition, board);
       case WINNER -> new WinnerTile(tileNumber, onscreenPosition);
     };
-
   }
-
-  public static void main(String[] args) {
-    BoardReaderGson boardReaderGson = new BoardReaderGson();
-    Board board = boardReaderGson.readBoardFile(
-        "/Users/sigurdandris/Documents/IdeaProjects/IDATT2003-Boardgame-Project/src/main/resources/JSON/ExampleBoard.json");
-  }
-
-
 }

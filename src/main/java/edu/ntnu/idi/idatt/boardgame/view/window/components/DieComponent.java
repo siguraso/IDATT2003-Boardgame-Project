@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -21,11 +20,10 @@ import javafx.scene.shape.Rectangle;
 public class DieComponent implements WindowComponent {
 
   private final Die die = new Die(6);
-  private ImageView dieImage;
-  private Button rollDieButton = new Button("Roll die");
-
   // constant for the path to the die images
   private final String IMAGE_PATH = "file:src/main/resources/Images/die-Faces/";
+  private ImageView dieImage;
+  private Button rollDieButton = new Button("Roll die");
 
   /**
    * Constructor for the DiceComponent class.

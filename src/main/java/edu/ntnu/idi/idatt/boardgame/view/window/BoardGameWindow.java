@@ -2,29 +2,20 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
-import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPieces;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
-import edu.ntnu.idi.idatt.boardgame.view.window.components.DialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
 import java.util.HashMap;
-import java.util.Iterator;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Box;
 import javafx.stage.Stage;
 
 /**
@@ -42,11 +33,10 @@ public class BoardGameWindow implements Window {
   // different components of the window
   private final BorderPane sidebar = new BorderPane();
   private final BorderPane board = new BorderPane();
+  private final DieComponent dieBox = new DieComponent();
+  private final BoardDisplay boardGridDisplay = new BoardDisplay();
   private Board gameBoard;
   private Leaderboard leaderboard;
-  private final DieComponent dieBox = new DieComponent();
-
-  private final BoardDisplay boardGridDisplay = new BoardDisplay();
 
   // methods for window initializing, opening and closing a window.
 
@@ -117,7 +107,7 @@ public class BoardGameWindow implements Window {
 
 
     ImageView boardImage = new ImageView(
-        new Image("file:src/main/resources/Images/LadderGameBoard.png"));
+        new Image("file:src/main/resources/Images/LadderGameBoard_default.png"));
     boardImage.setFitHeight(800);
     boardImage.setFitWidth(800);
 
@@ -140,14 +130,15 @@ public class BoardGameWindow implements Window {
 
     // add leaderboard
     HashMap<Integer, Player> players = new HashMap<>();
-    players.put(1, new Player("Donny yommy"));
-    players.get(1).move(new NormalTile(1, new int[]{12, 12}));
+    players.put(1, new Player("Donny yommy", PlayerPieces.PAUL));
+    players.get(1).move(new NormalTile(1, new int[] {12, 12}));
 
-    players.put(2, new Player("Doniell tommy"));
-    players.get(2).move(new NormalTile(2, new int[]{12, 12}));
+    players.put(2, new Player("Doniell tommy", PlayerPieces.EVIL_PAUL));
+    players.get(2).move(new NormalTile(2, new int[] {12, 12}));
 
-    players.put(3, new Player("morra di er mann og faren din liker menn"));
-    players.get(3).move(new NormalTile(3, new int[]{12, 12}));
+    players.put(3, new Player("morra di er mann og faren din liker menn",
+        PlayerPieces.PROPELLER_ACCESSORIES));
+    players.get(3).move(new NormalTile(3, new int[] {12, 12}));
 
     leaderboard = new Leaderboard(players);
 

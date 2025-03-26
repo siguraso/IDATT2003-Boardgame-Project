@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
-import com.google.gson.annotations.Expose;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.LadderAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
@@ -26,7 +25,7 @@ public class LadderTile extends SpecialTile {
    * @param onscreenPosition The position of the tile on the screen.
    */
   public LadderTile(int tileNumber, int[] onscreenPosition, int destinationTileNumber,
-      Board board) {
+                    Board board) {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
     this.destinationTileNumber = destinationTileNumber;
