@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="293b972d-25ea-493f-b812-adf91527fc62" name="Changes" comment="changed sdk">
+    <list default="true" id="293b972d-25ea-493f-b812-adf91527fc62" name="Changes" comment="Refactored to an Observer design pattern.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,6 +17,7 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="Record" />
       </list>
     </option>
   </component>
@@ -245,7 +246,14 @@
       <option name="presentableId" value="LOCAL−00003" />
       <updated>1740449057051</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL−00004" summary="Refactored to an Observer design pattern.">
+      <option name="closed" value="true" />
+      <created>1742939257583</created>
+      <option name="number" value="LOCAL−00004" />
+      <option name="presentableId" value="LOCAL−00004" />
+      <updated>1742939257583</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -256,7 +264,8 @@
     <MESSAGE value="Begun creation of board-tiles for the application" />
     <MESSAGE value="changed sdk" />
     <MESSAGE value="removed unused method" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed unused method" />
+    <MESSAGE value="Refactored to an Observer design pattern." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored to an Observer design pattern." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
