@@ -6,11 +6,11 @@ package edu.ntnu.idi.idatt.boardgame.model.player;
  * <p>Enum for the different player pieces in the game.
  * Just some fun names for the player pieces.</p>
  *
- * @author Sigurd Andris
  * @version 1.0
  * @since 1.0
+ * @author siguraso
  */
-public enum PlayerPieces {
+public enum PlayerPiece {
   KONKEY_DONG,
   MARIOTINELLI, // gabriel martinelli and mario infused into one
   PAUL, // literally just luigi without his hat

@@ -17,18 +17,18 @@ public class Player extends Observable {
   private final List<BoardGameObserver> observerList = new ArrayList<>();
 
   private final String name;
-  private final PlayerPieces piece;
   private Tile currentTile;
   private boolean isWinner = false;
+  private final PlayerPiece piece;
 
   /**
    * Constructor for the Player class.
    *
    * @param name        The name of the player.
    * @param playerPiece The piece that the player uses on the board, as defined in the
-   *                    {@link PlayerPieces} enum.
+   *                    {@link PlayerPiece} enum.
    */
-  public Player(String name, PlayerPieces playerPiece) {
+  public Player(String name, PlayerPiece playerPiece) {
     this.name = name;
     this.piece = playerPiece;
   }
@@ -84,12 +84,12 @@ public class Player extends Observable {
   }
 
   /**
-   * Used to get the {@link PlayerPieces} enum that represents the piece that the player uses on the
+   * Used to get the {@link PlayerPiece} enum that represents the piece that the player uses on the
    * board.
    *
    * @return The piece that the player uses on the board.
    */
-  public PlayerPieces getPiece() {
+  public PlayerPiece getPieceType() {
     return piece;
   }
 
