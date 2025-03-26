@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
+import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
@@ -40,7 +41,7 @@ public class BoardGameWindow implements Window {
   private final BorderPane board = new BorderPane();
   private Board gameBoard;
   private Leaderboard leaderboard;
-  private final DieComponent dieBox = new DieComponent(this);
+  private final DieComponent dieBox;
 
   // player pieces
 
@@ -50,11 +51,22 @@ public class BoardGameWindow implements Window {
   private final BoardDisplay boardGridDisplay = new BoardDisplay();
   private final StackPane boardGrid = new StackPane();
 
-  // methods for window initializing, opening and closing a window.
+  private final HashMap<String, Player> players;
 
+  /**
+   * Constructor for the BoardGameWindow class.
+   */
+  public BoardGameWindow(HashMap<String, Player> players, Die die) {
+    this.players = players;
+    this.dieBox = new DieComponent(this, die);
+    init();
+  }
+
+
+  // methods from the window interface
   @Override
   public void show() {
-    window.show();
+    window.showAndWait();
   }
 
   @Override
@@ -124,7 +136,7 @@ public class BoardGameWindow implements Window {
     boardGrid.getChildren().add(boardGridDisplay.getComponent());
 
     ImageView boardImage = new ImageView(
-        new Image("file:src/main/resources/Images/LadderGameBoard_default.png"));
+        "file:src/main/resources/Images/LadderGameBoard_default.png");
     boardImage.setFitHeight(800);
     boardImage.setFitWidth(800);
 
@@ -185,6 +197,10 @@ public class BoardGameWindow implements Window {
     }
 
     timeline.play();
+  }
+
+  public Die getDie() {
+    return dieBox.getDie();
   }
 
 }

@@ -23,7 +23,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class DieComponent implements WindowComponent {
 
-  private final Die die = new Die(6);
+  private final Die die;
 
   // parent window
   private final BoardGameWindow parentWindow;
@@ -36,8 +36,9 @@ public class DieComponent implements WindowComponent {
   /**
    * Constructor for the DiceComponent class.
    */
-  public DieComponent(BoardGameWindow parentWindow) {
+  public DieComponent(BoardGameWindow parentWindow, Die die) {
     this.parentWindow = parentWindow;
+    this.die = die;
   }
 
   @Override
@@ -109,5 +110,9 @@ public class DieComponent implements WindowComponent {
       case 6 -> dieImage.setImage(new Image(IMAGE_PATH + "6.jpg"));
 
     }
+  }
+
+  public Die getDie() {
+    return die;
   }
 }
