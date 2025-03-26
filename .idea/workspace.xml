@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="293b972d-25ea-493f-b812-adf91527fc62" name="Changes" comment="changed sdk">
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/util/sound/SoundPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/util/WaitTime.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/BoardGameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/BoardGameWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/components/BoardDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/components/BoardDisplay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/components/DieComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/components/DieComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/components/sound/SoundFiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/util/sound/SoundFile.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,35 +59,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.BoardFactory.executor": "Run",
-    "Application.BoardGameApp.executor": "Run",
-    "Application.PlayersFileWriterCSV.executor": "Run",
-    "Application.PlayersReaderCSV.executor": "Run",
-    "Application.PlayersWriterCSV.executor": "Run",
-    "Application.UI.executor": "Run",
-    "Application.Unnamed.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "false",
-    "git-widget-placeholder": "styggurd",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/magnu/OneDrive/BIDATA/Semester_2/Prog_2/Mappevurdering/IDATT2003-Boardgame-Project",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "actions.on.save",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.BoardFactory.executor&quot;: &quot;Run&quot;,
+    &quot;Application.BoardGameApp.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PlayersFileWriterCSV.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PlayersReaderCSV.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PlayersWriterCSV.executor&quot;: &quot;Run&quot;,
+    &quot;Application.UI.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;styggurd&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/magnu/OneDrive/BIDATA/Semester_2/Prog_2/Mappevurdering/IDATT2003-Boardgame-Project&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\magnu\OneDrive\BIDATA\Semester_2\Prog_2\IDATT2003-Boardgame-Project" />
@@ -257,6 +258,8 @@
       <workItem from="1740654755233" duration="789000" />
       <workItem from="1740655568965" duration="1991000" />
       <workItem from="1742911891567" duration="334000" />
+      <workItem from="1742995397795" duration="967000" />
+      <workItem from="1742996396085" duration="299000" />
     </task>
     <task id="LOCAL−00001" summary="added TODO-tasks for later implemention of styles in CSS">
       <option name="closed" value="true" />

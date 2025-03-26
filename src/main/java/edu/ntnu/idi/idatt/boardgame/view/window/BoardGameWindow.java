@@ -163,8 +163,8 @@ public class BoardGameWindow implements Window {
     return sidebar;
   }
 
-  public void moveCurrentPlayer(int steps) {
-    int currentPlayerPosition = 1; // Track the player's position
+  public void moveCurrentPlayer(int steps, int initialPosition) {
+    int currentPlayerPosition = initialPosition;
 
     // create a timeline to animate the player's movement
     Timeline timeline = new Timeline();
