@@ -36,12 +36,11 @@ public class BoardGame {
     this.board = board;
     this.players = players;
     this.die = die;
-    this.window = new BoardGameWindow(players, die);
+    this.window = new BoardGameWindow(players, die, this);
   }
 
   public void startGame() {
     boolean hasWinner = false;
-    window.show();
 
     while (!hasWinner) {
       for (Player player : players.values()) {
@@ -63,8 +62,6 @@ public class BoardGame {
 
       }
     }
-
-
   }
 
 

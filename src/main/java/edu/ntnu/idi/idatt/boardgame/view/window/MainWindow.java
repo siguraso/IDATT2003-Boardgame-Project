@@ -51,9 +51,10 @@ public class MainWindow implements Window {
       Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_SPECIAL);
 
       BoardGame boardGame = new BoardGame(board, players, new Die(6));
+      BoardGameWindow boardGameWindow = new BoardGameWindow(players, new Die(6), boardGame);
 
       window.close();
-      boardGame.startGame();
+      boardGameWindow.show();
     });
 
     window.setScene(new Scene(startButton, 300, 300));

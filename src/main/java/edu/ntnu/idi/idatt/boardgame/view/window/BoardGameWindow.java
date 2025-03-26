@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
+import edu.ntnu.idi.idatt.boardgame.engine.BoardGame;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
@@ -44,21 +45,26 @@ public class BoardGameWindow implements Window {
   private final DieComponent dieBox;
 
   // player pieces
-
+  private final HashMap<String, Player> players;
   private final ImageView[] playerPieces = new ImageView[4];
   private ImageView currentPlayerPiece;
 
   private final BoardDisplay boardGridDisplay = new BoardDisplay();
   private final StackPane boardGrid = new StackPane();
 
-  private final HashMap<String, Player> players;
+  // The board game object for logic
+  private final BoardGame boardGame;
 
   /**
    * Constructor for the BoardGameWindow class.
+   *
+   * @param players a {@link HashMap} containing all the players in the game.
+   * @param die     the {@link Die} object that represents the die used in the game.
    */
-  public BoardGameWindow(HashMap<String, Player> players, Die die) {
+  public BoardGameWindow(HashMap<String, Player> players, Die die, BoardGame boardGame) {
     this.players = players;
     this.dieBox = new DieComponent(this, die);
+    this.boardGame = boardGame;
     init();
   }
 
@@ -66,7 +72,10 @@ public class BoardGameWindow implements Window {
   // methods from the window interface
   @Override
   public void show() {
-    window.showAndWait();
+    // start the game logic and show the window
+
+    window.show();
+    boardGame.startGame();
   }
 
   @Override
@@ -75,14 +84,6 @@ public class BoardGameWindow implements Window {
     BorderPane root = new BorderPane();
     root.setLeft(getBoardRegion());
     root.setRight(getSidebar());
-
-    // TODO add actual players and pieces, and remove foo
-    ImageView foo = new ImageView("file:src/main/resources/Images/placeholder2.png");
-    foo.setFitHeight(50);
-    foo.setFitWidth(50);
-    currentPlayerPiece = foo;
-
-    boardGridDisplay.getGridTiles().get(1).getChildren().add(foo);
 
     Scene scene = new Scene(root, 1400, 800);
     scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
