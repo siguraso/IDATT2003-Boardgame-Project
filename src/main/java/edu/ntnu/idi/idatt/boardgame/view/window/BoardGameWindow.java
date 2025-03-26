@@ -15,8 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
@@ -124,7 +122,7 @@ public class BoardGameWindow implements Window {
     boardGrid.getChildren().add(boardGridDisplay.getComponent());
 
     ImageView boardImage = new ImageView(
-        new Image("file:src/main/resources/Images/LadderGameBoard.png"));
+        new Image("file:src/main/resources/Images/LadderGameBoard_default.png"));
     boardImage.setFitHeight(800);
     boardImage.setFitWidth(800);
 

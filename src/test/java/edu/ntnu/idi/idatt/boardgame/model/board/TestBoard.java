@@ -19,7 +19,7 @@ class TestBoard {
   void setUp() {
     HashMap<Integer, Tile> tiles = new HashMap<>();
 
-    IntStream.range(0, 18).boxed().forEach(i -> tiles.put(i, new NormalTile(i, new int[]{i, i})));
+    IntStream.range(0, 18).boxed().forEach(i -> tiles.put(i, new NormalTile(i, new int[] {i, i})));
 
     board = new Board(tiles);
   }
@@ -33,6 +33,6 @@ class TestBoard {
       fail("the test failed, as the class threw an exception");
     }
   }
-  
+
 
 }

@@ -1,7 +1,10 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
 /**
- * An enum representing the different player pieces available in the game.
+ * <h1>Enum - PlayerPieces.</h1>
+ *
+ * <p>Enum for the different player pieces in the game.
+ * Just some fun names for the player pieces.</p>
  *
  * @version 1.0
  * @since 1.0

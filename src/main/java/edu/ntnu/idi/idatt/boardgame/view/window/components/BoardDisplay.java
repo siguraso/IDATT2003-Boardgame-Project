@@ -14,7 +14,6 @@ public class BoardDisplay implements WindowComponent {
   private GridPane boardGrid;
   private final int ROWS = 10;
   private final int COLS = 9;
-
   private final HashMap<Integer, HBox> gridTiles = new HashMap<>();
 
   public BoardDisplay() {
