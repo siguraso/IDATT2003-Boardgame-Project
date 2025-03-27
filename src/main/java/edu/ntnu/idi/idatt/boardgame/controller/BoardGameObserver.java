@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.boardgame.view.controller;
+package edu.ntnu.idi.idatt.boardgame.controller;
 
 import edu.ntnu.idi.idatt.boardgame.model.Observable;
 

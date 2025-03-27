@@ -2,7 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.model.player;
 
 import edu.ntnu.idi.idatt.boardgame.model.Observable;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
-import edu.ntnu.idi.idatt.boardgame.view.controller.BoardGameObserver;
+import edu.ntnu.idi.idatt.boardgame.controller.BoardGameObserver;
 import java.util.ArrayList;
 import java.util.List;
 

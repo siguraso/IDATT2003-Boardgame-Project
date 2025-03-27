@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model;
 
-import edu.ntnu.idi.idatt.boardgame.view.controller.BoardGameObserver;
+import edu.ntnu.idi.idatt.boardgame.controller.BoardGameObserver;
 
 /**
  * <h1>Abstract class - Observable.</h1>

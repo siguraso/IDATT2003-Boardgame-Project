@@ -127,7 +127,7 @@ public class BoardGameWindow implements Window {
     boardGrid.getChildren().add(boardGridDisplay.getComponent());
 
     ImageView boardImage = new ImageView(
-        new Image("file:src/main/resources/Images/LadderGameBoard_default.png"));
+        new Image("file:src/main/resources/Images/LadderBoardGame_default.png"));
     boardImage.setFitHeight(800);
     boardImage.setFitWidth(800);
 
