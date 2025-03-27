@@ -22,21 +22,18 @@ public class BoardGame {
 
   private final Board board;
   private final HashMap<String, Player> players;
-  private final Die die;
-  private final BoardGameWindow window;
+
+  private Player currentPlayer;
 
   /**
    * Constructor for the BoardGame class.
    *
    * @param board   the {@link Board} object that represents the game board.
    * @param players a {@link HashMap} containing all the players in the game.
-   * @param die     the {@link Die} object that represents the die used in the game.
    */
-  public BoardGame(Board board, HashMap<String, Player> players, Die die) {
+  public BoardGame(Board board, HashMap<String, Player> players) {
     this.board = board;
     this.players = players;
-    this.die = die;
-    this.window = new BoardGameWindow(players, die, this);
   }
 
   public void startGame() {
@@ -44,8 +41,6 @@ public class BoardGame {
 
     while (!hasWinner) {
       for (Player player : players.values()) {
-
-        int lastThrow = die.getCurrentThrow();
 
         // wait for player to roll the die
 
@@ -64,5 +59,40 @@ public class BoardGame {
     }
   }
 
+  /**
+   * Method to set the current player when it is their turn.
+   *
+   * @param currentPlayer {@link Player} object that represents the current player.
+   */
+  public void setCurrentPlayer(Player currentPlayer) {
+    this.currentPlayer = currentPlayer;
+  }
+
+  /**
+   * Method to get the player that currently has their turn.
+   *
+   * @return {@link Player} object that represents the current player.
+   */
+  public Player getCurrentPlayer() {
+    return currentPlayer;
+  }
+
+  /**
+   * Method to get the board games {@link Board} object.
+   *
+   * @return the {@link Board} object that represents the game board.
+   */
+  public Board getBoard() {
+    return board;
+  }
+
+  /**
+   * Method to access the {@link HashMap} that contains the players in the game.
+   *
+   * @return a {@link HashMap} containing all the players in the game.
+   */
+  public HashMap<String, Player> getPlayers() {
+    return players;
+  }
 
 }

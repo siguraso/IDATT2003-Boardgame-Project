@@ -4,12 +4,14 @@ import edu.ntnu.idi.idatt.boardgame.engine.BoardGame;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.HashMap;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
@@ -40,9 +42,13 @@ public class MainWindow implements Window {
       // initiate board game here
       HashMap<String, Player> players = new HashMap<>();
       players.put("player1", new Player("player1", PlayerPiece.MARIOTINELLI));
+      players.get("player1").move(new NormalTile(1, new int[]{0, 1}));
       players.put("player2", new Player("player2", PlayerPiece.PAUL));
-      players.put("player3", new Player("player3", PlayerPiece.PROPELLER_ACCESSORIES));
-      players.put("player4", new Player("player4", PlayerPiece.MY_LOVE));
+      players.get("player2").move(new NormalTile(1, new int[]{0, 1}));
+      players.put("player3", new Player("player3", PlayerPiece.EVIL_PAUL));
+      players.get("player3").move(new NormalTile(1, new int[]{0, 1}));
+      players.put("player4", new Player("player4", PlayerPiece.KONKEY_DONG));
+      players.get("player4").move(new NormalTile(1, new int[]{0, 1}));
       // add the players to the players hashmap
       // build the board
       // put alla that into the gameWindow
@@ -50,14 +56,23 @@ public class MainWindow implements Window {
       BoardFactory boardFactory = new BoardFactory();
       Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_SPECIAL);
 
-      BoardGame boardGame = new BoardGame(board, players, new Die(6));
-      BoardGameWindow boardGameWindow = new BoardGameWindow(players, new Die(6), boardGame);
+      BoardGame boardGame = new BoardGame(board, players);
+
+      BoardGameWindow boardGameWindow = new BoardGameWindow(new Die(6), boardGame,
+          boardGame.getBoard());
 
       window.close();
       boardGameWindow.show();
     });
 
-    window.setScene(new Scene(startButton, 300, 300));
+    HBox layout = new HBox(20);
+    layout.setAlignment(javafx.geometry.Pos.CENTER);
+
+    Scene scene = new Scene(layout, 300, 300);
+    layout.getChildren().addAll(startButton);
+    scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
+
+    window.setScene(scene);
   }
 
   @Override

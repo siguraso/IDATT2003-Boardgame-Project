@@ -31,7 +31,7 @@ public class PlayersWriterCSV implements PlayersFileWriter {
 
       for (String key : players.keySet()) {
         bufferedWriter.write(
-            players.get(key).getName() + "," + players.get(key).getPieceType() + "\n");
+            players.get(key).getName() + "," + players.get(key).getPlayerPiece() + "\n");
       }
 
     } catch (IOException e) {

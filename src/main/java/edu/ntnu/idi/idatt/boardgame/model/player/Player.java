@@ -89,7 +89,7 @@ public class Player extends Observable {
    *
    * @return The piece that the player uses on the board.
    */
-  public PlayerPiece getPieceType() {
+  public PlayerPiece getPlayerPiece() {
     return piece;
   }
 
