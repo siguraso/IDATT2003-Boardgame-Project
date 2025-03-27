@@ -83,7 +83,7 @@ public class BoardGameWindow implements Window {
   public void init() {
     // Initialize the window
     BorderPane root = new BorderPane();
-    root.setLeft(getBoardRegion());
+    root.setCenter(getBoardRegion());
     root.setRight(getSidebar());
 
     boardGame.getPlayers().keySet().forEach(player -> {
@@ -104,7 +104,9 @@ public class BoardGameWindow implements Window {
     Scene scene = new Scene(root, 1400, 800);
     scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
 
-    window.setResizable(false);
+    window.setMinWidth(1500);
+    window.setMinHeight(900);
+    window.setResizable(true);
     window.setScene(scene);
   }
 
@@ -154,6 +156,7 @@ public class BoardGameWindow implements Window {
 
     ImageView boardImage = new ImageView(
         "file:src/main/resources/Images/LadderGameBoard_default.png");
+
     boardImage.setFitHeight(800);
     boardImage.setFitWidth(800);
 
@@ -172,6 +175,8 @@ public class BoardGameWindow implements Window {
         .getComponent());
     sidebar.setCenter(dieBox.getComponent());
 
+    // when the button is pressed, it initializes a players turn, meaning that this button is more
+    // or less what keeps the game going.
     dieBox.getRollDieButton().setOnAction(onPress -> {
 
       dieBox.getRollDieButton().setDisable(true);
@@ -225,7 +230,6 @@ public class BoardGameWindow implements Window {
       boolean moveBackwards = false;
     };
 
-    // if the player is not moving past the last tile, move them normally
     for (int i = 1; i <= steps; i++) {
 
       KeyFrame keyFrame = new KeyFrame(Duration.millis(400 * i), event -> {
@@ -267,7 +271,7 @@ public class BoardGameWindow implements Window {
 
         } else {
 
-          // move normally if nor moving backwards
+          // if the player is not moving past the last tile, move them normally
 
           // Remove the player from the current position
           boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
@@ -297,7 +301,6 @@ public class BoardGameWindow implements Window {
   private void setCurrentPlayer(String playerName) {
     // get the player object from the players hashmap
     Player currentPlayer = boardGame.getPlayers().get(playerName);
-
 
   }
 
