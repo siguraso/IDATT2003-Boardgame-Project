@@ -27,29 +27,30 @@ public class SoundPlayer {
 
     String soundPath = soundFile.getFilePath();
 
-    try {
-      clip = AudioSystem.getClip();
+    try (InputStream InputStream = SoundPlayer.class.getResourceAsStream(soundPath);
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(audioInputStream)) {
 
-      // get the input stream for the audio file, and create a buffered variant of it
-      InputStream audioInputStream = SoundPlayer.class.getResourceAsStream(soundPath);
-      BufferedInputStream bufferedInputStream = new BufferedInputStream(audioInputStream);
+      // get the audio system clip to play audio.
+      clip = AudioSystem.getClip();
 
       // open the audio input stream
       audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
 
       // open the clip and start playing the audio file.
-      clip.open((AudioInputStream) audioInputStream);
+      clip.open(audioInputStream);
       clip.start();
 
     } catch (LineUnavailableException e) {
       throw new RuntimeException("Line is unavailable", e);
+
     } catch (UnsupportedAudioFileException e) {
       throw new IllegalArgumentException("Unsupported audio file", e);
+
     } catch (IOException e) {
       throw new RuntimeException("Error reading audio file", e);
+
     }
 
-
   }
-  
+
 }
