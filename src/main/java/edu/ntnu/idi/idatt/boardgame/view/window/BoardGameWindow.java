@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
+import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFiles;
@@ -43,7 +43,8 @@ public class BoardGameWindow implements Window {
   private final BorderPane board = new BorderPane();
   private Board gameBoard;
   private Leaderboard leaderboard;
-  private final DieComponent dieBox = new DieComponent(this);
+  private final DieComponent dieBox = new DieComponent();
+  private GameController gc;
 
   // player pieces
 
@@ -144,19 +145,17 @@ public class BoardGameWindow implements Window {
     sidebar.setTop(new HappeningDialogBox(
         "this is a test message that i, as a male in modern society, has come to accept.")
         .getComponent());
+
     sidebar.setCenter(dieBox.getComponent());
 
     // add leaderboard
     HashMap<Integer, Player> players = new HashMap<>();
     players.put(1, new Player("Donny yommy", PlayerPiece.PAUL));
-    players.get(1).move(new NormalTile(1, new int[]{12, 12}));
 
     players.put(2, new Player("Doniell tommy", PlayerPiece.EVIL_PAUL));
-    players.get(2).move(new NormalTile(2, new int[]{12, 12}));
 
     players.put(3,
         new Player("morra di er mann og faren din liker menn", PlayerPiece.MARIOTINELLI));
-    players.get(3).move(new NormalTile(3, new int[]{12, 12}));
 
     leaderboard = new Leaderboard(players);
 
@@ -174,8 +173,6 @@ public class BoardGameWindow implements Window {
     Timeline timeline = new Timeline();
     for (int i = 1; i <= steps; i++) {
       int nextPosition = currentPlayerPosition + i;
-
-
 
       SoundPlayer sp = new SoundPlayer();
       KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), event -> {

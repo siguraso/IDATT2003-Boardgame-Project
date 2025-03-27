@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
 /**
@@ -12,19 +11,19 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class LadderAction implements TileAction {
 
-  private final Tile destinationTile;
+  private final int destination;
 
   /**
    * Constructor for the LadderAction class.
    *
-   * @param destinationTile the tile the player will move to if they land on the ladder space.
+   * @param destination the position the player will move to if they land on the ladder space.
    */
-  public LadderAction(Tile destinationTile) {
-    this.destinationTile = destinationTile;
+  public LadderAction(int destination) {
+    this.destination = destination;
   }
 
   @Override
   public void performAction(Player player) {
-    player.move(destinationTile);
+    player.move(destination);
   }
 }

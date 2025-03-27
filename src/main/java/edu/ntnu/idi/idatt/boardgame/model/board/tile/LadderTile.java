@@ -35,8 +35,7 @@ public class LadderTile extends SpecialTile {
   @Override
   public void performAction(Player player) {
     // initialize the tileAction with a LadderAction
-    this.tileAction = new LadderAction(board.getTiles().get(destinationTileNumber));
-
+    this.tileAction = new LadderAction(destinationTileNumber);
     tileAction.performAction(player);
   }
 

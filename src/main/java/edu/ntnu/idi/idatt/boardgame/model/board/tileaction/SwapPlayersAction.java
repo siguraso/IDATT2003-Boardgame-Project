@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import java.util.HashMap;
 
@@ -36,8 +35,8 @@ public class SwapPlayersAction implements TileAction {
       throw new IllegalArgumentException("Player cannot swap position with itself.");
     }
 
-    Tile landingPlayerPosition = player.getCurrentTile();
-    Tile swappingPlayerPosition = playerToSwapWith.getCurrentTile();
+    int landingPlayerPosition = player.getPosition();
+    int swappingPlayerPosition = playerToSwapWith.getPosition();
 
     player.move(swappingPlayerPosition);
     playerToSwapWith.move(landingPlayerPosition);
