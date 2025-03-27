@@ -32,8 +32,9 @@ public class BoardDisplay implements WindowComponent {
     }
 
     // Debugging: Print all tile positions
+    /*
     System.out.println("All tiles: ");
-    /*tiles.values().forEach(t -> System.out.println(
+    tiles.values().forEach(t -> System.out.println(
         "Tile " + t.getTileNumber() + " -> Row: " + t.getOnscreenPosition()[1] +
             ", Col: " + t.getOnscreenPosition()[0]));*/
     return new Board(tiles);

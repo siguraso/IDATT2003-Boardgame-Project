@@ -4,11 +4,14 @@ import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
+import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFiles;
+import edu.ntnu.idi.idatt.boardgame.util.sound.SoundPlayer;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
+import java.io.IOException;
 import java.util.HashMap;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -20,6 +23,8 @@ import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * Class to create a window that displays a board game, with a sidebar.
@@ -161,23 +166,32 @@ public class BoardGameWindow implements Window {
     return sidebar;
   }
 
-  public void moveCurrentPlayer(int steps, int initialPosition) {
+  public void moveCurrentPlayer(int steps, int initialPosition)
+      throws UnsupportedAudioFileException, IOException, LineUnavailableException {
     int currentPlayerPosition = initialPosition;
 
     // create a timeline to animate the player's movement
     Timeline timeline = new Timeline();
-
     for (int i = 1; i <= steps; i++) {
       int nextPosition = currentPlayerPosition + i;
 
+
+
+      SoundPlayer sp = new SoundPlayer();
       KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), event -> {
         // Remove the player from the current position
         boardGridDisplay.getGridTiles().get(nextPosition - 1).getChildren().clear();
         // Add the player to the new position
         boardGridDisplay.getGridTiles().get(nextPosition).getChildren().add(currentPlayerPiece);
+        try {
+          sp.play(SoundFiles.PIECE_MOVED);
+        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+          throw new RuntimeException(e);
+        }
       });
 
       timeline.getKeyFrames().add(keyFrame);
+      sp.stop();
     }
 
     timeline.play();

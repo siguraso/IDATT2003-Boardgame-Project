@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.view.window.BoardGameWindow;
+import java.io.IOException;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
@@ -10,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * A class that contructs the dice component for the game window.
@@ -54,10 +57,12 @@ public class DieComponent implements WindowComponent {
 
     rollDieButton = new Button("Roll die");
     rollDieButton.setOnAction(onPress -> {
-
       die.throwDie();
-      parentWindow.moveCurrentPlayer(die.getCurrentThrow(), 1);
-
+      try {
+        parentWindow.moveCurrentPlayer(die.getCurrentThrow(), 1);
+      } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+        throw new RuntimeException(e);
+      }
     });
 
     VBox dieBox = new VBox(dieImage, rollDieButton);
@@ -98,7 +103,6 @@ public class DieComponent implements WindowComponent {
       case 5 -> dieImage.setImage(new Image(IMAGE_PATH + "5.jpg"));
 
       case 6 -> dieImage.setImage(new Image(IMAGE_PATH + "6.jpg"));
-
     }
   }
 }
