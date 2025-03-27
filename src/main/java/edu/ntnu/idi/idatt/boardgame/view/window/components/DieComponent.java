@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
+import edu.ntnu.idi.idatt.boardgame.view.window.BoardGameWindow;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Node;
@@ -20,6 +21,10 @@ import javafx.scene.shape.Rectangle;
 public class DieComponent implements WindowComponent {
 
   private final Die die = new Die(6);
+
+  // parent window
+  private final BoardGameWindow parentWindow;
+
   // constant for the path to the die images
   private final String IMAGE_PATH = "file:src/main/resources/Images/die-Faces/";
   private ImageView dieImage;
@@ -28,8 +33,8 @@ public class DieComponent implements WindowComponent {
   /**
    * Constructor for the DiceComponent class.
    */
-  public DieComponent() {
-
+  public DieComponent(BoardGameWindow parentWindow) {
+    this.parentWindow = parentWindow;
   }
 
   @Override
@@ -42,19 +47,16 @@ public class DieComponent implements WindowComponent {
     Rectangle clip = new Rectangle(
         dieImage.getFitWidth(), dieImage.getFitHeight()
     );
+
     clip.setStyle("-fx-background-radius: 10; -fx-border-radius: 10;");
 
     dieImage.setClip(clip);
 
-
     rollDieButton = new Button("Roll die");
     rollDieButton.setOnAction(onPress -> {
-      Timeline dieAnimation = new Timeline(
-          new KeyFrame(javafx.util.Duration.millis(200), animation ->
-              dieImage.setImage(new Image(IMAGE_PATH + "dice-animation.gif"))
-          ));
 
-      dieAnimation.play();
+      die.throwDie();
+      parentWindow.moveCurrentPlayer(die.getCurrentThrow(), 1);
 
     });
 
@@ -77,6 +79,7 @@ public class DieComponent implements WindowComponent {
   public void enableRollDieButton() {
     rollDieButton.setDisable(false);
   }
+
 
   private void rollDieAction() {
     this.die.throwDie();

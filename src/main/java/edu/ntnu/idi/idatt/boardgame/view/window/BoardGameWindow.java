@@ -3,7 +3,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPieces;
+import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
@@ -17,6 +17,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 /**
  * Class to create a window that displays a board game, with a sidebar.
@@ -33,10 +36,17 @@ public class BoardGameWindow implements Window {
   // different components of the window
   private final BorderPane sidebar = new BorderPane();
   private final BorderPane board = new BorderPane();
-  private final DieComponent dieBox = new DieComponent();
-  private final BoardDisplay boardGridDisplay = new BoardDisplay();
   private Board gameBoard;
   private Leaderboard leaderboard;
+  private final DieComponent dieBox = new DieComponent(this);
+
+  // player pieces
+
+  private final ImageView[] playerPieces = new ImageView[4];
+  private ImageView currentPlayerPiece;
+
+  private final BoardDisplay boardGridDisplay = new BoardDisplay();
+  private final StackPane boardGrid = new StackPane();
 
   // methods for window initializing, opening and closing a window.
 
@@ -52,8 +62,15 @@ public class BoardGameWindow implements Window {
     root.setLeft(getBoardRegion());
     root.setRight(getSidebar());
 
-    Scene scene = new Scene(root, 1400, 800);
+    // TODO add actual players and pieces, and remove foo
+    ImageView foo = new ImageView("file:src/main/resources/Images/placeholder2.png");
+    foo.setFitHeight(50);
+    foo.setFitWidth(50);
+    currentPlayerPiece = foo;
 
+    boardGridDisplay.getGridTiles().get(1).getChildren().add(foo);
+
+    Scene scene = new Scene(root, 1400, 800);
     scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
 
     window.setResizable(false);
@@ -102,16 +119,12 @@ public class BoardGameWindow implements Window {
 
     boardGridDisplay.init(tileWidth, tileHeight);
 
-    StackPane boardGrid = new StackPane();
     boardGrid.getChildren().add(boardGridDisplay.getComponent());
-
 
     ImageView boardImage = new ImageView(
         new Image("file:src/main/resources/Images/LadderGameBoard_default.png"));
     boardImage.setFitHeight(800);
     boardImage.setFitWidth(800);
-
-    //: TODO: changing tiles into special tiles according to the boardlayout
 
     boardDisplay.getChildren().addAll(boardImage, boardGrid);
     boardDisplay.setAlignment(javafx.geometry.Pos.CENTER);
@@ -130,15 +143,15 @@ public class BoardGameWindow implements Window {
 
     // add leaderboard
     HashMap<Integer, Player> players = new HashMap<>();
-    players.put(1, new Player("Donny yommy", PlayerPieces.PAUL));
-    players.get(1).move(new NormalTile(1, new int[] {12, 12}));
+    players.put(1, new Player("Donny yommy", PlayerPiece.PAUL));
+    players.get(1).move(new NormalTile(1, new int[]{12, 12}));
 
-    players.put(2, new Player("Doniell tommy", PlayerPieces.EVIL_PAUL));
-    players.get(2).move(new NormalTile(2, new int[] {12, 12}));
+    players.put(2, new Player("Doniell tommy", PlayerPiece.EVIL_PAUL));
+    players.get(2).move(new NormalTile(2, new int[]{12, 12}));
 
-    players.put(3, new Player("morra di er mann og faren din liker menn",
-        PlayerPieces.PROPELLER_ACCESSORIES));
-    players.get(3).move(new NormalTile(3, new int[] {12, 12}));
+    players.put(3,
+        new Player("morra di er mann og faren din liker menn", PlayerPiece.MARIOTINELLI));
+    players.get(3).move(new NormalTile(3, new int[]{12, 12}));
 
     leaderboard = new Leaderboard(players);
 
@@ -146,6 +159,28 @@ public class BoardGameWindow implements Window {
 
     sidebar.getStyleClass().add("sidebar");
     return sidebar;
+  }
+
+  public void moveCurrentPlayer(int steps, int initialPosition) {
+    int currentPlayerPosition = initialPosition;
+
+    // create a timeline to animate the player's movement
+    Timeline timeline = new Timeline();
+
+    for (int i = 1; i <= steps; i++) {
+      int nextPosition = currentPlayerPosition + i;
+
+      KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), event -> {
+        // Remove the player from the current position
+        boardGridDisplay.getGridTiles().get(nextPosition - 1).getChildren().clear();
+        // Add the player to the new position
+        boardGridDisplay.getGridTiles().get(nextPosition).getChildren().add(currentPlayerPiece);
+      });
+
+      timeline.getKeyFrames().add(keyFrame);
+    }
+
+    timeline.play();
   }
 
 }
