@@ -27,8 +27,8 @@ public class SoundPlayer {
 
     String soundPath = soundFile.getFilePath();
 
-    try (InputStream InputStream = SoundPlayer.class.getResourceAsStream(soundPath);
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(audioInputStream)) {
+    try (InputStream inputStream = SoundPlayer.class.getResourceAsStream(soundPath);
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
 
       // get the audio system clip to play audio.
       clip = AudioSystem.getClip();
