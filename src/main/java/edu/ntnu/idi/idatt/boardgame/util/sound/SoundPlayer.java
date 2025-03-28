@@ -1,120 +1,33 @@
 package edu.ntnu.idi.idatt.boardgame.util.sound;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 /**
- * Module that plays sounds based on what {@link SoundFile} is passed through.
+ * Interface for playing all kinds of sound files.
+ *
+ * <p>The different implementations of this interface should be able to play different kinds of
+ * sound files, e.g.:</p>
+ * <ul> - Sound effects</ul>
+ * <ul> - Background music</ul>
+ *
+ * @author siguraso
+ * @version 1.0
+ * @since 1.0
  */
-public class SoundPlayer {
-
-  private static AudioInputStream audioInputStream;
-  private static Clip clip;
-
-  private static String status;
-  private static Long currentFrame;
+public interface SoundPlayer {
 
   /**
-   * Plays the soundFile that is passed through the method. The soundFile played is based off of
-   * what enum from {@link SoundFile} is passed through.
+   * Plays the currently opened {@link SoundFile}.
+   */
+  void playSound();
+
+  /**
+   * Stops the currently playing {@link SoundFile}.
+   */
+  void stopSound();
+
+  /**
+   * Opens a {@link SoundFile} that is to be played.
    *
    * @param soundFile the {@link SoundFile} that is to be played.
    */
-  public static void playSound(SoundFile soundFile) {
-
-    String soundPath = soundFile.getSoundPath();
-
-    try (InputStream inputStream = SoundPlayer.class.getResourceAsStream(soundPath);
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
-
-      // get the audio system clip to play audio.
-      clip = AudioSystem.getClip();
-
-      // open the audio input stream
-      audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
-
-      // open the clip and start playing the audio file.
-      clip.open(audioInputStream);
-      clip.start();
-
-      status = "play";
-
-
-    } catch (LineUnavailableException e) {
-      throw new RuntimeException("Line is unavailable", e);
-
-    } catch (UnsupportedAudioFileException e) {
-      throw new IllegalArgumentException("Unsupported audio file", e);
-
-    } catch (IOException e) {
-      throw new RuntimeException("Error reading audio file", e);
-
-    }
-
-  }
-
-  /**
-   * Method for pausing the current sound.
-   */
-  public static void pause() {
-    if (status.equals("pause")) {
-      throw new IllegalArgumentException("Sound is already paused!");
-    }
-
-    currentFrame = clip.getMicrosecondPosition();
-
-    clip.stop();
-
-    status = "pause";
-  }
-
-  public static void resume() {
-    if (status.equals("play")) {
-      throw new IllegalArgumentException("Sound is already playing!");
-    }
-
-
-  }
-
-  /**
-   * Method for opening a new sound file.
-   */
-  public static void openSound(SoundFile soundfile) {
-    String soundPath = soundfile.getSoundPath();
-
-    if (soundPath.isEmpty()) {
-      throw new NullPointerException("The sound file: " + soundfile + " does not exist");
-    }
-
-    try (InputStream inputStream = SoundPlayer.class.getResourceAsStream(soundPath);
-        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
-
-      // get the audio system clip to play audio.
-      clip = AudioSystem.getClip();
-
-      // open the audio input stream
-      audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
-
-      // open the clip and start playing the audio file.
-      clip.open(audioInputStream);
-
-    } catch (LineUnavailableException e) {
-      throw new RuntimeException("Line is unavailable", e);
-
-    } catch (UnsupportedAudioFileException e) {
-      throw new IllegalArgumentException("Unsupported audio file", e);
-
-    } catch (IOException e) {
-      throw new RuntimeException("Error reading audio file", e);
-
-    }
-
-  }
-
+  void openSoundFile(SoundFile soundFile);
 }

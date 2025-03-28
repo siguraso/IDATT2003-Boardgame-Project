@@ -6,7 +6,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
-import edu.ntnu.idi.idatt.boardgame.util.sound.SoundPlayer;
+import edu.ntnu.idi.idatt.boardgame.util.sound.SfxPlayer;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
@@ -55,6 +55,9 @@ public class BoardGameWindow implements Window {
 
   // The board game object for logic
   private final BoardGame boardGame;
+
+  // sounds
+  private final SfxPlayer sfxPlayer = new SfxPlayer();
 
   /**
    * Constructor for the BoardGameWindow class.
@@ -219,6 +222,7 @@ public class BoardGameWindow implements Window {
   }
 
   private Timeline moveCurrentPlayer(int steps, Player currentPlayer) {
+
     int currentPlayerPosition = currentPlayer.getPosition();
     ImageView currentPlayerPiece = playerPieces.get(currentPlayer.getName());
 
@@ -289,11 +293,13 @@ public class BoardGameWindow implements Window {
 
           // update the next tile wrapper
           nextTileWrapper.nextTile++;
-          System.out.println("next tile: " + nextTileWrapper.nextTile);
 
         }
 
-        SoundPlayer.playSound(SoundFile.PIECE_MOVED);
+        // open and play the move player sound
+        sfxPlayer.openSoundFile(SoundFile.PIECE_MOVED);
+        sfxPlayer.playSound();
+
       });
 
       timeline.getKeyFrames().add(keyFrame);
