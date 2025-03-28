@@ -53,40 +53,49 @@ public class BoardFactory {
       // check what type of tile to create
       switch (i + 1) {
         case 1:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 40, specialLadderGameBoard));
+          tiles.put((i + 1),
+              new LadderTile((i + 1), new int[]{col, row}, 40, specialLadderGameBoard));
           break;
         case 3, 85, 10, 43:
-          tiles.put(i, new RandomActionTile(i, new int[]{col, row}, specialLadderGameBoard));
+          tiles.put((i + 1),
+              new RandomActionTile((i + 1), new int[]{col, row}, specialLadderGameBoard));
           break;
         case 6, 30, 62, 68, 82:
-          tiles.put(i, new RollAgainTile(i, new int[]{col, row}));
+          tiles.put((i + 1), new RollAgainTile((i + 1), new int[]{col, row}));
           break;
         case 22, 42, 56, 65:
-          tiles.put(i, new ReturnToStartTile(i, new int[]{col, row}, specialLadderGameBoard));
+          tiles.put((i + 1),
+              new ReturnToStartTile((i + 1), new int[]{col, row}, specialLadderGameBoard));
           break;
         case 24:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 5, specialLadderGameBoard));
+          tiles.put((i + 1),
+              new LadderTile((i + 1), new int[]{col, row}, 5, specialLadderGameBoard));
           break;
         case 36:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 52, specialLadderGameBoard));
+          tiles.put((i + 1),
+              new LadderTile((i + 1), new int[]{col, row}, 52, specialLadderGameBoard));
           break;
         case 49:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 79, specialLadderGameBoard));
+          tiles.put((i + 1),
+              new LadderTile((i + 1), new int[]{col, row}, 79, specialLadderGameBoard));
           break;
         case 64:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 27, specialLadderGameBoard));
+          tiles.put((i + 1),
+              new LadderTile((i + 1), new int[]{col, row}, 27, specialLadderGameBoard));
           break;
         case 74:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 12, specialLadderGameBoard));
+          tiles.put((i + 1),
+              new LadderTile((i + 1), new int[]{col, row}, 12, specialLadderGameBoard));
           break;
         case 87:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 70, specialLadderGameBoard));
+          tiles.put((i + 1),
+              new LadderTile((i + 1), new int[]{col, row}, 70, specialLadderGameBoard));
           break;
         case 90:
-          tiles.put(i, new WinnerTile(i, new int[]{col, row}));
+          tiles.put((i + 1), new WinnerTile((i + 1), new int[]{col, row}));
           break;
         default:
-          tiles.put(i, new NormalTile(i, new int[]{col, row}));
+          tiles.put((i + 1), new NormalTile((i + 1), new int[]{col, row}));
           break;
       }
     });
@@ -106,31 +115,31 @@ public class BoardFactory {
       // check what type of tile to create
       switch (i + 1) {
         case 1:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 40, vanillaLadderGameBoard));
+          tiles.put(i + 1, new LadderTile(i + 1, new int[]{col, row}, 40, vanillaLadderGameBoard));
           break;
         case 24:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 5, vanillaLadderGameBoard));
+          tiles.put(i + 1, new LadderTile(i + 1, new int[]{col, row}, 5, vanillaLadderGameBoard));
           break;
         case 36:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 52, vanillaLadderGameBoard));
+          tiles.put(i + 1, new LadderTile(i + 1, new int[]{col, row}, 52, vanillaLadderGameBoard));
           break;
         case 49:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 79, vanillaLadderGameBoard));
+          tiles.put(i + 1, new LadderTile(i + 1, new int[]{col, row}, 79, vanillaLadderGameBoard));
           break;
         case 64:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 27, vanillaLadderGameBoard));
+          tiles.put(i + 1, new LadderTile(i + 1, new int[]{col, row}, 27, vanillaLadderGameBoard));
           break;
         case 74:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 12, vanillaLadderGameBoard));
+          tiles.put(i + 1, new LadderTile(i + 1, new int[]{col, row}, 12, vanillaLadderGameBoard));
           break;
         case 87:
-          tiles.put(i, new LadderTile(i, new int[]{col, row}, 70, vanillaLadderGameBoard));
+          tiles.put(i + 1, new LadderTile(i + 1, new int[]{col, row}, 70, vanillaLadderGameBoard));
           break;
         case 90:
-          tiles.put(i, new WinnerTile(i, new int[]{col, row}));
+          tiles.put(i + 1, new WinnerTile(i + 1, new int[]{col, row}));
           break;
         default:
-          tiles.put(i, new NormalTile(i, new int[]{col, row}));
+          tiles.put(i + 1, new NormalTile(i + 1, new int[]{col, row}));
           break;
       }
     });

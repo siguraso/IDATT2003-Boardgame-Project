@@ -64,9 +64,8 @@ public class BoardGameWindow implements Window {
    * @param board     the {@link Board} object that represents the game board and all the logic that
    *                  comes with it.
    */
-  public BoardGameWindow(Die die, BoardGame boardGame,
-      Board board) {
-    this.dieBox = new DieComponent(this, die);
+  public BoardGameWindow(Die die, BoardGame boardGame, Board board) {
+    this.dieBox = new DieComponent(die);
     this.boardGame = boardGame;
     this.board = board;
 
@@ -86,7 +85,10 @@ public class BoardGameWindow implements Window {
     // Initialize the window
     BorderPane root = new BorderPane();
     root.setCenter(getBoardRegion());
-    root.setRight(getSidebar());
+
+    Node sidebar = getSidebar();
+
+    root.setRight(sidebar);
 
     boardGame.getPlayers().keySet().forEach(player -> {
 
@@ -103,11 +105,11 @@ public class BoardGameWindow implements Window {
 
     });
 
-    Scene scene = new Scene(root, 1400, 800);
+    Scene scene = new Scene(root, 1500, 840);
     scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
 
     window.setMinWidth(1500);
-    window.setMinHeight(900);
+    window.setMinHeight(840);
     window.setResizable(true);
     window.setScene(scene);
   }
@@ -170,6 +172,7 @@ public class BoardGameWindow implements Window {
 
   private BorderPane getSidebar() {
     sidebar.setMinWidth(400);
+    sidebar.setMinHeight(800);
     sidebar.setPadding(new javafx.geometry.Insets(20, 10, 20, 10));
     sidebar.setTop(new HappeningDialogBox(
         "this is a test message that i, as a male in modern society, has come to accept.")
@@ -216,13 +219,11 @@ public class BoardGameWindow implements Window {
   }
 
   private Timeline moveCurrentPlayer(int steps, Player currentPlayer) {
-    int currentPlayerPosition = currentPlayer.getCurrentTile().getTileNumber();
+    int currentPlayerPosition = currentPlayer.getPosition();
     ImageView currentPlayerPiece = playerPieces.get(currentPlayer.getName());
 
     // create a timeline to animate the player's movement
     Timeline timeline = new Timeline();
-
-    int destinationPosition = currentPlayerPosition + steps;
 
     var nextTileWrapper = new Object() {
       int nextTile = currentPlayerPosition + 1;
@@ -237,7 +238,7 @@ public class BoardGameWindow implements Window {
       KeyFrame keyFrame = new KeyFrame(Duration.millis(400 * i), event -> {
 
         if (nextTileWrapper.nextTile == boardDisplay.getGridTiles().size() + 1) {
-          // if it is one over the last tile, move them backwards, in other words,
+          // if it is about to move one over the last tile, move them backwards, in other words,
           // set nexTile to nextTile - 2
 
           boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
@@ -249,7 +250,7 @@ public class BoardGameWindow implements Window {
               .add(currentPlayerPiece);
 
           // Move the player object to the new position
-          currentPlayer.move(board.getTiles().get(nextTileWrapper.nextTile));
+          currentPlayer.move(board.getTiles().get(nextTileWrapper.nextTile).getTileNumber());
 
           // update the next tile wrapper
           nextTileWrapper.nextTile--;
@@ -266,7 +267,7 @@ public class BoardGameWindow implements Window {
               .add(currentPlayerPiece);
 
           // Move the player object to the new position
-          currentPlayer.move(board.getTiles().get(nextTileWrapper.nextTile));
+          currentPlayer.move(board.getTiles().get(nextTileWrapper.nextTile).getTileNumber());
 
           // update the next tile wrapper
           nextTileWrapper.nextTile--;
@@ -284,14 +285,15 @@ public class BoardGameWindow implements Window {
               .add(currentPlayerPiece);
 
           // Move the player object to the new position
-          currentPlayer.move(board.getTiles().get(nextTileWrapper.nextTile));
+          currentPlayer.move(board.getTiles().get(nextTileWrapper.nextTile).getTileNumber());
 
           // update the next tile wrapper
           nextTileWrapper.nextTile++;
+          System.out.println("next tile: " + nextTileWrapper.nextTile);
 
         }
 
-        SoundPlayer.playSound(SoundFile.MOVE_PLAYER);
+        SoundPlayer.playSound(SoundFile.PIECE_MOVED);
       });
 
       timeline.getKeyFrames().add(keyFrame);

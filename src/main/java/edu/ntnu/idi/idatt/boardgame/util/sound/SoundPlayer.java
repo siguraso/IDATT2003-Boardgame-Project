@@ -1,7 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.util.sound;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.sound.sampled.AudioInputStream;
@@ -11,7 +10,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
- * Module that plays sounds based on what {@link SoundFiles} is passed through.
+ * Module that plays sounds based on what {@link SoundFile} is passed through.
  */
 public class SoundPlayer {
 
@@ -23,13 +22,13 @@ public class SoundPlayer {
 
   /**
    * Plays the soundFile that is passed through the method. The soundFile played is based off of
-   * what enum from {@link SoundFiles} is passed through.
+   * what enum from {@link SoundFile} is passed through.
    *
-   * @param soundFile the {@link SoundFiles} that is to be played.
+   * @param soundFile the {@link SoundFile} that is to be played.
    */
-  public static void playSound(SoundFiles soundFile) {
+  public static void playSound(SoundFile soundFile) {
 
-    String soundPath = soundFile.getSound();
+    String soundPath = soundFile.getSoundPath();
 
     try (InputStream inputStream = SoundPlayer.class.getResourceAsStream(soundPath);
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
@@ -45,6 +44,7 @@ public class SoundPlayer {
       clip.start();
 
       status = "play";
+
 
     } catch (LineUnavailableException e) {
       throw new RuntimeException("Line is unavailable", e);
@@ -85,8 +85,8 @@ public class SoundPlayer {
   /**
    * Method for opening a new sound file.
    */
-  public static void openSound(SoundFiles soundfile) {
-    String soundPath = soundfile.getSound();
+  public static void openSound(SoundFile soundfile) {
+    String soundPath = soundfile.getSoundPath();
 
     if (soundPath.isEmpty()) {
       throw new NullPointerException("The sound file: " + soundfile + " does not exist");
