@@ -1,5 +1,10 @@
 package edu.ntnu.idi.idatt.boardgame.model.dice;
 
+import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
+import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A class representing a die with a given number of sides.
  *
@@ -7,10 +12,11 @@ package edu.ntnu.idi.idatt.boardgame.model.dice;
  * @version 1.0
  * @since 1.0
  */
-public class Die {
-
+public class Die implements BoardGameObservable {
   private final int sides;
   private int currentThrow;
+
+  private List<BoardGameObserver> observers = new ArrayList<>();
 
   /**
    * Creates a new die with the given number of sides.
@@ -27,12 +33,10 @@ public class Die {
 
   /**
    * Throws the die and returns the result.
-   *
-   * @return the result of the throw.
    */
-  public int throwDie() {
+  public void throwDie() {
     this.currentThrow = (int) (Math.random() * sides) + 1;
-    return this.currentThrow;
+    notifyObservers(this.currentThrow);
   }
 
   /**
@@ -42,5 +46,22 @@ public class Die {
    */
   public int getCurrentThrow() {
     return currentThrow;
+  }
+
+  @Override
+  public void addObserver(BoardGameObserver o) {
+    observers.add(o);
+  }
+
+  @Override
+  public void removeObserver(BoardGameObserver o) {
+    observers.remove(o);
+  }
+
+  @Override
+  public void notifyObservers(int i) {
+    for (BoardGameObserver o : observers) {
+      o.update(i);
+    }
   }
 }

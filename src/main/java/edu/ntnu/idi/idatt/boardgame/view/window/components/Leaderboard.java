@@ -39,7 +39,7 @@ public class Leaderboard implements WindowComponent {
 
     players.keySet().forEach(player -> {
       leaderboard.add(new Label(players.get(player).getName()), 0, player);
-      leaderboard.add(new Label(players.get(player).getCurrentTile().getTileNumber() + ""), 1,
+      leaderboard.add(new Label(players.get(player).getPosition() + ""), 1,
           player);
       leaderboard.add(new Label(player + 1 + ""), 2, player);
     });
@@ -68,7 +68,7 @@ public class Leaderboard implements WindowComponent {
     );
 
     this.players.keySet().forEach(player -> {
-      leaderboardGrid.add(new Label(players.get(player).getCurrentTile().getTileNumber() + "."), 0,
+      leaderboardGrid.add(new Label(players.get(player).getPosition() + "."), 0,
           player);
       leaderboardGrid.add(new Label(players.get(player).getName()), 1, player);
       leaderboardGrid.add(new Label(player + 1 + ""), 2, player);

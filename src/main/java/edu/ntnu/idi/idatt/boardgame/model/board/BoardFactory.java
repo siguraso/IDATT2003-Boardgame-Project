@@ -24,95 +24,60 @@ public class BoardFactory {
 
   /**
    * Creates a new hardcoded board based on the given {@link BoardType}.
+   *
    * <p>SNAKES_AND_LADDERS: A {@link Board} for the game Snakes and Ladders.</p>
+   *
    * <p>PARIO_MARTI: A {@link Board} for the Pario Marti game.</p>
    *
    * @param boardType the boardType of board to create.
    * @return a new board of the given boardType.
    */
   public static Board createBoard(BoardType boardType) {
-    switch (boardType) {
-      case LADDER_GAME_SPECIAL:
-        return specialLadderGameBoard();
-
-      case LADDER_GAME_VANILLA:
-        return vanillaLadderGameBoard();
-
-      default:
-        throw new IllegalArgumentException("Unknown BoardType: " + boardType);
-    }
+    return switch (boardType) {
+      case LADDER_GAME_SPECIAL -> specialLadderGameBoard();
+      case LADDER_GAME_VANILLA -> vanillaLadderGameBoard();
+      default -> throw new IllegalArgumentException("Unknown BoardType: " + boardType);
+    };
   }
 
   // specific board creation methods
-
   private static Board specialLadderGameBoard() {
     HashMap<Integer, Tile> tiles = new HashMap<>();
     Board specialLadderGameBoard = new Board(tiles);
 
-    IntStream.range(1, 91).forEach(i -> {
+    IntStream.range(0, 90).forEach(i -> {
       int row = (LADDER_GAME_ROWS - 1) - (i / LADDER_GAME_COLS);
-      int col =
-          ((row % 2) == (LADDER_GAME_ROWS % 2)) ? (LADDER_GAME_COLS - 1 - i % LADDER_GAME_COLS)
-              : i % LADDER_GAME_COLS;
+      int col = ((row % 2) == (LADDER_GAME_ROWS % 2))
+          ? (LADDER_GAME_COLS - 1 - i % LADDER_GAME_COLS) : i % LADDER_GAME_COLS;
 
       // check what type of tile to create
-      switch (i) {
+      switch (i + 1) {
         case 1:
           tiles.put(i, new LadderTile(i, new int[]{col, row}, 40, specialLadderGameBoard));
           break;
-        case 3:
+        case 3, 85, 10, 43:
           tiles.put(i, new RandomActionTile(i, new int[]{col, row}, specialLadderGameBoard));
           break;
-        case 6:
+        case 6, 30, 62, 68, 82:
           tiles.put(i, new RollAgainTile(i, new int[]{col, row}));
           break;
-        case 10:
-          tiles.put(i, new RandomActionTile(i, new int[]{col, row}, specialLadderGameBoard));
-          break;
-        case 22:
+        case 22, 42, 56, 65:
           tiles.put(i, new ReturnToStartTile(i, new int[]{col, row}, specialLadderGameBoard));
           break;
         case 24:
           tiles.put(i, new LadderTile(i, new int[]{col, row}, 5, specialLadderGameBoard));
           break;
-        case 30:
-          tiles.put(i, new RollAgainTile(i, new int[]{col, row}));
-          break;
         case 36:
           tiles.put(i, new LadderTile(i, new int[]{col, row}, 52, specialLadderGameBoard));
-          break;
-        case 42:
-          tiles.put(i, new ReturnToStartTile(i, new int[]{col, row}, specialLadderGameBoard));
-          break;
-        case 43:
-          tiles.put(i, new RandomActionTile(i, new int[]{col, row}, specialLadderGameBoard));
           break;
         case 49:
           tiles.put(i, new LadderTile(i, new int[]{col, row}, 79, specialLadderGameBoard));
           break;
-        case 56:
-          tiles.put(i, new ReturnToStartTile(i, new int[]{col, row}, specialLadderGameBoard));
-          break;
-        case 62:
-          tiles.put(i, new RollAgainTile(i, new int[]{col, row}));
-          break;
         case 64:
           tiles.put(i, new LadderTile(i, new int[]{col, row}, 27, specialLadderGameBoard));
           break;
-        case 65:
-          tiles.put(i, new ReturnToStartTile(i, new int[]{col, row}, specialLadderGameBoard));
-          break;
-        case 68:
-          tiles.put(i, new RollAgainTile(i, new int[]{col, row}));
-          break;
         case 74:
           tiles.put(i, new LadderTile(i, new int[]{col, row}, 12, specialLadderGameBoard));
-          break;
-        case 82:
-          tiles.put(i, new RollAgainTile(i, new int[]{col, row}));
-          break;
-        case 85:
-          tiles.put(i, new RandomActionTile(i, new int[]{col, row}, specialLadderGameBoard));
           break;
         case 87:
           tiles.put(i, new LadderTile(i, new int[]{col, row}, 70, specialLadderGameBoard));
@@ -133,14 +98,13 @@ public class BoardFactory {
     HashMap<Integer, Tile> tiles = new HashMap<>();
     Board vanillaLadderGameBoard = new Board(tiles);
 
-    IntStream.range(1, 91).forEach(i -> {
+    IntStream.range(0, 90).forEach(i -> {
       int row = (LADDER_GAME_ROWS - 1) - (i / LADDER_GAME_COLS);
-      int col =
-          ((row % 2) == (LADDER_GAME_ROWS % 2)) ? (LADDER_GAME_COLS - 1 - i % LADDER_GAME_COLS)
-              : i % LADDER_GAME_COLS;
+      int col = ((row % 2) == (LADDER_GAME_ROWS % 2))
+          ? (LADDER_GAME_COLS - 1 - i % LADDER_GAME_COLS) : i % LADDER_GAME_COLS;
 
       // check what type of tile to create
-      switch (i) {
+      switch (i + 1) {
         case 1:
           tiles.put(i, new LadderTile(i, new int[]{col, row}, 40, vanillaLadderGameBoard));
           break;

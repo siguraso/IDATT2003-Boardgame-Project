@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="293b972d-25ea-493f-b812-adf91527fc62" name="Changes" comment="Refactored to an Observer design pattern.">
+    <list default="true" id="81072c32-98a6-4e9e-985a-3202c1a06973" name="Changes" comment="Refactored to an Observer design pattern.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/model/board/BoardFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/model/board/BoardFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/components/BoardDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/components/BoardDisplay.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,176 +17,49 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
-        <option value="Record" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="main" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;MagnusNaessanGaarder&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/siguraso/IDATT2003-Boardgame-Project.git&quot;,
-    &quot;accountId&quot;: &quot;cad34979-4cea-4e83-bc06-4ad9a8e14cfe&quot;
-  }
-}</component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 7
-}</component>
-  <component name="ProjectId" id="2sfGEhSIWGNjXny2qqEzQH6TnCf" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="2usYHmzDNXwh2jvUQJ1bz3kF6fU" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.BoardGameApp.executor&quot;: &quot;Run&quot;,
-    &quot;Application.UI.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Boardgame [clean,surefire:test].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.Boardgame [surefire:test].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Moggern&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/magnu/OneDrive/BIDATA/Semester_2/Prog_2/Mappevurdering/IDATT2003-Boardgame-Project&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
-    ]
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Application.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Moggern",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\magnu\OneDrive\BIDATA\Semester_2\Prog_2\IDATT2003-Boardgame-Project" />
-      <recent name="C:\Users\magnu\OneDrive\BIDATA\Semester_2\Prog_2\IDATT2003-Boardgame-Project\src\main\java\edu\ntnu\idi\idatt\boardgame\view" />
-      <recent name="C:\Users\magnu\OneDrive\BIDATA\Semester_2\Prog_2\IDATT2003-Boardgame-Project\src\main\java\edu\ntnu\idi\idatt\boardgame" />
-      <recent name="C:\Users\magnu\OneDrive\BIDATA\Semester_2\Prog_2\IDATT2003-Boardgame-Project\src" />
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="edu.ntnu.idi.idatt.boardgame.model" />
     </key>
   </component>
-  <component name="RunAnythingCache">
-    <option name="myCommands">
-      <command value="mvn clean surefire:test" />
-      <command value="mvn surefire:test" />
-    </option>
-  </component>
   <component name="RunManager">
-    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+    <configuration name="Application" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="edu.ntnu.idi.idatt.boardgame.apps.BoardGameApp" />
       <module name="Boardgame" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="IDATT2003-Boardgame-Project" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="IDATT2003-Boardgame-Project" />
-      <option name="filePath" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <module name="IDATT2003-Boardgame-Project" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="Python.FlaskServer">
-      <module name="IDATT2003-Boardgame-Project" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="launchJavascriptDebuger" value="false" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <module name="IDATT2003-Boardgame-Project" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="ccruntests" factoryName="Run Study Tests">
-      <module name="IDATT2003-Boardgame-Project" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <option name="studyTest" value="" />
-      <method v="2" />
     </configuration>
   </component>
   <component name="SharedIndexes">
@@ -198,77 +73,20 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="293b972d-25ea-493f-b812-adf91527fc62" name="Changes" comment="" />
-      <created>1738839106454</created>
+      <changelist id="81072c32-98a6-4e9e-985a-3202c1a06973" name="Changes" comment="Refactored to an Observer design pattern." />
+      <created>1743038666692</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1738839106454</updated>
-      <workItem from="1738839107699" duration="3093000" />
-      <workItem from="1738844312936" duration="2732000" />
-      <workItem from="1738924499599" duration="213000" />
-      <workItem from="1738924723620" duration="605000" />
-      <workItem from="1738925347450" duration="1304000" />
-      <workItem from="1738930010683" duration="3732000" />
-      <workItem from="1739183628506" duration="6000" />
-      <workItem from="1739183791885" duration="101000" />
-      <workItem from="1739447067563" duration="168000" />
-      <workItem from="1739621790168" duration="2258000" />
-      <workItem from="1739708269084" duration="5454000" />
-      <workItem from="1740048231970" duration="4298000" />
-      <workItem from="1740145464177" duration="74000" />
-      <workItem from="1740145560602" duration="4756000" />
-      <workItem from="1740444521316" duration="4833000" />
-      <workItem from="1740491013593" duration="826000" />
-      <workItem from="1740571388317" duration="1908000" />
-      <workItem from="1740654755233" duration="789000" />
-      <workItem from="1740655568965" duration="1991000" />
-      <workItem from="1742911891567" duration="3273000" />
-      <workItem from="1742915463423" duration="1145000" />
+      <updated>1743038666692</updated>
+      <workItem from="1743038668359" duration="16263000" />
     </task>
-    <task id="LOCAL−00001" summary="added TODO-tasks for later implemention of styles in CSS">
-      <option name="closed" value="true" />
-      <created>1740448926722</created>
-      <option name="number" value="LOCAL−00001" />
-      <option name="presentableId" value="LOCAL−00001" />
-      <updated>1740448926722</updated>
-    </task>
-    <task id="LOCAL−00002" summary="Begun creation of board-tiles for the application">
-      <option name="closed" value="true" />
-      <created>1740448986755</created>
-      <option name="number" value="LOCAL−00002" />
-      <option name="presentableId" value="LOCAL−00002" />
-      <updated>1740448986755</updated>
-    </task>
-    <task id="LOCAL−00003" summary="removed unused method">
-      <option name="closed" value="true" />
-      <created>1740449057051</created>
-      <option name="number" value="LOCAL−00003" />
-      <option name="presentableId" value="LOCAL−00003" />
-      <updated>1740449057051</updated>
-    </task>
-    <task id="LOCAL−00004" summary="Refactored to an Observer design pattern.">
-      <option name="closed" value="true" />
-      <created>1742939257583</created>
-      <option name="number" value="LOCAL−00004" />
-      <option name="presentableId" value="LOCAL−00004" />
-      <updated>1742939257583</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added TODO-tasks for later implemention of styles in CSS" />
-    <MESSAGE value="Begun creation of board-tiles for the application" />
-    <MESSAGE value="changed sdk" />
-    <MESSAGE value="removed unused method" />
     <MESSAGE value="Refactored to an Observer design pattern." />
     <option name="LAST_COMMIT_MESSAGE" value="Refactored to an Observer design pattern." />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>

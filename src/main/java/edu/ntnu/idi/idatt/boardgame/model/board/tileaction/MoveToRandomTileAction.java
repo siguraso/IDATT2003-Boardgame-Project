@@ -28,14 +28,15 @@ public class MoveToRandomTileAction implements TileAction {
 
   @Override
   public void performAction(Player player) {
-    Tile newTile = board.get((int) (Math.random() * board.size()));
+    int newPosition = (int) (Math.random() * board.size());
+    Tile boardTile = board.get(newPosition);
 
-    if (newTile instanceof SpecialTile) {
+    if (boardTile instanceof SpecialTile) {
       throw new IllegalArgumentException(
           "Player cannot be moved to a special tile using this action.");
     }
 
-    player.move(newTile);
+    player.move(newPosition);
 
   }
 

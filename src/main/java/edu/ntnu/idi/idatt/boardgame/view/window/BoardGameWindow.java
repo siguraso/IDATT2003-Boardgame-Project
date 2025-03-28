@@ -1,14 +1,17 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
+import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
+import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFiles;
+import edu.ntnu.idi.idatt.boardgame.util.sound.SoundPlayer;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
+import java.io.IOException;
 import java.util.HashMap;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -20,6 +23,8 @@ import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * Class to create a window that displays a board game, with a sidebar.
@@ -38,7 +43,8 @@ public class BoardGameWindow implements Window {
   private final BorderPane board = new BorderPane();
   private Board gameBoard;
   private Leaderboard leaderboard;
-  private final DieComponent dieBox = new DieComponent(this);
+  private final DieComponent dieBox = new DieComponent();
+  private GameController gc;
 
   // player pieces
 
@@ -122,7 +128,7 @@ public class BoardGameWindow implements Window {
     boardGrid.getChildren().add(boardGridDisplay.getComponent());
 
     ImageView boardImage = new ImageView(
-        new Image("file:src/main/resources/Images/LadderGameBoard_default.png"));
+        new Image("file:src/main/resources/Images/LadderBoardGame_default.png"));
     boardImage.setFitHeight(800);
     boardImage.setFitWidth(800);
 
@@ -139,19 +145,17 @@ public class BoardGameWindow implements Window {
     sidebar.setTop(new HappeningDialogBox(
         "this is a test message that i, as a male in modern society, has come to accept.")
         .getComponent());
+
     sidebar.setCenter(dieBox.getComponent());
 
     // add leaderboard
     HashMap<Integer, Player> players = new HashMap<>();
     players.put(1, new Player("Donny yommy", PlayerPiece.PAUL));
-    players.get(1).move(new NormalTile(1, new int[]{12, 12}));
 
     players.put(2, new Player("Doniell tommy", PlayerPiece.EVIL_PAUL));
-    players.get(2).move(new NormalTile(2, new int[]{12, 12}));
 
     players.put(3,
         new Player("morra di er mann og faren din liker menn", PlayerPiece.MARIOTINELLI));
-    players.get(3).move(new NormalTile(3, new int[]{12, 12}));
 
     leaderboard = new Leaderboard(players);
 
@@ -161,23 +165,30 @@ public class BoardGameWindow implements Window {
     return sidebar;
   }
 
-  public void moveCurrentPlayer(int steps, int initialPosition) {
+  public void moveCurrentPlayer(int steps, int initialPosition)
+      throws UnsupportedAudioFileException, IOException, LineUnavailableException {
     int currentPlayerPosition = initialPosition;
 
     // create a timeline to animate the player's movement
     Timeline timeline = new Timeline();
-
     for (int i = 1; i <= steps; i++) {
       int nextPosition = currentPlayerPosition + i;
 
+      SoundPlayer sp = new SoundPlayer();
       KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), event -> {
         // Remove the player from the current position
         boardGridDisplay.getGridTiles().get(nextPosition - 1).getChildren().clear();
         // Add the player to the new position
         boardGridDisplay.getGridTiles().get(nextPosition).getChildren().add(currentPlayerPiece);
+        try {
+          sp.play(SoundFiles.PIECE_MOVED);
+        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+          throw new RuntimeException(e);
+        }
       });
 
       timeline.getKeyFrames().add(keyFrame);
+      sp.stop();
     }
 
     timeline.play();

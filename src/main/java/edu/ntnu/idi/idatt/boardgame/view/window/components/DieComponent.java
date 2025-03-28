@@ -1,15 +1,17 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
+import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
-import edu.ntnu.idi.idatt.boardgame.view.window.BoardGameWindow;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import java.io.IOException;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * A class that contructs the dice component for the game window.
@@ -19,26 +21,22 @@ import javafx.scene.shape.Rectangle;
  * @since 1.0
  */
 public class DieComponent implements WindowComponent {
-
   private final Die die = new Die(6);
-
-  // parent window
-  private final BoardGameWindow parentWindow;
+  private GameController gc;
 
   // constant for the path to the die images
   private final String IMAGE_PATH = "file:src/main/resources/Images/die-Faces/";
   private ImageView dieImage;
   private Button rollDieButton = new Button("Roll die");
-
+  private VBox dieBox;
   /**
    * Constructor for the DiceComponent class.
    */
-  public DieComponent(BoardGameWindow parentWindow) {
-    this.parentWindow = parentWindow;
+  public DieComponent() {
+    init();
   }
 
-  @Override
-  public Node getComponent() {
+  private void init() {
     dieImage = new ImageView(IMAGE_PATH + "1.jpg");
     dieImage.setFitWidth(200);
     dieImage.setFitHeight(200);
@@ -53,17 +51,26 @@ public class DieComponent implements WindowComponent {
     dieImage.setClip(clip);
 
     rollDieButton = new Button("Roll die");
-    rollDieButton.setOnAction(onPress -> {
 
-      die.throwDie();
-      parentWindow.moveCurrentPlayer(die.getCurrentThrow(), 1);
-
-    });
-
-    VBox dieBox = new VBox(dieImage, rollDieButton);
+    dieBox = new VBox(dieImage, rollDieButton);
     dieBox.setAlignment(javafx.geometry.Pos.CENTER);
     dieBox.setSpacing(20);
+  }
 
+  public void setActionOnPlayer (Player player) {
+    setController(player);
+    rollDieButton.setOnAction(onPress -> {
+      gc.rollDice();
+      /*try {
+        parentWindow.moveCurrentPlayer(die.getCurrentThrow(), 1);
+      } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+        throw new RuntimeException(e);
+      }*/
+    });
+  }
+
+  @Override
+  public Node getComponent() {
     return dieBox;
   }
 
@@ -98,7 +105,10 @@ public class DieComponent implements WindowComponent {
       case 5 -> dieImage.setImage(new Image(IMAGE_PATH + "5.jpg"));
 
       case 6 -> dieImage.setImage(new Image(IMAGE_PATH + "6.jpg"));
-
     }
+  }
+
+  public void setController(Player player) {
+    this.gc = new GameController(die, player);
   }
 }
