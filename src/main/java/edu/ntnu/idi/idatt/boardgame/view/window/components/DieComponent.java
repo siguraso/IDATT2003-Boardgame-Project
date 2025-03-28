@@ -1,9 +1,9 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
 
-import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
+import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import java.util.stream.IntStream;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,34 +16,40 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * A class that contructs the dice component for the game window.
+ *
  * <p>This component contains:</p>
- * <p> - A button to roll the {@link Die}</p>
- * <p> - An image of the die that animates whenever the {@link Die} is rolled.</p>
+ *
+ * <p>- A button to roll the {@link Die}</p>
+ *
+ * <p>- An image of the die that animates whenever the {@link Die} is rolled.</p>
  *
  * @author siguraso
  * @version 1.0
  * @since 1.0
  */
-public class DieComponent implements WindowComponent {
-  private final Die die;
-  private GameController gc;
+public class DieComponent implements WindowComponent, BoardGameObserver {
 
   // constant for the path to the die images
-  private final String IMAGE_PATH = "file:src/main/resources/Images/die-Faces/";
+  private final String imagePath = "file:src/main/resources/Images/die-Faces/";
   private ImageView dieImage;
   private Button rollDieButton = new Button("Roll die");
   private VBox dieBox;
+
+
   /**
    * Constructor for the DiceComponent class.
+   *
+   * @param observable the observable object that implements BoardGameObservable that this class
+   *                   observes as the primary method of communication with the game logic.
    */
-  public DieComponent(Die die) {
-    this.die = die;
+  public DieComponent(BoardGameObservable observable) {
+    observable.addObserver(this);
 
     init();
   }
 
   private void init() {
-    dieImage = new ImageView(IMAGE_PATH + "1.jpg");
+    dieImage = new ImageView(imagePath + "1.jpg");
     dieImage.setFitWidth(200);
     dieImage.setFitHeight(200);
     dieImage.getStyleClass().add("die-image");
@@ -65,31 +71,8 @@ public class DieComponent implements WindowComponent {
   }
 
   /**
-   * Retrieves the value of the last die throw.
-   *
-   * @return and int containing the value of the last die throw.
-   */
-  public int getCurrentThrow() {
-    return this.die.getCurrentThrow();
-  }
-
-  public void enableRollDieButton() {
-    rollDieButton.setDisable(false);
-  }
-
-
-  /**
-   * Rolls the die and updates the image of the die corresponding with what number was rolled.
-   * <p>This method is called when the roll die button is pressed.</p>
-   */
-  public void rollDieAction() {
-    this.die.throwDie();
-
-    dieImage.setImage(new Image(IMAGE_PATH + die.getCurrentThrow() + ".jpg"));
-  }
-
-  /**
    * Creates the animation for the dieImage.
+   *
    * <p>This is a simple animation that changes the image of the die every 100ms for 1 second.</p>
    *
    * @return a {@link Timeline} object that contains the animation.
@@ -101,7 +84,7 @@ public class DieComponent implements WindowComponent {
       KeyFrame keyFrame = new KeyFrame(javafx.util.Duration.millis(100 * i), event -> {
         int randomDieFace = (int) (Math.random() * 6) + 1;
 
-        dieImage.setImage(new Image(IMAGE_PATH + randomDieFace + ".jpg"));
+        dieImage.setImage(new Image(imagePath + randomDieFace + ".jpg"));
       });
       timeline.getKeyFrames().add(keyFrame);
     });
@@ -115,27 +98,20 @@ public class DieComponent implements WindowComponent {
   }
 
   /**
-   * Retrieves the {@link Die} object.
-   * <p>This allows the BoardGameWindow to see what the die has rolled</p>
-   *
-   * @return the die object.
-   */
-  public Die getDie() {
-    return die;
-  }
-
-  public void setController(Player player) {
-    this.gc = new GameController(die, player);
-  }
-
-  /**
    * Retrieves the roll die button.
+   *
    * <p>This allows us to set the action event in the BoardGameWindow, meaning we can control the
    * game loop.</p>
    *
-   * @return
+   * @return the roll die button.
    */
   public Button getRollDieButton() {
     return rollDieButton;
   }
+
+  @Override
+  public void update(int i) {
+    dieImage.setImage(new Image(imagePath + i + ".jpg"));
+  }
+
 }

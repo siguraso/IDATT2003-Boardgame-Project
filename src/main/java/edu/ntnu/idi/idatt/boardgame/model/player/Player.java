@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 
 /**
@@ -10,11 +9,13 @@ import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
  * @version 1.0
  * @since 1.0
  */
-public class Player implements BoardGameObserver {
+public class Player {
+
   private final String name;
   private int position;
   private boolean isWinner = false;
   private final PlayerPiece piece;
+  private int lastPosition;
 
   /**
    * Constructor for the Player class.
@@ -61,14 +62,18 @@ public class Player implements BoardGameObserver {
   // mutator methods
 
   /**
-   * Used to move a player to a new tile by setting the players current tile to a new tile.
+   * Used to move a player to a new tile by adding the current dice throw to the player's position
+   * number.
    *
-   * @param i integer with a new position .
+   * @param i integer with the number of tiles the player is to move.
    */
   public void move(int i) {
     if (i < 0) {
       throw new IllegalArgumentException("Illegal move: cannot move negative spaces.");
     }
+
+    this.lastPosition = this.position;
+
     this.position = i;
   }
 
@@ -90,8 +95,14 @@ public class Player implements BoardGameObserver {
     return piece;
   }
 
-  @Override
-  public void update(int i) {
-    move(i);
+
+  /**
+   * Gets the position of the player before the last move.
+   *
+   * @return the position of the player before the last move.
+   */
+  public int getLastPosition() {
+    return this.lastPosition;
   }
+
 }

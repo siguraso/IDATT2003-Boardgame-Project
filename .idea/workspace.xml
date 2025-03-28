@@ -5,12 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="293b972d-25ea-493f-b812-adf91527fc62" name="Changes" comment="Refactored to an Observer design pattern.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/util/sound/BgmPlayer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/util/sound/SfxPlayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/controller/PlayersController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/util/sound/SoundFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/util/sound/SoundFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/util/sound/SoundPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/util/sound/SoundPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/controller/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/engine/BoardGame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/model/dice/Die.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/model/dice/Die.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/model/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/model/player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/UI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/BoardGameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/BoardGameWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/MainWindow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/components/DieComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/components/DieComponent.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +74,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SONARLINT_PRECOMMIT_ANALYSIS": "false",
-    "git-widget-placeholder": "feature/sound-classes",
+    "git-widget-placeholder": "feature/game-logic",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/magnu/OneDrive/BIDATA/Semester_2/Prog_2/Mappevurdering/IDATT2003-Boardgame-Project",
     "node.js.detected.package.eslint": "true",
@@ -275,6 +279,17 @@
     <MESSAGE value="Refactored to an Observer design pattern." />
     <MESSAGE value="fixed some minor merge conflicts" />
     <option name="LAST_COMMIT_MESSAGE" value="fixed some minor merge conflicts" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/model/player/Player.java</url>
+          <line>74</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

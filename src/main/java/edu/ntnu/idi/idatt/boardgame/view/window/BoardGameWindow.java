@@ -1,9 +1,8 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
-import edu.ntnu.idi.idatt.boardgame.engine.BoardGame;
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
-import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
+import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SfxPlayer;
@@ -31,7 +30,7 @@ import javafx.util.Duration;
  * @version 1.0
  * @since 1.0
  */
-public class BoardGameWindow implements Window {
+public class BoardGameWindow implements Window, BoardGameObserver {
 
   // window stage
   private final Stage window = new Stage();
@@ -53,24 +52,26 @@ public class BoardGameWindow implements Window {
   private final StackPane boardGrid = new StackPane();
   private final Board board;
 
-  // The board game object for logic
-  private final BoardGame boardGame;
-
   // sounds
   private final SfxPlayer sfxPlayer = new SfxPlayer();
+
+  // game logic classes
+  private final GameController gameController;
+
+  // movement animation (changes based on the current player and the die throw)
+  private Timeline movementAnimation;
 
   /**
    * Constructor for the BoardGameWindow class.
    *
-   * @param die       the {@link Die} object that represents the die used in the game.
-   * @param boardGame the {@link BoardGame} object that represents the game logic.
-   * @param board     the {@link Board} object that represents the game board and all the logic that
-   *                  comes with it.
+   * @param board the {@link Board} object that represents the game board and all the logic that
+   *              comes with it.
    */
-  public BoardGameWindow(Die die, BoardGame boardGame, Board board) {
-    this.dieBox = new DieComponent(die);
-    this.boardGame = boardGame;
+  public BoardGameWindow(Board board, GameController gameController) {
+    this.dieBox = new DieComponent(gameController);
     this.board = board;
+    this.gameController = gameController;
+    gameController.addObserver(this);
 
     init();
   }
@@ -93,10 +94,11 @@ public class BoardGameWindow implements Window {
 
     root.setRight(sidebar);
 
-    boardGame.getPlayers().keySet().forEach(player -> {
+    gameController.getPlayersController().getPlayers().keySet().forEach(player -> {
 
       ImageView playerPiece = new ImageView(
-          boardGame.getPlayers().get(player).getPlayerPiece().getImagePath());
+          gameController.getPlayersController().getPlayers().get(player).getPlayerPiece()
+              .getImagePath());
 
       playerPiece.setFitHeight(30);
       playerPiece.setFitWidth(30);
@@ -195,15 +197,7 @@ public class BoardGameWindow implements Window {
 
       // device what happens when the die animation is fininshed
       dieAnimation.setOnFinished(onDieAnimationFinished -> {
-        dieBox.rollDieAction();
-
-        Timeline movementAnimation = moveCurrentPlayer(dieBox.getCurrentThrow(),
-            boardGame.getPlayers().get("player1"));
-
-        // set what happens when the movement animation is finished
-        movementAnimation.setOnFinished(onMovementFinished -> {
-          dieBox.getRollDieButton().setDisable(false);
-        });
+        gameController.rollDice();
 
         movementAnimation.play();
       });
@@ -213,7 +207,7 @@ public class BoardGameWindow implements Window {
 
     });
 
-    leaderboard = new Leaderboard(boardGame.getPlayers());
+    leaderboard = new Leaderboard(gameController.getPlayersController().getPlayers());
 
     sidebar.setBottom(leaderboard.getComponent());
 
@@ -221,16 +215,19 @@ public class BoardGameWindow implements Window {
     return sidebar;
   }
 
-  private Timeline moveCurrentPlayer(int steps, Player currentPlayer) {
+  private Timeline moveCurrentPlayerAnimation(int steps) {
 
-    int currentPlayerPosition = currentPlayer.getPosition();
+    Player currentPlayer = gameController.getPlayersController().getCurrentPlayer();
+
+    int currentPlayerPiecePosition = currentPlayer.getLastPosition();
+
     ImageView currentPlayerPiece = playerPieces.get(currentPlayer.getName());
 
     // create a timeline to animate the player's movement
     Timeline timeline = new Timeline();
 
     var nextTileWrapper = new Object() {
-      int nextTile = currentPlayerPosition + 1;
+      int nextTile = currentPlayerPiecePosition + 1;
     };
 
     var moveBackwardsWrapper = new Object() {
@@ -310,12 +307,20 @@ public class BoardGameWindow implements Window {
 
   private void setCurrentPlayer(String playerName) {
     // get the player object from the players hashmap
-    Player currentPlayer = boardGame.getPlayers().get(playerName);
+    gameController.getPlayersController().setCurrentPlayer(playerName);
+
+    // set the player piece to the current player
+    currentPlayerPiece = playerPieces.get(playerName);
 
   }
 
-  public Die getDie() {
-    return dieBox.getDie();
+  @Override
+  public void update(int i) {
+    this.movementAnimation = moveCurrentPlayerAnimation(i);
+
+    this.movementAnimation.setOnFinished(onMovementFinished -> {
+      dieBox.getRollDieButton().setDisable(false);
+    });
   }
 
 }
