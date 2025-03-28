@@ -1,6 +1,8 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import java.util.HashMap;
@@ -54,7 +56,7 @@ public class BoardDisplay implements WindowComponent {
   }
 
   public void init(int width, int height) {
-    final Board board = testCreateBoard();
+    final Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_VANILLA);
     boardGrid = new GridPane();
     boardGrid.setMaxWidth(width * COLS);
     boardGrid.setMaxHeight(height * ROWS);
