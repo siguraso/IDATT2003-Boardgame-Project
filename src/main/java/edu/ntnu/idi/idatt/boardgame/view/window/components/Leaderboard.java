@@ -4,7 +4,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
@@ -42,7 +41,7 @@ public class Leaderboard implements WindowComponent {
 
     players.keySet().forEach(player -> {
       leaderboard.add(new Label(players.get(player).getName()), 0, player);
-      leaderboard.add(new Label(players.get(player).getCurrentTile().getTileNumber() + ""), 1,
+      leaderboard.add(new Label(players.get(player).getPosition() + ""), 1,
           player);
       leaderboard.add(new Label(player + 1 + ""), 2, player);
     });
@@ -71,22 +70,22 @@ public class Leaderboard implements WindowComponent {
     );
 
     // Convert the players map to a list
-    List<Player> playerList = new ArrayList<>(players.values());
+    ArrayList<Player> playerList = new ArrayList<>(players.values());
 
     // Sort the list by the current tile number
-    playerList.sort(Comparator.comparingInt(player -> player.getCurrentTile().getTileNumber()));
+    playerList.sort(Comparator.comparingInt(Player::getPosition));
 
     // Add the players to the leaderboard grid
     playerList.forEach(player -> {
       if (playerList.indexOf(player) > 2) {
         return;
       }
-      
+
       leaderboardGrid.add(new Label((playerList.indexOf(player) + 1) + "."), 0,
           playerList.indexOf(player));
-      leaderboardGrid.add(new Label(player.getName() + ""), 1,
+      leaderboardGrid.add(new Label(player.getName()), 1,
           playerList.indexOf(player));
-      leaderboardGrid.add(new Label(player.getCurrentTile().getTileNumber() + ""), 2,
+      leaderboardGrid.add(new Label(player.getPosition() + ""), 2,
           playerList.indexOf(player));
     });
 

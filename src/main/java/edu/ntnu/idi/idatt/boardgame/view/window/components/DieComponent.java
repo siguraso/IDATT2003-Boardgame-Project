@@ -1,10 +1,9 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
+
+import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
-import edu.ntnu.idi.idatt.boardgame.view.window.BoardGameWindow;
 import java.util.stream.IntStream;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -26,27 +25,24 @@ import javafx.scene.shape.Rectangle;
  * @since 1.0
  */
 public class DieComponent implements WindowComponent {
-
   private final Die die;
-
-  // parent window
-  private final BoardGameWindow parentWindow;
+  private GameController gc;
 
   // constant for the path to the die images
   private final String IMAGE_PATH = "file:src/main/resources/Images/die-Faces/";
   private ImageView dieImage;
   private Button rollDieButton = new Button("Roll die");
-
+  private VBox dieBox;
   /**
    * Constructor for the DiceComponent class.
    */
-  public DieComponent(BoardGameWindow parentWindow, Die die) {
-    this.parentWindow = parentWindow;
+  public DieComponent(Die die) {
     this.die = die;
+
+    init();
   }
 
-  @Override
-  public Node getComponent() {
+  private void init() {
     dieImage = new ImageView(IMAGE_PATH + "1.jpg");
     dieImage.setFitWidth(200);
     dieImage.setFitHeight(200);
@@ -63,11 +59,9 @@ public class DieComponent implements WindowComponent {
 
     rollDieButton = new Button("Roll die");
 
-    VBox dieBox = new VBox(dieImage, rollDieButton);
+    dieBox = new VBox(dieImage, rollDieButton);
     dieBox.setAlignment(javafx.geometry.Pos.CENTER);
     dieBox.setSpacing(20);
-
-    return dieBox;
   }
 
   /**
@@ -115,6 +109,11 @@ public class DieComponent implements WindowComponent {
     return timeline;
   }
 
+  @Override
+  public Node getComponent() {
+    return dieBox;
+  }
+
   /**
    * Retrieves the {@link Die} object.
    * <p>This allows the BoardGameWindow to see what the die has rolled</p>
@@ -123,6 +122,10 @@ public class DieComponent implements WindowComponent {
    */
   public Die getDie() {
     return die;
+  }
+
+  public void setController(Player player) {
+    this.gc = new GameController(die, player);
   }
 
   /**

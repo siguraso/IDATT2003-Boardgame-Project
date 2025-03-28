@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="293b972d-25ea-493f-b812-adf91527fc62" name="Changes" comment="fixed some minor merge conflicts">
+    <list default="true" id="293b972d-25ea-493f-b812-adf91527fc62" name="Changes" comment="Refactored to an Observer design pattern.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,23 +30,23 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-    &quot;lastFilter&quot;: {
+  &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;,
     &quot;assignee&quot;: &quot;MagnusNaessanGaarder&quot;
-    }
-    }</component>
+  }
+}</component>
   <component name="GithubPullRequestsUISettings">{
-    &quot;selectedUrlAndAccountId&quot;: {
+  &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/siguraso/IDATT2003-Boardgame-Project.git&quot;,
     &quot;accountId&quot;: &quot;cad34979-4cea-4e83-bc06-4ad9a8e14cfe&quot;
-    }
-    }</component>
+  }
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
-    &quot;associatedIndex&quot;: 7
-    }</component>
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2sfGEhSIWGNjXny2qqEzQH6TnCf" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />

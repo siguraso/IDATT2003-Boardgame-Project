@@ -1,19 +1,21 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.engine.BoardGame;
+import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
+import edu.ntnu.idi.idatt.boardgame.util.sound.SoundPlayer;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
-import edu.ntnu.idi.idatt.boardgame.util.sound.SoundPlayer;
 import java.util.HashMap;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -38,6 +40,7 @@ public class BoardGameWindow implements Window {
   private final BorderPane sidebar = new BorderPane();
   private Board gameBoard;
   private Leaderboard leaderboard;
+  private GameController gc;
   private final DieComponent dieBox;
 
   // player HashMap containing all the player pieves corresponding to the player profiles given.
@@ -74,7 +77,6 @@ public class BoardGameWindow implements Window {
   // methods from the window interface
   @Override
   public void show() {
-    // start the game logic and show the window
 
     window.show();
   }
@@ -155,8 +157,7 @@ public class BoardGameWindow implements Window {
     boardGrid.getChildren().add(this.boardDisplay.getComponent());
 
     ImageView boardImage = new ImageView(
-        "file:src/main/resources/Images/LadderGameBoard_default.png");
-
+        new Image("file:src/main/resources/Images/LadderBoardGame_default.png"));
     boardImage.setFitHeight(800);
     boardImage.setFitWidth(800);
 
@@ -173,6 +174,7 @@ public class BoardGameWindow implements Window {
     sidebar.setTop(new HappeningDialogBox(
         "this is a test message that i, as a male in modern society, has come to accept.")
         .getComponent());
+
     sidebar.setCenter(dieBox.getComponent());
 
     // when the button is pressed, it initializes a players turn, meaning that this button is more

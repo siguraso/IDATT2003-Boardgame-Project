@@ -1,10 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
-import edu.ntnu.idi.idatt.boardgame.model.Observable;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
-import edu.ntnu.idi.idatt.boardgame.view.controller.BoardGameObserver;
-import java.util.ArrayList;
-import java.util.List;
+import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 
 /**
  * A player in a board game.
@@ -13,11 +10,9 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-public class Player extends Observable {
-  private final List<BoardGameObserver> observerList = new ArrayList<>();
-
+public class Player implements BoardGameObserver {
   private final String name;
-  private Tile currentTile;
+  private int position;
   private boolean isWinner = false;
   private final PlayerPiece piece;
 
@@ -31,6 +26,7 @@ public class Player extends Observable {
   public Player(String name, PlayerPiece playerPiece) {
     this.name = name;
     this.piece = playerPiece;
+    this.position = 1;
   }
 
   // accessor methods
@@ -49,8 +45,8 @@ public class Player extends Observable {
    *
    * @return The current tile of the player.
    */
-  public Tile getCurrentTile() {
-    return currentTile;
+  public int getPosition() {
+    return position;
   }
 
   /**
@@ -67,11 +63,13 @@ public class Player extends Observable {
   /**
    * Used to move a player to a new tile by setting the players current tile to a new tile.
    *
-   * @param newTile The new tile that the player moves to.
+   * @param i integer with a new position .
    */
-  public void move(Tile newTile) {
-    this.currentTile = newTile;
-    notifyObservers(); // Notify observers that the player has moved
+  public void move(int i) {
+    if (i < 0) {
+      throw new IllegalArgumentException("Illegal move: cannot move negative spaces.");
+    }
+    this.position = i;
   }
 
   /**
@@ -80,7 +78,6 @@ public class Player extends Observable {
    */
   public void setWinner() {
     this.isWinner = true;
-    notifyObservers(); // Notify observers that the player is a winner
   }
 
   /**
@@ -94,20 +91,7 @@ public class Player extends Observable {
   }
 
   @Override
-  public void addObserver(BoardGameObserver o) {
-    observerList.add(o);
+  public void update(int i) {
+    move(i);
   }
-
-  @Override
-  public void removeObserver(BoardGameObserver o) {
-    observerList.remove(o);
-  }
-
-  @Override
-  public void notifyObservers() {
-    for (BoardGameObserver observer : observerList) {
-      observer.update(this);
-    }
-  }
-
 }
