@@ -3,7 +3,7 @@ package edu.ntnu.idi.idatt.boardgame.util.sound;
 /**
  * An enum that contains the sound files that can be played in the application.
  *
- * @author MagnusNaesanGaarder
+ * @author MagnusNaesanGaarder & siguraso
  * @version 1.0
  * @since 1.0
  */
