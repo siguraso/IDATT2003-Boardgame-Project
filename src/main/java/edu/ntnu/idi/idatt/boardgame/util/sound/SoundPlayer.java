@@ -1,131 +1,120 @@
 package edu.ntnu.idi.idatt.boardgame.util.sound;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**
+ * Module that plays sounds based on what {@link SoundFiles} is passed through.
+ */
 public class SoundPlayer {
-  // to store current position
-  private Long currentFrame;
-  private Clip clip;
 
-  // current status of clip
-  String status;
+  private static AudioInputStream audioInputStream;
+  private static Clip clip;
 
-  private final String file = SoundFiles.PIECE_MOVED.getSound();
+  private static String status;
+  private static Long currentFrame;
 
-  private AudioInputStream audioInputStream;
+  /**
+   * Plays the soundFile that is passed through the method. The soundFile played is based off of
+   * what enum from {@link SoundFiles} is passed through.
+   *
+   * @param soundFile the {@link SoundFiles} that is to be played.
+   */
+  public static void playSound(SoundFiles soundFile) {
 
-  // constructor to initialize streams and clip
-  public SoundPlayer()
-      throws UnsupportedAudioFileException,
-      IOException, LineUnavailableException {
-    // create AudioInputStream object
-    audioInputStream =
-        AudioSystem.getAudioInputStream(
-            new File(file).getAbsoluteFile());
+    String soundPath = soundFile.getSound();
 
-    // create clip reference
-    clip = AudioSystem.getClip();
+    try (InputStream inputStream = SoundPlayer.class.getResourceAsStream(soundPath);
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
 
-    // open audioInputStream to the clip
-    clip.open(audioInputStream);
-  }
+      // get the audio system clip to play audio.
+      clip = AudioSystem.getClip();
 
-  // Method to play the audio
-  public void play(SoundFiles soundFile)
-      throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-    changeSound(soundFile.getSound());
+      // open the audio input stream
+      audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
 
-    //start the clip
-    clip.start();
+      // open the clip and start playing the audio file.
+      clip.open(audioInputStream);
+      clip.start();
 
-    status = "play";
-  }
+      status = "play";
 
-  private void changeSound(String sound)
-      throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-    audioInputStream = AudioSystem.getAudioInputStream(new File(sound).getAbsoluteFile());
-    clip = AudioSystem.getClip();
-    clip.open(audioInputStream);
-    clip.setFramePosition(0);
-  }
+    } catch (LineUnavailableException e) {
+      throw new RuntimeException("Line is unavailable", e);
 
-  private void play() {
-    //playing current audio
-    clip.start();
+    } catch (UnsupportedAudioFileException e) {
+      throw new IllegalArgumentException("Unsupported audio file", e);
 
-    status = "play";
-  }
+    } catch (IOException e) {
+      throw new RuntimeException("Error reading audio file", e);
 
-  // Method to pause the audio
-  public void pause() {
-    if (status.equals("paused")) {
-      System.out.println("audio is already paused");
-      return;
     }
-    this.currentFrame =
-        this.clip.getMicrosecondPosition();
-    clip.stop();
-    status = "paused";
+
   }
 
-  // Method to resume the audio
-  public void resumeAudio() throws UnsupportedAudioFileException,
-      IOException, LineUnavailableException {
+  /**
+   * Method for pausing the current sound.
+   */
+  public static void pause() {
+    if (status.equals("pause")) {
+      throw new IllegalArgumentException("Sound is already paused!");
+    }
+
+    currentFrame = clip.getMicrosecondPosition();
+
+    clip.stop();
+
+    status = "pause";
+  }
+
+  public static void resume() {
     if (status.equals("play")) {
-      System.out.println("Audio is already "
-          + "being played");
-      return;
+      throw new IllegalArgumentException("Sound is already playing!");
     }
-    clip.close();
-    resetAudioStream();
-    clip.setMicrosecondPosition(currentFrame);
-    this.play();
+
+
   }
 
-  // Method to restart the audio
-  public void restart() throws IOException, LineUnavailableException,
-      UnsupportedAudioFileException {
-    clip.stop();
-    clip.close();
-    resetAudioStream();
-    currentFrame = 0L;
-    clip.setMicrosecondPosition(0);
-    this.play();
-  }
+  /**
+   * Method for opening a new sound file.
+   */
+  public static void openSound(SoundFiles soundfile) {
+    String soundPath = soundfile.getSound();
 
-  // Method to stop the audio
-  public void stop() throws UnsupportedAudioFileException,
-      IOException, LineUnavailableException {
-    currentFrame = 0L;
-    clip.stop();
-    clip.close();
-  }
-
-  // Method to jump over a specific part
-  public void jump(long c) throws UnsupportedAudioFileException, IOException,
-      LineUnavailableException {
-    if (c > 0 && c < clip.getMicrosecondLength()) {
-      clip.stop();
-      clip.close();
-      resetAudioStream();
-      currentFrame = c;
-      clip.setMicrosecondPosition(c);
-      this.play();
+    if (soundPath.isEmpty()) {
+      throw new NullPointerException("The sound file: " + soundfile + " does not exist");
     }
+
+    try (InputStream inputStream = SoundPlayer.class.getResourceAsStream(soundPath);
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
+
+      // get the audio system clip to play audio.
+      clip = AudioSystem.getClip();
+
+      // open the audio input stream
+      audioInputStream = AudioSystem.getAudioInputStream(bufferedInputStream);
+
+      // open the clip and start playing the audio file.
+      clip.open(audioInputStream);
+
+    } catch (LineUnavailableException e) {
+      throw new RuntimeException("Line is unavailable", e);
+
+    } catch (UnsupportedAudioFileException e) {
+      throw new IllegalArgumentException("Unsupported audio file", e);
+
+    } catch (IOException e) {
+      throw new RuntimeException("Error reading audio file", e);
+
+    }
+
   }
 
-  // Method to reset audio stream
-  public void resetAudioStream() throws UnsupportedAudioFileException, IOException,
-      LineUnavailableException {
-    audioInputStream = AudioSystem.getAudioInputStream(
-        new File(file).getAbsoluteFile());
-    clip.open(audioInputStream);
-    clip.loop(Clip.LOOP_CONTINUOUSLY);
-  }
 }

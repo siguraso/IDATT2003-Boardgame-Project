@@ -1,17 +1,17 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
+import edu.ntnu.idi.idatt.boardgame.engine.BoardGame;
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
+import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
-import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFiles;
+import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundPlayer;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.HappeningDialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
-import java.io.IOException;
 import java.util.HashMap;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -23,8 +23,6 @@ import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * Class to create a window that displays a board game, with a sidebar.
@@ -40,24 +38,46 @@ public class BoardGameWindow implements Window {
 
   // different components of the window
   private final BorderPane sidebar = new BorderPane();
-  private final BorderPane board = new BorderPane();
   private Board gameBoard;
   private Leaderboard leaderboard;
-  private final DieComponent dieBox = new DieComponent();
   private GameController gc;
+  private final DieComponent dieBox;
 
-  // player pieces
-
-  private final ImageView[] playerPieces = new ImageView[4];
+  // player HashMap containing all the player pieves corresponding to the player profiles given.
+  // the key is defined as the player's name.
+  private final HashMap<String, ImageView> playerPieces = new HashMap<>();
   private ImageView currentPlayerPiece;
 
-  private final BoardDisplay boardGridDisplay = new BoardDisplay();
+  // all board elements
+  private final BoardDisplay boardDisplay = new BoardDisplay();
   private final StackPane boardGrid = new StackPane();
+  private final Board board;
 
-  // methods for window initializing, opening and closing a window.
+  // The board game object for logic
+  private final BoardGame boardGame;
 
+  /**
+   * Constructor for the BoardGameWindow class.
+   *
+   * @param die       the {@link Die} object that represents the die used in the game.
+   * @param boardGame the {@link BoardGame} object that represents the game logic.
+   * @param board     the {@link Board} object that represents the game board and all the logic that
+   *                  comes with it.
+   */
+  public BoardGameWindow(Die die, BoardGame boardGame,
+      Board board) {
+    this.dieBox = new DieComponent(this, die);
+    this.boardGame = boardGame;
+    this.board = board;
+
+    init();
+  }
+
+
+  // methods from the window interface
   @Override
   public void show() {
+
     window.show();
   }
 
@@ -65,21 +85,30 @@ public class BoardGameWindow implements Window {
   public void init() {
     // Initialize the window
     BorderPane root = new BorderPane();
-    root.setLeft(getBoardRegion());
+    root.setCenter(getBoardRegion());
     root.setRight(getSidebar());
 
-    // TODO add actual players and pieces, and remove foo
-    ImageView foo = new ImageView("file:src/main/resources/Images/placeholder2.png");
-    foo.setFitHeight(50);
-    foo.setFitWidth(50);
-    currentPlayerPiece = foo;
+    boardGame.getPlayers().keySet().forEach(player -> {
 
-    boardGridDisplay.getGridTiles().get(1).getChildren().add(foo);
+      ImageView playerPiece = new ImageView(
+          boardGame.getPlayers().get(player).getPlayerPiece().getImagePath());
+
+      playerPiece.setFitHeight(30);
+      playerPiece.setFitWidth(30);
+
+      // add the player piece to the player piece hashmap, set the key as the player name
+      playerPieces.put(player, playerPiece);
+
+      boardDisplay.getGridTiles().get(1).getChildren().add(playerPiece);
+
+    });
 
     Scene scene = new Scene(root, 1400, 800);
     scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
 
-    window.setResizable(false);
+    window.setMinWidth(1500);
+    window.setMinHeight(900);
+    window.setResizable(true);
     window.setScene(scene);
   }
 
@@ -123,9 +152,9 @@ public class BoardGameWindow implements Window {
     int tileWidth = (800 - (2 * 29)) / 9;
     int tileHeight = (800 - (2 * 28)) / 10;
 
-    boardGridDisplay.init(tileWidth, tileHeight);
+    this.boardDisplay.init(tileWidth, tileHeight);
 
-    boardGrid.getChildren().add(boardGridDisplay.getComponent());
+    boardGrid.getChildren().add(this.boardDisplay.getComponent());
 
     ImageView boardImage = new ImageView(
         new Image("file:src/main/resources/Images/LadderBoardGame_default.png"));
@@ -148,16 +177,37 @@ public class BoardGameWindow implements Window {
 
     sidebar.setCenter(dieBox.getComponent());
 
-    // add leaderboard
-    HashMap<Integer, Player> players = new HashMap<>();
-    players.put(1, new Player("Donny yommy", PlayerPiece.PAUL));
+    // when the button is pressed, it initializes a players turn, meaning that this button is more
+    // or less what keeps the game going.
+    dieBox.getRollDieButton().setOnAction(onPress -> {
 
-    players.put(2, new Player("Doniell tommy", PlayerPiece.EVIL_PAUL));
+      dieBox.getRollDieButton().setDisable(true);
 
-    players.put(3,
-        new Player("morra di er mann og faren din liker menn", PlayerPiece.MARIOTINELLI));
+      Timeline dieAnimation = dieBox.dieAnimation();
 
-    leaderboard = new Leaderboard(players);
+      // TODO: remove player1 as dummy player, and replace with current player
+
+      // device what happens when the die animation is fininshed
+      dieAnimation.setOnFinished(onDieAnimationFinished -> {
+        dieBox.rollDieAction();
+
+        Timeline movementAnimation = moveCurrentPlayer(dieBox.getCurrentThrow(),
+            boardGame.getPlayers().get("player1"));
+
+        // set what happens when the movement animation is finished
+        movementAnimation.setOnFinished(onMovementFinished -> {
+          dieBox.getRollDieButton().setDisable(false);
+        });
+
+        movementAnimation.play();
+      });
+
+      // play the animation
+      dieAnimation.play();
+
+    });
+
+    leaderboard = new Leaderboard(boardGame.getPlayers());
 
     sidebar.setBottom(leaderboard.getComponent());
 
@@ -165,33 +215,99 @@ public class BoardGameWindow implements Window {
     return sidebar;
   }
 
-  public void moveCurrentPlayer(int steps, int initialPosition)
-      throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-    int currentPlayerPosition = initialPosition;
+  private Timeline moveCurrentPlayer(int steps, Player currentPlayer) {
+    int currentPlayerPosition = currentPlayer.getCurrentTile().getTileNumber();
+    ImageView currentPlayerPiece = playerPieces.get(currentPlayer.getName());
 
     // create a timeline to animate the player's movement
     Timeline timeline = new Timeline();
-    for (int i = 1; i <= steps; i++) {
-      int nextPosition = currentPlayerPosition + i;
 
-      SoundPlayer sp = new SoundPlayer();
-      KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), event -> {
-        // Remove the player from the current position
-        boardGridDisplay.getGridTiles().get(nextPosition - 1).getChildren().clear();
-        // Add the player to the new position
-        boardGridDisplay.getGridTiles().get(nextPosition).getChildren().add(currentPlayerPiece);
-        try {
-          sp.play(SoundFiles.PIECE_MOVED);
-        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
-          throw new RuntimeException(e);
+    int destinationPosition = currentPlayerPosition + steps;
+
+    var nextTileWrapper = new Object() {
+      int nextTile = currentPlayerPosition + 1;
+    };
+
+    var moveBackwardsWrapper = new Object() {
+      boolean moveBackwards = false;
+    };
+
+    for (int i = 1; i <= steps; i++) {
+
+      KeyFrame keyFrame = new KeyFrame(Duration.millis(400 * i), event -> {
+
+        if (nextTileWrapper.nextTile == boardDisplay.getGridTiles().size() + 1) {
+          // if it is one over the last tile, move them backwards, in other words,
+          // set nexTile to nextTile - 2
+
+          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
+              .remove(currentPlayerPiece);
+
+          nextTileWrapper.nextTile = nextTileWrapper.nextTile - 2;
+
+          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
+              .add(currentPlayerPiece);
+
+          // Move the player object to the new position
+          currentPlayer.move(board.getTiles().get(nextTileWrapper.nextTile));
+
+          // update the next tile wrapper
+          nextTileWrapper.nextTile--;
+
+          moveBackwardsWrapper.moveBackwards = true;
+        } else if (moveBackwardsWrapper.moveBackwards) {
+          // if it is one over the last tile, move them backwards, in other words,
+          // set nexTile to nextTile - 2
+
+          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile + 1).getChildren()
+              .remove(currentPlayerPiece);
+
+          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
+              .add(currentPlayerPiece);
+
+          // Move the player object to the new position
+          currentPlayer.move(board.getTiles().get(nextTileWrapper.nextTile));
+
+          // update the next tile wrapper
+          nextTileWrapper.nextTile--;
+
+        } else {
+
+          // if the player is not moving past the last tile, move them normally
+
+          // Remove the player from the current position
+          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
+              .remove(currentPlayerPiece);
+
+          // Add the player to the new position
+          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
+              .add(currentPlayerPiece);
+
+          // Move the player object to the new position
+          currentPlayer.move(board.getTiles().get(nextTileWrapper.nextTile));
+
+          // update the next tile wrapper
+          nextTileWrapper.nextTile++;
+
         }
+
+        SoundPlayer.playSound(SoundFile.MOVE_PLAYER);
       });
 
       timeline.getKeyFrames().add(keyFrame);
-      sp.stop();
     }
 
-    timeline.play();
+    return timeline;
+  }
+
+  private void setCurrentPlayer(String playerName) {
+    // get the player object from the players hashmap
+    Player currentPlayer = boardGame.getPlayers().get(playerName);
+
+  }
+
+  public Die getDie() {
+    return dieBox.getDie();
   }
 
 }

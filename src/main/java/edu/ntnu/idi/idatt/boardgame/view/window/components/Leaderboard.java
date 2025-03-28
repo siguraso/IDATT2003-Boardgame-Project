@@ -1,6 +1,8 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -14,7 +16,7 @@ import javafx.scene.layout.VBox;
  */
 public class Leaderboard implements WindowComponent {
 
-  private final HashMap<Integer, Player> players;
+  private final HashMap<String, Player> players;
 
   private final GridPane leaderboard = new GridPane();
 
@@ -23,7 +25,7 @@ public class Leaderboard implements WindowComponent {
    *
    * @param players A HashMap containing the players currently in the game.
    */
-  public Leaderboard(HashMap<Integer, Player> players) {
+  public Leaderboard(HashMap<String, Player> players) {
     // since the leaderboard is a 2 column table, the amount of rows is the amount of players
 
     this.players = players;
@@ -67,11 +69,24 @@ public class Leaderboard implements WindowComponent {
         new ColumnConstraints(50)
     );
 
-    this.players.keySet().forEach(player -> {
-      leaderboardGrid.add(new Label(players.get(player).getPosition() + "."), 0,
-          player);
-      leaderboardGrid.add(new Label(players.get(player).getName()), 1, player);
-      leaderboardGrid.add(new Label(player + 1 + ""), 2, player);
+    // Convert the players map to a list
+    ArrayList<Player> playerList = new ArrayList<>(players.values());
+
+    // Sort the list by the current tile number
+    playerList.sort(Comparator.comparingInt(Player::getPosition));
+
+    // Add the players to the leaderboard grid
+    playerList.forEach(player -> {
+      if (playerList.indexOf(player) > 2) {
+        return;
+      }
+
+      leaderboardGrid.add(new Label((playerList.indexOf(player) + 1) + "."), 0,
+          playerList.indexOf(player));
+      leaderboardGrid.add(new Label(player.getName()), 1,
+          playerList.indexOf(player));
+      leaderboardGrid.add(new Label(player.getPosition() + ""), 2,
+          playerList.indexOf(player));
     });
 
     Label header = new Label("Top 3 Players");

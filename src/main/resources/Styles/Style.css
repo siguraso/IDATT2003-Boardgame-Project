@@ -104,6 +104,14 @@
     -fx-text-fill: bg_100;
 }
 
+.button:hover {
+    -fx-background-color: bg_700;
+}
+
+.button:pressed {
+    -fx-background-color: bg_600;
+}
+
 .dialog-box {
     -fx-background-color: bg_200;
     -fx-text-fill: bg_100;

@@ -1,27 +1,31 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
+
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import java.io.IOException;
+import java.util.stream.IntStream;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * A class that contructs the dice component for the game window.
+ * <p>This component contains:</p>
+ * <p> - A button to roll the {@link Die}</p>
+ * <p> - An image of the die that animates whenever the {@link Die} is rolled.</p>
  *
  * @author siguraso
  * @version 1.0
  * @since 1.0
  */
 public class DieComponent implements WindowComponent {
-  private final Die die = new Die(6);
+  private final Die die;
   private GameController gc;
 
   // constant for the path to the die images
@@ -32,7 +36,9 @@ public class DieComponent implements WindowComponent {
   /**
    * Constructor for the DiceComponent class.
    */
-  public DieComponent() {
+  public DieComponent(Die die) {
+    this.die = die;
+
     init();
   }
 
@@ -46,7 +52,8 @@ public class DieComponent implements WindowComponent {
         dieImage.getFitWidth(), dieImage.getFitHeight()
     );
 
-    clip.setStyle("-fx-background-radius: 10; -fx-border-radius: 10;");
+    clip.setArcHeight(20);
+    clip.setArcWidth(20);
 
     dieImage.setClip(clip);
 
@@ -55,23 +62,6 @@ public class DieComponent implements WindowComponent {
     dieBox = new VBox(dieImage, rollDieButton);
     dieBox.setAlignment(javafx.geometry.Pos.CENTER);
     dieBox.setSpacing(20);
-  }
-
-  public void setActionOnPlayer (Player player) {
-    setController(player);
-    rollDieButton.setOnAction(onPress -> {
-      gc.rollDice();
-      /*try {
-        parentWindow.moveCurrentPlayer(die.getCurrentThrow(), 1);
-      } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-        throw new RuntimeException(e);
-      }*/
-    });
-  }
-
-  @Override
-  public Node getComponent() {
-    return dieBox;
   }
 
   /**
@@ -88,27 +78,64 @@ public class DieComponent implements WindowComponent {
   }
 
 
-  private void rollDieAction() {
+  /**
+   * Rolls the die and updates the image of the die corresponding with what number was rolled.
+   * <p>This method is called when the roll die button is pressed.</p>
+   */
+  public void rollDieAction() {
     this.die.throwDie();
 
-    System.out.println("Die rolled: " + this.die.getCurrentThrow());
+    dieImage.setImage(new Image(IMAGE_PATH + die.getCurrentThrow() + ".jpg"));
+  }
 
-    switch (this.die.getCurrentThrow()) {
-      case 1 -> dieImage.setImage(new Image(IMAGE_PATH + "1.jpg"));
+  /**
+   * Creates the animation for the dieImage.
+   * <p>This is a simple animation that changes the image of the die every 100ms for 1 second.</p>
+   *
+   * @return a {@link Timeline} object that contains the animation.
+   */
+  public Timeline dieAnimation() {
+    Timeline timeline = new Timeline();
 
-      case 2 -> dieImage.setImage(new Image(IMAGE_PATH + "2.jpg"));
+    IntStream.range(0, 10).forEach(i -> {
+      KeyFrame keyFrame = new KeyFrame(javafx.util.Duration.millis(100 * i), event -> {
+        int randomDieFace = (int) (Math.random() * 6) + 1;
 
-      case 3 -> dieImage.setImage(new Image(IMAGE_PATH + "3.jpg"));
+        dieImage.setImage(new Image(IMAGE_PATH + randomDieFace + ".jpg"));
+      });
+      timeline.getKeyFrames().add(keyFrame);
+    });
 
-      case 4 -> dieImage.setImage(new Image(IMAGE_PATH + "4.jpg"));
+    return timeline;
+  }
 
-      case 5 -> dieImage.setImage(new Image(IMAGE_PATH + "5.jpg"));
+  @Override
+  public Node getComponent() {
+    return dieBox;
+  }
 
-      case 6 -> dieImage.setImage(new Image(IMAGE_PATH + "6.jpg"));
-    }
+  /**
+   * Retrieves the {@link Die} object.
+   * <p>This allows the BoardGameWindow to see what the die has rolled</p>
+   *
+   * @return the die object.
+   */
+  public Die getDie() {
+    return die;
   }
 
   public void setController(Player player) {
     this.gc = new GameController(die, player);
+  }
+
+  /**
+   * Retrieves the roll die button.
+   * <p>This allows us to set the action event in the BoardGameWindow, meaning we can control the
+   * game loop.</p>
+   *
+   * @return
+   */
+  public Button getRollDieButton() {
+    return rollDieButton;
   }
 }

@@ -56,7 +56,7 @@ public class PlayersReaderCSV {
 
     for (String key : players.keySet()) {
       System.out.println("Name: " + players.get(key).getName() + ", PieceType: " + players.get(key)
-          .getPieceType());
+          .getPlayerPiece());
     }
   }
 }

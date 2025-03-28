@@ -86,7 +86,7 @@ public class Player implements BoardGameObserver {
    *
    * @return The piece that the player uses on the board.
    */
-  public PlayerPiece getPieceType() {
+  public PlayerPiece getPlayerPiece() {
     return piece;
   }
 
