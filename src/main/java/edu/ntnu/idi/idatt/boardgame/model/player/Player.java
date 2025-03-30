@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
+import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 
 /**
@@ -16,6 +17,19 @@ public class Player {
   private boolean isWinner = false;
   private final PlayerPiece piece;
   private int lastPosition;
+
+  /**
+   * Constructor for the Player class.
+   *
+   * @param name        The name of the player.
+   * @param playerPiece The piece that the player uses on the board, as defined in the
+   *                    {@link PlayerPiece} enum.
+   */
+  public Player(String name, PlayerPiece playerPiece, Die die) {
+    this.name = name;
+    this.piece = playerPiece;
+    this.position = 1;
+  }
 
   /**
    * Constructor for the Player class.
@@ -74,7 +88,7 @@ public class Player {
 
     this.lastPosition = this.position;
 
-    this.position = i;
+    this.position += i;
   }
 
   /**
@@ -104,5 +118,6 @@ public class Player {
   public int getLastPosition() {
     return this.lastPosition;
   }
+
 
 }

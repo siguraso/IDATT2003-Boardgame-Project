@@ -219,8 +219,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     Player currentPlayer = gameController.getPlayersController().getCurrentPlayer();
 
-    int currentPlayerPiecePosition = currentPlayer.getLastPosition();
-
+    int currentPlayerPiecePosition = currentPlayer.getPosition();
     ImageView currentPlayerPiece = playerPieces.get(currentPlayer.getName());
 
     // create a timeline to animate the player's movement
@@ -250,9 +249,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
           boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
               .add(currentPlayerPiece);
 
-          // Move the player object to the new position
-          currentPlayer.move(board.getTiles().get(nextTileWrapper.nextTile).getTileNumber());
-
           // update the next tile wrapper
           nextTileWrapper.nextTile--;
 
@@ -267,15 +263,14 @@ public class BoardGameWindow implements Window, BoardGameObserver {
           boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
               .add(currentPlayerPiece);
 
-          // Move the player object to the new position
-          currentPlayer.move(board.getTiles().get(nextTileWrapper.nextTile).getTileNumber());
-
           // update the next tile wrapper
           nextTileWrapper.nextTile--;
 
         } else {
 
           // if the player is not moving past the last tile, move them normally
+
+          System.out.println("next tile: " + nextTileWrapper.nextTile);
 
           // Remove the player from the current position
           boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
@@ -284,9 +279,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
           // Add the player to the new position
           boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
               .add(currentPlayerPiece);
-
-          // Move the player object to the new position
-          currentPlayer.move(board.getTiles().get(nextTileWrapper.nextTile).getTileNumber());
 
           // update the next tile wrapper
           nextTileWrapper.nextTile++;
