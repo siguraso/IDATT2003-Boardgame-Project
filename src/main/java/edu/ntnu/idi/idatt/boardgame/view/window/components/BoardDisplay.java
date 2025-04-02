@@ -3,12 +3,10 @@ package edu.ntnu.idi.idatt.boardgame.view.window.components;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import java.util.HashMap;
 import javafx.scene.Node;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
 public class BoardDisplay implements WindowComponent {
@@ -16,61 +14,41 @@ public class BoardDisplay implements WindowComponent {
   private GridPane boardGrid;
   private final int ROWS = 10;
   private final int COLS = 9;
-  private final HashMap<Integer, HBox> gridTiles = new HashMap<>();
+  private final HashMap<Integer, FlowPane> gridTiles = new HashMap<>();
 
   public BoardDisplay() {
   }
 
-  private Board testCreateBoard() {
-    HashMap<Integer, Tile> tiles = new HashMap<>();
-
-    for (int i = 0; i < 90; i++) {
-      int row = (ROWS - 1) - (i / COLS);
-      int col = ((row % 2) == (ROWS % 2)) ? (COLS - 1 - i % COLS) : i % COLS;
-
-      int[] position = new int[]{col, row};
-      Tile tile = new NormalTile(i + 1, position);
-      tiles.put(tile.getTileNumber(), tile);
-    }
-
-    // Debugging: Print all tile positions
-    /*
-    System.out.println("All tiles: ");
-    tiles.values().forEach(t -> System.out.println(
-        "Tile " + t.getTileNumber() + " -> Row: " + t.getOnscreenPosition()[1] +
-            ", Col: " + t.getOnscreenPosition()[0]));*/
-    return new Board(tiles);
-  }
-
-  private HBox createTileNode(int w, int h) {
-    HBox tileBox = new HBox();
+  private FlowPane createTileNode(int w, int h) {
+    FlowPane tileBox = new FlowPane();
     //Tile width: 82px, height: 75px
     tileBox.setMaxWidth(w);
     tileBox.setMinWidth(w);
     tileBox.setMaxHeight(h);
     tileBox.setMinHeight(h);
-    tileBox.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
+    tileBox.setVgap(5);
+    tileBox.setHgap(10);
 
     tileBox.getStyleClass().add("tile");
     return tileBox;
   }
 
-  public void init(int width, int height) {
+  public void init(int widthPerTile, int heightPerTile) {
     final Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_VANILLA);
     boardGrid = new GridPane();
-    boardGrid.setMaxWidth(width * COLS);
-    boardGrid.setMaxHeight(height * ROWS);
+    boardGrid.setMaxWidth(widthPerTile * COLS);
+    boardGrid.setMaxHeight(heightPerTile * ROWS);
     boardGrid.setAlignment(javafx.geometry.Pos.CENTER);
 
     board.getTiles().values().forEach(t -> {
-      HBox tileBox = createTileNode(width, height);
+      FlowPane tileBox = createTileNode(widthPerTile, heightPerTile);
       final int row = t.getOnscreenPosition()[1];
       final int col = t.getOnscreenPosition()[0];
       /*
       Code for placeholder picture.
       ImageView iv = new ImageView("file:src/main/resources/Images/placeholder.jpg");
       iv.setFitHeight(height);
-      iv.setFitWidth(width);
+      iv.setFitWidth(widthPerTile);
       iv.setOpacity((double) t.getTileNumber() / 90);
 
       tileBox.getChildren().add(iv);
@@ -100,7 +78,7 @@ public class BoardDisplay implements WindowComponent {
     owner.getChildren().add(getComponent());
   }
 
-  public HashMap<Integer, HBox> getGridTiles() {
+  public HashMap<Integer, FlowPane> getGridTiles() {
     return gridTiles;
   }
 

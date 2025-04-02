@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.view;
 
-import edu.ntnu.idi.idatt.boardgame.view.window.BoardGameWindow;
+import edu.ntnu.idi.idatt.boardgame.view.window.MainWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -16,10 +16,10 @@ public class UI extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-    BoardGameWindow window = new BoardGameWindow();
+    MainWindow mainWindow = new MainWindow(primaryStage);
 
-    window.init();
-    window.show();
+    mainWindow.init();
+    mainWindow.show();
   }
 
   public void init() {

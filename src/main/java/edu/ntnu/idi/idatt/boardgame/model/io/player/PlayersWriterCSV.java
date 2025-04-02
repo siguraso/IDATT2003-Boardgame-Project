@@ -31,29 +31,12 @@ public class PlayersWriterCSV implements PlayersFileWriter {
 
       for (String key : players.keySet()) {
         bufferedWriter.write(
-            players.get(key).getName() + "," + players.get(key).getPieceType() + "\n");
+            players.get(key).getName() + "," + players.get(key).getPlayerPiece() + "\n");
       }
 
     } catch (IOException e) {
       e.printStackTrace();
     }
-
-  }
-
-  public static void main(String[] args) {
-    // Test method to write a player to a file
-
-    // Create a new PlayersWriterCSV object
-    PlayersWriterCSV playersWriterCSV = new PlayersWriterCSV();
-
-    // Create a new HashMap with players
-    HashMap<String, Player> players = new HashMap<>();
-    players.put("player1", new Player("player1", PlayerPiece.LOCKED_IN_SNOWMAN));
-    players.put("player2", new Player("player2", PlayerPiece.PAUL));
-    players.put("player3", new Player("player3", PlayerPiece.PROPELLER_ACCESSORIES));
-
-    // Write the players to a file
-    playersWriterCSV.writePlayersFile("/users/sigurdandris/Desktop/", "players", players);
 
   }
 }
