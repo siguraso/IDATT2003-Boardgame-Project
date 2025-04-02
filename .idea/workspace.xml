@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="81072c32-98a6-4e9e-985a-3202c1a06973" name="Changes" comment="Refactored to an Observer design pattern.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/model/board/BoardFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/model/board/BoardFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/components/BoardDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/ntnu/idi/idatt/boardgame/view/window/components/BoardDisplay.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +76,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1743038666692</updated>
-      <workItem from="1743038668359" duration="16263000" />
+      <workItem from="1743038668359" duration="16767000" />
     </task>
     <servers />
   </component>
