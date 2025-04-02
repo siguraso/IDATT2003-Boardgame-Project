@@ -1,10 +1,10 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
-import edu.ntnu.idi.idatt.boardgame.engine.BoardGame;
+import edu.ntnu.idi.idatt.boardgame.controller.GameController;
+import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
@@ -40,27 +40,27 @@ public class MainWindow implements Window {
     Button startButton = new Button("Start game");
 
     startButton.setOnAction(e -> {
+      // initiate the die, which is more or less going to control the game loop
+      Die die = new Die(6);
+
       // initiate board game here
       HashMap<String, Player> players = new HashMap<>();
-      players.put("player1", new Player("player1", PlayerPiece.MARIOTINELLI));
-      players.get("player1").move(85);
-      players.put("player2", new Player("player2", PlayerPiece.PAUL));
-      players.get("player2").move(1);
-      players.put("player3", new Player("player3", PlayerPiece.EVIL_PAUL));
-      players.get("player3").move(1);
-      players.put("player4", new Player("player4", PlayerPiece.KONKEY_DONG));
-      players.get("player4").move(1);
+      players.put("player1", new Player("player1", PlayerPiece.MARIOTINELLI, die));
+      players.put("player2", new Player("player2", PlayerPiece.PAUL, die));
+      players.put("player3", new Player("player3", PlayerPiece.EVIL_PAUL, die));
+      players.put("player4", new Player("player4", PlayerPiece.KONKEY_DONG, die));
       // add the players to the players hashmap
       // build the board
       // put alla that into the gameWindow
 
-      BoardFactory boardFactory = new BoardFactory();
-      Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_SPECIAL);
+      PlayersController playersController = new PlayersController(players);
 
-      BoardGame boardGame = new BoardGame(board, players);
+      Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_VANILLA);
 
-      BoardGameWindow boardGameWindow = new BoardGameWindow(new Die(6), boardGame,
-          boardGame.getBoard());
+      GameController gameController = new GameController(die, playersController, board);
+      gameController.getPlayersController().setCurrentPlayer("player1");
+
+      BoardGameWindow boardGameWindow = new BoardGameWindow(board, gameController);
 
       window.close();
       boardGameWindow.show();
