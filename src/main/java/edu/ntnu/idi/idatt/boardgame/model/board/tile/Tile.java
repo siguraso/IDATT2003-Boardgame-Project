@@ -29,5 +29,4 @@ public interface Tile extends java.io.Serializable {
    * @return The type of the tile as a string.
    */
   String getTileType();
-
 }
