@@ -58,7 +58,7 @@ public class MainWindow implements Window {
       Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_VANILLA);
 
       GameController gameController = new GameController(die, playersController, board);
-      gameController.getPlayersController().setCurrentPlayer("player1");
+      gameController.setCurrentPlayer("player1");
 
       BoardGameWindow boardGameWindow = new BoardGameWindow(board, gameController);
 

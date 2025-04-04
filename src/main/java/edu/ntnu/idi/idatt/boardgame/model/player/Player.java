@@ -44,6 +44,8 @@ public class Player implements BoardGameObserver {
     this.name = name;
     this.piece = playerPiece;
     this.position = 1;
+
+    move(85);
   }
 
   // accessor methods
@@ -88,11 +90,14 @@ public class Player implements BoardGameObserver {
       throw new IllegalArgumentException("Illegal move: cannot move negative spaces.");
     }
 
-    this.lastPosition = this.position;
+    if (position + i > 90) {
+      this.position = 90 - (position + i - 90);
 
-    System.out.println(position + " moves from " + i + " to " + lastPosition);
+    } else {
+      this.position += i;
 
-    this.position += i;
+    }
+
   }
 
   /**

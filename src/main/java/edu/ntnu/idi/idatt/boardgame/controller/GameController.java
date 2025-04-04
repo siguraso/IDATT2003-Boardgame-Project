@@ -76,6 +76,21 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
     return die;
   }
 
+  /**
+   * Sets the player that has their current turn.
+   *
+   * @param playerName The name of the player that is currently taking their turn.
+   */
+  public void setCurrentPlayer(String playerName) {
+    if (playersController.getCurrentPlayer() != null) {
+      die.removeObserver(playersController.getCurrentPlayer());
+    }
+    
+    playersController.setCurrentPlayer(playerName);
+
+    die.addObserver(playersController.getCurrentPlayer());
+  }
+
   @Override
   public void update(int i) {
     notifyObservers(i);
