@@ -1,9 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
-import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
-import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
-import java.util.ArrayList;
 
 /**
  * A player in a board game.
@@ -18,20 +15,7 @@ public class Player implements BoardGameObserver {
   private int position;
   private boolean isWinner = false;
   private final PlayerPiece piece;
-  private int lastPosition;
 
-  /**
-   * Constructor for the Player class.
-   *
-   * @param name        The name of the player.
-   * @param playerPiece The piece that the player uses on the board, as defined in the
-   *                    {@link PlayerPiece} enum.
-   */
-  public Player(String name, PlayerPiece playerPiece, BoardGameObservable game) {
-    this.name = name;
-    this.piece = playerPiece;
-    this.position = 1;
-  }
 
   /**
    * Constructor for the Player class.
@@ -45,7 +29,6 @@ public class Player implements BoardGameObserver {
     this.piece = playerPiece;
     this.position = 1;
 
-    move(85);
   }
 
   // accessor methods
@@ -116,16 +99,6 @@ public class Player implements BoardGameObserver {
    */
   public PlayerPiece getPlayerPiece() {
     return piece;
-  }
-
-
-  /**
-   * Gets the position of the player before the last move.
-   *
-   * @return the position of the player before the last move.
-   */
-  public int getLastPosition() {
-    return this.lastPosition;
   }
 
   @Override

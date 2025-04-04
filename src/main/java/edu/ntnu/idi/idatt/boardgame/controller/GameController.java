@@ -6,7 +6,6 @@ import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * <h1>Class - GameController.</h1>
@@ -24,12 +23,12 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   private final PlayersController playersController;
   private final Board board;
 
-  List<BoardGameObserver> UiObservers = new ArrayList<>();
+  List<BoardGameObserver> uiObservers = new ArrayList<>();
 
   /**
    * Constructor for the GameController
    *
-   * <p>This class controlls the flow of the game</p>
+   * <p>This class controls the flow of the game</p>
    *
    * @param die               The {@link Die} to be used in the game.
    * @param playersController The controller object for the players in the game.
@@ -40,6 +39,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
     this.board = board;
 
     die.addObserver(this);
+    playersController.setCurrentPlayer(0);
   }
 
   /**
@@ -77,16 +77,15 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   }
 
   /**
-   * Sets the player that has their current turn.
-   *
-   * @param playerName The name of the player that is currently taking their turn.
+   * Sets the current player to the next player in the list of players.
    */
-  public void setCurrentPlayer(String playerName) {
+  public void nextPlayer() {
     if (playersController.getCurrentPlayer() != null) {
       die.removeObserver(playersController.getCurrentPlayer());
     }
-    
-    playersController.setCurrentPlayer(playerName);
+
+    playersController.setCurrentPlayer(
+        playersController.getPlayers().indexOf(playersController.getNextPlayer()));
 
     die.addObserver(playersController.getCurrentPlayer());
   }
@@ -97,18 +96,18 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   }
 
   @Override
-  public void addObserver(BoardGameObserver o) {
-    UiObservers.add(o);
+  public void addObserver(BoardGameObserver observer) {
+    uiObservers.add(observer);
   }
 
   @Override
-  public void removeObserver(BoardGameObserver o) {
-    UiObservers.remove(o);
+  public void removeObserver(BoardGameObserver observer) {
+    uiObservers.remove(observer);
   }
 
   @Override
   public void notifyObservers(int i) {
-    UiObservers.forEach(o -> o.update(i));
+    uiObservers.forEach(o -> o.update(i));
   }
 
 }

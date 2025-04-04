@@ -37,15 +37,12 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
   // different components of the window
   private final BorderPane sidebar = new BorderPane();
-  private Board gameBoard;
   private Leaderboard leaderboard;
-  private GameController gc;
   private final DieComponent dieBox;
 
   // player HashMap containing all the player pieves corresponding to the player profiles given.
   // the key is defined as the player's name.
   private final HashMap<String, ImageView> playerPieces = new HashMap<>();
-  private ImageView currentPlayerPiece;
 
   // all board elements
   private final BoardDisplay boardDisplay = new BoardDisplay();
@@ -60,6 +57,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
   // movement animation (changes based on the current player and the die throw)
   private Timeline movementAnimation;
+
+  private ImageView currentPlayerPiece;
 
   /**
    * Constructor for the BoardGameWindow class.
@@ -94,17 +93,16 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     root.setRight(sidebar);
 
-    gameController.getPlayersController().getPlayers().keySet().forEach(player -> {
+    gameController.getPlayersController().getPlayers().forEach(player -> {
 
       ImageView playerPiece = new ImageView(
-          gameController.getPlayersController().getPlayers().get(player).getPlayerPiece()
-              .getImagePath());
+          player.getPlayerPiece().getImagePath());
 
       playerPiece.setFitHeight(30);
       playerPiece.setFitWidth(30);
 
       // add the player piece to the player piece hashmap, set the key as the player name
-      playerPieces.put(player, playerPiece);
+      playerPieces.put(player.getName(), playerPiece);
 
       boardDisplay.getGridTiles().get(1).getChildren().add(playerPiece);
 
@@ -144,7 +142,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   public void updateLeaderboard(HashMap<Integer, Player> players) {
     sidebar.setBottom(null);
 
-    leaderboard.updateLeaderboard(players);
+    leaderboard.updateLeaderboard();
     sidebar.setBottom(leaderboard.getComponent());
   }
 
@@ -200,6 +198,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
         gameController.rollDice();
 
         movementAnimation.play();
+
       });
 
       // play the animation
@@ -295,12 +294,13 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     return timeline;
   }
 
-  private void setCurrentPlayer(String playerName) {
+  private void nextPlayer() {
     // get the player object from the players hashmap
-    gameController.getPlayersController().setCurrentPlayer(playerName);
+    gameController.nextPlayer();
 
     // set the player piece to the current player
-    currentPlayerPiece = playerPieces.get(playerName);
+    currentPlayerPiece = playerPieces.get(
+        gameController.getPlayersController().getCurrentPlayer().getName());
 
   }
 
@@ -310,6 +310,10 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     this.movementAnimation.setOnFinished(onMovementFinished -> {
       dieBox.getRollDieButton().setDisable(false);
+
+      // when the movement animation is finished, we need to update the current player
+      // and set the die button to be enabled again
+      nextPlayer();
     });
   }
 
