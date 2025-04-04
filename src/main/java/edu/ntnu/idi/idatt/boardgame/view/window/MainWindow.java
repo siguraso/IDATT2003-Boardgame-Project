@@ -8,7 +8,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
-import java.util.HashMap;
+import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -44,11 +44,11 @@ public class MainWindow implements Window {
       Die die = new Die(6);
 
       // initiate board game here
-      HashMap<String, Player> players = new HashMap<>();
-      players.put("player1", new Player("player1", PlayerPiece.MARIOTINELLI, die));
-      players.put("player2", new Player("player2", PlayerPiece.PAUL, die));
-      players.put("player3", new Player("player3", PlayerPiece.EVIL_PAUL, die));
-      players.put("player4", new Player("player4", PlayerPiece.KONKEY_DONG, die));
+      ArrayList<Player> players = new ArrayList<>();
+      players.add(new Player("player1", PlayerPiece.MARIOTINELLI));
+      players.add(new Player("player2", PlayerPiece.PAUL));
+      players.add(new Player("player3", PlayerPiece.EVIL_PAUL));
+      players.add(new Player("player4", PlayerPiece.KONKEY_DONG));
       // add the players to the players hashmap
       // build the board
       // put alla that into the gameWindow
@@ -58,7 +58,6 @@ public class MainWindow implements Window {
       Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_VANILLA);
 
       GameController gameController = new GameController(die, playersController, board);
-      gameController.getPlayersController().setCurrentPlayer("player1");
 
       BoardGameWindow boardGameWindow = new BoardGameWindow(board, gameController);
 

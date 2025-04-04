@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
-import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 
 /**
@@ -10,26 +9,13 @@ import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
  * @version 1.0
  * @since 1.0
  */
-public class Player {
+public class Player implements BoardGameObserver {
 
   private final String name;
   private int position;
   private boolean isWinner = false;
   private final PlayerPiece piece;
-  private int lastPosition;
 
-  /**
-   * Constructor for the Player class.
-   *
-   * @param name        The name of the player.
-   * @param playerPiece The piece that the player uses on the board, as defined in the
-   *                    {@link PlayerPiece} enum.
-   */
-  public Player(String name, PlayerPiece playerPiece, Die die) {
-    this.name = name;
-    this.piece = playerPiece;
-    this.position = 1;
-  }
 
   /**
    * Constructor for the Player class.
@@ -42,6 +28,7 @@ public class Player {
     this.name = name;
     this.piece = playerPiece;
     this.position = 1;
+
   }
 
   // accessor methods
@@ -86,9 +73,14 @@ public class Player {
       throw new IllegalArgumentException("Illegal move: cannot move negative spaces.");
     }
 
-    this.lastPosition = this.position;
+    if (position + i > 90) {
+      this.position = 90 - (position + i - 90);
 
-    this.position += i;
+    } else {
+      this.position += i;
+
+    }
+
   }
 
   /**
@@ -109,15 +101,9 @@ public class Player {
     return piece;
   }
 
-
-  /**
-   * Gets the position of the player before the last move.
-   *
-   * @return the position of the player before the last move.
-   */
-  public int getLastPosition() {
-    return this.lastPosition;
+  @Override
+  public void update(int i) {
+    move(i);
   }
-
 
 }
