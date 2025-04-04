@@ -3,6 +3,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window.components;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
@@ -33,14 +34,25 @@ public class Leaderboard implements WindowComponent {
   /**
    * Updates the leaderboard with the current players in the game.
    */
-  public void updateLeaderboard() {
+  public void update() {
     leaderboard.getChildren().clear();
 
-    players.forEach(player -> {
-      leaderboard.add(new Label(player.getName()), 0, players.indexOf(player));
-      leaderboard.add(new Label(player.getPosition() + ""), 1,
-          players.indexOf(player));
-      leaderboard.add(new Label(players.indexOf(player) + 1 + ""), 2, players.indexOf(player));
+    players.sort(Comparator.comparingInt(Player::getPosition));
+
+    List<Player> sortedPlayers = players.reversed();
+
+    // Add the players to the leaderboard grid
+    sortedPlayers.forEach(player -> {
+      if (sortedPlayers.indexOf(player) > 2) {
+        return;
+      }
+
+      this.leaderboard.add(new Label((sortedPlayers.indexOf(player) + 1) + "."), 0,
+          sortedPlayers.indexOf(player));
+      this.leaderboard.add(new Label(player.getName()), 1,
+          sortedPlayers.indexOf(player));
+      this.leaderboard.add(new Label(player.getPosition() + ""), 2,
+          sortedPlayers.indexOf(player));
     });
   }
 
@@ -55,40 +67,22 @@ public class Leaderboard implements WindowComponent {
     leaderboard.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
     leaderboard.setSpacing(10);
 
-    GridPane leaderboardGrid = new GridPane();
-    leaderboardGrid.setHgap(30);
-    leaderboardGrid.setVgap(12);
-    leaderboardGrid.setAlignment(javafx.geometry.Pos.CENTER);
+    this.leaderboard.setHgap(30);
+    this.leaderboard.setVgap(12);
+    this.leaderboard.setAlignment(javafx.geometry.Pos.CENTER);
 
-    leaderboardGrid.getColumnConstraints().addAll(
+    this.leaderboard.getColumnConstraints().addAll(
         new ColumnConstraints(50),
         new ColumnConstraints(200),
         new ColumnConstraints(50)
     );
 
-    ArrayList<Player> playersCopy = new ArrayList<>(players);
-
-    // Sort the list by the current tile number
-    playersCopy.sort(Comparator.comparingInt(Player::getPosition));
-
-    // Add the players to the leaderboard grid
-    playersCopy.forEach(player -> {
-      if (playersCopy.indexOf(player) > 2) {
-        return;
-      }
-
-      leaderboardGrid.add(new Label((playersCopy.indexOf(player) + 1) + "."), 0,
-          playersCopy.indexOf(player));
-      leaderboardGrid.add(new Label(player.getName()), 1,
-          playersCopy.indexOf(player));
-      leaderboardGrid.add(new Label(player.getPosition() + ""), 2,
-          playersCopy.indexOf(player));
-    });
+    update();
 
     Label header = new Label("Top 3 Players");
     header.getStyleClass().add("header");
 
-    leaderboard.getChildren().addAll(header, leaderboardGrid);
+    leaderboard.getChildren().addAll(header, this.leaderboard);
 
     leaderboard.getStyleClass().add("leaderboard");
 

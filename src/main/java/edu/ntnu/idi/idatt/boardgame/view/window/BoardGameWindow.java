@@ -58,8 +58,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   // movement animation (changes based on the current player and the die throw)
   private Timeline movementAnimation;
 
-  private ImageView currentPlayerPiece;
-
   /**
    * Constructor for the BoardGameWindow class.
    *
@@ -134,18 +132,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     sidebar.setTop(newDialog);
   }
 
-  /**
-   * Method to update the leaderboard with the current players in the game.
-   *
-   * @param players The players in the game.
-   */
-  public void updateLeaderboard(HashMap<Integer, Player> players) {
-    sidebar.setBottom(null);
-
-    leaderboard.updateLeaderboard();
-    sidebar.setBottom(leaderboard.getComponent());
-  }
-
   // individual methods for setting up different parts of the window.
 
   private StackPane getBoardRegion() {
@@ -190,8 +176,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
       dieBox.getRollDieButton().setDisable(true);
 
       Timeline dieAnimation = dieBox.dieAnimation();
-
-      // TODO: remove player1 as dummy player, and replace with current player
 
       // device what happens when the die animation is fininshed
       dieAnimation.setOnFinished(onDieAnimationFinished -> {
@@ -295,6 +279,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   }
 
   private void nextPlayer() {
+    leaderboard.update();
+
     int[] initialPlayerPositions = new int[4];
 
     gameController.getPlayersController().getPlayers().forEach(player -> {
@@ -319,10 +305,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
       boardDisplay.getGridTiles().get(player.getPosition()).getChildren()
           .add(playerPiece);
     });
-
-    // set the player piece to the current player
-    currentPlayerPiece = playerPieces.get(
-        gameController.getPlayersController().getCurrentPlayer().getName());
 
   }
 
