@@ -29,7 +29,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   List<BoardGameObserver> uiObservers = new ArrayList<>();
 
   /**
-   * Constructor for the GameController
+   * Constructor for the GameController.
    *
    * <p>This class controls the flow of the game</p>
    *
@@ -42,7 +42,9 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
     this.board = board;
 
     die.addObserver(this);
+    
     playersController.setCurrentPlayer(0);
+    die.addObserver(playersController.getCurrentPlayer());
   }
 
   /**
