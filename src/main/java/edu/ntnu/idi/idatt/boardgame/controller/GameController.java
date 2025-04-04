@@ -1,6 +1,9 @@
 package edu.ntnu.idi.idatt.boardgame.controller;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.SpecialTile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
@@ -79,7 +82,18 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   /**
    * Sets the current player to the next player in the list of players.
    */
-  public void nextPlayer() {
+  public void finishTurn() {
+    // check the tile the current player is on
+    Tile currentTile = board.getTiles().get(playersController.getCurrentPlayer().getPosition());
+
+    System.out.println(
+        "tile: " + currentTile.getTileNumber() + " type: " + currentTile.getTileType());
+
+    // check what typa tile it is, do the action if it is a special tile
+    if (!currentTile.getTileType().equals(TileType.NORMAL.getTileType())) {
+      ((SpecialTile) currentTile).performAction(playersController.getCurrentPlayer());
+    }
+
     if (playersController.getCurrentPlayer() != null) {
       die.removeObserver(playersController.getCurrentPlayer());
     }

@@ -19,8 +19,8 @@ class TestPlayer {
   @BeforeEach
   void setUp() {
     player = new Player("Player 1");
-    tile = new NormalTile(1, new int[] {0, 0});
-    player.move(tile);
+    tile = new NormalTile(1, new int[]{0, 0});
+    player.moveForward(tile);
   }
 
   @Test
@@ -39,8 +39,8 @@ class TestPlayer {
   void testIsWinner() {
     try {
       assertFalse(player.isWinner());
-      WinnerTile winnerTile = new WinnerTile(2, new int[] {0, 0});
-      player.move(winnerTile);
+      WinnerTile winnerTile = new WinnerTile(2, new int[]{0, 0});
+      player.moveForward(winnerTile);
       winnerTile.performAction(player);
       assertTrue(player.isWinner());
     } catch (Exception e) {
@@ -49,12 +49,12 @@ class TestPlayer {
   }
 
   @Test
-  @DisplayName("Test if the player can move to a new tile")
+  @DisplayName("Test if the player can moveForward to a new tile")
   void testMove() {
     try {
       assertEquals(player.getCurrentTile().getTileNumber(), 1);
-      NormalTile newTile = new NormalTile(2, new int[] {0, 0});
-      player.move(newTile);
+      NormalTile newTile = new NormalTile(2, new int[]{0, 0});
+      player.moveForward(newTile);
       assertEquals(player.getCurrentTile().getTileNumber(), 2);
     } catch (Exception e) {
       fail("The test failed as the class threw an exception.");

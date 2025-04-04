@@ -237,7 +237,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
       KeyFrame keyFrame = new KeyFrame(Duration.millis(400 * i), event -> {
 
         if (nextTileWrapper.nextTile == boardDisplay.getGridTiles().size() + 1) {
-          // if it is about to move one over the last tile, move them backwards, in other words,
+          // if it is about to moveForward one over the last tile, moveForward them backwards, in other words,
           // set nexTile to nextTile - 2
 
           boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
@@ -253,7 +253,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
           moveBackwardsWrapper.moveBackwards = true;
         } else if (moveBackwardsWrapper.moveBackwards) {
-          // if it is one over the last tile, move them backwards, in other words,
+          // if it is one over the last tile, moveForward them backwards, in other words,
           // set nexTile to nextTile - 2
 
           boardDisplay.getGridTiles().get(nextTileWrapper.nextTile + 1).getChildren()
@@ -267,7 +267,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
         } else {
 
-          // if the player is not moving past the last tile, move them normally
+          // if the player is not moving past the last tile, moveForward them normally
 
           // Remove the player from the current position
           boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
@@ -282,7 +282,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
         }
 
-        // open and play the move player sound
+        // open and play the moveForward player sound
         sfxPlayer.openSoundFile(SoundFile.PIECE_MOVED);
         sfxPlayer.playSound();
 
@@ -295,8 +295,30 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   }
 
   private void nextPlayer() {
+    int[] initialPlayerPositions = new int[4];
+
+    gameController.getPlayersController().getPlayers().forEach(player -> {
+      initialPlayerPositions[gameController.getPlayersController().getPlayers()
+          .indexOf(player)] = player.getPosition();
+    });
+
     // get the player object from the players hashmap
-    gameController.nextPlayer();
+    gameController.finishTurn();
+
+    gameController.getPlayersController().getPlayers().forEach(player -> {
+      String name = player.getName();
+      ImageView playerPiece = playerPieces.get(name);
+
+      // remove the player piece from the current tile
+      boardDisplay.getGridTiles()
+          .get(initialPlayerPositions[gameController.getPlayersController().getPlayers()
+              .indexOf(player)]).getChildren().remove(playerPiece);
+
+      // add the player piece to the new tile
+
+      boardDisplay.getGridTiles().get(player.getPosition()).getChildren()
+          .add(playerPiece);
+    });
 
     // set the player piece to the current player
     currentPlayerPiece = playerPieces.get(

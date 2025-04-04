@@ -1,7 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
 
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.SpecialTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
@@ -36,7 +35,7 @@ public class MoveToRandomTileAction implements TileAction {
       throw new IllegalArgumentException(
           "Player cannot be moved to a special tile using this action.");
     }
-    player.move(newPosition);
+    player.moveTo(newPosition);
   }
 
 

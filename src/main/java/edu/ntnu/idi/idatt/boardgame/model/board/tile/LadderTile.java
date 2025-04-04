@@ -5,8 +5,8 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.LadderAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
 /**
- * A special tile on the board, where if a player lands on it, the player will move up or down a
- * ladder.
+ * A special tile on the board, where if a player lands on it, the player will moveForward up or
+ * down a ladder.
  *
  * @author siguraso
  * @version 1.0
@@ -25,7 +25,7 @@ public class LadderTile extends SpecialTile {
    * @param onscreenPosition The position of the tile on the screen.
    */
   public LadderTile(int tileNumber, int[] onscreenPosition, int destinationTileNumber,
-                    Board board) {
+      Board board) {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
     this.destinationTileNumber = destinationTileNumber;

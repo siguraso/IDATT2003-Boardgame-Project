@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A special tile on the board, where the player can move to, and a TileAction happens.
+ * A special tile on the board, where the player can moveForward to, and a TileAction happens.
  *
  * @author siguraso
  * @version 1.0

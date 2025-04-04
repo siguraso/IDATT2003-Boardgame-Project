@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
 /**
- * A normal tile on the board, where the player can move to, but nothing special happens.
+ * A normal tile on the board, where the player can moveForward to, but nothing special happens.
  *
  * @author siguraso
  * @version 1.0

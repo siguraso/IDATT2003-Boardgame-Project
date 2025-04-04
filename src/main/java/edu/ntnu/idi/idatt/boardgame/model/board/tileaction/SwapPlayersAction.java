@@ -38,8 +38,8 @@ public class SwapPlayersAction implements TileAction {
     int landingPlayerPosition = player.getPosition();
     int swappingPlayerPosition = playerToSwapWith.getPosition();
 
-    player.move(swappingPlayerPosition);
-    playerToSwapWith.move(landingPlayerPosition);
+    player.moveTo(swappingPlayerPosition);
+    playerToSwapWith.moveTo(landingPlayerPosition);
   }
 
 }
