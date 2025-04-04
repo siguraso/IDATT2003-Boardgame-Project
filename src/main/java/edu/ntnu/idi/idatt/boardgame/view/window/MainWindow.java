@@ -45,10 +45,10 @@ public class MainWindow implements Window {
 
       // initiate board game here
       HashMap<String, Player> players = new HashMap<>();
-      players.put("player1", new Player("player1", PlayerPiece.MARIOTINELLI, die));
-      players.put("player2", new Player("player2", PlayerPiece.PAUL, die));
-      players.put("player3", new Player("player3", PlayerPiece.EVIL_PAUL, die));
-      players.put("player4", new Player("player4", PlayerPiece.KONKEY_DONG, die));
+      players.put("player1", new Player("player1", PlayerPiece.MARIOTINELLI));
+      players.put("player2", new Player("player2", PlayerPiece.PAUL));
+      players.put("player3", new Player("player3", PlayerPiece.EVIL_PAUL));
+      players.put("player4", new Player("player4", PlayerPiece.KONKEY_DONG));
       // add the players to the players hashmap
       // build the board
       // put alla that into the gameWindow

@@ -110,11 +110,11 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     });
 
-    Scene scene = new Scene(root, 1500, 840);
+    Scene scene = new Scene(root, 1200, 815);
     scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
 
-    window.setMinWidth(1500);
-    window.setMinHeight(840);
+    window.setMinWidth(1200);
+    window.setMinHeight(820);
     window.setResizable(true);
     window.setScene(scene);
   }
@@ -153,7 +153,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   private StackPane getBoardRegion() {
     StackPane boardDisplay = new StackPane();
     // padding top: 28px, side: 29px
-    boardDisplay.setMinWidth(1000);
+    boardDisplay.setMinWidth(800);
     boardDisplay.setMinHeight(800);
     boardDisplay.getStyleClass().add("root");
     int tileWidth = (800 - (2 * 29)) / 9;
@@ -269,8 +269,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
         } else {
 
           // if the player is not moving past the last tile, move them normally
-
-          System.out.println("next tile: " + nextTileWrapper.nextTile);
 
           // Remove the player from the current position
           boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()

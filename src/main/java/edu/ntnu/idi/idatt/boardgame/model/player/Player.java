@@ -1,7 +1,9 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
+import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
+import java.util.ArrayList;
 
 /**
  * A player in a board game.
@@ -10,7 +12,7 @@ import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
  * @version 1.0
  * @since 1.0
  */
-public class Player {
+public class Player implements BoardGameObserver {
 
   private final String name;
   private int position;
@@ -25,7 +27,7 @@ public class Player {
    * @param playerPiece The piece that the player uses on the board, as defined in the
    *                    {@link PlayerPiece} enum.
    */
-  public Player(String name, PlayerPiece playerPiece, Die die) {
+  public Player(String name, PlayerPiece playerPiece, BoardGameObservable game) {
     this.name = name;
     this.piece = playerPiece;
     this.position = 1;
@@ -88,6 +90,8 @@ public class Player {
 
     this.lastPosition = this.position;
 
+    System.out.println(position + " moves from " + i + " to " + lastPosition);
+
     this.position += i;
   }
 
@@ -119,5 +123,9 @@ public class Player {
     return this.lastPosition;
   }
 
+  @Override
+  public void update(int i) {
+    move(i);
+  }
 
 }

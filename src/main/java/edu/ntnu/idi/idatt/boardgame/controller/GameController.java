@@ -38,6 +38,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
     this.die = die;
     this.playersController = playersController;
     this.board = board;
+
     die.addObserver(this);
   }
 
