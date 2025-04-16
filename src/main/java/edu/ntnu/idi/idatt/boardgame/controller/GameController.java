@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * <h1>Class - GameController.</h1>
  *
- * <p>A controller-class to controll the flow of the game</p>
+ * <p>A controller-class to control the flow of the game</p>
  *
  * @author Magnus Næssan Gaarder & siguraso
  * @version 1.0
@@ -42,13 +42,16 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
     this.board = board;
 
     die.addObserver(this);
-    
+
     playersController.setCurrentPlayer(0);
+    playersController.setPreviousPlayer(0);
+
+    // add the current player to the die observer list
     die.addObserver(playersController.getCurrentPlayer());
   }
 
   /**
-   * Method to roll the die
+   * Method to roll the die.
    */
   public void rollDice() {
     die.throwDie();
@@ -82,14 +85,11 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   }
 
   /**
-   * Sets the current player to the next player in the list of players.
+   * Finishes the current players turn, and sets the next player to take their turn.
    */
   public void finishTurn() {
     // check the tile the current player is on
     Tile currentTile = board.getTiles().get(playersController.getCurrentPlayer().getPosition());
-
-    System.out.println(
-        "tile: " + currentTile.getTileNumber() + " type: " + currentTile.getTileType());
 
     // check what typa tile it is, do the action if it is a special tile
     if (!currentTile.getTileType().equals(TileType.NORMAL.getTileType())) {
@@ -100,8 +100,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
       die.removeObserver(playersController.getCurrentPlayer());
     }
 
-    playersController.setCurrentPlayer(
-        playersController.getPlayers().indexOf(playersController.getNextPlayer()));
+    playersController.nextPlayer();
 
     die.addObserver(playersController.getCurrentPlayer());
   }

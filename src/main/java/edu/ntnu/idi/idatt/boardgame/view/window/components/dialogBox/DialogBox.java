@@ -1,5 +1,6 @@
-package edu.ntnu.idi.idatt.boardgame.view.window.components;
+package edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox;
 
+import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -65,6 +66,16 @@ public abstract class DialogBox implements WindowComponent {
     dialogBox.getStyleClass().add("dialog-box");
 
     return dialogBox;
+  }
+
+  /**
+   * Refreshes the dialog box with a new message.
+   *
+   * @param message the message to be displayed in the dialog box.
+   */
+  public void refresh(String message) {
+    // This method is intentionally left blank. Subclasses should override this method to refresh
+    // the dialog box with a new message.
   }
 
 }

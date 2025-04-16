@@ -28,7 +28,7 @@ public class Leaderboard implements WindowComponent {
   public Leaderboard(ArrayList<Player> players) {
     // since the leaderboard is a 3 column table, the amount of rows are the top 3 players
 
-    this.players = players;
+    this.players = new ArrayList<>(players);
   }
 
   /**

@@ -14,7 +14,7 @@ public class PlayersController {
 
   private final ArrayList<Player> players;
   private Player currentPlayer;
-  private Player nextPlayer;
+  private Player previousPlayer;
 
   /**
    * Constructor for the PlayersController.
@@ -44,24 +44,45 @@ public class PlayersController {
       throw new IllegalArgumentException("Index cannot be less than 0");
     }
 
-    currentPlayer = players.get(index);
+    this.currentPlayer = players.get(index);
 
-    if (index + 1 >= players.size()) {
-      nextPlayer = players.getFirst();
+  }
+
+  /**
+   * Sets the {@link Player} to the next player in the {@link ArrayList} of players.
+   *
+   * <p>This method is used to set the next player in line to take their turn.</p>
+   */
+  public void nextPlayer() {
+    int index = players.indexOf(currentPlayer);
+
+    setPreviousPlayer(index);
+
+    if (index + 1 == players.size()) {
+      setCurrentPlayer(0);
     } else {
-      nextPlayer = players.get(index + 1);
+      setCurrentPlayer(index + 1);
     }
 
   }
 
   /**
-   * Returns the {@link Player} that is next in line to take their turn.
+   * Returns the {@link Player} that was previously taking their turn.
    *
-   * @return A {@link Player} object representing the player that is next in line to take their
-   * turn.
+   * @return The {@link Player} that was previously taking their turn.
    */
-  public Player getNextPlayer() {
-    return nextPlayer;
+  public Player getPreviousPlayer() {
+    return previousPlayer;
+  }
+
+  /**
+   * Sets the {@link Player} that was previously taking their turn-
+   *
+   * @return The index of the {@link Player} that was previously taking their turn.
+   */
+  public void setPreviousPlayer(int index) {
+    this.previousPlayer = players.get(index);
+
   }
 
   /**
