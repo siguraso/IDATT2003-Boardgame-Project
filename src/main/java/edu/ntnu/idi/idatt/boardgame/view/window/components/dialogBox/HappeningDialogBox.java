@@ -33,10 +33,7 @@ public class HappeningDialogBox extends DialogBox {
 
   @Override
   public void refresh(String message) {
-    dialogBox.getChildren().clear();
-    dialogBox.getChildren().add(getTemplate(message));
-
-    dialogBox.getChildren().add(confirmationButton);
+    setMessage(message);
   }
 
   /**

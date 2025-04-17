@@ -120,6 +120,17 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     window.close();
   }
 
+  @Override
+  public void update(int i) {
+    this.movementAnimation = moveCurrentPlayerAnimation(i);
+
+    this.movementAnimation.setOnFinished(onMovementFinished -> {
+      // when the movement animation is finished, we need to update the current player
+      // and set the die button to be enabled again
+      finishTurn();
+    });
+  }
+
   // individual methods for setting up different parts of the window.
 
   private StackPane getBoardRegion() {
@@ -275,8 +286,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     return timeline;
   }
 
-  private void nextPlayer() {
-    leaderboard.update();
+  private void finishTurn() {
 
     int[] initialPlayerPositions = new int[4];
 
@@ -288,19 +298,44 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     // get the player object from the players hashmap
     gameController.finishTurn();
 
-    System.out.println(gameController.getBoard().getTiles()
-        .get(gameController.getPlayersController().getPreviousPlayer().getPosition())
-        .getTileType() + " " + gameController.getPlayersController().getPreviousPlayer()
-        .getPosition());
+    String currentTileType = gameController.getBoard().getTiles()
+        .get(initialPlayerPositions[gameController.getPlayersController().getPlayers()
+            .indexOf(gameController.getPlayersController().getPreviousPlayer())]).getTileType();
 
     // if the player is on a special tile, tell the players, and perform on button click
-    if (!gameController.getBoard().getTiles()
-        .get(initialPlayerPositions[gameController.getPlayersController().getPlayers()
-            .indexOf(gameController.getPlayersController().getPreviousPlayer())]).getTileType()
-        .equals(TileType.NORMAL.getTileType())) {
+    if (!currentTileType.equals(TileType.NORMAL.getTileType())) {
 
-      dialogBox.refresh(
-          "u landed on a ladder mate");
+      System.out.println(currentTileType);
+
+      switch (currentTileType) {
+        case "LadderTile" -> {
+          int ladderDelta = gameController.getPlayersController().getPreviousPlayer().getPosition()
+              - initialPlayerPositions[gameController.getPlayersController().getPlayers()
+              .indexOf(gameController.getPlayersController().getPreviousPlayer())];
+
+          System.out.println(ladderDelta);
+
+          if (ladderDelta > 0) {
+            dialogBox.refresh(
+                gameController.getPlayersController().getPreviousPlayer().getName()
+                    + " climbed a ladder! "
+                    + "They moved to space " + gameController.getPlayersController()
+                    .getPreviousPlayer().getPosition());
+          } else {
+            dialogBox.refresh(
+                gameController.getPlayersController().getPreviousPlayer().getName()
+                    + " fell down a ladder! "
+                    + "They moved to space " + gameController.getPlayersController()
+                    .getPreviousPlayer().getPosition());
+          }
+        }
+
+        case "WinnerTile" -> {
+
+        }
+
+        // TODO: implement the rest of the special tiles
+      }
 
       ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
 
@@ -346,17 +381,14 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     }
 
+    leaderboard.update();
+
   }
 
-  @Override
-  public void update(int i) {
-    this.movementAnimation = moveCurrentPlayerAnimation(i);
+  private void showWinnerScreen() {
+    StackPane winnerScreen = new StackPane();
 
-    this.movementAnimation.setOnFinished(onMovementFinished -> {
-      // when the movement animation is finished, we need to update the current player
-      // and set the die button to be enabled again
-      nextPlayer();
-    });
+    winnerScreen.getStyleClass().add("winner-screen");
   }
 
 }
