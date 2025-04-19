@@ -36,6 +36,7 @@ public class Die implements BoardGameObservable {
    */
   public void throwDie() {
     int currentThrow = (int) (Math.random() * sides) + 1;
+
     notifyObservers(currentThrow);
   }
 

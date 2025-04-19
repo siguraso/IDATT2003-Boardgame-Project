@@ -16,7 +16,8 @@ public class LadderAction implements TileAction {
   /**
    * Constructor for the LadderAction class.
    *
-   * @param destination the position the player will move to if they land on the ladder space.
+   * @param destination the position the player will moveForward to if they land on the ladder
+   *                    space.
    */
   public LadderAction(int destination) {
     this.destination = destination;
@@ -24,6 +25,6 @@ public class LadderAction implements TileAction {
 
   @Override
   public void performAction(Player player) {
-    player.move(destination);
+    player.moveTo(destination);
   }
 }

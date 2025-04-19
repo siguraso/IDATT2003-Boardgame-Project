@@ -11,8 +11,8 @@ import java.util.HashMap;
  * @since 1.0
  */
 public class Board {
-
-  HashMap<Integer, Tile> tiles;
+  private HashMap<Integer, Tile> tiles;
+  private BoardType boardType;
 
   /**
    * Constructor for the Board class.
@@ -41,5 +41,23 @@ public class Board {
    */
   public void setTiles(HashMap<Integer, Tile> tiles) {
     this.tiles = tiles;
+  }
+
+  /**
+   * Used to get the boardType of the board.
+   *
+   * @return The boardType of the board.
+   */
+  public BoardType getBoardType() {
+    return boardType;
+  }
+
+  /**
+   * Mutator method for the boardType.
+   *
+   * @param boardType The boardType of the board.
+   */
+  public void setBoardType(BoardType boardType) {
+    this.boardType = boardType;
   }
 }
