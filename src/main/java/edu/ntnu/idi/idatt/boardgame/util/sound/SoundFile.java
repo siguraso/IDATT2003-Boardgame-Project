@@ -17,25 +17,37 @@ public enum SoundFile {
   BUTTON_CLICK() {
     @Override
     public String getSoundPath() {
-      return filepath + "button_click.m4a";
+      return filepath + "button_click.wav";
     }
   },
   GAME_WON() {
     @Override
     public String getSoundPath() {
-      return filepath + "game_won.m4a";
+      return filepath + "game_won.wav";
     }
   },
   PIECE_PLACED() {
     @Override
     public String getSoundPath() {
-      return filepath + "place_piece.m4a";
+      return filepath + "place_piece.wav";
     }
   },
   PIECE_MOVED() {
     @Override
     public String getSoundPath() {
       return filepath + "move_player.wav";
+    }
+  },
+  PLAYER_FALL() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "player_fall.wav";
+    }
+  },
+  PLAYER_CLIMB() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "player_climb.wav";
     }
   };
   private static final String filepath = "/Sounds/";

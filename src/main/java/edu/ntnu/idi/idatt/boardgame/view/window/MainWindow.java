@@ -53,6 +53,11 @@ public class MainWindow implements Window {
       // build the board
       // put alla that into the gameWindow
 
+      // TODO remove dis:
+      players.forEach(player -> {
+        player.moveTo(85);
+      });
+
       PlayersController playersController = new PlayersController(players);
 
       Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_VANILLA);

@@ -5,16 +5,17 @@ import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SfxPlayer;
+import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.DialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
-import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import java.util.HashMap;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -313,25 +314,27 @@ public class BoardGameWindow implements Window, BoardGameObserver {
               - initialPlayerPositions[gameController.getPlayersController().getPlayers()
               .indexOf(gameController.getPlayersController().getPreviousPlayer())];
 
-          System.out.println(ladderDelta);
-
           if (ladderDelta > 0) {
             dialogBox.refresh(
                 gameController.getPlayersController().getPreviousPlayer().getName()
                     + " climbed a ladder! "
                     + "They moved to space " + gameController.getPlayersController()
                     .getPreviousPlayer().getPosition());
+
+            sfxPlayer.openSoundFile(SoundFile.PLAYER_CLIMB);
           } else {
             dialogBox.refresh(
                 gameController.getPlayersController().getPreviousPlayer().getName()
                     + " fell down a ladder! "
                     + "They moved to space " + gameController.getPlayersController()
                     .getPreviousPlayer().getPosition());
+
+            sfxPlayer.openSoundFile(SoundFile.PLAYER_FALL);
           }
         }
 
         case "WinnerTile" -> {
-
+          showWinnerScreen();
         }
 
         // TODO: implement the rest of the special tiles
@@ -365,6 +368,12 @@ public class BoardGameWindow implements Window, BoardGameObserver {
           dieBox.getRollDieButton().setDisable(false);
         });
 
+        try {
+          sfxPlayer.playSound();
+        } catch (NullPointerException e) {
+          // if the sound file is not found, do nothing
+        }
+
 
       });
 
@@ -389,6 +398,11 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     StackPane winnerScreen = new StackPane();
 
     winnerScreen.getStyleClass().add("winner-screen");
+    winnerScreen.getChildren().add(new Label(
+        gameController.getPlayersController().getPreviousPlayer().getName() + " wins the game!"));
+
+    sfxPlayer.openSoundFile(SoundFile.GAME_WON);
+    sfxPlayer.playSound();
   }
 
 }
