@@ -34,7 +34,7 @@ public class BoardDisplay implements WindowComponent {
   }
 
   public void init(int widthPerTile, int heightPerTile) {
-    final Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_VANILLA);
+    final Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_REGULAR);
     boardGrid = new GridPane();
     boardGrid.setMaxWidth(widthPerTile * COLS);
     boardGrid.setMaxHeight(heightPerTile * ROWS);

@@ -35,7 +35,7 @@ public class BoardFactory {
   public static Board createBoard(BoardType boardType) {
     return switch (boardType) {
       case LADDER_GAME_SPECIAL -> specialLadderGameBoard(boardType);
-      case LADDER_GAME_VANILLA -> vanillaLadderGameBoard(boardType);
+      case LADDER_GAME_REGULAR -> vanillaLadderGameBoard(boardType);
       default -> throw new IllegalArgumentException("Unknown BoardType: " + boardType);
     };
   }
