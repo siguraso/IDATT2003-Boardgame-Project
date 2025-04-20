@@ -50,6 +50,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   // all board elements
   private final BoardDisplay boardDisplay = new BoardDisplay();
   private final StackPane boardGrid = new StackPane();
+  private final StackPane allElements = new StackPane();
 
   // sounds
   private final SfxPlayer sfxPlayer = new SfxPlayer();
@@ -107,7 +108,9 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     });
 
-    Scene scene = new Scene(root, 1200, 815);
+    allElements.getChildren().add(root);
+
+    Scene scene = new Scene(allElements, 1200, 815);
     scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
 
     window.setMinWidth(1200);
@@ -230,8 +233,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
       KeyFrame keyFrame = new KeyFrame(Duration.millis(400 * i), event -> {
 
         if (nextTileWrapper.nextTile == boardDisplay.getGridTiles().size() + 1) {
-          // if it is about to moveForward one over the last tile, moveForward them backwards, in other words,
-          // set nexTile to nextTile - 2
+          // if it is about to moveForward one over the last tile, moveForward them backwards,
+          // in other words set nextTile to nextTile - 2
 
           boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
               .remove(currentPlayerPiece);
@@ -291,10 +294,10 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     int[] initialPlayerPositions = new int[4];
 
-    gameController.getPlayersController().getPlayers().forEach(player -> {
-      initialPlayerPositions[gameController.getPlayersController().getPlayers()
-          .indexOf(player)] = player.getPosition();
-    });
+    gameController.getPlayersController().getPlayers().forEach(player ->
+        initialPlayerPositions[gameController.getPlayersController().getPlayers()
+            .indexOf(player)] = player.getPosition()
+    );
 
     // get the player object from the players hashmap
     gameController.finishTurn();
@@ -333,9 +336,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
           }
         }
 
-        case "WinnerTile" -> {
-          showWinnerScreen();
-        }
+        case "WinnerTile" -> showWinnerScreen();
 
         // TODO: implement the rest of the special tiles
       }
@@ -400,6 +401,10 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     winnerScreen.getStyleClass().add("winner-screen");
     winnerScreen.getChildren().add(new Label(
         gameController.getPlayersController().getPreviousPlayer().getName() + " wins the game!"));
+
+    winnerScreen.getChildren().get(0).setStyle("-fx-font-size: 60px; -fx-text-fill: text_wht;");
+
+    allElements.getChildren().add(winnerScreen);
 
     sfxPlayer.openSoundFile(SoundFile.GAME_WON);
     sfxPlayer.playSound();

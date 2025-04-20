@@ -1,13 +1,5 @@
 * {
-  /* Font */
-  -fx-font-family: 'Roboto', sans-serif;
-  -fx-font-size: 16px;
-
-  /*
-  ! Forklaring til Sigurd: !
-  "--" angir variabler i css man kan bruke senere. under lager jeg et sett med farger
-  som jeg kan bruke i koden.
-   */
+  -fx-text-fill: text_blk;
 
   /* Main Colors */
   bg_800: #2F3E46;
@@ -36,11 +28,13 @@
 /* Global styling for different node types. */
 .label {
   -fx-text-fill: text_blk;
+  -fx-font-size: 16px;
 }
 
 .button {
   -fx-background-color: bg_800;
   -fx-text-fill: bg_100;
+  -fx-font-size: 16px;
 }
 
 /* Board and tile styles */
@@ -80,6 +74,7 @@
 /* Text styles */
 .text {
   -fx-text-fill: text_blk;
+  -fx-font-size: 16px;
 }
 
 /* JavaFX element styles */
@@ -124,6 +119,10 @@
 
   -fx-border-radius: 10;
   -fx-background-radius: 10;
+}
+
+.winner-screen {
+  -fx-background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* Styling for different sub-components in the different components */
