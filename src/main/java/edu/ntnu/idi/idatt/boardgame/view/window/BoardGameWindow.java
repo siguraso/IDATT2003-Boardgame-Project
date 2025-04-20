@@ -5,16 +5,17 @@ import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SfxPlayer;
+import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.DialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
-import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import java.util.HashMap;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -49,6 +50,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   // all board elements
   private final BoardDisplay boardDisplay = new BoardDisplay();
   private final StackPane boardGrid = new StackPane();
+  private final StackPane allElements = new StackPane();
 
   // sounds
   private final SfxPlayer sfxPlayer = new SfxPlayer();
@@ -106,7 +108,9 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     });
 
-    Scene scene = new Scene(root, 1200, 815);
+    allElements.getChildren().add(root);
+
+    Scene scene = new Scene(allElements, 1200, 815);
     scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
 
     window.setMinWidth(1200);
@@ -229,8 +233,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
       KeyFrame keyFrame = new KeyFrame(Duration.millis(400 * i), event -> {
 
         if (nextTileWrapper.nextTile == boardDisplay.getGridTiles().size() + 1) {
-          // if it is about to moveForward one over the last tile, moveForward them backwards, in other words,
-          // set nexTile to nextTile - 2
+          // if it is about to moveForward one over the last tile, moveForward them backwards,
+          // in other words set nextTile to nextTile - 2
 
           boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
               .remove(currentPlayerPiece);
@@ -290,10 +294,10 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     int[] initialPlayerPositions = new int[4];
 
-    gameController.getPlayersController().getPlayers().forEach(player -> {
-      initialPlayerPositions[gameController.getPlayersController().getPlayers()
-          .indexOf(player)] = player.getPosition();
-    });
+    gameController.getPlayersController().getPlayers().forEach(player ->
+        initialPlayerPositions[gameController.getPlayersController().getPlayers()
+            .indexOf(player)] = player.getPosition()
+    );
 
     // get the player object from the players hashmap
     gameController.finishTurn();
@@ -313,26 +317,26 @@ public class BoardGameWindow implements Window, BoardGameObserver {
               - initialPlayerPositions[gameController.getPlayersController().getPlayers()
               .indexOf(gameController.getPlayersController().getPreviousPlayer())];
 
-          System.out.println(ladderDelta);
-
           if (ladderDelta > 0) {
             dialogBox.refresh(
                 gameController.getPlayersController().getPreviousPlayer().getName()
                     + " climbed a ladder! "
                     + "They moved to space " + gameController.getPlayersController()
                     .getPreviousPlayer().getPosition());
+
+            sfxPlayer.openSoundFile(SoundFile.PLAYER_CLIMB);
           } else {
             dialogBox.refresh(
                 gameController.getPlayersController().getPreviousPlayer().getName()
                     + " fell down a ladder! "
                     + "They moved to space " + gameController.getPlayersController()
                     .getPreviousPlayer().getPosition());
+
+            sfxPlayer.openSoundFile(SoundFile.PLAYER_FALL);
           }
         }
 
-        case "WinnerTile" -> {
-
-        }
+        case "WinnerTile" -> showWinnerScreen();
 
         // TODO: implement the rest of the special tiles
       }
@@ -365,6 +369,12 @@ public class BoardGameWindow implements Window, BoardGameObserver {
           dieBox.getRollDieButton().setDisable(false);
         });
 
+        try {
+          sfxPlayer.playSound();
+        } catch (NullPointerException e) {
+          // if the sound file is not found, do nothing
+        }
+
 
       });
 
@@ -389,6 +399,15 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     StackPane winnerScreen = new StackPane();
 
     winnerScreen.getStyleClass().add("winner-screen");
+    winnerScreen.getChildren().add(new Label(
+        gameController.getPlayersController().getPreviousPlayer().getName() + " wins the game!"));
+
+    winnerScreen.getChildren().get(0).setStyle("-fx-font-size: 60px; -fx-text-fill: text_wht;");
+
+    allElements.getChildren().add(winnerScreen);
+
+    sfxPlayer.openSoundFile(SoundFile.GAME_WON);
+    sfxPlayer.playSound();
   }
 
 }
