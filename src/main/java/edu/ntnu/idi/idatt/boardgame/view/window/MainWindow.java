@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 /**
@@ -42,6 +43,7 @@ public class MainWindow implements Window {
   private final FlowPane ladderBoardSelection;
   private final Button ladderGameButton = new Button("Ladder Game");
   private final Button parioMartyButton = new Button("Pario Marty");
+  private final Label sidebarHeader = new Label();
 
   // ArrayList of players used to store the players that are added to the game
   // private final ArrayList<Player> players = new ArrayList<>();
@@ -157,7 +159,7 @@ public class MainWindow implements Window {
       sidebar.setMaxWidth(300);
       sidebar.setPrefWidth(300);
 
-      Label sidebarHeader = new Label("Current game: \n" + boardType.getBoardName());
+      sidebarHeader.setText("Current game: \n" + boardType.getBoardName());
       sidebarHeader.setStyle("-fx-font-size: 18px; -fx-text-alignment: center;");
 
       sidebar.getChildren().addAll(sidebarHeader, getPlayerSelection());
@@ -166,10 +168,15 @@ public class MainWindow implements Window {
 
       root.setRight(sidebar);
 
+      isSidebarVisible = true;
+
+    } else {
+      sidebarHeader.setText("Current game: \n" + boardType.getBoardName());
     }
   }
 
   private VBox getPlayerSelection() {
+
     VBox playerSelection = new VBox();
 
     playerSelection.setSpacing(5);
@@ -179,6 +186,10 @@ public class MainWindow implements Window {
 
     VBox playerSelectionView = new VBox();
 
+    // add two player profile editors to the player selection view to start with
+    playerSelectionView.getChildren().add(getPlayerProfileEditor());
+    playerSelectionView.getChildren().add(getPlayerProfileEditor());
+
     addPlayerButton.setOnAction(onPressed -> {
       if (playerSelectionView.getChildren().size() < 4) {
         playerSelectionView.getChildren().add(getPlayerProfileEditor());
@@ -187,10 +198,24 @@ public class MainWindow implements Window {
 
     playerSelectionView.setAlignment(Pos.TOP_CENTER);
     playerSelectionView.setPadding(new Insets(15, 0, 15, 0));
-    playerSelectionView.setSpacing(5);
+    playerSelectionView.setSpacing(10);
     playerSelectionView.getStyleClass().add("player-selection-view");
 
-    playerSelection.getChildren().addAll(addPlayerButton, playerSelectionView);
+    // add a line separator
+    Line separator = new Line();
+
+    separator.setStyle("-fx-stroke: bg_200; -fx-stroke-width: 1;");
+    separator.setStartX(0);
+    separator.setStartY(0);
+    separator.setEndX(200);
+    separator.setEndY(0);
+
+    separator.setOpacity(0.5);
+
+    Label playerSelectionHeader = new Label("Add Players: ");
+
+    playerSelection.getChildren()
+        .addAll(separator, playerSelectionHeader, addPlayerButton, playerSelectionView);
 
     return playerSelection;
   }
@@ -205,18 +230,52 @@ public class MainWindow implements Window {
         Objects.requireNonNull(
             getClass().getResourceAsStream("/Images/player-pieces/default.png"))));
 
+    HBox playerPieceBox = new HBox();
+    playerPieceBox.getChildren().addAll(playerImage);
+    playerPieceBox.getStyleClass().add("speaker-box");
+
     playerImage.setFitHeight(30);
     playerImage.setFitWidth(30);
 
     ComboBox<String> playerPiece = new ComboBox<>();
     playerPiece.setPromptText("Piece");
-    playerPiece.getItems().addAll("Piece 1", "Piece 2", "Piece 3", "Piece 4");
+    playerPiece.getItems().addAll("Paul", "Evil Paul", "Konkey Dong", "Mariotinelli");
+
+    playerPiece.valueProperty().addListener((observable, oldValue, newValue) -> {
+      switch (newValue) {
+        case "Paul" -> {
+          playerImage.setImage(new Image(
+              Objects.requireNonNull(getClass()
+                  .getResourceAsStream("/Images/player-pieces/paul.png"))));
+        }
+        case "Evil Paul" -> {
+          playerImage.setImage(new Image(
+              Objects.requireNonNull(getClass()
+                  .getResourceAsStream("/Images/player-pieces/evil_paul.png"))));
+        }
+        case "Konkey Dong" -> {
+          playerImage.setImage(new Image(
+              Objects.requireNonNull(getClass()
+                  .getResourceAsStream("/Images/player-pieces/konkey_dong.png"))));
+        }
+        case "Mariotinelli" -> {
+          playerImage.setImage(new Image(
+              Objects.requireNonNull(getClass()
+                  .getResourceAsStream("/Images/player-pieces/mariotinelli.png"))));
+        }
+        default -> {
+          playerImage.setImage(new Image(
+              Objects.requireNonNull(getClass()
+                  .getResourceAsStream("/Images/player-pieces/default.png"))));
+        }
+      }
+    });
 
     Button removePlayerButton = new Button("—");
     removePlayerButton.getStyleClass().add("remove-button");
 
     HBox playerProfileEditor = new HBox();
-    playerProfileEditor.getChildren().addAll(playerImage, playerName, playerPiece,
+    playerProfileEditor.getChildren().addAll(playerPieceBox, playerName, playerPiece,
         removePlayerButton);
 
     playerProfileEditor.setAlignment(Pos.CENTER);
