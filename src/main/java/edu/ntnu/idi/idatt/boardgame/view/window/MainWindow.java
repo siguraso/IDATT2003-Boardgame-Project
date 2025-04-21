@@ -104,6 +104,13 @@ public class MainWindow implements Window {
     return flowPane;
   }
 
+  private FlowPane getParioMartyPage() {
+    FlowPane flowPane = new FlowPane();
+    // TODO add all the board selection views to the flow pane
+
+    return flowPane;
+  }
+
   private VBox getBoardSelectionView(BoardType board, String title) {
     VBox boardSelectionView = new VBox();
     boardSelectionView.getStyleClass().add("board-selection-view");
@@ -273,6 +280,15 @@ public class MainWindow implements Window {
 
     Button removePlayerButton = new Button("—");
     removePlayerButton.getStyleClass().add("remove-button");
+
+    removePlayerButton.setOnAction(onPressed -> {
+      HBox parent = (HBox) removePlayerButton.getParent();
+      VBox grandParent = (VBox) parent.getParent();
+
+      if (grandParent.getChildren().size() > 2) {
+        grandParent.getChildren().remove(parent);
+      }
+    });
 
     HBox playerProfileEditor = new HBox();
     playerProfileEditor.getChildren().addAll(playerPieceBox, playerName, playerPiece,
