@@ -40,7 +40,10 @@ public class MainWindow implements Window {
   private boolean isSidebarVisible = false;
 
   private final BorderPane root = new BorderPane();
+  private final BorderPane boardGameSelection = new BorderPane();
   private final FlowPane ladderBoardSelection;
+  private final FlowPane parioMartyBoardSelection;
+  private final HBox buttonBar;
   private final Button ladderGameButton = new Button("Ladder Game");
   private final Button parioMartyButton = new Button("Pario Marty");
   private final Label sidebarHeader = new Label();
@@ -56,13 +59,14 @@ public class MainWindow implements Window {
   public MainWindow(Stage primaryStage) {
     this.window = primaryStage;
     ladderBoardSelection = getLadderGamePage();
+    parioMartyBoardSelection = getParioMartyPage();
+    buttonBar = getButtonBar();
   }
 
   @Override
   public void init() {
-    BorderPane boardGameSelection = new BorderPane();
     boardGameSelection.setCenter(ladderBoardSelection);
-    boardGameSelection.setTop(getButtonBar());
+    boardGameSelection.setTop(buttonBar);
 
     root.setCenter(boardGameSelection);
 
@@ -70,10 +74,11 @@ public class MainWindow implements Window {
 
     root.setStyle("-fx-background-color: bg_300;");
 
-    Scene scene = new Scene(root, 800, 600);
+    Scene scene = new Scene(root, 900, 600);
     scene.getStylesheets().add(Objects.requireNonNull(getClass()
         .getResource("/Styles/Style.css")).toExternalForm());
 
+    window.setMinWidth(900);
     window.setScene(scene);
   }
 
@@ -85,6 +90,30 @@ public class MainWindow implements Window {
   @Override
   public void close() {
     window.close();
+  }
+
+  private HBox getButtonBar() {
+    HBox buttons = new HBox();
+
+    buttons.setAlignment(Pos.CENTER);
+    buttons.setSpacing(10);
+
+    buttons.getStyleClass().add("button-bar");
+
+    ladderGameButton.setOnAction(onPressed -> {
+      boardGameSelection.setCenter(ladderBoardSelection);
+      boardType = null;
+    });
+
+    parioMartyButton.setOnAction(onPressed -> {
+      boardGameSelection.setCenter(parioMartyBoardSelection);
+      boardType = null;
+    });
+
+    buttons.getChildren().add(ladderGameButton);
+    buttons.getChildren().add(parioMartyButton);
+
+    return buttons;
   }
 
   private FlowPane getLadderGamePage() {
@@ -143,20 +172,6 @@ public class MainWindow implements Window {
     return boardSelectionView;
   }
 
-  private HBox getButtonBar() {
-    HBox buttons = new HBox();
-
-    buttons.setAlignment(Pos.CENTER);
-    buttons.setSpacing(10);
-
-    buttons.getStyleClass().add("button-bar");
-
-    buttons.getChildren().add(ladderGameButton);
-    buttons.getChildren().add(parioMartyButton);
-
-    return buttons;
-  }
-
   private void showSidebar() {
     if (!isSidebarVisible) {
       VBox sidebar = new VBox();
@@ -208,7 +223,22 @@ public class MainWindow implements Window {
     playerSelectionView.setSpacing(10);
     playerSelectionView.getStyleClass().add("player-selection-view");
 
-    // add a line separator
+    HBox fileButtons = new HBox();
+    Button readButton = new Button("Load");
+    Button writeButton = new Button("Save");
+    
+    readButton.setOnAction(onPressed -> {
+      // TODO Implement read from file
+    });
+
+    writeButton.setOnAction(onPressed -> {
+      // TODO Implement write to file
+    });
+
+    fileButtons.setSpacing(5);
+    fileButtons.getChildren().addAll(readButton, writeButton);
+
+    // add a line separator and header
     Line separator = new Line();
 
     separator.setStyle("-fx-stroke: bg_200; -fx-stroke-width: 1;");
