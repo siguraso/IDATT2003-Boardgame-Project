@@ -224,9 +224,9 @@ public class MainWindow implements Window {
     playerSelectionView.getStyleClass().add("player-selection-view");
 
     HBox fileButtons = new HBox();
-    Button readButton = new Button("Load");
-    Button writeButton = new Button("Save");
-    
+    Button readButton = new Button("Load from file");
+    Button writeButton = new Button("Save to file");
+
     readButton.setOnAction(onPressed -> {
       // TODO Implement read from file
     });
@@ -247,12 +247,11 @@ public class MainWindow implements Window {
     separator.setEndX(200);
     separator.setEndY(0);
 
-    separator.setOpacity(0.5);
-
     Label playerSelectionHeader = new Label("Add Players: ");
 
     playerSelection.getChildren()
-        .addAll(separator, playerSelectionHeader, addPlayerButton, playerSelectionView);
+        .addAll(separator, playerSelectionHeader, addPlayerButton, playerSelectionView,
+            fileButtons);
 
     return playerSelection;
   }
