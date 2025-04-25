@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.controller;
 
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.ArrayList;
 
 /**
@@ -12,17 +13,14 @@ import java.util.ArrayList;
  */
 public class PlayersController {
 
-  private final ArrayList<Player> players;
+  private final ArrayList<Player> players = new ArrayList<>();
   private Player currentPlayer;
   private Player previousPlayer;
 
   /**
    * Constructor for the PlayersController.
-   *
-   * @param players An {@link ArrayList} containing the players in the game.
    */
-  public PlayersController(ArrayList<Player> players) {
-    this.players = players;
+  public PlayersController() {
   }
 
   /**
@@ -92,6 +90,16 @@ public class PlayersController {
    */
   public ArrayList<Player> getPlayers() {
     return players;
+  }
+
+  /**
+   * Adds a {@link Player} to the {@link ArrayList} of players.
+   *
+   * @param name  The name of the player.
+   * @param piece The {@link PlayerPiece} that the player will use on the board.
+   */
+  public void addPlayer(String name, PlayerPiece piece) {
+    players.add(new Player(name, piece));
   }
 
 

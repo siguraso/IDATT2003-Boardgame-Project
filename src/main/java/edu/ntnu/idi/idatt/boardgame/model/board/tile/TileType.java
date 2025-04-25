@@ -46,5 +46,10 @@ public enum TileType {
     }
   };
 
+  /**
+   * Method to identify the type of tile by returning the name of the tile as a string
+   *
+   * @return The name of the tile as a string
+   */
   public abstract String getTileType();
 }

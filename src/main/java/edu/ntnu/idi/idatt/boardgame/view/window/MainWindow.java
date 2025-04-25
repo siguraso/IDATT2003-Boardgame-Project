@@ -1,6 +1,10 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
+import edu.ntnu.idi.idatt.boardgame.controller.GameController;
+import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
+import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.Objects;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -47,9 +51,10 @@ public class MainWindow implements Window {
   private final Button ladderGameButton = new Button("Ladder Game");
   private final Button parioMartyButton = new Button("Pario Marty");
   private final Label sidebarHeader = new Label();
+  private final VBox playerSelectionView = new VBox();
 
   // ArrayList of players used to store the players that are added to the game
-  // private final ArrayList<Player> players = new ArrayList<>();
+  private final PlayersController playersController = new PlayersController();
 
   // check weather or not to use two dice
   private boolean useTwoDice = false;
@@ -195,6 +200,38 @@ public class MainWindow implements Window {
       startGameButtons.setAlignment(Pos.CENTER);
       startGameButtons.setSpacing(10);
 
+      startGameButton.setOnAction(onPressed -> {
+        playerSelectionView.getChildren().forEach(playerProfile -> {
+          HBox playerProfileEditor = (HBox) playerProfile;
+          String playerName = ((TextField) playerProfileEditor.getChildren().get(1)).getText();
+          String playerPieceString = ((ComboBox<String>) playerProfileEditor.getChildren()
+              .get(2)).getValue();
+          PlayerPiece playerPiece;
+
+          switch (playerPieceString) {
+            case "Paul" -> playerPiece = PlayerPiece.PAUL;
+            case "Evil Paul" -> playerPiece = PlayerPiece.EVIL_PAUL;
+            case "Konkey Dong" -> playerPiece = PlayerPiece.KONKEY_DONG;
+            case "Mariotinelli" -> playerPiece = PlayerPiece.MARIOTINELLI;
+            case "My Love" -> playerPiece = PlayerPiece.MY_LOVE;
+            case "My Love (hat)" -> playerPiece = PlayerPiece.MY_LOVE_WITH_HAT;
+            case "Propeller Accessories" -> playerPiece = PlayerPiece.PROPELLER_ACCESSORIES;
+            case "Locked in Snowman" -> playerPiece = PlayerPiece.LOCKED_IN_SNOWMAN;
+            default -> playerPiece = null;
+          }
+
+          playersController.addPlayer(playerName, playerPiece);
+        });
+
+        // start the game by initiating the game controller and the game window
+        GameController gameController = new GameController(playersController, useTwoDice);
+        gameController.setBoard(boardType);
+        BoardGameWindow gameWindow = new BoardGameWindow(gameController);
+
+        window.close();
+        gameWindow.show();
+      });
+
       Line separator = new Line();
       separator.setStyle("-fx-stroke: bg_200; -fx-stroke-width: 1;");
       separator.setStartX(0);
@@ -233,8 +270,6 @@ public class MainWindow implements Window {
     playerSelection.setPrefHeight(340);
 
     Button addPlayerButton = new Button("Add Player");
-
-    VBox playerSelectionView = new VBox();
 
     // add two player profile editors to the player selection view to start with
     playerSelectionView.getChildren().add(getPlayerProfileEditor());
@@ -307,31 +342,26 @@ public class MainWindow implements Window {
 
     playerPiece.valueProperty().addListener((observable, oldValue, newValue) -> {
       switch (newValue) {
-        case "Paul" -> {
-          playerImage.setImage(new Image(
-              Objects.requireNonNull(getClass()
-                  .getResourceAsStream("/Images/player-pieces/paul.png"))));
-        }
-        case "Evil Paul" -> {
-          playerImage.setImage(new Image(
-              Objects.requireNonNull(getClass()
-                  .getResourceAsStream("/Images/player-pieces/evil_paul.png"))));
-        }
-        case "Konkey Dong" -> {
-          playerImage.setImage(new Image(
-              Objects.requireNonNull(getClass()
-                  .getResourceAsStream("/Images/player-pieces/konkey_dong.png"))));
-        }
-        case "Mariotinelli" -> {
-          playerImage.setImage(new Image(
-              Objects.requireNonNull(getClass()
-                  .getResourceAsStream("/Images/player-pieces/mariotinelli.png"))));
-        }
-        default -> {
-          playerImage.setImage(new Image(
-              Objects.requireNonNull(getClass()
-                  .getResourceAsStream("/Images/player-pieces/default.png"))));
-        }
+        case "Paul" -> playerImage.setImage(new Image(
+            Objects.requireNonNull(getClass()
+                .getResourceAsStream("/Images/player-pieces/paul.png"))));
+
+        case "Evil Paul" -> playerImage.setImage(new Image(
+            Objects.requireNonNull(getClass()
+                .getResourceAsStream("/Images/player-pieces/evil_paul.png"))));
+
+        case "Konkey Dong" -> playerImage.setImage(new Image(
+            Objects.requireNonNull(getClass()
+                .getResourceAsStream("/Images/player-pieces/konkey_dong.png"))));
+
+        case "Mariotinelli" -> playerImage.setImage(new Image(
+            Objects.requireNonNull(getClass()
+                .getResourceAsStream("/Images/player-pieces/mariotinelli.png"))));
+
+        default -> playerImage.setImage(new Image(
+            Objects.requireNonNull(getClass()
+                .getResourceAsStream("/Images/player-pieces/default.png"))));
+
       }
     });
 
@@ -366,13 +396,13 @@ public class MainWindow implements Window {
     RadioButton twoDiceRadioButton = new RadioButton("2 Dice");
     twoDiceRadioButton.setToggleGroup(toggleGroup);
 
-    oneDieRadioButton.setOnAction(onPressed -> {
-      useTwoDice = false;
-    });
+    oneDieRadioButton.setOnAction(onPressed ->
+        useTwoDice = false
+    );
 
-    twoDiceRadioButton.setOnAction(onPressed -> {
-      useTwoDice = true;
-    });
+    twoDiceRadioButton.setOnAction(onPressed ->
+        useTwoDice = true
+    );
 
     HBox numberOfDiceToggle = new HBox();
 

@@ -13,6 +13,7 @@ import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.DialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
 import java.util.HashMap;
+import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -67,7 +68,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
    * @param board the {@link Board} object that represents the game board and all the logic that
    *              comes with it.
    */
-  public BoardGameWindow(Board board, GameController gameController) {
+  public BoardGameWindow(GameController gameController) {
     this.dieBox = new DieComponent(gameController);
     this.gameController = gameController;
     gameController.addObserver(this);
@@ -111,7 +112,9 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     allElements.getChildren().add(root);
 
     Scene scene = new Scene(allElements, 1200, 815);
-    scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
+    scene.getStylesheets().add(
+        Objects.requireNonNull(BoardGameWindow.class.getResource("/Styles/Style.css"))
+            .toExternalForm());
 
     window.setMinWidth(1200);
     window.setMinHeight(820);
@@ -151,7 +154,9 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     boardGrid.getChildren().add(this.boardDisplay.getComponent());
 
     ImageView boardImage = new ImageView(
-        new Image("file:src/main/resources/Images/LadderBoardGame_default.png"));
+        new Image(Objects.requireNonNull(
+            BoardGameWindow.class.getResourceAsStream(
+                gameController.getBoard().getBoardType().getFilePath()))));
     boardImage.setFitHeight(800);
     boardImage.setFitWidth(800);
 
