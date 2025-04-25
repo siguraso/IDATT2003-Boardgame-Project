@@ -17,7 +17,6 @@ import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -49,7 +48,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   private final HashMap<String, ImageView> playerPieces = new HashMap<>();
 
   // all board elements
-  private final BoardDisplay boardDisplay = new BoardDisplay();
+  private final BoardDisplay boardDisplay;
   private final StackPane boardGrid = new StackPane();
   private final StackPane allElements = new StackPane();
 
@@ -65,13 +64,14 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   /**
    * Constructor for the BoardGameWindow class.
    *
-   * @param board the {@link Board} object that represents the game board and all the logic that
-   *              comes with it.
+   * @param gameController The controller object for the game.
    */
   public BoardGameWindow(GameController gameController) {
     this.dieBox = new DieComponent(gameController);
     this.gameController = gameController;
     gameController.addObserver(this);
+
+    this.boardDisplay = new BoardDisplay(gameController);
 
     init();
   }
@@ -149,10 +149,11 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     int tileWidth = (800 - (2 * 29)) / 9;
     int tileHeight = (800 - (2 * 28)) / 10;
 
-    this.boardDisplay.init(tileWidth, tileHeight);
+    this.boardDisplay.init(tileWidth, tileHeight, gameController.getBoard().getTileTypes());
 
     boardGrid.getChildren().add(this.boardDisplay.getComponent());
 
+    /*
     ImageView boardImage = new ImageView(
         new Image(Objects.requireNonNull(
             BoardGameWindow.class.getResourceAsStream(
@@ -160,7 +161,9 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     boardImage.setFitHeight(800);
     boardImage.setFitWidth(800);
 
-    boardDisplay.getChildren().addAll(boardImage, boardGrid);
+
+     */
+    boardDisplay.getChildren().add(boardGrid);
     boardDisplay.setAlignment(javafx.geometry.Pos.CENTER);
     boardDisplay.getStyleClass().add("board-region");
 

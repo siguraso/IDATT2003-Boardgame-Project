@@ -226,6 +226,7 @@ public class MainWindow implements Window {
         // start the game by initiating the game controller and the game window
         GameController gameController = new GameController(playersController, useTwoDice);
         gameController.setBoard(boardType);
+
         BoardGameWindow gameWindow = new BoardGameWindow(gameController);
 
         window.close();

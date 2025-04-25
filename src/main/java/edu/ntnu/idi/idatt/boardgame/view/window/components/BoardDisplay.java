@@ -1,13 +1,10 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
-import edu.ntnu.idi.idatt.boardgame.model.board.Board;
-import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
-import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
+import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import java.util.HashMap;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 
 public class BoardDisplay implements WindowComponent {
 
@@ -15,67 +12,52 @@ public class BoardDisplay implements WindowComponent {
   private final int ROWS = 10;
   private final int COLS = 9;
   private final HashMap<Integer, FlowPane> gridTiles = new HashMap<>();
+  private final GameController gameController;
 
-  public BoardDisplay() {
+  public BoardDisplay(GameController gameController) {
+    this.gameController = gameController;
   }
 
-  private FlowPane createTileNode(int w, int h) {
-    FlowPane tileBox = new FlowPane();
-    //Tile width: 82px, height: 75px
-    tileBox.setMaxWidth(w);
-    tileBox.setMinWidth(w);
-    tileBox.setMaxHeight(h);
-    tileBox.setMinHeight(h);
-    tileBox.setVgap(5);
-    tileBox.setHgap(10);
-
-    tileBox.getStyleClass().add("tile");
-    return tileBox;
-  }
-
-  public void init(int widthPerTile, int heightPerTile) {
-    final Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_REGULAR);
+  public void init(int tileWidth, int tileHeight, HashMap<Integer, String> tileTypes) {
     boardGrid = new GridPane();
-    boardGrid.setMaxWidth(widthPerTile * COLS);
-    boardGrid.setMaxHeight(heightPerTile * ROWS);
+    boardGrid.setMaxWidth(tileWidth * COLS);
+    boardGrid.setMaxHeight(tileHeight * ROWS);
     boardGrid.setAlignment(javafx.geometry.Pos.CENTER);
+    boardGrid.getStyleClass().add("board");
 
-    board.getTiles().values().forEach(t -> {
-      FlowPane tileBox = createTileNode(widthPerTile, heightPerTile);
-      final int row = t.getOnscreenPosition()[1];
-      final int col = t.getOnscreenPosition()[0];
-      /*
-      Code for placeholder picture.
-      ImageView iv = new ImageView("file:src/main/resources/Images/placeholder.jpg");
-      iv.setFitHeight(height);
-      iv.setFitWidth(widthPerTile);
-      iv.setOpacity((double) t.getTileNumber() / 90);
+    tileTypes.keySet().forEach(t -> {
+      FlowPane tileBox = new FlowPane();
+      tileBox.setMinWidth(tileWidth);
+      tileBox.setMinHeight(tileHeight);
+      tileBox.setMaxWidth(tileWidth);
+      tileBox.setMaxHeight(tileHeight);
 
-      tileBox.getChildren().add(iv);
-      */
+      int row = (ROWS - 1) - ((t - 1) / COLS);
+      int col = ((row % 2) == (ROWS % 2)) ? (COLS - 1 - (t - 1) % COLS) : (t - 1) % COLS;
+
       tileBox.setAlignment(javafx.geometry.Pos.CENTER);
-
-      // Debug print
-      //System.out.println("Tile: " + t.getTileNumber() + " -> Row: " + row + ", Col: " + col);
 
       if (row < 0 || row >= ROWS || col < 0 || col >= COLS) {
         throw new IllegalStateException("Invalid grid position: Row " + row + ", Col " + col);
       }
 
       boardGrid.add(tileBox, col, row);
-      gridTiles.put(t.getTileNumber(), tileBox);
+      gridTiles.put(t, tileBox);
     });
 
-  }
+    gridTiles.keySet().forEach(t -> {
+      switch (tileTypes.get(t)) {
+        case "LadderTile" -> {
+          gridTiles.get(t).getStyleClass().add("ladder-tile-positive");
+          gridTiles.get(gameController.getLadderDestinationTileNumber(t)).getStyleClass()
+              .add("ladder-tile-positive-destination");
+        }
+        default -> {
+          gridTiles.get(t).getStyleClass().add("normal-tile");
+        }
+      }
 
-  // Update the board display, delete if neccecary
-  public void update(StackPane owner) {
-    owner.getChildren().clear();
-    int tileWidth = (int) owner.getWidth() / 9;
-    int tileHeight = (int) owner.getHeight() / 10;
-
-    init(tileWidth, tileHeight);
-    owner.getChildren().add(getComponent());
+    });
   }
 
   public HashMap<Integer, FlowPane> getGridTiles() {

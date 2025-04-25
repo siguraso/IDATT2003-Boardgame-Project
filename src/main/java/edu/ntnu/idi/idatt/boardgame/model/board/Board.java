@@ -11,6 +11,7 @@ import java.util.HashMap;
  * @since 1.0
  */
 public class Board {
+
   private HashMap<Integer, Tile> tiles;
   private BoardType boardType;
 
@@ -59,5 +60,20 @@ public class Board {
    */
   public void setBoardType(BoardType boardType) {
     this.boardType = boardType;
+  }
+
+  /**
+   * Return all the TileTypes on the board as a {@link HashMap} with the tile number as the key and
+   * the tile type as the value.
+   *
+   * @return A {@link HashMap} containing all the tile types on the board.
+   */
+  public HashMap<Integer, String> getTileTypes() {
+    HashMap<Integer, String> tileTypes = new HashMap<>();
+    tiles.keySet().forEach(tile -> {
+      tileTypes.put(tile, tiles.get(tile).getTileType());
+    });
+
+    return tileTypes;
   }
 }

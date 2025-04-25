@@ -32,6 +32,15 @@ public class LadderTile extends SpecialTile {
     this.board = board;
   }
 
+  /**
+   * Used to get the number of the tile, which is used as the identifier of the tile.
+   *
+   * @return The number of the tile as an integer.
+   */
+  public int getDestinationTileNumber() {
+    return destinationTileNumber;
+  }
+
   @Override
   public void performAction(Player player) {
     // initialize the tileAction with a LadderAction

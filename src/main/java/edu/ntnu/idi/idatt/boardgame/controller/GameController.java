@@ -3,6 +3,7 @@ package edu.ntnu.idi.idatt.boardgame.controller;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.SpecialTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
@@ -111,6 +112,21 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
     playersController.nextPlayer();
 
     die.addObserver(playersController.getCurrentPlayer());
+  }
+
+  /**
+   * Method to get the destination tile number of a LadderTile.
+   *
+   * @param tileNumber an integer representing the tile number.
+   */
+  public int getLadderDestinationTileNumber(int tileNumber) {
+    Tile tile = board.getTiles().get(tileNumber);
+
+    if (!tile.getTileType().equals(TileType.LADDER.getTileType())) {
+      throw new IllegalArgumentException("Tile number " + tileNumber + " is not a LadderTile");
+    }
+
+    return ((LadderTile) tile).getDestinationTileNumber();
   }
 
   @Override

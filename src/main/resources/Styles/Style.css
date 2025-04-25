@@ -1,5 +1,6 @@
 * {
   -fx-text-fill: text_blk;
+  -fx-font-size: 16px;
 
   /* Main Colors */
   bg_900: #242f36;
@@ -25,7 +26,7 @@
   cta_green: #3cec5f;
 
   /* Board */
-  /* TODO: Add board colors from figma-board */
+  board_normal: #e7ece7;
 
 }
 
@@ -87,39 +88,39 @@
 
 /* Board and tile styles */
 .board {
-  /* TODO: add colors */
+  -fx-background-color: bg_400;
+  -fx-background-radius: 10;
+  -fx-border-radius: 7;
+  -fx-border-color: bg_400;
+  -fx-border-width: 2;
 }
 
-.normalTile {
-  /* TODO: add colors */
+.normal-tile {
+  -fx-background-color: board_normal;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
 }
 
-.randomActionTile {
-  /* TODO: add colors */
+.ladder-tile-positive {
+  -fx-background-color: cta_green;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
 }
 
-.returnToStartTile {
-  /* TODO: add colors */
+.ladder-tile-positive-destination {
+  -fx-background-color: bg_200;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
 }
 
-.LadderTile {
-  /* TODO: add colors */
-}
-
-.endpointGreenTile {
-  /* TODO: add colors */
-}
-
-.endpointRedTile {
-  /* TODO: add colors */
-}
-
-.winnerTile {
-  /* TODO: add colors */
-}
-
-
-/* Text styles */
+.
+  /* Text styles */
 .text {
   -fx-text-fill: text_blk;
   -fx-font-size: 16px;
