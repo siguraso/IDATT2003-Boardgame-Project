@@ -1,8 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import java.util.ArrayList;
 import java.util.Objects;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,7 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -51,6 +51,9 @@ public class MainWindow implements Window {
   // ArrayList of players used to store the players that are added to the game
   // private final ArrayList<Player> players = new ArrayList<>();
 
+  // check weather or not to use two dice
+  private boolean useTwoDice = false;
+
   /**
    * Constructor for the MainWindow class.
    *
@@ -79,6 +82,7 @@ public class MainWindow implements Window {
         .getResource("/Styles/Style.css")).toExternalForm());
 
     window.setMinWidth(900);
+    window.setMinHeight(610);
     window.setScene(scene);
   }
 
@@ -184,8 +188,30 @@ public class MainWindow implements Window {
       sidebarHeader.setText("Current game: \n" + boardType.getBoardName());
       sidebarHeader.setStyle("-fx-font-size: 18px; -fx-text-alignment: center;");
 
-      sidebar.getChildren().addAll(sidebarHeader, getPlayerSelection());
-      sidebar.setAlignment(Pos.TOP_CENTER);
+      HBox startGameButtons = new HBox();
+      Button startGameButton = new Button("Start Game");
+      Button startGameJsonButton = new Button("Start Game (JSON)");
+      startGameButtons.getChildren().addAll(startGameButton, startGameJsonButton);
+      startGameButtons.setAlignment(Pos.CENTER);
+      startGameButtons.setSpacing(10);
+
+      Line separator = new Line();
+      separator.setStyle("-fx-stroke: bg_200; -fx-stroke-width: 1;");
+      separator.setStartX(0);
+      separator.setStartY(0);
+      separator.setEndX(200);
+      separator.setEndY(0);
+
+      VBox startGameButtonsBox = new VBox();
+
+      startGameButtonsBox.getChildren().addAll(separator, startGameButtons);
+      startGameButtonsBox.setAlignment(Pos.CENTER);
+      startGameButtonsBox.setSpacing(15);
+      startGameButtonsBox.setPadding(new Insets(10, 0, 10, 0));
+
+      sidebar.getChildren().addAll(sidebarHeader, getPlayerSelection(), getNumberOfDiceComponent(),
+          startGameButtonsBox);
+      sidebar.setAlignment(Pos.CENTER);
       sidebar.setSpacing(10);
 
       root.setRight(sidebar);
@@ -201,8 +227,10 @@ public class MainWindow implements Window {
 
     VBox playerSelection = new VBox();
 
-    playerSelection.setSpacing(5);
-    playerSelection.setAlignment(Pos.CENTER);
+    playerSelection.setSpacing(10);
+    playerSelection.setAlignment(Pos.TOP_CENTER);
+    playerSelection.setPadding(new Insets(10, 0, 10, 0));
+    playerSelection.setPrefHeight(340);
 
     Button addPlayerButton = new Button("Add Player");
 
@@ -224,8 +252,11 @@ public class MainWindow implements Window {
     playerSelectionView.getStyleClass().add("player-selection-view");
 
     HBox fileButtons = new HBox();
-    Button readButton = new Button("Load from file");
-    Button writeButton = new Button("Save to file");
+    Button readButton = new Button("Load from .csv file");
+    Button writeButton = new Button("Save to .csv file");
+    fileButtons.getChildren().addAll(readButton, writeButton);
+    fileButtons.setSpacing(10);
+    fileButtons.setAlignment(Pos.CENTER);
 
     readButton.setOnAction(onPressed -> {
       // TODO Implement read from file
@@ -234,9 +265,6 @@ public class MainWindow implements Window {
     writeButton.setOnAction(onPressed -> {
       // TODO Implement write to file
     });
-
-    fileButtons.setSpacing(5);
-    fileButtons.getChildren().addAll(readButton, writeButton);
 
     // add a line separator and header
     Line separator = new Line();
@@ -329,4 +357,47 @@ public class MainWindow implements Window {
     return playerProfileEditor;
   }
 
+  private VBox getNumberOfDiceComponent() {
+    ToggleGroup toggleGroup = new ToggleGroup();
+
+    RadioButton oneDieRadioButton = new RadioButton("1 Die");
+    oneDieRadioButton.setToggleGroup(toggleGroup);
+
+    RadioButton twoDiceRadioButton = new RadioButton("2 Dice");
+    twoDiceRadioButton.setToggleGroup(toggleGroup);
+
+    oneDieRadioButton.setOnAction(onPressed -> {
+      useTwoDice = false;
+    });
+
+    twoDiceRadioButton.setOnAction(onPressed -> {
+      useTwoDice = true;
+    });
+
+    HBox numberOfDiceToggle = new HBox();
+
+    numberOfDiceToggle.getChildren().addAll(oneDieRadioButton, twoDiceRadioButton);
+    numberOfDiceToggle.setSpacing(10);
+    numberOfDiceToggle.setAlignment(Pos.CENTER);
+
+    Line separator = new Line();
+
+    separator.setStyle("-fx-stroke: bg_200; -fx-stroke-width: 1;");
+    separator.setStartX(0);
+    separator.setStartY(0);
+    separator.setEndX(200);
+    separator.setEndY(0);
+
+    Label numberOfDiceHeader = new Label("Number of Dice: ");
+    numberOfDiceHeader.getStyleClass().add("header");
+
+    VBox numberOfDiceComponent = new VBox();
+
+    numberOfDiceComponent.getChildren().addAll(separator, numberOfDiceHeader, numberOfDiceToggle);
+    numberOfDiceComponent.setAlignment(Pos.CENTER);
+    numberOfDiceComponent.setSpacing(10);
+    numberOfDiceComponent.setPadding(new Insets(10, 10, 10, 10));
+
+    return numberOfDiceComponent;
+  }
 }

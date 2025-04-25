@@ -80,6 +80,11 @@
   -fx-max-width: 100;
 }
 
+.radio-button .radio {
+  -fx-background-color: bg_200;
+}
+
+
 /* Board and tile styles */
 .board {
   /* TODO: add colors */
