@@ -332,7 +332,7 @@ public class MainWindow implements Window {
 
     HBox playerPieceBox = new HBox();
     playerPieceBox.getChildren().addAll(playerImage);
-    playerPieceBox.getStyleClass().add("speaker-box");
+    playerPieceBox.getStyleClass().add("piece-box");
 
     playerImage.setFitHeight(30);
     playerImage.setFitWidth(30);

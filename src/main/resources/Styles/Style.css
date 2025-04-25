@@ -27,6 +27,10 @@
 
   /* Board */
   board_normal: #e7ece7;
+  ladder_positive: #58ea73;
+  ladder_positive_destination: #a8ffbe;
+  ladder_negative: #ff294d;
+  ladder_negative_destination: #ffb3c1;
 
 }
 
@@ -104,7 +108,7 @@
 }
 
 .ladder-tile-positive {
-  -fx-background-color: cta_green;
+  -fx-background-color: ladder_positive;
   -fx-background-radius: 8;
   -fx-border-width: 2;
   -fx-border-radius: 5;
@@ -112,11 +116,32 @@
 }
 
 .ladder-tile-positive-destination {
-  -fx-background-color: bg_200;
+  -fx-background-color: ladder_positive_destination;
   -fx-background-radius: 8;
   -fx-border-width: 2;
   -fx-border-radius: 5;
   -fx-border-color: bg_400
+}
+
+.ladder-tile-negative {
+  -fx-background-color: ladder_negative;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
+}
+
+.ladder-tile-negative-destination {
+  -fx-background-color: ladder_negative_destination;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
+}
+
+.tile-number {
+  -fx-text-fill: text_blk;
+  -fx-font-size: 8px;
 }
 
 .
@@ -213,7 +238,7 @@
   -fx-background-radius: 10;
 }
 
-.speaker-box {
+.piece-box {
   -fx-background-color: bg_100;
   -fx-border-radius: 4;
   -fx-background-radius: 4;
