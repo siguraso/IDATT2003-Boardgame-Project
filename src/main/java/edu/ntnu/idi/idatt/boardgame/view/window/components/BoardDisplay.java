@@ -85,6 +85,23 @@ public class BoardDisplay implements WindowComponent {
                 .add("ladder-tile-negative-destination");
           }
         }
+
+        case "ReturnToStartTile" -> {
+          gridTileStack.get(t).getStyleClass().add("return-to-start-tile");
+        }
+
+        case "RollAgainTile" -> {
+          gridTileStack.get(t).getStyleClass().add("roll-again-tile");
+        }
+
+        case "RandomActionTile" -> {
+          gridTileStack.get(t).getStyleClass().add("random-action-tile");
+        }
+
+        case "WinnerTile" -> {
+          gridTileStack.get(t).getStyleClass().add("winner-tile");
+        }
+
         default -> {
           gridTileStack.get(t).getStyleClass().add("normal-tile");
         }
