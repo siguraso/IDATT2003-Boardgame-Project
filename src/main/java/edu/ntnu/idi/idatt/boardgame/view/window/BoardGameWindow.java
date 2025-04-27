@@ -350,6 +350,14 @@ public class BoardGameWindow implements Window, BoardGameObserver {
           sfxPlayer.openSoundFile(SoundFile.RETURN_TO_START);
         }
 
+        case "RollAgainTile" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " landed on a roll again tile! They get to roll again!");
+
+          sfxPlayer.openSoundFile(SoundFile.ROLL_AGAIN);
+        }
+
         case "WinnerTile" -> showWinnerScreen();
 
         // TODO: implement the rest of the special tiles
@@ -383,11 +391,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
           dieBox.getRollDieButton().setDisable(false);
         });
 
-        try {
-          sfxPlayer.playSound();
-        } catch (NullPointerException e) {
-          // if the sound file is not found, do nothing
-        }
+        // play the sound that was opened earlier
+        sfxPlayer.playSound();
 
 
       });

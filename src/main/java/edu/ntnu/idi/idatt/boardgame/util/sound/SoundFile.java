@@ -55,6 +55,12 @@ public enum SoundFile {
     public String getSoundPath() {
       return filepath + "return_to_start.wav";
     }
+  },
+  ROLL_AGAIN() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "roll_again.wav";
+    }
   };
 
   private static final String filepath = "/Sounds/";

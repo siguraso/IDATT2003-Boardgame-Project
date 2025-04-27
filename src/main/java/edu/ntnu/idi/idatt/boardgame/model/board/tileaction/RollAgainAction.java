@@ -19,6 +19,6 @@ public class RollAgainAction implements TileAction {
 
   @Override
   public void performAction(Player player) {
-    // TODO implement a way to throw the die again
+    player.setRollAgain(true);
   }
 }
