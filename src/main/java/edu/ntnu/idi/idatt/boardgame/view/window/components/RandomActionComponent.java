@@ -21,6 +21,7 @@ import javafx.scene.layout.VBox;
 public class RandomActionComponent implements WindowComponent {
 
   private final ListView<String> actionsListView = new ListView<>();
+  private final Timeline randomActionTimeline = new Timeline();
 
   /**
    * Constructor for the RandomActionComponent class.
@@ -70,7 +71,8 @@ public class RandomActionComponent implements WindowComponent {
   public void randomActionSequence(String tileAction) {
     SfxPlayer sfxPlayer = new SfxPlayer();
 
-    Timeline randomActionTimeline = new Timeline();
+    randomActionTimeline.getKeyFrames().clear();
+
     var selectedWrapper = new Object() {
       int currentSelected = 0;
       final int finalSelected = actionsListView.getItems().indexOf(tileAction);
@@ -105,6 +107,15 @@ public class RandomActionComponent implements WindowComponent {
     randomActionTimeline.getKeyFrames().add(finalKeyFrame);
 
     randomActionTimeline.play();
+  }
+
+  /**
+   * Access the randomActionTimeline to stop setOnFinished.
+   *
+   * @return Timeline object
+   */
+  public Timeline getRandomActionTimeline() {
+    return randomActionTimeline;
   }
 
 }
