@@ -1,5 +1,6 @@
 * {
   -fx-text-fill: text_blk;
+  -fx-font-size: 16px;
 
   /* Main Colors */
   bg_900: #242f36;
@@ -25,7 +26,15 @@
   cta_green: #3cec5f;
 
   /* Board */
-  /* TODO: Add board colors from figma-board */
+  board_normal: #e7ece7;
+  ladder_positive: #3cea5f;
+  ladder_positive_destination: #9ee2ac;
+  ladder_negative: #e4314f;
+  ladder_negative_destination: #e18695;
+  return_to_start: #e7d302;
+  random_action: #c63ec2;
+  roll_again: #5e9ee6;
+  winner: #dd9223;
 
 }
 
@@ -87,39 +96,108 @@
 
 /* Board and tile styles */
 .board {
-  /* TODO: add colors */
+  -fx-background-color: bg_400;
+  -fx-background-radius: 10;
+  -fx-border-radius: 7;
+  -fx-border-color: bg_400;
+  -fx-border-width: 2;
 }
 
-.normalTile {
-  /* TODO: add colors */
+.normal-tile {
+  -fx-background-color: board_normal;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
 }
 
-.randomActionTile {
-  /* TODO: add colors */
+.ladder-tile-positive {
+  -fx-background-color: ladder_positive;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
 }
 
-.returnToStartTile {
-  /* TODO: add colors */
+.ladder-tile-positive-destination {
+  -fx-background-color: ladder_positive_destination;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
 }
 
-.LadderTile {
-  /* TODO: add colors */
+.ladder-tile-negative {
+  -fx-background-color: ladder_negative;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
 }
 
-.endpointGreenTile {
-  /* TODO: add colors */
+.ladder-tile-negative .label {
+  -fx-text-fill: text_wht;
 }
 
-.endpointRedTile {
-  /* TODO: add colors */
+.ladder-tile-negative-destination {
+  -fx-background-color: ladder_negative_destination;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
 }
 
-.winnerTile {
-  /* TODO: add colors */
+.return-to-start-tile {
+  -fx-background-color: return_to_start;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
+}
+
+.random-action-tile {
+  -fx-background-color: random_action;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
+}
+
+.random-action-tile .label {
+  -fx-text-fill: text_wht;
+}
+
+.roll-again-tile {
+  -fx-background-color: roll_again;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
+}
+
+.roll-again-tile .label {
+  -fx-text-fill: text_wht;
+}
+
+.winner-tile {
+  -fx-background-color: winner;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
+}
+
+.winner-tile .label {
+  -fx-text-fill: text_wht;
+}
+
+.tile-number {
+  -fx-text-fill: text_blk;
+  -fx-font-size: 8px;
 }
 
 
-/* Text styles */
+  /* Text styles */
 .text {
   -fx-text-fill: text_blk;
   -fx-font-size: 16px;
@@ -212,7 +290,7 @@
   -fx-background-radius: 10;
 }
 
-.speaker-box {
+.piece-box {
   -fx-background-color: bg_100;
   -fx-border-radius: 4;
   -fx-background-radius: 4;

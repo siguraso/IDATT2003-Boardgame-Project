@@ -13,6 +13,7 @@ import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.DialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
 import java.util.HashMap;
+import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -48,7 +49,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   private final HashMap<String, ImageView> playerPieces = new HashMap<>();
 
   // all board elements
-  private final BoardDisplay boardDisplay = new BoardDisplay();
+  private final BoardDisplay boardDisplay;
   private final StackPane boardGrid = new StackPane();
   private final StackPane allElements = new StackPane();
 
@@ -64,13 +65,14 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   /**
    * Constructor for the BoardGameWindow class.
    *
-   * @param board the {@link Board} object that represents the game board and all the logic that
-   *              comes with it.
+   * @param gameController The controller object for the game.
    */
-  public BoardGameWindow(Board board, GameController gameController) {
+  public BoardGameWindow(GameController gameController) {
     this.dieBox = new DieComponent(gameController);
     this.gameController = gameController;
     gameController.addObserver(this);
+
+    this.boardDisplay = new BoardDisplay(gameController);
 
     init();
   }
@@ -111,7 +113,9 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     allElements.getChildren().add(root);
 
     Scene scene = new Scene(allElements, 1200, 815);
-    scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
+    scene.getStylesheets().add(
+        Objects.requireNonNull(BoardGameWindow.class.getResource("/Styles/Style.css"))
+            .toExternalForm());
 
     window.setMinWidth(1200);
     window.setMinHeight(820);
@@ -146,16 +150,20 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     int tileWidth = (800 - (2 * 29)) / 9;
     int tileHeight = (800 - (2 * 28)) / 10;
 
-    this.boardDisplay.init(tileWidth, tileHeight);
+    this.boardDisplay.init(tileWidth, tileHeight, gameController.getBoard().getTileTypes());
 
     boardGrid.getChildren().add(this.boardDisplay.getComponent());
 
-    ImageView boardImage = new ImageView(
-        new Image("file:src/main/resources/Images/LadderBoardGame_default.png"));
-    boardImage.setFitHeight(800);
-    boardImage.setFitWidth(800);
+    ImageView boardArrows = new ImageView(
+        new Image(Objects.requireNonNull(
+            this.getClass().getResourceAsStream("/Images/boards/ladder_game_arrows.png"))));
+    boardArrows.setFitHeight(800);
+    boardArrows.setFitWidth(800);
 
-    boardDisplay.getChildren().addAll(boardImage, boardGrid);
+    StackPane boardImageStack = new StackPane();
+    boardImageStack.getChildren().addAll(boardArrows, boardGrid);
+
+    boardDisplay.getChildren().add(boardImageStack);
     boardDisplay.setAlignment(javafx.geometry.Pos.CENTER);
     boardDisplay.getStyleClass().add("board-region");
 

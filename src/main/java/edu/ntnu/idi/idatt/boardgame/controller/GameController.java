@@ -1,6 +1,9 @@
 package edu.ntnu.idi.idatt.boardgame.controller;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.SpecialTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
@@ -22,9 +25,9 @@ import java.util.List;
  */
 public class GameController implements BoardGameObserver, BoardGameObservable {
 
-  private final Die die;
+  private final Die die = new Die(6);
   private final PlayersController playersController;
-  private final Board board;
+  private Board board;
 
   List<BoardGameObserver> uiObservers = new ArrayList<>();
 
@@ -33,13 +36,10 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
    *
    * <p>This class controls the flow of the game</p>
    *
-   * @param die               The {@link Die} to be used in the game.
    * @param playersController The controller object for the players in the game.
    */
-  public GameController(Die die, PlayersController playersController, Board board) {
-    this.die = die;
+  public GameController(PlayersController playersController, boolean useTwoDice) {
     this.playersController = playersController;
-    this.board = board;
 
     die.addObserver(this);
 
@@ -48,6 +48,15 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
 
     // add the current player to the die observer list
     die.addObserver(playersController.getCurrentPlayer());
+  }
+
+  /**
+   * Method to set the {@link Board} for the game based on the given {@link BoardType}.
+   *
+   * @param boardType The type of board to be used in the game.
+   */
+  public void setBoard(BoardType boardType) {
+    this.board = BoardFactory.createBoard(boardType);
   }
 
   /**
@@ -103,6 +112,21 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
     playersController.nextPlayer();
 
     die.addObserver(playersController.getCurrentPlayer());
+  }
+
+  /**
+   * Method to get the destination tile number of a LadderTile.
+   *
+   * @param tileNumber an integer representing the tile number.
+   */
+  public int getLadderDestinationTileNumber(int tileNumber) {
+    Tile tile = board.getTiles().get(tileNumber);
+
+    if (!tile.getTileType().equals(TileType.LADDER.getTileType())) {
+      throw new IllegalArgumentException("Tile number " + tileNumber + " is not a LadderTile");
+    }
+
+    return ((LadderTile) tile).getDestinationTileNumber();
   }
 
   @Override

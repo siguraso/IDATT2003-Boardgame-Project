@@ -15,7 +15,6 @@ public class RollAgainTile extends SpecialTile {
 
   private final int tileNumber;
   private final int[] onscreenPosition;
-  private final String tileType = "ROLL_AGAIN";
 
   /**
    * Constructor for a RollAgainTile.
@@ -40,7 +39,7 @@ public class RollAgainTile extends SpecialTile {
 
   @Override
   public String getTileType() {
-    return tileType;
+    return "RollAgainTile";
   }
 
   @Override

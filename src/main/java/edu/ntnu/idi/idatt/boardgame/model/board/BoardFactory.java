@@ -19,8 +19,8 @@ import java.util.stream.IntStream;
  */
 public class BoardFactory {
 
-  private final static int LADDER_GAME_ROWS = 10;
-  private final static int LADDER_GAME_COLS = 9;
+  private static final int LADDER_GAME_ROWS = 10;
+  private static final int LADDER_GAME_COLS = 9;
 
   /**
    * Creates a new hardcoded board based on the given {@link BoardType}.
