@@ -2,12 +2,15 @@
   -fx-text-fill: text_blk;
 
   /* Main Colors */
+  bg_900: #242f36;
   bg_800: #2F3E46;
   bg_700: #354F52;
   bg_600: #52796F;
-  bg_500: #84A98C;
+  bg_500: #719178;
+  bg_400: #84A98C;
+  bg_300: #B9CBB0;
   bg_200: #c8dccc;
-  bg_100: #e0e6e0;
+  bg_100: #e7f5e9;
   bg_000: #eeefee;
 
   /* Text Colors */
@@ -16,7 +19,9 @@
 
   /* Call to action */
   cta_orange: #df9323;
-  cta_red: #e6314f;
+  cta_red: #ff0029;
+  cta_red_hover: #bd0000;
+  cta_red_pressed: #a10000;
   cta_green: #3cec5f;
 
   /* Board */
@@ -31,11 +36,54 @@
   -fx-font-size: 16px;
 }
 
+
 .button {
   -fx-background-color: bg_800;
   -fx-text-fill: bg_100;
+  -fx-background-radius: 10;
+  -fx-padding: 5 10 5 10;
+}
+
+.button:hover {
+  -fx-background-color: bg_700;
+  -fx-padding: 5 10 5 10;
+}
+
+.button:pressed {
+  -fx-background-color: bg_600;
+  -fx-padding: 5 10 5 10;
+}
+
+
+.scroll-pane {
+  -fx-background-color: bg_100;
+  -fx-border-radius: 20;
+}
+
+.text-field {
+  -fx-background-color: bg_100;
+  -fx-text-fill: text_blk;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+  -fx-pref-height: 30;
+  -fx-prompt-text-fill: #757575;
   -fx-font-size: 16px;
 }
+
+
+.combo-box {
+  -fx-background-color: bg_100;
+  -fx-background-radius: 10;
+  -fx-prompt-text-fill: #757575;
+  -fx-pref-height: 30;
+  -fx-padding: 0;
+  -fx-max-width: 100;
+}
+
+.radio-button .radio {
+  -fx-background-color: bg_200;
+}
+
 
 /* Board and tile styles */
 .board {
@@ -90,21 +138,7 @@
 }
 
 .sidebar {
-  -fx-background-color: bg_500;
-  -fx-text-fill: bg_100;
-}
-
-.button {
-  -fx-background-color: bg_800;
-  -fx-text-fill: bg_100;
-}
-
-.button:hover {
-  -fx-background-color: bg_700;
-}
-
-.button:pressed {
-  -fx-background-color: bg_600;
+  -fx-background-color: bg_400;
 }
 
 .dialog-box {
@@ -116,13 +150,51 @@
 
 .leaderboard {
   -fx-background-color: bg_200;
-
   -fx-border-radius: 10;
   -fx-background-radius: 10;
 }
 
 .winner-screen {
   -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.board-selection-view {
+  -fx-background-color: bg_400;
+  -fx-text-fill: bg_100;
+  -fx-background-radius: 10;
+}
+
+.button-bar {
+  -fx-background-color: bg_700;
+  -fx-background-radius: 0 0 10 10;
+  -fx-pref-height: 50;
+}
+
+.button-bar .button {
+  -fx-background-color: bg_700;
+  -fx-text-fill: text_wht;
+}
+
+.button-bar .button:hover {
+  -fx-background-color: bg_800;
+}
+
+.button-bar .button:pressed {
+  -fx-background-color: bg_900;
+}
+
+.remove-button {
+  -fx-background-color: cta_red;
+  -fx-text-fill: text_wht;
+  -fx-background-radius: 10;
+}
+
+.remove-button:hover {
+  -fx-background-color: cta_red_hover;
+}
+
+.remove-button:pressed {
+  -fx-background-color: cta_red_pressed;
 }
 
 /* Styling for different sub-components in the different components */
@@ -140,6 +212,13 @@
   -fx-background-radius: 10;
 }
 
+.speaker-box {
+  -fx-background-color: bg_100;
+  -fx-border-radius: 4;
+  -fx-background-radius: 4;
+  -fx-padding: 3;
+}
+
 .header {
   -fx-font-size: 24px;
 }
@@ -147,4 +226,13 @@
 .die-image {
   -fx-border-radius: 10;
   -fx-background-radius: 10;
+}
+
+.player-selection-view {
+  -fx-background-color: bg_300;
+  -fx-text-fill: text_blk;
+  -fx-background-radius: 10;
+  -fx-min-height: 45;
+  -fx-min-width: 300;
+
 }

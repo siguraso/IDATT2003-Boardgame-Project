@@ -50,6 +50,7 @@ public enum SoundFile {
       return filepath + "player_climb.wav";
     }
   };
+
   private static final String filepath = "/Sounds/";
 
   /**

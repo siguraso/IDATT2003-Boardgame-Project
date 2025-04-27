@@ -1,17 +1,23 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
-import edu.ntnu.idi.idatt.boardgame.controller.GameController;
-import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
-import edu.ntnu.idi.idatt.boardgame.model.board.Board;
-import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
-import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
-import java.util.ArrayList;
+import java.util.Objects;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 
 /**
@@ -28,55 +34,55 @@ public class MainWindow implements Window {
 
   private final Stage window;
 
+  // BoardType that is currently selected
+  private BoardType boardType = null;
+
+  private boolean isSidebarVisible = false;
+
+  private final BorderPane root = new BorderPane();
+  private final BorderPane boardGameSelection = new BorderPane();
+  private final FlowPane ladderBoardSelection;
+  private final FlowPane parioMartyBoardSelection;
+  private final HBox buttonBar;
+  private final Button ladderGameButton = new Button("Ladder Game");
+  private final Button parioMartyButton = new Button("Pario Marty");
+  private final Label sidebarHeader = new Label();
+
+  // ArrayList of players used to store the players that are added to the game
+  // private final ArrayList<Player> players = new ArrayList<>();
+
+  // check weather or not to use two dice
+  private boolean useTwoDice = false;
+
   /**
    * Constructor for the MainWindow class.
+   *
+   * @param primaryStage the primary stage for this application.
    */
   public MainWindow(Stage primaryStage) {
     this.window = primaryStage;
+    ladderBoardSelection = getLadderGamePage();
+    parioMartyBoardSelection = getParioMartyPage();
+    buttonBar = getButtonBar();
   }
 
   @Override
   public void init() {
-    Button startButton = new Button("Start game");
+    boardGameSelection.setCenter(ladderBoardSelection);
+    boardGameSelection.setTop(buttonBar);
 
-    startButton.setOnAction(e -> {
-      // initiate the die, which is more or less going to control the game loop
-      Die die = new Die(6);
+    root.setCenter(boardGameSelection);
 
-      // initiate board game here
-      ArrayList<Player> players = new ArrayList<>();
-      players.add(new Player("player1", PlayerPiece.MARIOTINELLI));
-      players.add(new Player("player2", PlayerPiece.PAUL));
-      players.add(new Player("player3", PlayerPiece.EVIL_PAUL));
-      players.add(new Player("player4", PlayerPiece.KONKEY_DONG));
-      // add the players to the players hashmap
-      // build the board
-      // put alla that into the gameWindow
+    BorderPane.setAlignment(ladderBoardSelection, Pos.TOP_CENTER);
 
-      // TODO remove dis:
-      players.forEach(player -> {
-        player.moveTo(85);
-      });
+    root.setStyle("-fx-background-color: bg_300;");
 
-      PlayersController playersController = new PlayersController(players);
+    Scene scene = new Scene(root, 900, 600);
+    scene.getStylesheets().add(Objects.requireNonNull(getClass()
+        .getResource("/Styles/Style.css")).toExternalForm());
 
-      Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_VANILLA);
-
-      GameController gameController = new GameController(die, playersController, board);
-
-      BoardGameWindow boardGameWindow = new BoardGameWindow(board, gameController);
-
-      window.close();
-      boardGameWindow.show();
-    });
-
-    HBox layout = new HBox(20);
-    layout.setAlignment(javafx.geometry.Pos.CENTER);
-
-    Scene scene = new Scene(layout, 300, 300);
-    layout.getChildren().addAll(startButton);
-    scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
-
+    window.setMinWidth(900);
+    window.setMinHeight(610);
     window.setScene(scene);
   }
 
@@ -88,5 +94,310 @@ public class MainWindow implements Window {
   @Override
   public void close() {
     window.close();
+  }
+
+  private HBox getButtonBar() {
+    HBox buttons = new HBox();
+
+    buttons.setAlignment(Pos.CENTER);
+    buttons.setSpacing(10);
+
+    buttons.getStyleClass().add("button-bar");
+
+    ladderGameButton.setOnAction(onPressed -> {
+      boardGameSelection.setCenter(ladderBoardSelection);
+      boardType = null;
+    });
+
+    parioMartyButton.setOnAction(onPressed -> {
+      boardGameSelection.setCenter(parioMartyBoardSelection);
+      boardType = null;
+    });
+
+    buttons.getChildren().add(ladderGameButton);
+    buttons.getChildren().add(parioMartyButton);
+
+    return buttons;
+  }
+
+  private FlowPane getLadderGamePage() {
+    FlowPane flowPane = new FlowPane();
+
+    // add all the board selection views to the flow pane
+    flowPane.getChildren().addAll(getBoardSelectionView(BoardType.LADDER_GAME_REGULAR,
+            "Regular Ladder Game"),
+        getBoardSelectionView(BoardType.LADDER_GAME_SPECIAL, "Special Ladder Game"));
+
+    flowPane.setVgap(20);
+    flowPane.setHgap(20);
+
+    flowPane.setAlignment(Pos.CENTER);
+    flowPane.setPadding(new Insets(20, 20, 20, 20));
+
+    return flowPane;
+  }
+
+  private FlowPane getParioMartyPage() {
+    FlowPane flowPane = new FlowPane();
+    // TODO add all the board selection views to the flow pane
+
+    return flowPane;
+  }
+
+  private VBox getBoardSelectionView(BoardType board, String title) {
+    VBox boardSelectionView = new VBox();
+    boardSelectionView.getStyleClass().add("board-selection-view");
+
+    Label titleHeader = new Label(title);
+    titleHeader.getStyleClass().add("header");
+
+    ImageView boardImage = new ImageView(new Image(
+        Objects.requireNonNull(getClass().getResourceAsStream(board.getFilePath()))));
+
+    boardImage.setFitWidth(200);
+    boardImage.setFitHeight(200);
+
+    Button chooseBoardButton = new Button("Choose Board");
+
+    chooseBoardButton.setOnAction(onPressed -> {
+      boardType = board;
+      showSidebar();
+    });
+
+    boardSelectionView.getChildren().addAll(titleHeader, boardImage, chooseBoardButton);
+    boardSelectionView.setSpacing(10);
+    boardSelectionView.setAlignment(Pos.CENTER);
+
+    boardSelectionView.setPadding(new Insets(10));
+    boardSelectionView.getStyleClass().add("board-selection-view");
+
+    boardSelectionView.setAlignment(Pos.CENTER);
+
+    return boardSelectionView;
+  }
+
+  private void showSidebar() {
+    if (!isSidebarVisible) {
+      VBox sidebar = new VBox();
+      sidebar.getStyleClass().add("sidebar");
+
+      sidebar.setPadding(new Insets(10, 10, 10, 10));
+      sidebar.setMaxWidth(300);
+      sidebar.setPrefWidth(300);
+
+      sidebarHeader.setText("Current game: \n" + boardType.getBoardName());
+      sidebarHeader.setStyle("-fx-font-size: 18px; -fx-text-alignment: center;");
+
+      HBox startGameButtons = new HBox();
+      Button startGameButton = new Button("Start Game");
+      Button startGameJsonButton = new Button("Start Game (JSON)");
+      startGameButtons.getChildren().addAll(startGameButton, startGameJsonButton);
+      startGameButtons.setAlignment(Pos.CENTER);
+      startGameButtons.setSpacing(10);
+
+      Line separator = new Line();
+      separator.setStyle("-fx-stroke: bg_200; -fx-stroke-width: 1;");
+      separator.setStartX(0);
+      separator.setStartY(0);
+      separator.setEndX(200);
+      separator.setEndY(0);
+
+      VBox startGameButtonsBox = new VBox();
+
+      startGameButtonsBox.getChildren().addAll(separator, startGameButtons);
+      startGameButtonsBox.setAlignment(Pos.CENTER);
+      startGameButtonsBox.setSpacing(15);
+      startGameButtonsBox.setPadding(new Insets(10, 0, 10, 0));
+
+      sidebar.getChildren().addAll(sidebarHeader, getPlayerSelection(), getNumberOfDiceComponent(),
+          startGameButtonsBox);
+      sidebar.setAlignment(Pos.CENTER);
+      sidebar.setSpacing(10);
+
+      root.setRight(sidebar);
+
+      isSidebarVisible = true;
+
+    } else {
+      sidebarHeader.setText("Current game: \n" + boardType.getBoardName());
+    }
+  }
+
+  private VBox getPlayerSelection() {
+
+    VBox playerSelection = new VBox();
+
+    playerSelection.setSpacing(10);
+    playerSelection.setAlignment(Pos.TOP_CENTER);
+    playerSelection.setPadding(new Insets(10, 0, 10, 0));
+    playerSelection.setPrefHeight(340);
+
+    Button addPlayerButton = new Button("Add Player");
+
+    VBox playerSelectionView = new VBox();
+
+    // add two player profile editors to the player selection view to start with
+    playerSelectionView.getChildren().add(getPlayerProfileEditor());
+    playerSelectionView.getChildren().add(getPlayerProfileEditor());
+
+    addPlayerButton.setOnAction(onPressed -> {
+      if (playerSelectionView.getChildren().size() < 4) {
+        playerSelectionView.getChildren().add(getPlayerProfileEditor());
+      }
+    });
+
+    playerSelectionView.setAlignment(Pos.TOP_CENTER);
+    playerSelectionView.setPadding(new Insets(15, 0, 15, 0));
+    playerSelectionView.setSpacing(10);
+    playerSelectionView.getStyleClass().add("player-selection-view");
+
+    HBox fileButtons = new HBox();
+    Button readButton = new Button("Load from .csv file");
+    Button writeButton = new Button("Save to .csv file");
+    fileButtons.getChildren().addAll(readButton, writeButton);
+    fileButtons.setSpacing(10);
+    fileButtons.setAlignment(Pos.CENTER);
+
+    readButton.setOnAction(onPressed -> {
+      // TODO Implement read from file
+    });
+
+    writeButton.setOnAction(onPressed -> {
+      // TODO Implement write to file
+    });
+
+    // add a line separator and header
+    Line separator = new Line();
+
+    separator.setStyle("-fx-stroke: bg_200; -fx-stroke-width: 1;");
+    separator.setStartX(0);
+    separator.setStartY(0);
+    separator.setEndX(200);
+    separator.setEndY(0);
+
+    Label playerSelectionHeader = new Label("Add Players: ");
+
+    playerSelection.getChildren()
+        .addAll(separator, playerSelectionHeader, addPlayerButton, playerSelectionView,
+            fileButtons);
+
+    return playerSelection;
+  }
+
+  private HBox getPlayerProfileEditor() {
+    TextField playerName = new TextField();
+    playerName.setPromptText("Enter Name");
+    playerName.setPrefWidth(100);
+
+    ImageView playerImage = new ImageView(new
+        Image(
+        Objects.requireNonNull(
+            getClass().getResourceAsStream("/Images/player-pieces/default.png"))));
+
+    HBox playerPieceBox = new HBox();
+    playerPieceBox.getChildren().addAll(playerImage);
+    playerPieceBox.getStyleClass().add("speaker-box");
+
+    playerImage.setFitHeight(30);
+    playerImage.setFitWidth(30);
+
+    ComboBox<String> playerPiece = new ComboBox<>();
+    playerPiece.setPromptText("Piece");
+    playerPiece.getItems().addAll("Paul", "Evil Paul", "Konkey Dong", "Mariotinelli");
+
+    playerPiece.valueProperty().addListener((observable, oldValue, newValue) -> {
+      switch (newValue) {
+        case "Paul" -> {
+          playerImage.setImage(new Image(
+              Objects.requireNonNull(getClass()
+                  .getResourceAsStream("/Images/player-pieces/paul.png"))));
+        }
+        case "Evil Paul" -> {
+          playerImage.setImage(new Image(
+              Objects.requireNonNull(getClass()
+                  .getResourceAsStream("/Images/player-pieces/evil_paul.png"))));
+        }
+        case "Konkey Dong" -> {
+          playerImage.setImage(new Image(
+              Objects.requireNonNull(getClass()
+                  .getResourceAsStream("/Images/player-pieces/konkey_dong.png"))));
+        }
+        case "Mariotinelli" -> {
+          playerImage.setImage(new Image(
+              Objects.requireNonNull(getClass()
+                  .getResourceAsStream("/Images/player-pieces/mariotinelli.png"))));
+        }
+        default -> {
+          playerImage.setImage(new Image(
+              Objects.requireNonNull(getClass()
+                  .getResourceAsStream("/Images/player-pieces/default.png"))));
+        }
+      }
+    });
+
+    Button removePlayerButton = new Button("—");
+    removePlayerButton.getStyleClass().add("remove-button");
+
+    removePlayerButton.setOnAction(onPressed -> {
+      HBox parent = (HBox) removePlayerButton.getParent();
+      VBox grandParent = (VBox) parent.getParent();
+
+      if (grandParent.getChildren().size() > 2) {
+        grandParent.getChildren().remove(parent);
+      }
+    });
+
+    HBox playerProfileEditor = new HBox();
+    playerProfileEditor.getChildren().addAll(playerPieceBox, playerName, playerPiece,
+        removePlayerButton);
+
+    playerProfileEditor.setAlignment(Pos.CENTER);
+    playerProfileEditor.setSpacing(6);
+
+    return playerProfileEditor;
+  }
+
+  private VBox getNumberOfDiceComponent() {
+    ToggleGroup toggleGroup = new ToggleGroup();
+
+    RadioButton oneDieRadioButton = new RadioButton("1 Die");
+    oneDieRadioButton.setToggleGroup(toggleGroup);
+
+    RadioButton twoDiceRadioButton = new RadioButton("2 Dice");
+    twoDiceRadioButton.setToggleGroup(toggleGroup);
+
+    oneDieRadioButton.setOnAction(onPressed -> {
+      useTwoDice = false;
+    });
+
+    twoDiceRadioButton.setOnAction(onPressed -> {
+      useTwoDice = true;
+    });
+
+    HBox numberOfDiceToggle = new HBox();
+
+    numberOfDiceToggle.getChildren().addAll(oneDieRadioButton, twoDiceRadioButton);
+    numberOfDiceToggle.setSpacing(10);
+    numberOfDiceToggle.setAlignment(Pos.CENTER);
+
+    Line separator = new Line();
+
+    separator.setStyle("-fx-stroke: bg_200; -fx-stroke-width: 1;");
+    separator.setStartX(0);
+    separator.setStartY(0);
+    separator.setEndX(200);
+    separator.setEndY(0);
+
+    Label numberOfDiceHeader = new Label("Number of Dice: ");
+    numberOfDiceHeader.getStyleClass().add("header");
+
+    VBox numberOfDiceComponent = new VBox();
+
+    numberOfDiceComponent.getChildren().addAll(separator, numberOfDiceHeader, numberOfDiceToggle);
+    numberOfDiceComponent.setAlignment(Pos.CENTER);
+    numberOfDiceComponent.setSpacing(10);
+    numberOfDiceComponent.setPadding(new Insets(10, 10, 10, 10));
+
+    return numberOfDiceComponent;
   }
 }
