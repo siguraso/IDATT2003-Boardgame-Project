@@ -2,12 +2,16 @@ package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import java.util.HashMap;
+import java.util.Objects;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -88,14 +92,45 @@ public class BoardDisplay implements WindowComponent {
 
         case "ReturnToStartTile" -> {
           gridTileStack.get(t).getStyleClass().add("return-to-start-tile");
+          ImageView icon = new ImageView(
+              new Image(Objects.requireNonNull(
+                  this.getClass()
+                      .getResourceAsStream(
+                          "/Images/boards/tile-icons/return_to_start.png"))));
+
+          // wonky image size to not stretch the image (I picked bad image dimensions :( )
+          icon.setFitWidth(60);
+          icon.setFitHeight(54);
+
+          gridTileStack.get(t).getChildren().add(icon);
+          icon.toBack();
         }
 
         case "RollAgainTile" -> {
           gridTileStack.get(t).getStyleClass().add("roll-again-tile");
+          ImageView icon = new ImageView(
+              new Image(Objects.requireNonNull(
+                  this.getClass()
+                      .getResourceAsStream("/Images/boards/tile-icons/roll_again.png"))));
+          icon.setFitWidth(60);
+          icon.setFitHeight(54);
+
+          gridTileStack.get(t).getChildren().add(icon);
+          icon.toBack();
         }
 
         case "RandomActionTile" -> {
           gridTileStack.get(t).getStyleClass().add("random-action-tile");
+
+          ImageView icon = new ImageView(
+              new Image(Objects.requireNonNull(
+                  this.getClass()
+                      .getResourceAsStream("/Images/boards/tile-icons/random_action.png"))));
+          icon.setFitWidth(60);
+          icon.setFitHeight(54);
+
+          gridTileStack.get(t).getChildren().add(icon);
+          icon.toBack();
         }
 
         case "WinnerTile" -> {

@@ -17,6 +17,7 @@ import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -153,17 +154,16 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     boardGrid.getChildren().add(this.boardDisplay.getComponent());
 
-    /*
-    ImageView boardImage = new ImageView(
+    ImageView boardArrows = new ImageView(
         new Image(Objects.requireNonNull(
-            BoardGameWindow.class.getResourceAsStream(
-                gameController.getBoard().getBoardType().getFilePath()))));
-    boardImage.setFitHeight(800);
-    boardImage.setFitWidth(800);
+            this.getClass().getResourceAsStream("/Images/boards/ladder_game_arrows.png"))));
+    boardArrows.setFitHeight(800);
+    boardArrows.setFitWidth(800);
 
+    StackPane boardImageStack = new StackPane();
+    boardImageStack.getChildren().addAll(boardArrows, boardGrid);
 
-     */
-    boardDisplay.getChildren().add(boardGrid);
+    boardDisplay.getChildren().add(boardImageStack);
     boardDisplay.setAlignment(javafx.geometry.Pos.CENTER);
     boardDisplay.getStyleClass().add("board-region");
 
