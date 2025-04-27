@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.RandomActionTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
@@ -10,6 +11,7 @@ import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.RandomActionComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.DialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
 import java.util.HashMap;
@@ -358,6 +360,10 @@ public class BoardGameWindow implements Window, BoardGameObserver {
           sfxPlayer.openSoundFile(SoundFile.ROLL_AGAIN);
         }
 
+        case "RandomActionTile" -> {
+          showRandomActionList("Return to start");
+        }
+
         case "WinnerTile" -> showWinnerScreen();
 
         // TODO: implement the rest of the special tiles
@@ -411,6 +417,17 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     }
 
     leaderboard.update();
+
+  }
+
+  private void showRandomActionList(String tileAction) {
+    sfxPlayer.stopSound();
+    
+    RandomActionComponent randomActionComponent = new RandomActionComponent();
+
+    allElements.getChildren().add(randomActionComponent.getComponent());
+
+    randomActionComponent.randomActionSequence(tileAction);
 
   }
 

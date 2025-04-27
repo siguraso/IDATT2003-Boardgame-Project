@@ -61,6 +61,18 @@ public enum SoundFile {
     public String getSoundPath() {
       return filepath + "roll_again.wav";
     }
+  },
+  RANDOM_ACTION_MOVE() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "random_action_move.wav";
+    }
+  },
+  RANDOM_ACTION_SELECT() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "random_action_select.wav";
+    }
   };
 
   private static final String filepath = "/Sounds/";

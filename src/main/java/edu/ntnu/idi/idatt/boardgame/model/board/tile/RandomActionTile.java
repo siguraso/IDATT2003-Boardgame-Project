@@ -17,9 +17,8 @@ import java.util.HashMap;
  */
 public class RandomActionTile extends SpecialTile {
 
-  private final TileType type = TileType.RANDOM_ACTION;
   private final TileAction[] tileActions = new TileAction[3];
-  private transient final Board board;
+  private final transient Board board;
 
   /**
    * Constructor for the RandomActionTile class.
@@ -60,8 +59,7 @@ public class RandomActionTile extends SpecialTile {
    */
   public void initializeTileActions(HashMap<Integer, Player> playerMap) {
     tileActions[0] = new ReturnToStartAction(board);
-    tileActions[1] =
-        new RollAgainAction();    // TODO: make this work after implementing the roll again action
+    tileActions[1] = new RollAgainAction();
     tileActions[2] = new SwapPlayersAction(playerMap);
   }
 
