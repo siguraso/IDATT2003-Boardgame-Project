@@ -238,7 +238,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     for (int i = 1; i <= steps; i++) {
 
-      KeyFrame keyFrame = new KeyFrame(Duration.millis(400 * i), event -> {
+      KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), event -> {
 
         if (nextTileWrapper.nextTile == boardDisplay.getGridTiles().size() + 1) {
           // if it is about to moveForward one over the last tile, moveForward them backwards,
@@ -317,8 +317,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     // if the player is on a special tile, tell the players, and perform on button click
     if (!currentTileType.equals(TileType.NORMAL.getTileType())) {
 
-      System.out.println(currentTileType);
-
       switch (currentTileType) {
         case "LadderTile" -> {
           int ladderDelta = gameController.getPlayersController().getPreviousPlayer().getPosition()
@@ -342,6 +340,14 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
             sfxPlayer.openSoundFile(SoundFile.PLAYER_FALL);
           }
+        }
+
+        case "ReturnToStartTile" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " fell down a hole and returned to start! 🥲");
+
+          sfxPlayer.openSoundFile(SoundFile.RETURN_TO_START);
         }
 
         case "WinnerTile" -> showWinnerScreen();

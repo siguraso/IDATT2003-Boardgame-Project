@@ -49,6 +49,12 @@ public enum SoundFile {
     public String getSoundPath() {
       return filepath + "player_climb.wav";
     }
+  },
+  RETURN_TO_START() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "return_to_start.wav";
+    }
   };
 
   private static final String filepath = "/Sounds/";
