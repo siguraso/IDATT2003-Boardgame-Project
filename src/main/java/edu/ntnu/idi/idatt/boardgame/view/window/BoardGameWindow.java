@@ -374,9 +374,18 @@ public class BoardGameWindow implements Window, BoardGameObserver {
               gameController.getPlayersController().getPreviousPlayer().getName()
                   + " landed on a random action tile! They get to do a random action!");
 
+          String randomAction;
+
+          switch (gameController.getLastRandomAction()) {
+            case "ReturnToStartAction" -> randomAction = "Return to start";
+            case "RollAgainAction" -> randomAction = "Roll again";
+            case "SwapPlayersAction" -> randomAction = "Swap spaces with a random player";
+            default -> randomAction = null;
+          }
+
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
-            showRandomActionList("Return to start");
-            dieBox.getRollDieButton().setDisable(false);
+            ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+            showRandomActionList(randomAction, initialPlayerPositions);
           });
         }
 
@@ -439,7 +448,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     });
   }
 
-  private void showRandomActionList(String tileAction) {
+  private void showRandomActionList(String tileAction, int[] initialPlayerPositions) {
     sfxPlayer.stopSound();
 
     randomActionComponent = new RandomActionComponent();
@@ -454,9 +463,18 @@ public class BoardGameWindow implements Window, BoardGameObserver {
       // perform the action that was selected
       // TODO: implement different actions and dialogs for dat^^^
       if (tileAction.equals("Return to start")) {
-        // gameController.getPlayersController().getCurrentPlayer().setPosition(1);
+        dialogBox.refresh(
+            gameController.getPlayersController().getPreviousPlayer().getName()
+                + " returned to start!");
+
+        ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+        ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+          updatePlayerPositions(initialPlayerPositions);
+        });
+
       } else if (tileAction.equals("Roll again")) {
-        // gameController.getPlayersController().getCurrentPlayer().setRollAgain(true);
+
       } else if (tileAction.equals("Swap spaces with a random player")) {
         // gameController.swapSpacesWithRandomPlayer();
       }

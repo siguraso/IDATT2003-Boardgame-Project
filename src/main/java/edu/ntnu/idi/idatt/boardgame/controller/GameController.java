@@ -4,6 +4,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.RandomActionTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.SpecialTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
@@ -127,6 +128,23 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
     }
 
     return ((LadderTile) tile).getDestinationTileNumber();
+  }
+
+  /**
+   * Accesses the action that was last performed by a RandomActionTile represented as a String.
+   *
+   * @return the action that was last performed by a RandomActionTile represented as a String.
+   */
+  public String getLastRandomAction() {
+    Tile tile = board.getTiles().get(playersController.getPreviousPlayer().getPosition());
+
+    if (!tile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())) {
+      throw new IllegalArgumentException(
+          "Tile number " + playersController.getCurrentPlayer().getPosition()
+              + " is not a RandomActionTile");
+    }
+
+    return ((RandomActionTile) tile).getTileAction();
   }
 
   @Override

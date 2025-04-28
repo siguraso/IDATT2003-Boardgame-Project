@@ -6,6 +6,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RollAgainAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.SwapPlayersAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.HashMap;
 
 /**
@@ -53,14 +54,20 @@ public class RandomActionTile extends SpecialTile {
    * The tile actions are ReturnToStartAction, RollAgainAction and SwapPlayersAction.
    *
    * @param playerMap a {@link HashMap} containing the players that can be swapped with.
-   * @version 1.0
-   * @author siguraso
-   * @since 1.0
    */
   public void initializeTileActions(HashMap<Integer, Player> playerMap) {
     tileActions[0] = new ReturnToStartAction(board);
     tileActions[1] = new RollAgainAction();
     tileActions[2] = new SwapPlayersAction(playerMap);
+  }
+
+  /**
+   * Method that returns the {@link TileAction} that was previously performed on this tile.
+   *
+   * @return the {@link TileAction} (represented as a String) that was performed on this tile.
+   */
+  public String getTileAction() {
+    return tileAction.getClass().getSimpleName();
   }
 
 }
