@@ -31,7 +31,7 @@ public class Dice extends Die {
   public void roll() {
     int[] rolls = new int[numberOfDice];
 
-    IntStream.range(0, sides).forEach(i -> {
+    IntStream.range(0, numberOfDice).forEach(i -> {
       rolls[i] = (int) (Math.random() * sides) + 1;
     });
 

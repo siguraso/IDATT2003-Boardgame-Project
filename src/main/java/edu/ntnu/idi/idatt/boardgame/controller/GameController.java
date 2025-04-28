@@ -8,6 +8,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.RandomActionTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.SpecialTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
+import edu.ntnu.idi.idatt.boardgame.model.dice.Dice;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
  */
 public class GameController implements BoardGameObserver, BoardGameObservable {
 
-  private final Die die = new Die(6);
+  private final Die die;
   private final PlayersController playersController;
   private Board board;
 
@@ -42,6 +43,8 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
    */
   public GameController(PlayersController playersController, boolean useTwoDice) {
     this.playersController = playersController;
+    
+    die = useTwoDice ? new Dice(2, 6) : new Die(6);
 
     die.addObserver(this);
 

@@ -158,7 +158,7 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
 
   @Override
   public void update(int[] i) {
-    if (!useTwoDice) {
+    if (useTwoDice) {
       dieImage2.setImage(new Image(imagePath + i[1] + ".jpg"));
     }
     dieImage.setImage(new Image(imagePath + i[0] + ".jpg"));
