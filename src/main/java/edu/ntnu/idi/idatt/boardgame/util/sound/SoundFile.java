@@ -79,6 +79,18 @@ public enum SoundFile {
     public String getSoundPath() {
       return filepath + "random_action_show.wav";
     }
+  },
+  SWAP_PLAYERS() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "swap_players.wav";
+    }
+  },
+  RANDOM_TILE() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "random_tile.wav";
+    }
   };
 
   private static final String filepath = "/Sounds/";

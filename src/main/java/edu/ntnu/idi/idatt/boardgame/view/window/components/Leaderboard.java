@@ -59,7 +59,7 @@ public class Leaderboard implements WindowComponent {
   @Override
   public Node getComponent() {
     VBox leaderboard = new VBox();
-    leaderboard.setMinHeight(150);
+    leaderboard.setMinHeight(110);
     leaderboard.setMaxHeight(150);
     leaderboard.setMinWidth(380);
     leaderboard.setMaxWidth(380);
@@ -79,7 +79,9 @@ public class Leaderboard implements WindowComponent {
 
     update();
 
-    Label header = new Label("Top 3 Players");
+    Label header = new Label(
+        players.size() > 3 ? "Top 3 Players" : "Top " + players.size() + " Players");
+
     header.getStyleClass().add("header");
 
     leaderboard.getChildren().addAll(header, this.leaderboard);

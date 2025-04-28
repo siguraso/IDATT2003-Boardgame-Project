@@ -462,7 +462,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
       allElements.getChildren().remove(randomActionPane);
 
       // perform the action that was selected
-      // TODO: implement different actions and dialogs for dat^^^
       switch (tileAction) {
         case "Return to start" -> {
           dialogBox.refresh(
@@ -499,6 +498,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
 
+          sfxPlayer.openSoundFile(SoundFile.RANDOM_TILE);
+
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
             updatePlayerPositions(initialPlayerPositions);
           });
@@ -512,13 +513,13 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
 
+          sfxPlayer.openSoundFile(SoundFile.SWAP_PLAYERS);
+
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
             updatePlayerPositions(initialPlayerPositions);
           });
         }
       }
-
-      sfxPlayer.playSound();
     });
 
     randomActionComponent.randomActionSequence(tileAction);
