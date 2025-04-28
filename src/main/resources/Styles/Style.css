@@ -35,6 +35,7 @@
   random_action: #c63ec2;
   roll_again: #5e9ee6;
   winner: #dd9223;
+  start: #ff95f9;
 
 }
 
@@ -189,6 +190,18 @@
 
 .winner-tile .label {
   -fx-text-fill: text_wht;
+}
+
+.start-tile {
+  -fx-background-color: start;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
+}
+
+.start-tile .label {
+  -fx-font-weight: bold;
 }
 
 .tile-number {

@@ -74,6 +74,7 @@ public class BoardDisplay implements WindowComponent {
       gridTiles.put(t, playersBox);
     });
 
+    // set tile styling for the tiles
     gridTileStack.keySet().forEach(t -> {
       switch (tileTypes.get(t)) {
         case "LadderTile" -> {
@@ -143,6 +144,13 @@ public class BoardDisplay implements WindowComponent {
       }
 
     });
+
+    // set start tile styling
+    gridTileStack.get(1).getStyleClass().add("start-tile");
+    Label startLabel = new Label("START");
+    gridTileStack.get(1).getChildren().add(startLabel);
+    startLabel.toBack();
+
   }
 
   public HashMap<Integer, FlowPane> getGridTiles() {
