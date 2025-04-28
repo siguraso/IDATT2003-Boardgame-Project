@@ -56,10 +56,17 @@ public class PlayersController {
 
     setPreviousPlayer(index);
 
-    if (index + 1 == players.size()) {
+    if (index == players.size() - 1 && !currentPlayer.canRollAgain()) {
+      // if the current player is the last player in the list and they cannot roll again,
+      // set the current player to the first player in the list
       setCurrentPlayer(0);
-    } else {
+    } else if (!currentPlayer.canRollAgain()) {
+      // if the current player is not the last player in the list and they cannot roll again,
+      // set the current player to the next player in the list
       setCurrentPlayer(index + 1);
+    } else {
+      // if the current player can roll again, do not change the current player
+      currentPlayer.setRollAgain(false);
     }
 
   }

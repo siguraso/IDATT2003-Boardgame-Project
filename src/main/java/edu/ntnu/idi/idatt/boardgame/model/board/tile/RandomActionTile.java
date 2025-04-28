@@ -1,12 +1,14 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
+import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.MoveToRandomTileAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.ReturnToStartAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RollAgainAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.SwapPlayersAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Tile that performs a random action when a player lands on it.
@@ -17,9 +19,9 @@ import java.util.HashMap;
  */
 public class RandomActionTile extends SpecialTile {
 
-  private final TileType type = TileType.RANDOM_ACTION;
-  private final TileAction[] tileActions = new TileAction[3];
-  private transient final Board board;
+  private final TileAction[] tileActions = new TileAction[4];
+  private final transient Board board;
+  private ArrayList<Player> players;
 
   /**
    * Constructor for the RandomActionTile class.
@@ -32,13 +34,29 @@ public class RandomActionTile extends SpecialTile {
     this.onscreenPosition = onscreenPosition;
     this.board = board;
 
-    initializeTileActions(null);
+    initializeTileActions();
+  }
+
+  /**
+   * Set the players that are currently in the game. Used to perform the swap action.
+   *
+   * @param players an {@link ArrayList} of {@link Player} instances that are currently in the
+   *                game.
+   */
+  public void setPlayers(ArrayList<Player> players) {
+    this.players = players;
+
+    Arrays.stream(tileActions).forEach(tileAction -> {
+      if (tileAction.getClass().getSimpleName().equals("SwapPlayersAction")) {
+        ((SwapPlayersAction) tileAction).setPlayers(players);
+      }
+    });
   }
 
   @Override
   public void performAction(Player player) {
     // initialize the tileAction with a random TileAction
-    int randomAction = (int) (Math.random() * 3);
+    int randomAction = (int) (Math.random() * tileActions.length);
     this.tileAction = tileActions[randomAction];
 
     tileAction.performAction(player);
@@ -52,17 +70,34 @@ public class RandomActionTile extends SpecialTile {
   /**
    * Method that initializes the tile actions that can be performed when a player lands on the tile.
    * The tile actions are ReturnToStartAction, RollAgainAction and SwapPlayersAction.
-   *
-   * @param playerMap a {@link HashMap} containing the players that can be swapped with.
-   * @version 1.0
-   * @author siguraso
-   * @since 1.0
    */
-  public void initializeTileActions(HashMap<Integer, Player> playerMap) {
+  public void initializeTileActions() {
     tileActions[0] = new ReturnToStartAction(board);
-    tileActions[1] =
-        new RollAgainAction();    // TODO: make this work after implementing the roll again action
-    tileActions[2] = new SwapPlayersAction(playerMap);
+    tileActions[1] = new RollAgainAction();
+    tileActions[2] = new SwapPlayersAction();
+    tileActions[3] = new MoveToRandomTileAction(board);
+  }
+
+  /**
+   * Method that returns the {@link TileAction} that was previously performed on this tile.
+   *
+   * @return the {@link TileAction} (represented as a String) that was performed on this tile.
+   */
+  public String getTileAction() {
+    return tileAction.getClass().getSimpleName();
+  }
+
+  /**
+   * Accesses the last {@link Player} that was swapped with using the {@link SwapPlayersAction}.
+   *
+   * @return the {@link Player} that was swapped with.
+   */
+  public Player getPlayerToSwapWith() {
+    if (((SwapPlayersAction) tileActions[2]).getPlayerToSwapWith() == null) {
+      throw new NullPointerException("No players have been swapped yet.");
+    }
+
+    return ((SwapPlayersAction) tileActions[2]).getPlayerToSwapWith();
   }
 
 }

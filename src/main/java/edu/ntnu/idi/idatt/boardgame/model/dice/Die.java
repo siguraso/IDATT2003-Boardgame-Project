@@ -32,7 +32,7 @@ public class Die implements BoardGameObservable {
   }
 
   /**
-   * Throws the die and notifies the observers.
+   * Throws the {@link Die} and notifies the observers.
    */
   public void throwDie() {
     int currentThrow = (int) (Math.random() * sides) + 1;

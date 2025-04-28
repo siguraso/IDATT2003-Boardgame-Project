@@ -15,6 +15,7 @@ public class Player implements BoardGameObserver {
   private int position;
   private boolean isWinner = false;
   private final PlayerPiece piece;
+  private boolean rollAgain = false;
 
 
   /**
@@ -114,6 +115,24 @@ public class Player implements BoardGameObserver {
    */
   public PlayerPiece getPlayerPiece() {
     return piece;
+  }
+
+  /**
+   * Used to check if the player has to roll again.
+   *
+   * @return Boolean, true if the player has to roll again, false otherwise.
+   */
+  public boolean canRollAgain() {
+    return rollAgain;
+  }
+
+  /**
+   * Used to set if the player has to roll again.
+   *
+   * @param rollAgain Boolean, true if the player has to roll again, false otherwise.
+   */
+  public void setRollAgain(boolean rollAgain) {
+    this.rollAgain = rollAgain;
   }
 
   @Override

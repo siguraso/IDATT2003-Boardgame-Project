@@ -1,7 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
-import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
@@ -10,6 +9,7 @@ import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.DieComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.RandomActionComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.DialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
 import java.util.HashMap;
@@ -43,6 +43,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   private Leaderboard leaderboard;
   private final DieComponent dieBox;
   private DialogBox dialogBox;
+  private RandomActionComponent randomActionComponent;
+  private StackPane randomActionPane;
 
   // player HashMap containing all the player pieves corresponding to the player profiles given.
   // the key is defined as the player's name.
@@ -238,7 +240,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     for (int i = 1; i <= steps; i++) {
 
-      KeyFrame keyFrame = new KeyFrame(Duration.millis(400 * i), event -> {
+      KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), event -> {
 
         if (nextTileWrapper.nextTile == boardDisplay.getGridTiles().size() + 1) {
           // if it is about to moveForward one over the last tile, moveForward them backwards,
@@ -317,8 +319,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     // if the player is on a special tile, tell the players, and perform on button click
     if (!currentTileType.equals(TileType.NORMAL.getTileType())) {
 
-      System.out.println(currentTileType);
-
       switch (currentTileType) {
         case "LadderTile" -> {
           int ladderDelta = gameController.getPlayersController().getPreviousPlayer().getPosition()
@@ -333,6 +333,9 @@ public class BoardGameWindow implements Window, BoardGameObserver {
                     .getPreviousPlayer().getPosition());
 
             sfxPlayer.openSoundFile(SoundFile.PLAYER_CLIMB);
+
+            updatePlayerPositions(initialPlayerPositions);
+
           } else {
             dialogBox.refresh(
                 gameController.getPlayersController().getPreviousPlayer().getName()
@@ -341,7 +344,50 @@ public class BoardGameWindow implements Window, BoardGameObserver {
                     .getPreviousPlayer().getPosition());
 
             sfxPlayer.openSoundFile(SoundFile.PLAYER_FALL);
+
+            updatePlayerPositions(initialPlayerPositions);
           }
+        }
+
+        case "ReturnToStartTile" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " fell down a hole and returned to start! 🥲");
+
+          sfxPlayer.openSoundFile(SoundFile.RETURN_TO_START);
+
+          updatePlayerPositions(initialPlayerPositions);
+        }
+
+        case "RollAgainTile" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " landed on a roll again tile! They get to roll again!");
+
+          sfxPlayer.openSoundFile(SoundFile.ROLL_AGAIN);
+
+          updatePlayerPositions(initialPlayerPositions);
+        }
+
+        case "RandomActionTile" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " landed on a random action tile! They get to do a random action!");
+
+          String randomAction;
+
+          switch (gameController.getLastRandomAction()) {
+            case "ReturnToStartAction" -> randomAction = "Return to start";
+            case "RollAgainAction" -> randomAction = "Roll again";
+            case "SwapPlayersAction" -> randomAction = "Swap spaces with a random player";
+            case "MoveToRandomTileAction" -> randomAction = "Move to a random tile";
+            default -> randomAction = null;
+          }
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+            ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+            showRandomActionList(randomAction, initialPlayerPositions);
+          });
         }
 
         case "WinnerTile" -> showWinnerScreen();
@@ -350,41 +396,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
       }
 
       ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
-
-      ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
-
-        gameController.getPlayersController().getPlayers().forEach(player -> {
-          String name = player.getName();
-          ImageView playerPiece = playerPieces.get(name);
-
-          // remove the player piece from the current tile
-          boardDisplay.getGridTiles()
-              .get(initialPlayerPositions[gameController.getPlayersController().getPlayers()
-                  .indexOf(player)]).getChildren().remove(playerPiece);
-
-          // add the player piece to the new tile
-
-          boardDisplay.getGridTiles().get(player.getPosition()).getChildren()
-              .add(playerPiece);
-        });
-
-        // disable the confirmation button
-        dialogBox.refresh(
-            gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
-
-        ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress2 -> {
-          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
-          dieBox.getRollDieButton().setDisable(false);
-        });
-
-        try {
-          sfxPlayer.playSound();
-        } catch (NullPointerException e) {
-          // if the sound file is not found, do nothing
-        }
-
-
-      });
 
     } else {
       ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
@@ -403,6 +414,118 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
   }
 
+  private void updatePlayerPositions(int[] initialPlayerPositions) {
+
+    ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+
+      gameController.getPlayersController().getPlayers().forEach(player -> {
+        String name = player.getName();
+        ImageView playerPiece = playerPieces.get(name);
+
+        // remove the player piece from the current tile
+        boardDisplay.getGridTiles()
+            .get(initialPlayerPositions[gameController.getPlayersController().getPlayers()
+                .indexOf(player)]).getChildren().remove(playerPiece);
+
+        // add the player piece to the new tile
+
+        boardDisplay.getGridTiles().get(player.getPosition()).getChildren()
+            .add(playerPiece);
+      });
+
+      // disable the confirmation button
+      dialogBox.refresh(
+          gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+
+      ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress2 -> {
+        ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+        dieBox.getRollDieButton().setDisable(false);
+      });
+
+      // play the sound that was opened earlier
+      sfxPlayer.playSound();
+
+
+    });
+  }
+
+  private void showRandomActionList(String tileAction, int[] initialPlayerPositions) {
+    sfxPlayer.stopSound();
+
+    randomActionComponent = new RandomActionComponent();
+
+    randomActionPane = (StackPane) randomActionComponent.getComponent();
+
+    allElements.getChildren().add(randomActionPane);
+
+    randomActionComponent.getRandomActionTimeline().setOnFinished(onFinished -> {
+      allElements.getChildren().remove(randomActionPane);
+
+      // perform the action that was selected
+      switch (tileAction) {
+        case "Return to start" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " returned to start!");
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.openSoundFile(SoundFile.RETURN_TO_START);
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+            updatePlayerPositions(initialPlayerPositions);
+          });
+        }
+        case "Roll again" -> {
+          // logic gets handled in the game controller, all we have to do is prompt the player
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " gets to roll again!");
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.openSoundFile(SoundFile.ROLL_AGAIN);
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+            updatePlayerPositions(initialPlayerPositions);
+          });
+        }
+        case "Move to a random tile" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " moved to tile "
+                  + gameController.getPlayersController().getPreviousPlayer().getPosition());
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.openSoundFile(SoundFile.RANDOM_TILE);
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+            updatePlayerPositions(initialPlayerPositions);
+          });
+        }
+        default -> {
+          // default is swap players.
+
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " swapped spaces with " + gameController.getLastSwappedPlayer() + "!");
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.openSoundFile(SoundFile.SWAP_PLAYERS);
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+            updatePlayerPositions(initialPlayerPositions);
+          });
+        }
+      }
+    });
+
+    randomActionComponent.randomActionSequence(tileAction);
+
+  }
+
   private void showWinnerScreen() {
     StackPane winnerScreen = new StackPane();
 
@@ -410,7 +533,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     winnerScreen.getChildren().add(new Label(
         gameController.getPlayersController().getPreviousPlayer().getName() + " wins the game!"));
 
-    winnerScreen.getChildren().get(0).setStyle("-fx-font-size: 60px; -fx-text-fill: text_wht;");
+    winnerScreen.getChildren().getFirst().setStyle("-fx-font-size: 60px; -fx-text-fill: text_wht;");
 
     allElements.getChildren().add(winnerScreen);
 

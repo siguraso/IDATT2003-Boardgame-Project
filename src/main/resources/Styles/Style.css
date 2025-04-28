@@ -197,7 +197,7 @@
 }
 
 
-  /* Text styles */
+/* Text styles */
 .text {
   -fx-text-fill: text_blk;
   -fx-font-size: 16px;
@@ -234,6 +234,31 @@
 
 .winner-screen {
   -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.action-list {
+  -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.action-list .list-view {
+  -fx-background-color: bg_200;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+  -fx-alignment: center;
+  -fx-max-height: 117;
+  -fx-max-width: 370;
+}
+
+.action-list .list-view .list-cell {
+  -fx-background-color: bg_200;
+  -fx-text-fill: text_blk;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+}
+
+.action-list .list-view .list-cell:selected {
+  -fx-background-color: bg_500;
+  -fx-text-fill: text_wht;
 }
 
 .board-selection-view {
