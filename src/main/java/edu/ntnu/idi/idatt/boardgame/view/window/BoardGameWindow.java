@@ -1,8 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
-import edu.ntnu.idi.idatt.boardgame.model.board.Board;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.RandomActionTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
@@ -45,6 +43,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   private Leaderboard leaderboard;
   private final DieComponent dieBox;
   private DialogBox dialogBox;
+  private RandomActionComponent randomActionComponent;
+  private StackPane randomActionPane;
 
   // player HashMap containing all the player pieves corresponding to the player profiles given.
   // the key is defined as the player's name.
@@ -442,12 +442,14 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   private void showRandomActionList(String tileAction) {
     sfxPlayer.stopSound();
 
-    RandomActionComponent randomActionComponent = new RandomActionComponent();
+    randomActionComponent = new RandomActionComponent();
 
-    allElements.getChildren().add(randomActionComponent.getComponent());
+    randomActionPane = (StackPane) randomActionComponent.getComponent();
+
+    allElements.getChildren().add(randomActionPane);
 
     randomActionComponent.getRandomActionTimeline().setOnFinished(onFinished -> {
-      allElements.getChildren().remove(randomActionComponent.getComponent());
+      allElements.getChildren().remove(randomActionPane);
 
       // perform the action that was selected
       // TODO: implement different actions and dialogs for dat^^^
@@ -458,7 +460,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
       } else if (tileAction.equals("Swap spaces with a random player")) {
         // gameController.swapSpacesWithRandomPlayer();
       }
-      
+
       sfxPlayer.playSound();
     });
 
@@ -473,7 +475,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     winnerScreen.getChildren().add(new Label(
         gameController.getPlayersController().getPreviousPlayer().getName() + " wins the game!"));
 
-    winnerScreen.getChildren().get(0).setStyle("-fx-font-size: 60px; -fx-text-fill: text_wht;");
+    winnerScreen.getChildren().getFirst().setStyle("-fx-font-size: 60px; -fx-text-fill: text_wht;");
 
     allElements.getChildren().add(winnerScreen);
 

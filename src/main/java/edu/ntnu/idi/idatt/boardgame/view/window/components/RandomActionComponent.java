@@ -22,6 +22,8 @@ public class RandomActionComponent implements WindowComponent {
 
   private final ListView<String> actionsListView = new ListView<>();
   private final Timeline randomActionTimeline = new Timeline();
+  private final VBox listViewContainer = new VBox();
+  private final Label header = new Label("Random Happening!");
 
   /**
    * Constructor for the RandomActionComponent class.
@@ -45,8 +47,6 @@ public class RandomActionComponent implements WindowComponent {
 
     actionsListView.getSelectionModel().select(0);
 
-    VBox listViewContainer = new VBox();
-    Label header = new Label("Random Happening!");
     header.setStyle("-fx-font-size: 20px; -fx-text-fill: text_wht;");
     listViewContainer.getChildren().addAll(header, actionsListView);
 
@@ -95,7 +95,7 @@ public class RandomActionComponent implements WindowComponent {
       randomActionTimeline.getKeyFrames().add(keyFrame);
     }
 
-    KeyFrame finalKeyFrame = new KeyFrame(
+    KeyFrame keyFrame = new KeyFrame(
         javafx.util.Duration.millis(actionsListView.getItems().size() * 3 * 150),
         event -> {
           actionsListView.getSelectionModel().select(selectedWrapper.finalSelected);
@@ -104,9 +104,31 @@ public class RandomActionComponent implements WindowComponent {
           sfxPlayer.playSound();
         });
 
+    randomActionTimeline.getKeyFrames().add(keyFrame);
+
+    KeyFrame finalKeyFrame = new KeyFrame(
+        javafx.util.Duration.millis(actionsListView.getItems().size() * 3 * 150 + 500),
+        event -> {
+          listViewContainer.getChildren().remove(actionsListView);
+
+          header.setText(tileAction);
+
+          sfxPlayer.openSoundFile(SoundFile.RANDOM_ACTION_SHOW);
+          sfxPlayer.playSound();
+        });
+
     randomActionTimeline.getKeyFrames().add(finalKeyFrame);
 
-    randomActionTimeline.play();
+    // create a dummy keyframe to show the finalKeyFrame, since the program just ignores the last
+    // keyframe if it is not followed by a dummy keyframe
+    KeyFrame dummyKeyFrame = new KeyFrame(
+        javafx.util.Duration.millis(actionsListView.getItems().size() * 3 * 150 + 1500),
+        event -> {
+        });
+
+    randomActionTimeline.getKeyFrames().add(dummyKeyFrame);
+
+    randomActionTimeline.playFromStart();
   }
 
   /**
