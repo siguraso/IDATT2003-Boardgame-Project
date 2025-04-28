@@ -397,8 +397,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
         }
 
         case "WinnerTile" -> showWinnerScreen();
-
-        // TODO: implement the rest of the special tiles
+        
       }
 
       ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
