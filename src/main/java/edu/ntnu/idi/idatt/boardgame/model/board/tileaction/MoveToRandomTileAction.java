@@ -29,7 +29,8 @@ public class MoveToRandomTileAction implements TileAction {
 
   @Override
   public void performAction(Player player) {
-    int newPosition = (int) (Math.random() * board.getTiles().size());
+    // -1 to avoid the last tile, which is the winner tile
+    int newPosition = (int) (Math.random() * (board.getTiles().size() - 1));
 
     player.moveTo(newPosition);
   }

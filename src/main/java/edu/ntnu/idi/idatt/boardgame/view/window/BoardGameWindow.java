@@ -23,8 +23,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
 import javafx.util.Duration;
 
 /**
@@ -197,6 +197,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     // when the button is pressed, it initializes a players turn, meaning that this button is more
     // or less what keeps the game going.
     dieBox.getRollDieButton().setOnAction(onPress -> {
+      sfxPlayer.openSoundFile(SoundFile.ROLL_DIE);
+      sfxPlayer.playSound();
 
       dieBox.getRollDieButton().setDisable(true);
 
@@ -204,6 +206,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
       // device what happens when the die animation is fininshed
       dieAnimation.setOnFinished(onDieAnimationFinished -> {
+        sfxPlayer.stopSound();
         gameController.rollDice();
 
         movementAnimation.play();
