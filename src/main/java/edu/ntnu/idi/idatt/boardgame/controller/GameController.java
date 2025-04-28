@@ -65,7 +65,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
    * Method to roll the die.
    */
   public void rollDice() {
-    die.throwDie();
+    die.roll();
   }
 
   /**
