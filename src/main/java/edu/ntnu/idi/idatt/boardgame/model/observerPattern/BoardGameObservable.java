@@ -33,5 +33,5 @@ public interface BoardGameObservable {
    *
    * @param i an integer.
    */
-  void notifyObservers(int i);
+  void notifyObservers(int[] i);
 }

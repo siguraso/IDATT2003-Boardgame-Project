@@ -166,7 +166,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   }
 
   @Override
-  public void update(int i) {
+  public void update(int[] i) {
     notifyObservers(i);
   }
 
@@ -181,7 +181,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   }
 
   @Override
-  public void notifyObservers(int i) {
+  public void notifyObservers(int[] i) {
     uiObservers.forEach(o -> o.update(i));
   }
 

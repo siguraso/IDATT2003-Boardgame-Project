@@ -12,6 +12,7 @@ import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.RandomActionComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.DialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 import javafx.scene.Node;
@@ -69,8 +70,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
    *
    * @param gameController The controller object for the game.
    */
-  public BoardGameWindow(GameController gameController) {
-    this.dieBox = new DieComponent(gameController);
+  public BoardGameWindow(GameController gameController, boolean useTwoDice) {
+    this.dieBox = new DieComponent(gameController, useTwoDice);
     this.gameController = gameController;
     gameController.addObserver(this);
 
@@ -131,8 +132,10 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   }
 
   @Override
-  public void update(int i) {
-    this.movementAnimation = moveCurrentPlayerAnimation(i);
+  public void update(int[] i) {
+    int steps = Arrays.stream(i).sum();
+
+    this.movementAnimation = moveCurrentPlayerAnimation(steps);
 
     this.movementAnimation.setOnFinished(onMovementFinished -> {
       // when the movement animation is finished, we need to update the current player

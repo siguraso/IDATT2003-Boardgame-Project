@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.model.dice;
 
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 /**
  * A class that represents two or more dice. This class extends the {@link Die} class and can be
@@ -28,12 +29,13 @@ public class Dice extends Die {
 
   @Override
   public void roll() {
-    int total = 0;
-    for (int i = 0; i < numberOfDice; i++) {
-      total += (int) (Math.random() * sides) + 1;
-    }
+    int[] rolls = new int[numberOfDice];
 
-    notifyObservers(total);
+    IntStream.range(0, sides).forEach(i -> {
+      rolls[i] = (int) (Math.random() * sides) + 1;
+    });
+
+    notifyObservers(rolls);
   }
 
   @Override
@@ -47,7 +49,7 @@ public class Dice extends Die {
   }
 
   @Override
-  public void notifyObservers(int i) {
+  public void notifyObservers(int[] i) {
     observers.forEach(o -> o.update(i));
   }
 

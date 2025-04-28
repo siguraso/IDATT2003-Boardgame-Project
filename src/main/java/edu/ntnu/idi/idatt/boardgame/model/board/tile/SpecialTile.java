@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-public abstract class SpecialTile implements Tile, Serializable, BoardGameObservable {
+public abstract class SpecialTile implements Tile, Serializable {
 
   protected int tileNumber;
   protected int[] onscreenPosition;
@@ -47,20 +47,4 @@ public abstract class SpecialTile implements Tile, Serializable, BoardGameObserv
     return "SpecialTile";
   }
 
-  @Override
-  public void addObserver(BoardGameObserver o) {
-    observers.add(o);
-  }
-
-  @Override
-  public void removeObserver(BoardGameObserver o) {
-    observers.remove(o);
-  }
-
-  @Override
-  public void notifyObservers(int i) {
-    for (BoardGameObserver o : observers) {
-      o.update(i);
-    }
-  }
 }

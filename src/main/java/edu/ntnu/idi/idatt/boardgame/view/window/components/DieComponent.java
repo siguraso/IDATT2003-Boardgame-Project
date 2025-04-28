@@ -34,6 +34,7 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
   private ImageView dieImage;
   private Button rollDieButton = new Button("Roll die");
   private VBox dieBox;
+  boolean useTwoDice = false;
 
 
   /**
@@ -42,7 +43,8 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
    * @param observable the observable object that implements BoardGameObservable that this class
    *                   observes as the primary method of communication with the game logic.
    */
-  public DieComponent(BoardGameObservable observable) {
+  public DieComponent(BoardGameObservable observable, boolean useTwoDice) {
+    this.useTwoDice = useTwoDice;
     observable.addObserver(this);
 
     init();
@@ -110,8 +112,13 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
   }
 
   @Override
-  public void update(int i) {
-    dieImage.setImage(new Image(imagePath + i + ".jpg"));
+  public void update(int[] i) {
+    if (!useTwoDice) {
+      dieImage.setImage(new Image(imagePath + i[0] + ".jpg"));
+    } else {
+      // TODO: implement the second dice
+    }
+
   }
 
 }
