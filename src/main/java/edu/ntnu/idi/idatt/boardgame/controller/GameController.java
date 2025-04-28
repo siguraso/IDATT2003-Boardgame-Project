@@ -95,6 +95,10 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
 
     // check what typa tile it is, do the action if it is a special tile
     if (!currentTile.getTileType().equals(TileType.NORMAL.getTileType())) {
+      if (currentTile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())) {
+        ((RandomActionTile) currentTile).setPlayers(playersController.getPlayers());
+      }
+
       lastSpecialTile = playersController.getCurrentPlayer().getPosition();
       ((SpecialTile) currentTile).performAction(playersController.getCurrentPlayer());
     }
@@ -140,6 +144,25 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
     }
 
     return ((RandomActionTile) tile).getTileAction();
+  }
+
+  /**
+   * Accesses the name of the player that was swapped with using the SwapPlayersAction.
+   *
+   * @return a String containing the name of the player that was swapped with.
+   */
+  public String getLastSwappedPlayer() {
+
+    //this method is only called when the last special tile was a RandomActionTile
+    Tile tile = board.getTiles().get(lastSpecialTile);
+
+    if (!tile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())) {
+      throw new IllegalArgumentException(
+          "Tile number " + playersController.getPreviousPlayer().getPosition()
+              + " is not a RandomActionTile");
+    }
+
+    return ((RandomActionTile) tile).getPlayerToSwapWith().getName();
   }
 
   @Override

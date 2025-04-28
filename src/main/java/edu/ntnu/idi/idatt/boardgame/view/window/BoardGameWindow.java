@@ -462,31 +462,43 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
       // perform the action that was selected
       // TODO: implement different actions and dialogs for dat^^^
-      if (tileAction.equals("Return to start")) {
-        dialogBox.refresh(
-            gameController.getPlayersController().getPreviousPlayer().getName()
-                + " returned to start!");
+      switch (tileAction) {
+        case "Return to start" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " returned to start!");
 
-        ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
 
-        ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
-          updatePlayerPositions(initialPlayerPositions);
-        });
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+            updatePlayerPositions(initialPlayerPositions);
+          });
+        }
+        case "Roll again" -> {
+          // logic gets handled in the game controller, all we have to do is prompt the player
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " gets to roll again!");
 
-      } else if (tileAction.equals("Roll again")) {
-        // logic gets handled in the game controller, all we have to do is prompt the player
-        dialogBox.refresh(
-            gameController.getPlayersController().getPreviousPlayer().getName()
-                + " gets to roll again!");
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
 
-        ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+            updatePlayerPositions(initialPlayerPositions);
+          });
+        }
+        default -> {
+          // default is swap players.
 
-        ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
-          updatePlayerPositions(initialPlayerPositions);
-        });
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " swapped spaces with " + gameController.getLastSwappedPlayer() + "!");
 
-      } else if (tileAction.equals("Swap spaces with a random player")) {
-        // gameController.swapSpacesWithRandomPlayer();
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+            updatePlayerPositions(initialPlayerPositions);
+          });
+        }
       }
 
       sfxPlayer.playSound();

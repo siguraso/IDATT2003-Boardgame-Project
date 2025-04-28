@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * A tile action that swaps to players positions on the board.
@@ -12,13 +12,29 @@ import java.util.HashMap;
  */
 public class SwapPlayersAction implements TileAction {
 
-  private final HashMap<Integer, Player> playersToSwapWith;
+  private ArrayList<Player> players;
+  private Player playerToSwapWith;
 
   /**
    * Constructor for the SwapPlayersAction class.
    */
-  public SwapPlayersAction(HashMap<Integer, Player> playersToSwapWith) {
-    this.playersToSwapWith = playersToSwapWith;
+  public SwapPlayersAction() {
+  }
+
+  /**
+   * Sets the players that are currently in the game.
+   */
+  public void setPlayers(ArrayList<Player> players) {
+    this.players = players;
+  }
+
+  /**
+   * Returns the last {@link Player} that has been swapping with.
+   *
+   * @return the {@link Player} that the {@link Player} is swapping with.
+   */
+  public Player getPlayerToSwapWith() {
+    return playerToSwapWith;
   }
 
   /**
@@ -28,12 +44,13 @@ public class SwapPlayersAction implements TileAction {
    */
   @Override
   public void performAction(Player player) {
-    Player playerToSwapWith = playersToSwapWith.get(
-        (int) (Math.random() * playersToSwapWith.size()));
+    ArrayList<Player> playersToSwapWith = new ArrayList<>(players);
 
-    if (playerToSwapWith == player) {
-      throw new IllegalArgumentException("Player cannot swap position with itself.");
-    }
+    // remove the player from the list of players to swap with
+    playersToSwapWith.remove(player);
+
+    playerToSwapWith = playersToSwapWith.get(
+        (int) (Math.random() * playersToSwapWith.size()));
 
     int landingPlayerPosition = player.getPosition();
     int swappingPlayerPosition = playerToSwapWith.getPosition();
@@ -41,5 +58,6 @@ public class SwapPlayersAction implements TileAction {
     player.moveTo(swappingPlayerPosition);
     playerToSwapWith.moveTo(landingPlayerPosition);
   }
+
 
 }
