@@ -12,6 +12,7 @@ import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.RandomActionComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.DialogBox;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 import javafx.scene.Node;
@@ -22,8 +23,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
 import javafx.util.Duration;
 
 /**
@@ -69,8 +70,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
    *
    * @param gameController The controller object for the game.
    */
-  public BoardGameWindow(GameController gameController) {
-    this.dieBox = new DieComponent(gameController);
+  public BoardGameWindow(GameController gameController, boolean useTwoDice) {
+    this.dieBox = new DieComponent(gameController, useTwoDice);
     this.gameController = gameController;
     gameController.addObserver(this);
 
@@ -131,8 +132,10 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   }
 
   @Override
-  public void update(int i) {
-    this.movementAnimation = moveCurrentPlayerAnimation(i);
+  public void update(int[] i) {
+    int steps = Arrays.stream(i).sum();
+
+    this.movementAnimation = moveCurrentPlayerAnimation(steps);
 
     this.movementAnimation.setOnFinished(onMovementFinished -> {
       // when the movement animation is finished, we need to update the current player
@@ -194,6 +197,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     // when the button is pressed, it initializes a players turn, meaning that this button is more
     // or less what keeps the game going.
     dieBox.getRollDieButton().setOnAction(onPress -> {
+      sfxPlayer.openSoundFile(SoundFile.ROLL_DIE);
+      sfxPlayer.playSound();
 
       dieBox.getRollDieButton().setDisable(true);
 
@@ -201,6 +206,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
       // device what happens when the die animation is fininshed
       dieAnimation.setOnFinished(onDieAnimationFinished -> {
+        sfxPlayer.stopSound();
         gameController.rollDice();
 
         movementAnimation.play();

@@ -1,6 +1,9 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
 /**
  * A player in a board game.
@@ -136,8 +139,10 @@ public class Player implements BoardGameObserver {
   }
 
   @Override
-  public void update(int i) {
-    moveForward(i);
+  public void update(int[] i) {
+    int steps = Arrays.stream(i).sum();
+
+    moveForward(steps);
   }
 
 }

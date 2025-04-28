@@ -20,11 +20,11 @@ class TestDie {
   }
 
   @Test
-  void testThrowDie() {
+  void testRoll() {
     try {
-      int throwResult = die.throwDie();
+      int throwResult = die.roll();
       assertTrue(throwResult >= 1 && throwResult <= 6);
-      throwResult = die2.throwDie();
+      throwResult = die2.roll();
       assertTrue(throwResult >= 1 && throwResult <= 10);
     } catch (Exception e) {
       fail("The test failed as the class threw an exception.");
@@ -36,8 +36,8 @@ class TestDie {
   @DisplayName("Tests the class getter methods")
   void testGetters() {
     try {
-      die.throwDie();
-      die2.throwDie();
+      die.roll();
+      die2.roll();
       assertTrue(die.getCurrentThrow() >= 1 && die.getCurrentThrow() <= 6);
       assertTrue(die2.getCurrentThrow() >= 1 && die2.getCurrentThrow() <= 10);
     } catch (Exception e) {

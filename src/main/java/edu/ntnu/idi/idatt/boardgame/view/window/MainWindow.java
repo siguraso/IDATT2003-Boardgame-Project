@@ -227,7 +227,7 @@ public class MainWindow implements Window {
         GameController gameController = new GameController(playersController, useTwoDice);
         gameController.setBoard(boardType);
 
-        BoardGameWindow gameWindow = new BoardGameWindow(gameController);
+        BoardGameWindow gameWindow = new BoardGameWindow(gameController, useTwoDice);
 
         window.close();
         gameWindow.show();
@@ -393,6 +393,7 @@ public class MainWindow implements Window {
 
     RadioButton oneDieRadioButton = new RadioButton("1 Die");
     oneDieRadioButton.setToggleGroup(toggleGroup);
+    oneDieRadioButton.setSelected(true);
 
     RadioButton twoDiceRadioButton = new RadioButton("2 Dice");
     twoDiceRadioButton.setToggleGroup(toggleGroup);

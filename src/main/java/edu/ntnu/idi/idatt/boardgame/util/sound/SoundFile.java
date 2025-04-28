@@ -91,6 +91,12 @@ public enum SoundFile {
     public String getSoundPath() {
       return filepath + "random_tile.wav";
     }
+  },
+  ROLL_DIE() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "roll_die.wav";
+    }
   };
 
   private static final String filepath = "/Sounds/";
