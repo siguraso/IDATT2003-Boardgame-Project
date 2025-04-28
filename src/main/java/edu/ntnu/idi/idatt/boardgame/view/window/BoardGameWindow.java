@@ -474,6 +474,16 @@ public class BoardGameWindow implements Window, BoardGameObserver {
         });
 
       } else if (tileAction.equals("Roll again")) {
+        // logic gets handled in the game controller, all we have to do is prompt the player
+        dialogBox.refresh(
+            gameController.getPlayersController().getPreviousPlayer().getName()
+                + " gets to roll again!");
+
+        ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+        ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+          updatePlayerPositions(initialPlayerPositions);
+        });
 
       } else if (tileAction.equals("Swap spaces with a random player")) {
         // gameController.swapSpacesWithRandomPlayer();

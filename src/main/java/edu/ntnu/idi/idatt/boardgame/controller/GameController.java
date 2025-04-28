@@ -12,7 +12,6 @@ import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <h1>Class - GameController.</h1>
@@ -30,7 +29,9 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   private final PlayersController playersController;
   private Board board;
 
-  List<BoardGameObserver> uiObservers = new ArrayList<>();
+  private final ArrayList<BoardGameObserver> uiObservers = new ArrayList<>();
+
+  private int lastSpecialTile;
 
   /**
    * Constructor for the GameController.
@@ -86,15 +87,6 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   }
 
   /**
-   * Method to get the games {@link Die}.
-   *
-   * @return this games {@link Die} object.
-   */
-  public Die getDie() {
-    return die;
-  }
-
-  /**
    * Finishes the current players turn, and sets the next player to take their turn.
    */
   public void finishTurn() {
@@ -103,6 +95,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
 
     // check what typa tile it is, do the action if it is a special tile
     if (!currentTile.getTileType().equals(TileType.NORMAL.getTileType())) {
+      lastSpecialTile = playersController.getCurrentPlayer().getPosition();
       ((SpecialTile) currentTile).performAction(playersController.getCurrentPlayer());
     }
 
@@ -136,11 +129,13 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
    * @return the action that was last performed by a RandomActionTile represented as a String.
    */
   public String getLastRandomAction() {
-    Tile tile = board.getTiles().get(playersController.getPreviousPlayer().getPosition());
+
+    //this method is only called when the last special tile was a RandomActionTile
+    Tile tile = board.getTiles().get(lastSpecialTile);
 
     if (!tile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())) {
       throw new IllegalArgumentException(
-          "Tile number " + playersController.getCurrentPlayer().getPosition()
+          "Tile number " + playersController.getPreviousPlayer().getPosition()
               + " is not a RandomActionTile");
     }
 
