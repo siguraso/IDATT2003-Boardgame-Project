@@ -380,6 +380,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
             case "ReturnToStartAction" -> randomAction = "Return to start";
             case "RollAgainAction" -> randomAction = "Roll again";
             case "SwapPlayersAction" -> randomAction = "Swap spaces with a random player";
+            case "MoveToRandomTileAction" -> randomAction = "Move to a random tile";
             default -> randomAction = null;
           }
 
@@ -470,6 +471,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
 
+          sfxPlayer.openSoundFile(SoundFile.RETURN_TO_START);
+
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
             updatePlayerPositions(initialPlayerPositions);
           });
@@ -479,6 +482,20 @@ public class BoardGameWindow implements Window, BoardGameObserver {
           dialogBox.refresh(
               gameController.getPlayersController().getPreviousPlayer().getName()
                   + " gets to roll again!");
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.openSoundFile(SoundFile.ROLL_AGAIN);
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+            updatePlayerPositions(initialPlayerPositions);
+          });
+        }
+        case "Move to a random tile" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " moved to tile "
+                  + gameController.getPlayersController().getPreviousPlayer().getPosition());
 
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
 

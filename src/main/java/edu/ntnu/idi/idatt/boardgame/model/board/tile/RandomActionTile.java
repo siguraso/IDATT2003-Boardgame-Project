@@ -56,7 +56,7 @@ public class RandomActionTile extends SpecialTile {
   @Override
   public void performAction(Player player) {
     // initialize the tileAction with a random TileAction
-    int randomAction = (int) (Math.random() * 3);
+    int randomAction = (int) (Math.random() * tileActions.length);
     this.tileAction = tileActions[randomAction];
 
     tileAction.performAction(player);

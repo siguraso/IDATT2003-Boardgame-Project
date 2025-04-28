@@ -36,10 +36,8 @@ public class RandomActionComponent implements WindowComponent {
   public Node getComponent() {
 
     actionsListView.getItems()
-        .addAll("Return to start", "Roll again", "Swap spaces with a random player");
-
-    actionsListView.setMaxHeight(100);
-    actionsListView.setMaxWidth(400);
+        .addAll("Return to start", "Roll again", "Move to a random tile",
+            "Swap spaces with a random player");
 
     // make the list view not selectable by mouse or keyboard
     actionsListView.setMouseTransparent(true);
