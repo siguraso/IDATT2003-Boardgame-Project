@@ -7,10 +7,12 @@ import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import java.util.stream.IntStream;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 
@@ -32,6 +34,7 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
   // constant for the path to the die images
   private final String imagePath = "file:src/main/resources/Images/die-Faces/";
   private ImageView dieImage;
+  private ImageView dieImage2;
   private Button rollDieButton = new Button("Roll die");
   private VBox dieBox;
   boolean useTwoDice = false;
@@ -51,23 +54,51 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
   }
 
   private void init() {
-    dieImage = new ImageView(imagePath + "1.jpg");
-    dieImage.setFitWidth(200);
-    dieImage.setFitHeight(200);
-    dieImage.getStyleClass().add("die-image");
+    HBox diceContainer = new HBox();
 
-    Rectangle clip = new Rectangle(
-        dieImage.getFitWidth(), dieImage.getFitHeight()
-    );
+    if (!useTwoDice) {
+      dieImage = new ImageView(imagePath + "1.jpg");
+      dieImage.setFitWidth(200);
+      dieImage.setFitHeight(200);
+      dieImage.getStyleClass().add("die-image");
 
-    clip.setArcHeight(20);
-    clip.setArcWidth(20);
+      Rectangle clip = new Rectangle(dieImage.getFitWidth(), dieImage.getFitHeight());
 
-    dieImage.setClip(clip);
+      clip.setArcHeight(20);
+      clip.setArcWidth(20);
+
+      dieImage.setClip(clip);
+
+      diceContainer.getChildren().add(dieImage);
+    } else {
+      dieImage = new ImageView(imagePath + "1.jpg");
+      dieImage2 = new ImageView(imagePath + "2.jpg");
+
+      dieImage.setFitWidth(150);
+      dieImage.setFitHeight(150);
+      dieImage2.setFitWidth(150);
+      dieImage2.setFitHeight(150);
+
+      Rectangle clip = new Rectangle(dieImage.getFitWidth(), dieImage.getFitHeight());
+      Rectangle clip2 = new Rectangle(dieImage2.getFitWidth(), dieImage2.getFitHeight());
+
+      clip.setArcHeight(15);
+      clip.setArcWidth(15);
+      clip2.setArcHeight(15);
+      clip2.setArcWidth(15);
+
+      dieImage.setClip(clip);
+      dieImage2.setClip(clip2);
+
+      diceContainer.getChildren().addAll(dieImage, dieImage2);
+      diceContainer.setSpacing(30);
+    }
+
+    diceContainer.setAlignment(Pos.CENTER);
 
     rollDieButton = new Button("Roll die");
 
-    dieBox = new VBox(dieImage, rollDieButton);
+    dieBox = new VBox(diceContainer, rollDieButton);
     dieBox.setAlignment(javafx.geometry.Pos.CENTER);
     dieBox.setSpacing(20);
   }
@@ -82,14 +113,28 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
   public Timeline dieAnimation() {
     Timeline timeline = new Timeline();
 
-    IntStream.range(0, 10).forEach(i -> {
-      KeyFrame keyFrame = new KeyFrame(javafx.util.Duration.millis(100 * i), event -> {
-        int randomDieFace = (int) (Math.random() * 6) + 1;
+    if (useTwoDice) {
+      IntStream.range(0, 10).forEach(i -> {
+        KeyFrame keyFrame = new KeyFrame(javafx.util.Duration.millis(100 * i), event -> {
+          int[] randomDieFaces = new int[]{(int) (Math.random() * 6) + 1,
+              (int) (Math.random() * 6) + 1};
 
-        dieImage.setImage(new Image(imagePath + randomDieFace + ".jpg"));
+          dieImage.setImage(new Image(imagePath + randomDieFaces[0] + ".jpg"));
+          dieImage2.setImage(new Image(imagePath + randomDieFaces[1] + ".jpg"));
+        });
+        timeline.getKeyFrames().add(keyFrame);
       });
-      timeline.getKeyFrames().add(keyFrame);
-    });
+
+    } else {
+      IntStream.range(0, 10).forEach(i -> {
+        KeyFrame keyFrame = new KeyFrame(javafx.util.Duration.millis(100 * i), event -> {
+          int randomDieFace = (int) (Math.random() * 6) + 1;
+
+          dieImage.setImage(new Image(imagePath + randomDieFace + ".jpg"));
+        });
+        timeline.getKeyFrames().add(keyFrame);
+      });
+    }
 
     return timeline;
   }
@@ -114,11 +159,9 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
   @Override
   public void update(int[] i) {
     if (!useTwoDice) {
-      dieImage.setImage(new Image(imagePath + i[0] + ".jpg"));
-    } else {
-      // TODO: implement the second dice
+      dieImage2.setImage(new Image(imagePath + i[1] + ".jpg"));
     }
-
+    dieImage.setImage(new Image(imagePath + i[0] + ".jpg"));
   }
 
 }
