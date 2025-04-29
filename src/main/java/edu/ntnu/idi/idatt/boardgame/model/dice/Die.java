@@ -32,10 +32,11 @@ public class Die implements BoardGameObservable {
   }
 
   /**
-   * Throws the die and notifies the observers.
+   * Throws the {@link Die} and notifies the observers.
    */
-  public void throwDie() {
-    int currentThrow = (int) (Math.random() * sides) + 1;
+  public void roll() {
+    int[] currentThrow = new int[]{(int) (Math.random() * sides) + 1};
+
     notifyObservers(currentThrow);
   }
 
@@ -50,7 +51,7 @@ public class Die implements BoardGameObservable {
   }
 
   @Override
-  public void notifyObservers(int i) {
+  public void notifyObservers(int[] i) {
     observers.forEach(o -> o.update(i));
   }
 }

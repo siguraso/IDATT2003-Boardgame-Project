@@ -1,10 +1,10 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.ladder;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
 import javafx.scene.canvas.Canvas;
 
 public class LadderDrawer {
+
   private final Board board;
   private final Canvas canvas;
 
@@ -17,7 +17,7 @@ public class LadderDrawer {
     // This could involve rendering the board, players, and other game elements
     System.out.println("Drawing the ladder game...");
     switch (board.getBoardType()) {
-      case LADDER_GAME_VANILLA -> drawVanillaLadders();
+      case LADDER_GAME_REGULAR -> drawVanillaLadders();
       case LADDER_GAME_SPECIAL -> drawSpecialLadders();
       default -> throw new IllegalStateException("Unexpected value: " + board.getBoardType());
     }
@@ -42,7 +42,7 @@ public class LadderDrawer {
   }
 
   private void drawLadder() {
-    
+
   }
 
   public void update() {

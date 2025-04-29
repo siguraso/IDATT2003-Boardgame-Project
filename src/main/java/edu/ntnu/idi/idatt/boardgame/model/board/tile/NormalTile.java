@@ -1,7 +1,9 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
 /**
- * A normal tile on the board, where the player can move to, but nothing special happens.
+ * A normal tile on the board, where the player can moveForward to, but nothing special happens.
+ * This is a simple tile that does not have any special actions associated with it, and can
+ * therefore be defined as a record.
  *
  * @author siguraso
  * @version 1.0
@@ -9,7 +11,7 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tile;
  */
 public class NormalTile implements Tile {
 
-  private final TileType type = TileType.NORMAL;
+  private final TileType tileType = TileType.NORMAL;
   private final int tileNumber;
   private final int[] onscreenPosition;
 
@@ -34,9 +36,10 @@ public class NormalTile implements Tile {
     return onscreenPosition;
   }
 
+
   @Override
   public String getTileType() {
-    return "NormalTile";
+    return tileType.getTileType();
   }
 
 }

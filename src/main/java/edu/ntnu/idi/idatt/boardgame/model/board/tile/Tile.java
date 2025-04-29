@@ -7,7 +7,7 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tile;
  * @version 1.0
  * @since 1.0
  */
-public interface Tile extends java.io.Serializable {
+public interface Tile {
 
   /**
    * Used to get the number of the tile, which is used as the identifier of the tile.

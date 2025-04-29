@@ -13,10 +13,11 @@ package edu.ntnu.idi.idatt.boardgame.model.observerPattern;
  * @since 1.0
  */
 public interface BoardGameObserver {
+
   /**
    * Updates observer based on the subject passed as an argument.
    *
    * @param i an integer.
    */
-  void update(int i);
+  void update(int[] i);
 }

@@ -14,12 +14,15 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.RandomActionTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.ReturnToStartTile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.RollAgainTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.WinnerTile;
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * A class that reads a board from a file in JSON format using the Gson library.
@@ -33,6 +36,11 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
   private final Gson gson;
   private Board board;
 
+  /**
+   * Constructor for the BoardReaderGson class. Reads a board from a JSON file in the GSON format.
+   * The file contains a JSON array of tiles, where each tile is represented as a JSON object, which
+   * gets translated into a {@link Board} object.
+   */
   public BoardReaderGson() {
     gson = new GsonBuilder()
         .setPrettyPrinting()
@@ -40,44 +48,55 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
         .create();
   }
 
-  public static void main(String[] args) {
-    BoardReaderGson boardReaderGson = new BoardReaderGson();
-    Board board = boardReaderGson.readBoardFile(
-        "/Users/sigurdandris/Documents/IdeaProjects/IDATT2003-Boardgame-Project/src/main/resources/JSON/ExampleBoard.json");
-  }
-
   @Override
-  public Board readBoardFile(String filePath) {
+  public Board readBoardFile(String filePath, boolean isCustomJson) {
     HashMap<Integer, Tile> tiles = new HashMap<>();
     board = new Board(tiles);
+
+    // if it is a custom json file, we need to use the file path as is, if it isnt we need to get
+    // the resource path from the classpath
+    if (!isCustomJson) {
+      filePath = Objects.requireNonNull(this.getClass().getResource(filePath)).getPath();
+    }
 
     try (FileReader fileReader = new FileReader(filePath)) {
       // get the "tiles" jsonarray from the file
       JsonArray jsonArray = JsonParser.parseReader(fileReader).getAsJsonObject().get("tiles")
           .getAsJsonArray();
 
+      // create json elements in the json array based on the tile
       jsonArray.forEach(jsonElement -> {
         Tile tile = gson.fromJson(jsonElement, Tile.class);
         tiles.put(tile.getTileNumber(), tile);
       });
 
       return board;
-    } catch (Exception e) {
-      e.printStackTrace();
+
+    } catch (IOException e) {
+      if (e.getMessage().contains("No such file or directory")) {
+        throw new RuntimeException("File not found: " + filePath);
+      } else if (e.getMessage().contains("Permission denied")) {
+        throw new RuntimeException("Permission denied: " + filePath);
+      } else if (e.getMessage().contains("Malformed JSON")) {
+        throw new RuntimeException("Malformed JSON: " + filePath);
+      } else if (e.getMessage().contains("Unexpected character")) {
+        throw new RuntimeException("Unexpected character in JSON: " + filePath);
+      }
+      throw new RuntimeException("An Unexpected IOException Occured: " + e.getMessage());
     }
-    return null;
   }
 
+  // method to deserialize a tile from a json element
   @Override
   public Tile deserialize(JsonElement jsonElement, Type type,
-                          JsonDeserializationContext jsonDeserializationContext)
+      JsonDeserializationContext jsonDeserializationContext)
       throws JsonParseException {
 
     // create a json object from the given json element
     JsonObject jsonObject = jsonElement.getAsJsonObject();
 
     // get the tile type from the json object
-    TileType tileType = TileType.valueOf(jsonObject.get("type").getAsString());
+    TileType tileType = TileType.valueOf(jsonObject.get("tileType").getAsString());
 
     int tileNumber = jsonObject.get("tileNumber").getAsInt();
     int[] onscreenPosition = new int[2];
@@ -87,11 +106,11 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
     return switch (tileType) {
       case NORMAL -> new NormalTile(tileNumber, onscreenPosition);
       case LADDER -> new LadderTile(tileNumber, onscreenPosition,
-          jsonObject.get("destinationTileNumber").getAsInt(), board);
-      case RETURN_TO_START -> new ReturnToStartTile(tileNumber, onscreenPosition, board);
+          jsonObject.get("destinationTileNumber").getAsInt());
+      case RETURN_TO_START -> new ReturnToStartTile(tileNumber, onscreenPosition);
       case RANDOM_ACTION -> new RandomActionTile(tileNumber, onscreenPosition, board);
       case WINNER -> new WinnerTile(tileNumber, onscreenPosition);
-      case ROLL_AGAIN -> new RandomActionTile(tileNumber, onscreenPosition, board);
+      case ROLL_AGAIN -> new RollAgainTile(tileNumber, onscreenPosition);
     };
   }
 }
