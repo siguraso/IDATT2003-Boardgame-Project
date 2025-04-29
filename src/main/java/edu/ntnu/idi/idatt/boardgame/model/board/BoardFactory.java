@@ -213,6 +213,23 @@ public class BoardFactory {
 
     board.setBoardType(boardType);
 
+    // check if the board is valid:
+    // needs to be 90 tiles,
+    // the first tile must be a normal tile, and the last tile must be winner tile
+    // the tiles must be in order from 1 to 90
+    if (board.getTiles().size() != 90) {
+      throw new IllegalStateException("Board must have 90 tiles");
+
+    } else if (!board.getTiles().get(1).getTileType().equals("NormalTile")
+        || !board.getTiles().get(90).getTileType().equals("WinnerTile")) {
+      throw new IllegalStateException("First tile must be a normal tile and last tile must be a "
+          + "winner tile");
+
+    } else if (board.getTiles().keySet().stream().anyMatch(tile -> tile < 1 || tile > 90)) {
+      throw new IllegalStateException("Tiles must be in order from 1 to 90");
+
+    }
+
     return board;
   }
 
