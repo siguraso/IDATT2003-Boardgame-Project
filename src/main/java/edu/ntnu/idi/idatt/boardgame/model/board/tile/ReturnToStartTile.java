@@ -13,11 +13,7 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class ReturnToStartTile extends SpecialTile {
 
-  private final TileType type = TileType.RETURN_TO_START;
-
-
-  private transient final Board board;
-
+  private final TileType tileType = TileType.RETURN_TO_START;
 
   /**
    * Constructor for the ReturnToStartTile class.
@@ -25,23 +21,22 @@ public class ReturnToStartTile extends SpecialTile {
    * @param tileNumber       The number of the tile on the board.
    * @param onscreenPosition The position of the tile on the screen.
    */
-  public ReturnToStartTile(int tileNumber, int[] onscreenPosition, Board board) {
+  public ReturnToStartTile(int tileNumber, int[] onscreenPosition) {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
-    this.board = board;
   }
 
   @Override
   public void performAction(Player player) {
     // initialize the tileAction with a ReturnToStartAction
-    this.tileAction = new ReturnToStartAction(board);
+    this.tileAction = new ReturnToStartAction();
 
     tileAction.performAction(player);
   }
 
   @Override
   public String getTileType() {
-    return "ReturnToStartTile";
+    return tileType.getTileType();
   }
 
 }

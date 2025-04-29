@@ -43,7 +43,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
    */
   public GameController(PlayersController playersController, boolean useTwoDice) {
     this.playersController = playersController;
-    
+
     die = useTwoDice ? new Dice(2, 6) : new Die(6);
 
     die.addObserver(this);
@@ -60,8 +60,14 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
    *
    * @param boardType The type of board to be used in the game.
    */
-  public void setBoard(BoardType boardType) {
-    this.board = BoardFactory.createBoard(boardType);
+  public void setBoard(BoardType boardType, boolean useJson, String filePath) {
+    try {
+      this.board = BoardFactory.createBoard(boardType, useJson, filePath);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(e.getMessage());
+    } catch (IllegalStateException e) {
+      throw new IllegalStateException("The board was could not be created: \n" + e.getMessage());
+    }
   }
 
   /**

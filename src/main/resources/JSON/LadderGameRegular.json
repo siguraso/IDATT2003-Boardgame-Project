@@ -1,0 +1,738 @@
+{
+  "tiles": [
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 1,
+      "onscreenPosition": [
+        0,
+        9
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 40,
+      "tileNumber": 2,
+      "onscreenPosition": [
+        1,
+        9
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 3,
+      "onscreenPosition": [
+        2,
+        9
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 4,
+      "onscreenPosition": [
+        3,
+        9
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 5,
+      "onscreenPosition": [
+        4,
+        9
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 6,
+      "onscreenPosition": [
+        5,
+        9
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 7,
+      "onscreenPosition": [
+        6,
+        9
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 10,
+      "tileNumber": 8,
+      "onscreenPosition": [
+        7,
+        9
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 9,
+      "onscreenPosition": [
+        8,
+        9
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 10,
+      "onscreenPosition": [
+        8,
+        8
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 11,
+      "onscreenPosition": [
+        7,
+        8
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 12,
+      "onscreenPosition": [
+        6,
+        8
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 13,
+      "onscreenPosition": [
+        5,
+        8
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 14,
+      "onscreenPosition": [
+        4,
+        8
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 15,
+      "onscreenPosition": [
+        3,
+        8
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 16,
+      "onscreenPosition": [
+        2,
+        8
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 17,
+      "onscreenPosition": [
+        1,
+        8
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 18,
+      "onscreenPosition": [
+        0,
+        8
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 19,
+      "onscreenPosition": [
+        0,
+        7
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 20,
+      "onscreenPosition": [
+        1,
+        7
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 21,
+      "onscreenPosition": [
+        2,
+        7
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 22,
+      "onscreenPosition": [
+        3,
+        7
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 23,
+      "onscreenPosition": [
+        4,
+        7
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 5,
+      "tileNumber": 24,
+      "onscreenPosition": [
+        5,
+        7
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 25,
+      "onscreenPosition": [
+        6,
+        7
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 26,
+      "onscreenPosition": [
+        7,
+        7
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 27,
+      "onscreenPosition": [
+        8,
+        7
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 28,
+      "onscreenPosition": [
+        8,
+        6
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 29,
+      "onscreenPosition": [
+        7,
+        6
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 30,
+      "onscreenPosition": [
+        6,
+        6
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 31,
+      "onscreenPosition": [
+        5,
+        6
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 32,
+      "onscreenPosition": [
+        4,
+        6
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 3,
+      "tileNumber": 33,
+      "onscreenPosition": [
+        3,
+        6
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 34,
+      "onscreenPosition": [
+        2,
+        6
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 35,
+      "onscreenPosition": [
+        1,
+        6
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 52,
+      "tileNumber": 36,
+      "onscreenPosition": [
+        0,
+        6
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 37,
+      "onscreenPosition": [
+        0,
+        5
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 38,
+      "onscreenPosition": [
+        1,
+        5
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 39,
+      "onscreenPosition": [
+        2,
+        5
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 40,
+      "onscreenPosition": [
+        3,
+        5
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 41,
+      "onscreenPosition": [
+        4,
+        5
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 30,
+      "tileNumber": 42,
+      "onscreenPosition": [
+        5,
+        5
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 62,
+      "tileNumber": 43,
+      "onscreenPosition": [
+        6,
+        5
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 44,
+      "onscreenPosition": [
+        7,
+        5
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 45,
+      "onscreenPosition": [
+        8,
+        5
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 46,
+      "onscreenPosition": [
+        8,
+        4
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 47,
+      "onscreenPosition": [
+        7,
+        4
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 48,
+      "onscreenPosition": [
+        6,
+        4
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 79,
+      "tileNumber": 49,
+      "onscreenPosition": [
+        5,
+        4
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 50,
+      "onscreenPosition": [
+        4,
+        4
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 51,
+      "onscreenPosition": [
+        3,
+        4
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 52,
+      "onscreenPosition": [
+        2,
+        4
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 53,
+      "onscreenPosition": [
+        1,
+        4
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 54,
+      "onscreenPosition": [
+        0,
+        4
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 55,
+      "onscreenPosition": [
+        0,
+        3
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 37,
+      "tileNumber": 56,
+      "onscreenPosition": [
+        1,
+        3
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 57,
+      "onscreenPosition": [
+        2,
+        3
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 58,
+      "onscreenPosition": [
+        3,
+        3
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 59,
+      "onscreenPosition": [
+        4,
+        3
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 60,
+      "onscreenPosition": [
+        5,
+        3
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 61,
+      "onscreenPosition": [
+        6,
+        3
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 62,
+      "onscreenPosition": [
+        7,
+        3
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 63,
+      "onscreenPosition": [
+        8,
+        3
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 27,
+      "tileNumber": 64,
+      "onscreenPosition": [
+        8,
+        2
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 82,
+      "tileNumber": 65,
+      "onscreenPosition": [
+        7,
+        2
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 66,
+      "onscreenPosition": [
+        6,
+        2
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 67,
+      "onscreenPosition": [
+        5,
+        2
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 85,
+      "tileNumber": 68,
+      "onscreenPosition": [
+        4,
+        2
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 69,
+      "onscreenPosition": [
+        3,
+        2
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 70,
+      "onscreenPosition": [
+        2,
+        2
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 71,
+      "onscreenPosition": [
+        1,
+        2
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 72,
+      "onscreenPosition": [
+        0,
+        2
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 73,
+      "onscreenPosition": [
+        0,
+        1
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 12,
+      "tileNumber": 74,
+      "onscreenPosition": [
+        1,
+        1
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 75,
+      "onscreenPosition": [
+        2,
+        1
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 76,
+      "onscreenPosition": [
+        3,
+        1
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 77,
+      "onscreenPosition": [
+        4,
+        1
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 78,
+      "onscreenPosition": [
+        5,
+        1
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 79,
+      "onscreenPosition": [
+        6,
+        1
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 80,
+      "onscreenPosition": [
+        7,
+        1
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 81,
+      "onscreenPosition": [
+        8,
+        1
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 82,
+      "onscreenPosition": [
+        8,
+        0
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 83,
+      "onscreenPosition": [
+        7,
+        0
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 84,
+      "onscreenPosition": [
+        6,
+        0
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 85,
+      "onscreenPosition": [
+        5,
+        0
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 86,
+      "onscreenPosition": [
+        4,
+        0
+      ]
+    },
+    {
+      "tileType": "LADDER",
+      "destinationTileNumber": 70,
+      "tileNumber": 87,
+      "onscreenPosition": [
+        3,
+        0
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 88,
+      "onscreenPosition": [
+        2,
+        0
+      ]
+    },
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 89,
+      "onscreenPosition": [
+        1,
+        0
+      ]
+    },
+    {
+      "tileType": "WINNER",
+      "tileNumber": 90,
+      "onscreenPosition": [
+        0,
+        0
+      ]
+    }
+  ]
+}

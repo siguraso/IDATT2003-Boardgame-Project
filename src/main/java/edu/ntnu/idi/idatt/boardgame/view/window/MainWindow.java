@@ -3,8 +3,8 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
+import java.io.File;
 import java.util.Objects;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,6 +22,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 /**
@@ -53,11 +55,21 @@ public class MainWindow implements Window {
   private final Label sidebarHeader = new Label();
   private final VBox playerSelectionView = new VBox();
 
+  // start game buttons
+  private final HBox startGameButtons = new HBox();
+  private final Button startGameJsonButton = new Button("Start Game (From .json)");
+  private final Button startGameButton = new Button("Start Game");
+
   // ArrayList of players used to store the players that are added to the game
   private final PlayersController playersController = new PlayersController();
 
   // check weather or not to use two dice
   private boolean useTwoDice = false;
+  private boolean useJson = false;
+  private String jsonFilePath = null;
+
+  // warning dialog
+  private final WarningDialogWindow warningDialog = new WarningDialogWindow();
 
   /**
    * Constructor for the MainWindow class.
@@ -87,7 +99,7 @@ public class MainWindow implements Window {
         .getResource("/Styles/Style.css")).toExternalForm());
 
     window.setMinWidth(900);
-    window.setMinHeight(610);
+    window.setMinHeight(735);
     window.setScene(scene);
   }
 
@@ -131,7 +143,8 @@ public class MainWindow implements Window {
     // add all the board selection views to the flow pane
     flowPane.getChildren().addAll(getBoardSelectionView(BoardType.LADDER_GAME_REGULAR,
             "Regular Ladder Game"),
-        getBoardSelectionView(BoardType.LADDER_GAME_SPECIAL, "Special Ladder Game"));
+        getBoardSelectionView(BoardType.LADDER_GAME_SPECIAL, "Special Ladder Game"),
+        getBoardSelectionView(BoardType.LADDER_GAME_JSON, "Load Board From .json"));
 
     flowPane.setVgap(20);
     flowPane.setHgap(20);
@@ -162,12 +175,7 @@ public class MainWindow implements Window {
     boardImage.setFitWidth(200);
     boardImage.setFitHeight(200);
 
-    Button chooseBoardButton = new Button("Choose Board");
-
-    chooseBoardButton.setOnAction(onPressed -> {
-      boardType = board;
-      showSidebar();
-    });
+    Button chooseBoardButton = getChooseBoardButton(board);
 
     boardSelectionView.getChildren().addAll(titleHeader, boardImage, chooseBoardButton);
     boardSelectionView.setSpacing(10);
@@ -179,6 +187,54 @@ public class MainWindow implements Window {
     boardSelectionView.setAlignment(Pos.CENTER);
 
     return boardSelectionView;
+  }
+
+  private Button getChooseBoardButton(BoardType board) {
+    Button chooseBoardButton = new Button("Choose Board");
+
+    chooseBoardButton.setOnAction(onPressed -> {
+      boardType = board;
+      startGameButton.setText("Start Game");
+
+      showSidebar();
+
+      if (boardType == BoardType.LADDER_GAME_JSON) {
+        startGameButton.setText("Open .json File");
+        if (startGameButtons.getChildren().size() > 1) {
+          startGameButtons.getChildren().remove(1);
+        }
+
+        // define the action for the start game button to fetch a json file
+        startGameButton.setOnAction(onPress -> {
+          try {
+            showFileChooserJson();
+          } catch (IllegalStateException e) {
+            warningDialog.update(
+                "There is something wrong with the provided board file: \n" + e.getMessage(),
+                "Error creating board");
+            warningDialog.show();
+            playersController.clearPlayers();
+
+          } catch (RuntimeException e) {
+            warningDialog.update("There was an error loading the file: \n" + e.getMessage(),
+                "Error reading file");
+            warningDialog.show();
+            playersController.clearPlayers();
+          }
+        });
+
+      } else {
+        if (startGameButtons.getChildren().size() < 2) {
+          startGameButtons.getChildren().add(startGameJsonButton);
+        }
+
+        startGameButton.setOnAction(onPress -> {
+          startGame();
+        });
+      }
+
+    });
+    return chooseBoardButton;
   }
 
   private void showSidebar() {
@@ -193,44 +249,17 @@ public class MainWindow implements Window {
       sidebarHeader.setText("Current game: \n" + boardType.getBoardName());
       sidebarHeader.setStyle("-fx-font-size: 18px; -fx-text-alignment: center;");
 
-      HBox startGameButtons = new HBox();
-      Button startGameButton = new Button("Start Game");
-      Button startGameJsonButton = new Button("Start Game (JSON)");
       startGameButtons.getChildren().addAll(startGameButton, startGameJsonButton);
       startGameButtons.setAlignment(Pos.CENTER);
       startGameButtons.setSpacing(10);
 
       startGameButton.setOnAction(onPressed -> {
-        playerSelectionView.getChildren().forEach(playerProfile -> {
-          HBox playerProfileEditor = (HBox) playerProfile;
-          String playerName = ((TextField) playerProfileEditor.getChildren().get(1)).getText();
-          String playerPieceString = ((ComboBox<String>) playerProfileEditor.getChildren()
-              .get(2)).getValue();
-          PlayerPiece playerPiece;
+        startGame();
+      });
 
-          switch (playerPieceString) {
-            case "Paul" -> playerPiece = PlayerPiece.PAUL;
-            case "Evil Paul" -> playerPiece = PlayerPiece.EVIL_PAUL;
-            case "Konkey Dong" -> playerPiece = PlayerPiece.KONKEY_DONG;
-            case "Mariotinelli" -> playerPiece = PlayerPiece.MARIOTINELLI;
-            case "My Love" -> playerPiece = PlayerPiece.MY_LOVE;
-            case "My Love (hat)" -> playerPiece = PlayerPiece.MY_LOVE_WITH_HAT;
-            case "Propeller Accessories" -> playerPiece = PlayerPiece.PROPELLER_ACCESSORIES;
-            case "Locked in Snowman" -> playerPiece = PlayerPiece.LOCKED_IN_SNOWMAN;
-            default -> playerPiece = null;
-          }
-
-          playersController.addPlayer(playerName, playerPiece);
-        });
-
-        // start the game by initiating the game controller and the game window
-        GameController gameController = new GameController(playersController, useTwoDice);
-        gameController.setBoard(boardType);
-
-        BoardGameWindow gameWindow = new BoardGameWindow(gameController, useTwoDice);
-
-        window.close();
-        gameWindow.show();
+      startGameJsonButton.setOnAction(onPressed -> {
+        useJson = true;
+        startGame();
       });
 
       Line separator = new Line();
@@ -438,7 +467,6 @@ public class MainWindow implements Window {
     separator.setEndY(0);
 
     Label numberOfDiceHeader = new Label("Number of Dice: ");
-    numberOfDiceHeader.getStyleClass().add("header");
 
     VBox numberOfDiceComponent = new VBox();
 
@@ -447,6 +475,62 @@ public class MainWindow implements Window {
     numberOfDiceComponent.setSpacing(10);
     numberOfDiceComponent.setPadding(new Insets(10, 10, 10, 10));
 
+    VBox.setMargin(separator, new Insets(0, 0, 10, 0));
+
     return numberOfDiceComponent;
+  }
+
+  private void showFileChooserJson() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Open JSON File");
+
+    fileChooser.getExtensionFilters().add(new ExtensionFilter(
+        "JSON files (*.json)", "*.json"));
+
+    fileChooser.setInitialDirectory(
+        new File(System.getProperty("user.home")));
+
+    File file = fileChooser.showOpenDialog(window);
+
+    if (file != null) {
+      jsonFilePath = file.getAbsolutePath();
+      useJson = true;
+
+      startGame();
+    }
+  }
+
+  private void startGame() {
+
+    // get all players
+    playerSelectionView.getChildren().forEach(playerProfile -> {
+      HBox playerProfileEditor = (HBox) playerProfile;
+      String playerName = ((TextField) playerProfileEditor.getChildren().get(1)).getText();
+      String playerPieceString = ((ComboBox<String>) playerProfileEditor.getChildren()
+          .get(2)).getValue();
+      PlayerPiece playerPiece;
+
+      switch (playerPieceString) {
+        case "Paul" -> playerPiece = PlayerPiece.PAUL;
+        case "Evil Paul" -> playerPiece = PlayerPiece.EVIL_PAUL;
+        case "Konkey Dong" -> playerPiece = PlayerPiece.KONKEY_DONG;
+        case "Mariotinelli" -> playerPiece = PlayerPiece.MARIOTINELLI;
+        case "My Love" -> playerPiece = PlayerPiece.MY_LOVE;
+        case "My Love (hat)" -> playerPiece = PlayerPiece.MY_LOVE_WITH_HAT;
+        case "Propeller Accessories" -> playerPiece = PlayerPiece.PROPELLER_ACCESSORIES;
+        case "Locked in Snowman" -> playerPiece = PlayerPiece.LOCKED_IN_SNOWMAN;
+        default -> playerPiece = null;
+      }
+
+      playersController.addPlayer(playerName, playerPiece);
+    });
+
+    GameController gameController = new GameController(playersController, useTwoDice);
+    gameController.setBoard(boardType, useJson, jsonFilePath);
+
+    BoardGameWindow gameWindow = new BoardGameWindow(gameController, useTwoDice);
+
+    window.close();
+    gameWindow.show();
   }
 }

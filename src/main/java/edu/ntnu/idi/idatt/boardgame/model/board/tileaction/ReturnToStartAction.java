@@ -12,15 +12,10 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class ReturnToStartAction implements TileAction {
 
-  Board board;
-
   /**
    * Constructor for the ReturnToStartAction class.
-   *
-   * @param board the board that contains all the tiles.
    */
-  public ReturnToStartAction(Board board) {
-    this.board = board;
+  public ReturnToStartAction() {
   }
 
   @Override
