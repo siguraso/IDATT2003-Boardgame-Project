@@ -11,10 +11,12 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.ReturnToStartTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.WinnerTile;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.stream.IntStream;
 
 /**
  * A class that writes a {@link Board} object to a file in JSON format using the Gson library.
@@ -35,6 +37,26 @@ public class BoardWriterGson implements BoardFileWriter {
   public BoardWriterGson() {
     // Instantiate a new Gson object with pretty printing
     this.gson = new GsonBuilder().setPrettyPrinting().create();
+  }
+
+  public static void main(String[] args) {
+    HashMap<Integer, Tile> tiles = new HashMap<>();
+    Board board = new Board(tiles);
+
+    IntStream.range(0, 90).forEach(i -> {
+      int row = (10 - 1) - (i / 9);
+      int col = ((row % 2) == (10 % 2))
+          ? (9 - 1 - i % 9) : i % 9;
+
+      tiles.put((i + 1), new ReturnToStartTile((i + 1), new int[]{col, row}));
+    });
+
+    tiles.put(90, new WinnerTile(90, tiles.get(90).getOnscreenPosition()));
+    tiles.put(1, new NormalTile(1, tiles.get(1).getOnscreenPosition()));
+
+    BoardWriterGson boardWriterGson = new BoardWriterGson();
+    boardWriterGson.writeBoardFile(board,
+        "/Users/sigurdandris/Documents/IdeaProjects/IDATT2003-Boardgame-Project/src/main/resources/JSON/DemoBoard.json");
   }
 
   @Override

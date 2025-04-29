@@ -71,7 +71,7 @@ public class RandomActionTile extends SpecialTile {
    * The tile actions are ReturnToStartAction, RollAgainAction and SwapPlayersAction.
    */
   public void initializeTileActions() {
-    tileActions[0] = new ReturnToStartAction(board);
+    tileActions[0] = new ReturnToStartAction();
     tileActions[1] = new RollAgainAction();
     tileActions[2] = new SwapPlayersAction();
     tileActions[3] = new MoveToRandomTileAction(board);

@@ -21,6 +21,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -49,9 +50,13 @@ public class MainWindow implements Window {
   private final HBox buttonBar;
   private final Button ladderGameButton = new Button("Ladder Game");
   private final Button parioMartyButton = new Button("Pario Marty");
-  private final Button startGameButton = new Button("Start Game");
   private final Label sidebarHeader = new Label();
   private final VBox playerSelectionView = new VBox();
+
+  // start game buttons
+  private final HBox startGameButtons = new HBox();
+  private final Button startGameJsonButton = new Button("Start Game (From .json)");
+  private final Button startGameButton = new Button("Start Game");
 
   // ArrayList of players used to store the players that are added to the game
   private final PlayersController playersController = new PlayersController();
@@ -165,18 +170,7 @@ public class MainWindow implements Window {
     boardImage.setFitWidth(200);
     boardImage.setFitHeight(200);
 
-    Button chooseBoardButton = new Button("Choose Board");
-
-    chooseBoardButton.setOnAction(onPressed -> {
-      boardType = board;
-      startGameButton.setText("Start Game");
-
-      if (boardType == BoardType.LADDER_GAME_JSON) {
-        startGameButton.setText("Open .json File");
-      }
-
-      showSidebar();
-    });
+    Button chooseBoardButton = getChooseBoardButton(board);
 
     boardSelectionView.getChildren().addAll(titleHeader, boardImage, chooseBoardButton);
     boardSelectionView.setSpacing(10);
@@ -188,6 +182,36 @@ public class MainWindow implements Window {
     boardSelectionView.setAlignment(Pos.CENTER);
 
     return boardSelectionView;
+  }
+
+  private Button getChooseBoardButton(BoardType board) {
+    Button chooseBoardButton = new Button("Choose Board");
+
+    chooseBoardButton.setOnAction(onPressed -> {
+      boardType = board;
+      startGameButton.setText("Start Game");
+
+      showSidebar();
+
+      if (boardType == BoardType.LADDER_GAME_JSON) {
+        startGameButton.setText("Open .json File");
+        if (startGameButtons.getChildren().size() > 1) {
+          startGameButtons.getChildren().remove(1);
+        }
+
+        // define the action for the start game button to fetch a json file
+        startGameButton.setOnAction(onPress -> {
+          showFileChooser();
+        });
+
+      } else {
+        if (startGameButtons.getChildren().size() < 2) {
+          startGameButtons.getChildren().add(startGameJsonButton);
+        }
+      }
+
+    });
+    return chooseBoardButton;
   }
 
   private void showSidebar() {
@@ -202,8 +226,6 @@ public class MainWindow implements Window {
       sidebarHeader.setText("Current game: \n" + boardType.getBoardName());
       sidebarHeader.setStyle("-fx-font-size: 18px; -fx-text-alignment: center;");
 
-      HBox startGameButtons = new HBox();
-      Button startGameJsonButton = new Button("Start Game (From .json)");
       startGameButtons.getChildren().addAll(startGameButton, startGameJsonButton);
       startGameButtons.setAlignment(Pos.CENTER);
       startGameButtons.setSpacing(10);
@@ -432,6 +454,26 @@ public class MainWindow implements Window {
     numberOfDiceComponent.setPadding(new Insets(10, 10, 10, 10));
 
     return numberOfDiceComponent;
+  }
+
+  private void showFileChooser() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Open JSON File");
+
+    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
+        "JSON files (*.json)", "*.json"));
+
+    fileChooser.setInitialDirectory(
+        new java.io.File(System.getProperty("user.home")));
+
+    java.io.File file = fileChooser.showOpenDialog(window);
+
+    if (file != null) {
+      jsonFilePath = file.getAbsolutePath();
+      useJson = true;
+
+      startGame();
+    }
   }
 
   private void startGame() {

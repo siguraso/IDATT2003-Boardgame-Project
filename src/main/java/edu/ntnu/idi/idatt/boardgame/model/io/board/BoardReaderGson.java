@@ -49,11 +49,15 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
   }
 
   @Override
-  public Board readBoardFile(String filePath) {
+  public Board readBoardFile(String filePath, boolean isCustomJson) {
     HashMap<Integer, Tile> tiles = new HashMap<>();
     board = new Board(tiles);
 
-    filePath = Objects.requireNonNull(this.getClass().getResource(filePath)).getPath();
+    // if it is a custom json file, we need to use the file path as is, if it isnt we need to get
+    // the resource path from the classpath
+    if (!isCustomJson) {
+      filePath = Objects.requireNonNull(this.getClass().getResource(filePath)).getPath();
+    }
 
     try (FileReader fileReader = new FileReader(filePath)) {
       // get the "tiles" jsonarray from the file
@@ -103,7 +107,7 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
       case NORMAL -> new NormalTile(tileNumber, onscreenPosition);
       case LADDER -> new LadderTile(tileNumber, onscreenPosition,
           jsonObject.get("destinationTileNumber").getAsInt());
-      case RETURN_TO_START -> new ReturnToStartTile(tileNumber, onscreenPosition, board);
+      case RETURN_TO_START -> new ReturnToStartTile(tileNumber, onscreenPosition);
       case RANDOM_ACTION -> new RandomActionTile(tileNumber, onscreenPosition, board);
       case WINNER -> new WinnerTile(tileNumber, onscreenPosition);
       case ROLL_AGAIN -> new RollAgainTile(tileNumber, onscreenPosition);

@@ -44,7 +44,7 @@ public class BoardFactory {
       return switch (boardType) {
         case LADDER_GAME_SPECIAL -> specialLadderGameBoardJson(boardType);
         case LADDER_GAME_REGULAR -> vanillaLadderGameBoardJson(boardType);
-        //case LADDER_GAME_JSON -> ; //TODO: implement this
+        case LADDER_GAME_JSON -> ladderGameCustomJsonBoard(boardType, filePath);
         default -> throw new IllegalArgumentException("Unknown BoardType: " + boardType);
       };
     }
@@ -88,16 +88,16 @@ public class BoardFactory {
 
     // return to start tiles
     tiles.put(22,
-        new ReturnToStartTile(22, tiles.get(22).getOnscreenPosition(), specialLadderGameBoard));
+        new ReturnToStartTile(22, tiles.get(22).getOnscreenPosition()));
 
     tiles.put(42,
-        new ReturnToStartTile(42, tiles.get(42).getOnscreenPosition(), specialLadderGameBoard));
+        new ReturnToStartTile(42, tiles.get(42).getOnscreenPosition()));
 
     tiles.put(56,
-        new ReturnToStartTile(56, tiles.get(56).getOnscreenPosition(), specialLadderGameBoard));
+        new ReturnToStartTile(56, tiles.get(56).getOnscreenPosition()));
 
     tiles.put(65,
-        new ReturnToStartTile(65, tiles.get(65).getOnscreenPosition(), specialLadderGameBoard));
+        new ReturnToStartTile(65, tiles.get(65).getOnscreenPosition()));
 
     // ladder tiles
 
@@ -188,7 +188,7 @@ public class BoardFactory {
   private static Board vanillaLadderGameBoardJson(BoardType boardType) {
     BoardReaderGson boardFileReader = new BoardReaderGson();
 
-    Board board = boardFileReader.readBoardFile("/JSON/LadderGameRegular.json");
+    Board board = boardFileReader.readBoardFile("/JSON/LadderGameRegular.json", false);
 
     board.setBoardType(boardType);
 
@@ -199,7 +199,17 @@ public class BoardFactory {
     BoardReaderGson boardFileReader = new BoardReaderGson();
 
     Board board = boardFileReader.readBoardFile(
-        "/JSON/LadderGameSpecial.json");
+        "/JSON/LadderGameSpecial.json", false);
+
+    board.setBoardType(boardType);
+
+    return board;
+  }
+
+  private static Board ladderGameCustomJsonBoard(BoardType boardType, String filePath) {
+    BoardReaderGson boardFileReader = new BoardReaderGson();
+
+    Board board = boardFileReader.readBoardFile(filePath, true);
 
     board.setBoardType(boardType);
 
