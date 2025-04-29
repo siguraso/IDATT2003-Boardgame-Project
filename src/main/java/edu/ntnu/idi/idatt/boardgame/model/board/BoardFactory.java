@@ -6,6 +6,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.RandomActionTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.ReturnToStartTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.RollAgainTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.WinnerTile;
 import edu.ntnu.idi.idatt.boardgame.model.io.board.BoardReaderGson;
 import java.util.HashMap;
@@ -220,14 +221,14 @@ public class BoardFactory {
     if (board.getTiles().size() != 90) {
       throw new IllegalStateException("Board must have 90 tiles");
 
-    } else if (!board.getTiles().get(1).getTileType().equals("NormalTile")
-        || !board.getTiles().get(90).getTileType().equals("WinnerTile")) {
-      throw new IllegalStateException("First tile must be a normal tile and last tile must be a "
-          + "winner tile");
-
     } else if (board.getTiles().keySet().stream().anyMatch(tile -> tile < 1 || tile > 90)) {
       throw new IllegalStateException("Tiles must be in order from 1 to 90");
 
+    } else if (!board.getTiles().get(1).getTileType().equals(TileType.NORMAL.getTileType())) {
+      throw new IllegalStateException("First tile must be a normal tile");
+
+    } else if (!board.getTiles().get(90).getTileType().equals(TileType.WINNER.getTileType())) {
+      throw new IllegalStateException("Last tile must be a winner tile");
     }
 
     return board;

@@ -109,5 +109,11 @@ public class PlayersController {
     players.add(new Player(name, piece));
   }
 
+  /**
+   * Clears the {@link ArrayList} of players.
+   */
+  public void clearPlayers() {
+    players.clear();
+  }
 
 }

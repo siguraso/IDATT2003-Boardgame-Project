@@ -206,7 +206,21 @@ public class MainWindow implements Window {
 
         // define the action for the start game button to fetch a json file
         startGameButton.setOnAction(onPress -> {
-          showFileChooserJson();
+          try {
+            showFileChooserJson();
+          } catch (IllegalStateException e) {
+            warningDialog.update(
+                "There is something wrong with the provided board file: \n" + e.getMessage(),
+                "Error creating board");
+            warningDialog.show();
+            playersController.clearPlayers();
+
+          } catch (RuntimeException e) {
+            warningDialog.update("There was an error loading the file: \n" + e.getMessage(),
+                "Error reading file");
+            warningDialog.show();
+            playersController.clearPlayers();
+          }
         });
 
       } else {
@@ -487,6 +501,8 @@ public class MainWindow implements Window {
   }
 
   private void startGame() {
+
+    // get all players
     playerSelectionView.getChildren().forEach(playerProfile -> {
       HBox playerProfileEditor = (HBox) playerProfile;
       String playerName = ((TextField) playerProfileEditor.getChildren().get(1)).getText();
@@ -509,7 +525,6 @@ public class MainWindow implements Window {
       playersController.addPlayer(playerName, playerPiece);
     });
 
-    // start the game by initiating the game controller and the game window
     GameController gameController = new GameController(playersController, useTwoDice);
     gameController.setBoard(boardType, useJson, jsonFilePath);
 

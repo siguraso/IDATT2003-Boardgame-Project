@@ -211,7 +211,7 @@
 
 .tile-number {
   -fx-text-fill: text_blk;
-  -fx-font-size: 8px;
+  -fx-font-size: 16px;
 }
 
 /* JavaFX element styles */
