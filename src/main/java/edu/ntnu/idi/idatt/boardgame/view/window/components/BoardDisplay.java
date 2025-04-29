@@ -1,8 +1,14 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.ladder.LadderDrawer;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -22,13 +28,15 @@ import javafx.scene.layout.StackPane;
  * @since 1.0
  */
 public class BoardDisplay implements WindowComponent {
-
+  private final Logger logger = Logger.getLogger("BoardDisplay");
   private GridPane boardGrid;
   private static final int ROWS = 10;
   private static final int COLS = 9;
   private final HashMap<Integer, FlowPane> gridTiles = new HashMap<>();
   private final HashMap<Integer, StackPane> gridTileStack = new HashMap<>();
   private final GameController gameController;
+  private final LadderDrawer ld = new LadderDrawer();
+  private final StackPane boardPane = new StackPane();
 
   /**
    * Constructor for the BoardDisplay class.
@@ -96,15 +104,19 @@ public class BoardDisplay implements WindowComponent {
     gridTileStack.keySet().forEach(t -> {
       switch (tileTypes.get(t)) {
         case "LadderTile" -> {
-          int deltaTileNumber = gameController.getLadderDestinationTileNumber(t) - t;
+          int destTileNum = gameController.getLadderDestinationTileNumber(t);
+
+          /*logger.log(Level.INFO, "Ladder tile " + t + " has destination tile "
+              + gameController.getLadderDestinationTileNumber(t));*/
+          int deltaTileNumber = destTileNum - t;
 
           if (deltaTileNumber > 0) {
             gridTileStack.get(t).getStyleClass().add("ladder-tile-positive");
-            gridTileStack.get(gameController.getLadderDestinationTileNumber(t)).getStyleClass()
+            gridTileStack.get(destTileNum).getStyleClass()
                 .add("ladder-tile-positive-destination");
           } else {
             gridTileStack.get(t).getStyleClass().add("ladder-tile-negative");
-            gridTileStack.get(gameController.getLadderDestinationTileNumber(t)).getStyleClass()
+            gridTileStack.get(destTileNum).getStyleClass()
                 .add("ladder-tile-negative-destination");
           }
         }
@@ -169,6 +181,32 @@ public class BoardDisplay implements WindowComponent {
     gridTileStack.get(1).getChildren().add(startLabel);
     startLabel.toBack();
 
+    boardPane.getChildren().addAll(boardGrid, ld);
+  }
+
+  public void drawLadders(HashMap<Integer, String> tileTypes, int[] tileDimensions) {
+    Platform.runLater(() -> gridTileStack.keySet().stream()
+        .filter(i -> tileTypes.get(i).equals("LadderTile"))
+        .forEach(t -> {
+          int destTileNum = gameController.getLadderDestinationTileNumber(t);
+          Bounds startBounds = gridTileStack.get(t).localToScene(
+              gridTileStack.get(t).getBoundsInLocal());
+          double[] startPos = {
+              startBounds.getMinX() + (double) tileDimensions[0] / 2,
+              startBounds.getMinY() + (double) tileDimensions[1] / 2};
+          /*logger.log(Level.INFO, "Start position: x=" + startPos[0]
+              + ", y=" + startPos[1] + ".");*/
+
+          Bounds endBounds = gridTileStack.get(destTileNum).localToScene(
+              gridTileStack.get(destTileNum).getBoundsInLocal());
+          double[] endPos = {
+              endBounds.getMinX() + (double) tileDimensions[0] / 2,
+              endBounds.getMinY() + (double) tileDimensions[1] / 2};
+          /*logger.log(Level.INFO, "End position: x=" + endPos[0]
+              + ", y=" + endPos[1] + ".");*/
+
+          ld.draw(startPos, endPos);
+        }));
   }
 
   public HashMap<Integer, FlowPane> getGridTiles() {
@@ -177,6 +215,6 @@ public class BoardDisplay implements WindowComponent {
 
   @Override
   public Node getComponent() {
-    return boardGrid;
+    return boardPane;
   }
 }
