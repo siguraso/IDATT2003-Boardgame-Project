@@ -1,6 +1,5 @@
 * {
   -fx-text-fill: text_blk;
-  -fx-font-size: 16px;
 
   /* Main Colors */
   bg_900: #242f36;
@@ -52,6 +51,7 @@
   -fx-text-fill: bg_100;
   -fx-background-radius: 10;
   -fx-padding: 5 10 5 10;
+  -fx-font-size: 16px;
 }
 
 .button:hover {
@@ -88,6 +88,7 @@
   -fx-pref-height: 30;
   -fx-padding: 0;
   -fx-max-width: 100;
+  -fx-font-size: 16px;
 }
 
 .radio-button .radio {
@@ -138,6 +139,7 @@
 
 .ladder-tile-negative .label {
   -fx-text-fill: text_wht;
+  -fx-font-size: 16px;
 }
 
 .ladder-tile-negative-destination {
@@ -166,6 +168,7 @@
 
 .random-action-tile .label {
   -fx-text-fill: text_wht;
+  -fx-font-size: 16px;
 }
 
 .roll-again-tile {
@@ -178,6 +181,7 @@
 
 .roll-again-tile .label {
   -fx-text-fill: text_wht;
+  -fx-font-size: 16px;
 }
 
 .winner-tile {
@@ -190,6 +194,7 @@
 
 .winner-tile .label {
   -fx-text-fill: text_wht;
+  -fx-font-size: 16px;
 }
 
 .start-tile {
@@ -207,13 +212,6 @@
 .tile-number {
   -fx-text-fill: text_blk;
   -fx-font-size: 8px;
-}
-
-
-/* Text styles */
-.text {
-  -fx-text-fill: text_blk;
-  -fx-font-size: 16px;
 }
 
 /* JavaFX element styles */
@@ -237,12 +235,14 @@
   -fx-text-fill: bg_100;
   -fx-background-radius: 10;
   -fx-border-radius: 10;
+  -fx-font-size: 16px;
 }
 
 .leaderboard {
   -fx-background-color: bg_200;
   -fx-border-radius: 10;
   -fx-background-radius: 10;
+  -fx-font-size: 16px;
 }
 
 .winner-screen {
@@ -336,7 +336,7 @@
 }
 
 .header {
-  -fx-font-size: 24px;
+  -fx-font-size: 20px;
 }
 
 .die-image {
@@ -350,5 +350,10 @@
   -fx-background-radius: 10;
   -fx-min-height: 45;
   -fx-min-width: 300;
+}
 
+.warning-dialog {
+  -fx-background-color: bg_300;
+  -fx-text-fill: text_blk;
+  -fx-padding: 15;
 }

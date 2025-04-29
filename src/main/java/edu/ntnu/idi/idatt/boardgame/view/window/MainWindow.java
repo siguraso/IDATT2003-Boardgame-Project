@@ -4,6 +4,7 @@ import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
+import java.io.File;
 import java.util.Objects;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,6 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 /**
@@ -65,6 +67,9 @@ public class MainWindow implements Window {
   private boolean useTwoDice = false;
   private boolean useJson = false;
   private String jsonFilePath = null;
+
+  // warning dialog
+  private final WarningDialogWindow warningDialog = new WarningDialogWindow();
 
   /**
    * Constructor for the MainWindow class.
@@ -201,13 +206,17 @@ public class MainWindow implements Window {
 
         // define the action for the start game button to fetch a json file
         startGameButton.setOnAction(onPress -> {
-          showFileChooser();
+          showFileChooserJson();
         });
 
       } else {
         if (startGameButtons.getChildren().size() < 2) {
           startGameButtons.getChildren().add(startGameJsonButton);
         }
+
+        startGameButton.setOnAction(onPress -> {
+          startGame();
+        });
       }
 
     });
@@ -444,7 +453,6 @@ public class MainWindow implements Window {
     separator.setEndY(0);
 
     Label numberOfDiceHeader = new Label("Number of Dice: ");
-    numberOfDiceHeader.getStyleClass().add("header");
 
     VBox numberOfDiceComponent = new VBox();
 
@@ -453,20 +461,22 @@ public class MainWindow implements Window {
     numberOfDiceComponent.setSpacing(10);
     numberOfDiceComponent.setPadding(new Insets(10, 10, 10, 10));
 
+    VBox.setMargin(separator, new Insets(0, 0, 10, 0));
+
     return numberOfDiceComponent;
   }
 
-  private void showFileChooser() {
+  private void showFileChooserJson() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Open JSON File");
 
-    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
+    fileChooser.getExtensionFilters().add(new ExtensionFilter(
         "JSON files (*.json)", "*.json"));
 
     fileChooser.setInitialDirectory(
-        new java.io.File(System.getProperty("user.home")));
+        new File(System.getProperty("user.home")));
 
-    java.io.File file = fileChooser.showOpenDialog(window);
+    File file = fileChooser.showOpenDialog(window);
 
     if (file != null) {
       jsonFilePath = file.getAbsolutePath();

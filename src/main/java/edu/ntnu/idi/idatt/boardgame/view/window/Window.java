@@ -6,7 +6,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 public interface Window {
 
   /**
-   * Display the window
+   * Display the window.
    */
   void show();
 
