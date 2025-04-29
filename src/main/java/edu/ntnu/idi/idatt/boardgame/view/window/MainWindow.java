@@ -339,7 +339,8 @@ public class MainWindow implements Window {
 
     ComboBox<String> playerPiece = new ComboBox<>();
     playerPiece.setPromptText("Piece");
-    playerPiece.getItems().addAll("Paul", "Evil Paul", "Konkey Dong", "Mariotinelli");
+    playerPiece.getItems().addAll("Paul", "Evil Paul", "Konkey Dong", "Mariotinelli", "My Love",
+        "My Love (hat)", "Propeller Accessories", "Locked in Snowman");
 
     playerPiece.valueProperty().addListener((observable, oldValue, newValue) -> {
       switch (newValue) {
@@ -358,6 +359,22 @@ public class MainWindow implements Window {
         case "Mariotinelli" -> playerImage.setImage(new Image(
             Objects.requireNonNull(getClass()
                 .getResourceAsStream("/Images/player-pieces/mariotinelli.png"))));
+
+        case "My Love" -> playerImage.setImage(new Image(
+            Objects.requireNonNull(getClass()
+                .getResourceAsStream("/Images/player-pieces/my_love.png"))));
+
+        case "My Love (hat)" -> playerImage.setImage(new Image(
+            Objects.requireNonNull(getClass()
+                .getResourceAsStream("/Images/player-pieces/my_love_with_hat.png"))));
+
+        case "Propeller Accessories" -> playerImage.setImage(new Image(
+            Objects.requireNonNull(getClass()
+                .getResourceAsStream("/Images/player-pieces/propeller_accessories.png"))));
+
+        case "Locked in Snowman" -> playerImage.setImage(new Image(
+            Objects.requireNonNull(getClass()
+                .getResourceAsStream("/Images/player-pieces/locked_in_snowman.png"))));
 
         default -> playerImage.setImage(new Image(
             Objects.requireNonNull(getClass()
