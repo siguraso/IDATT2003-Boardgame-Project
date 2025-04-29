@@ -81,9 +81,7 @@ public class PlayersController {
   }
 
   /**
-   * Sets the {@link Player} that was previously taking their turn-
-   *
-   * @return The index of the {@link Player} that was previously taking their turn.
+   * Sets the {@link Player} that was previously taking their turn.
    */
   public void setPreviousPlayer(int index) {
     this.previousPlayer = players.get(index);
@@ -114,6 +112,16 @@ public class PlayersController {
    */
   public void clearPlayers() {
     players.clear();
+  }
+
+  /**
+   * Sets the {@link ArrayList} of players.
+   *
+   * @param players The {@link ArrayList} of players to set.
+   */
+  public void setPlayers(ArrayList<Player> players) {
+    this.players.clear();
+    this.players.addAll(players);
   }
 
 }
