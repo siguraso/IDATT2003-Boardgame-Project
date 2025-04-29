@@ -260,6 +260,7 @@
   -fx-alignment: center;
   -fx-max-height: 117;
   -fx-max-width: 370;
+  -fx-font-size: 16px;
 }
 
 .action-list .list-view .list-cell {

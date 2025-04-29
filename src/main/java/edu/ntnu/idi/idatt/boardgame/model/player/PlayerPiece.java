@@ -12,31 +12,37 @@ package edu.ntnu.idi.idatt.boardgame.model.player;
  */
 public enum PlayerPiece {
   // literally just donkey kong
-  KONKEY_DONG("file:src/main/resources/Images/player-pieces/konkey_dong.png"),
+  KONKEY_DONG("file:src/main/resources/Images/player-pieces/konkey_dong.png", "Konkey Dong"),
   // gabriel martinelli and mario infused into one
-  MARIOTINELLI("file:src/main/resources/Images/player-pieces/mariotinelli.png"),
+  MARIOTINELLI("file:src/main/resources/Images/player-pieces/mariotinelli.png", "Mariotinelli"),
   // literally just luigi without his hat
-  PAUL("file:src/main/resources/Images/player-pieces/paul.png"),
+  PAUL("file:src/main/resources/Images/player-pieces/paul.png", "Paul"),
   // literally just luigi without his hat with inverted colors
-  EVIL_PAUL("file:src/main/resources/Images/player-pieces/evil_paul.png"),
+  EVIL_PAUL("file:src/main/resources/Images/player-pieces/evil_paul.png", "Evil Paul"),
   // cloud strife but he is bald
-  MY_LOVE("file:src/main/resources/Images/player-pieces/my_love.png"),
+  MY_LOVE("file:src/main/resources/Images/player-pieces/my_love.png", "My Love"),
   // cloud strife but he is bald with a hat
-  MY_LOVE_WITH_HAT("file:src/main/resources/Images/player-pieces/my_love_with_hat.png"),
+  MY_LOVE_WITH_HAT("file:src/main/resources/Images/player-pieces/my_love_with_hat.png",
+      "My Love (hat)"),
   // literally paul blart mall cop
-  PROPELLER_ACCESSORIES("file:src/main/resources/Images/player-pieces/propeller_accessories.png"),
+  PROPELLER_ACCESSORIES("file:src/main/resources/Images/player-pieces/propeller_accessories.png",
+      "Propeller Accessories"),
   // the mogging snowman from the gif
-  LOCKED_IN_SNOWMAN("file:src/main/resources/Images/player-pieces/locked_in_snowman.png");
+  LOCKED_IN_SNOWMAN("file:src/main/resources/Images/player-pieces/locked_in_snowman.png",
+      "Locked in Snowman"),
+  ;
 
   private final String imagePath;
+  private final String pieceName;
 
   /**
    * Constructor for the PlayerPiece enum.
    *
    * @param imagePath The path to the image of the player piece.
    */
-  PlayerPiece(String imagePath) {
+  PlayerPiece(String imagePath, String pieceName) {
     this.imagePath = imagePath;
+    this.pieceName = pieceName;
   }
 
   /**
@@ -46,6 +52,15 @@ public enum PlayerPiece {
    */
   public String getImagePath() {
     return imagePath;
+  }
+
+  /**
+   * Used to get the name of the player piece.
+   *
+   * @return The name of the player piece.
+   */
+  public String getPieceName() {
+    return pieceName;
   }
 
 }
