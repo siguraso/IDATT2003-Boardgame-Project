@@ -19,9 +19,9 @@ import java.util.Arrays;
  */
 public class RandomActionTile extends SpecialTile {
 
-  private final TileAction[] tileActions = new TileAction[4];
+  private final transient TileAction[] tileActions = new TileAction[4];
   private final transient Board board;
-  private ArrayList<Player> players;
+  private final TileType tileType = TileType.RANDOM_ACTION;
 
   /**
    * Constructor for the RandomActionTile class.
@@ -44,7 +44,6 @@ public class RandomActionTile extends SpecialTile {
    *                game.
    */
   public void setPlayers(ArrayList<Player> players) {
-    this.players = players;
 
     Arrays.stream(tileActions).forEach(tileAction -> {
       if (tileAction.getClass().getSimpleName().equals("SwapPlayersAction")) {
@@ -64,7 +63,7 @@ public class RandomActionTile extends SpecialTile {
 
   @Override
   public String getTileType() {
-    return "RandomActionTile";
+    return tileType.getTileType();
   }
 
   /**

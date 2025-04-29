@@ -9,27 +9,45 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
+/**
+ * Displays the game board in the window. Renders the board and the tiles on the board based on what
+ * {@link HashMap} of tileTypes is given.
+ *
+ * @author siguraso & MagnusNaessanGaarder
+ * @version 1.0
+ * @since 1.0
+ */
 public class BoardDisplay implements WindowComponent {
 
   private GridPane boardGrid;
-  private final int ROWS = 10;
-  private final int COLS = 9;
+  private static final int ROWS = 10;
+  private static final int COLS = 9;
   private final HashMap<Integer, FlowPane> gridTiles = new HashMap<>();
   private final HashMap<Integer, StackPane> gridTileStack = new HashMap<>();
   private final GameController gameController;
 
+  /**
+   * Constructor for the BoardDisplay class.
+   *
+   * @param gameController the game controller, used to get the different tile types based on the
+   *                       board that is loaded, and where the ladder tiles go.
+   */
   public BoardDisplay(GameController gameController) {
     this.gameController = gameController;
   }
 
+  /**
+   * Initializes the board display with the given tile width, tile height and tile types.
+   *
+   * @param tileWidth  the width of the each tile.
+   * @param tileHeight the height of the each tile.
+   * @param tileTypes  a {@link HashMap} containing the tile types for each tile on the board. The
+   *                   key designates what tile number it is.
+   */
   public void init(int tileWidth, int tileHeight, HashMap<Integer, String> tileTypes) {
     boardGrid = new GridPane();
     boardGrid.setMaxWidth(tileWidth * COLS);
@@ -44,8 +62,8 @@ public class BoardDisplay implements WindowComponent {
       tilePane.setMaxWidth(tileWidth);
       tilePane.setMaxHeight(tileHeight);
 
-      int row = (ROWS - 1) - ((t - 1) / COLS);
-      int col = ((row % 2) == (ROWS % 2)) ? (COLS - 1 - (t - 1) % COLS) : (t - 1) % COLS;
+      int row = gameController.getBoard().getTiles().get(t).getOnscreenPosition()[1];
+      int col = gameController.getBoard().getTiles().get(t).getOnscreenPosition()[0];
 
       tilePane.setAlignment(javafx.geometry.Pos.CENTER);
 

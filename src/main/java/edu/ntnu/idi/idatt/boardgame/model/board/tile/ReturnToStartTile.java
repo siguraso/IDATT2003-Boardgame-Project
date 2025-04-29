@@ -13,11 +13,8 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class ReturnToStartTile extends SpecialTile {
 
-  private final TileType type = TileType.RETURN_TO_START;
-
-
-  private transient final Board board;
-
+  private final transient Board board;
+  private final TileType tileType = TileType.RETURN_TO_START;
 
   /**
    * Constructor for the ReturnToStartTile class.
@@ -41,7 +38,7 @@ public class ReturnToStartTile extends SpecialTile {
 
   @Override
   public String getTileType() {
-    return "ReturnToStartTile";
+    return tileType.getTileType();
   }
 
 }

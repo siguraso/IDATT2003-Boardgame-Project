@@ -92,25 +92,25 @@ public class BoardFactory {
     // ladder tiles
 
     tiles.put(2,
-        new LadderTile(2, tiles.get(2).getOnscreenPosition(), 40, specialLadderGameBoard));
+        new LadderTile(2, tiles.get(2).getOnscreenPosition(), 40));
 
     tiles.put(24,
-        new LadderTile(24, tiles.get(24).getOnscreenPosition(), 5, specialLadderGameBoard));
+        new LadderTile(24, tiles.get(24).getOnscreenPosition(), 5));
 
     tiles.put(36,
-        new LadderTile(36, tiles.get(36).getOnscreenPosition(), 52, specialLadderGameBoard));
+        new LadderTile(36, tiles.get(36).getOnscreenPosition(), 52));
 
     tiles.put(49,
-        new LadderTile(49, tiles.get(49).getOnscreenPosition(), 79, specialLadderGameBoard));
+        new LadderTile(49, tiles.get(49).getOnscreenPosition(), 79));
 
     tiles.put(64,
-        new LadderTile(64, tiles.get(64).getOnscreenPosition(), 27, specialLadderGameBoard));
+        new LadderTile(64, tiles.get(64).getOnscreenPosition(), 27));
 
     tiles.put(74,
-        new LadderTile(74, tiles.get(74).getOnscreenPosition(), 12, specialLadderGameBoard));
+        new LadderTile(74, tiles.get(74).getOnscreenPosition(), 12));
 
     tiles.put(87,
-        new LadderTile(87, tiles.get(87).getOnscreenPosition(), 70, specialLadderGameBoard));
+        new LadderTile(87, tiles.get(87).getOnscreenPosition(), 70));
 
     // winner tile
 
@@ -127,46 +127,46 @@ public class BoardFactory {
     // ladder tiles
 
     tiles.put(2,
-        new LadderTile(2, tiles.get(2).getOnscreenPosition(), 40, vanillaLadderGameBoard));
+        new LadderTile(2, tiles.get(2).getOnscreenPosition(), 40));
 
     tiles.put(8,
-        new LadderTile(8, tiles.get(8).getOnscreenPosition(), 10, vanillaLadderGameBoard));
+        new LadderTile(8, tiles.get(8).getOnscreenPosition(), 10));
 
     tiles.put(24,
-        new LadderTile(24, tiles.get(24).getOnscreenPosition(), 5, vanillaLadderGameBoard));
+        new LadderTile(24, tiles.get(24).getOnscreenPosition(), 5));
 
     tiles.put(33,
-        new LadderTile(33, tiles.get(33).getOnscreenPosition(), 3, vanillaLadderGameBoard));
+        new LadderTile(33, tiles.get(33).getOnscreenPosition(), 3));
 
     tiles.put(36,
-        new LadderTile(36, tiles.get(36).getOnscreenPosition(), 52, vanillaLadderGameBoard));
+        new LadderTile(36, tiles.get(36).getOnscreenPosition(), 52));
 
     tiles.put(42,
-        new LadderTile(42, tiles.get(42).getOnscreenPosition(), 30, vanillaLadderGameBoard));
+        new LadderTile(42, tiles.get(42).getOnscreenPosition(), 30));
 
     tiles.put(43,
-        new LadderTile(43, tiles.get(43).getOnscreenPosition(), 62, vanillaLadderGameBoard));
+        new LadderTile(43, tiles.get(43).getOnscreenPosition(), 62));
 
     tiles.put(49,
-        new LadderTile(49, tiles.get(49).getOnscreenPosition(), 79, vanillaLadderGameBoard));
+        new LadderTile(49, tiles.get(49).getOnscreenPosition(), 79));
 
     tiles.put(56,
-        new LadderTile(56, tiles.get(56).getOnscreenPosition(), 37, vanillaLadderGameBoard));
+        new LadderTile(56, tiles.get(56).getOnscreenPosition(), 37));
 
     tiles.put(64,
-        new LadderTile(64, tiles.get(64).getOnscreenPosition(), 27, vanillaLadderGameBoard));
+        new LadderTile(64, tiles.get(64).getOnscreenPosition(), 27));
 
     tiles.put(65,
-        new LadderTile(65, tiles.get(65).getOnscreenPosition(), 82, vanillaLadderGameBoard));
+        new LadderTile(65, tiles.get(65).getOnscreenPosition(), 82));
 
     tiles.put(68,
-        new LadderTile(68, tiles.get(68).getOnscreenPosition(), 85, vanillaLadderGameBoard));
+        new LadderTile(68, tiles.get(68).getOnscreenPosition(), 85));
 
     tiles.put(74,
-        new LadderTile(74, tiles.get(74).getOnscreenPosition(), 12, vanillaLadderGameBoard));
+        new LadderTile(74, tiles.get(74).getOnscreenPosition(), 12));
 
     tiles.put(87,
-        new LadderTile(87, tiles.get(87).getOnscreenPosition(), 70, vanillaLadderGameBoard));
+        new LadderTile(87, tiles.get(87).getOnscreenPosition(), 70));
 
     // winner tile
 

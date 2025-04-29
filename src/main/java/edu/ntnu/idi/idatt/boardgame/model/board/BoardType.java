@@ -33,6 +33,12 @@ public enum BoardType {
       return "Ladder Game Regular";
     }
   },
+  LADDER_GAME_JSON() {
+    @Override
+    public String getBoardName() {
+      return "Ladder Game .json";
+    }
+  },
   PARIO_MARTI() {
     @Override
     public String getBoardName() {

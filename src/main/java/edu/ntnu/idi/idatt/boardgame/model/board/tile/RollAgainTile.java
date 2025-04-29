@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
-import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RollAgainAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
@@ -13,8 +12,7 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class RollAgainTile extends SpecialTile {
 
-  private final int tileNumber;
-  private final int[] onscreenPosition;
+  private final TileType tileType = TileType.ROLL_AGAIN;
 
   /**
    * Constructor for a RollAgainTile.
@@ -28,18 +26,8 @@ public class RollAgainTile extends SpecialTile {
   }
 
   @Override
-  public int getTileNumber() {
-    return tileNumber;
-  }
-
-  @Override
-  public int[] getOnscreenPosition() {
-    return onscreenPosition;
-  }
-
-  @Override
   public String getTileType() {
-    return "RollAgainTile";
+    return tileType.getTileType();
   }
 
   @Override

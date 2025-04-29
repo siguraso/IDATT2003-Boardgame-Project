@@ -3,7 +3,6 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.Objects;
 import javafx.geometry.Insets;
@@ -50,6 +49,7 @@ public class MainWindow implements Window {
   private final HBox buttonBar;
   private final Button ladderGameButton = new Button("Ladder Game");
   private final Button parioMartyButton = new Button("Pario Marty");
+  private final Button startGameButton = new Button("Start Game");
   private final Label sidebarHeader = new Label();
   private final VBox playerSelectionView = new VBox();
 
@@ -87,7 +87,7 @@ public class MainWindow implements Window {
         .getResource("/Styles/Style.css")).toExternalForm());
 
     window.setMinWidth(900);
-    window.setMinHeight(610);
+    window.setMinHeight(735);
     window.setScene(scene);
   }
 
@@ -131,7 +131,8 @@ public class MainWindow implements Window {
     // add all the board selection views to the flow pane
     flowPane.getChildren().addAll(getBoardSelectionView(BoardType.LADDER_GAME_REGULAR,
             "Regular Ladder Game"),
-        getBoardSelectionView(BoardType.LADDER_GAME_SPECIAL, "Special Ladder Game"));
+        getBoardSelectionView(BoardType.LADDER_GAME_SPECIAL, "Special Ladder Game"),
+        getBoardSelectionView(BoardType.LADDER_GAME_JSON, "Load Board From .json"));
 
     flowPane.setVgap(20);
     flowPane.setHgap(20);
@@ -166,6 +167,12 @@ public class MainWindow implements Window {
 
     chooseBoardButton.setOnAction(onPressed -> {
       boardType = board;
+      startGameButton.setText("Start Game");
+
+      if (boardType == BoardType.LADDER_GAME_JSON) {
+        startGameButton.setText("Open .json File");
+      }
+
       showSidebar();
     });
 
@@ -194,9 +201,7 @@ public class MainWindow implements Window {
       sidebarHeader.setStyle("-fx-font-size: 18px; -fx-text-alignment: center;");
 
       HBox startGameButtons = new HBox();
-      Button startGameButton = new Button("Start Game");
-      Button startGameJsonButton = new Button("Start Game (JSON)");
-      startGameButtons.getChildren().addAll(startGameButton, startGameJsonButton);
+      startGameButtons.getChildren().addAll(startGameButton);
       startGameButtons.setAlignment(Pos.CENTER);
       startGameButtons.setSpacing(10);
 

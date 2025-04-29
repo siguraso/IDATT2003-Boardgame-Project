@@ -4,6 +4,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import javafx.scene.canvas.Canvas;
 
 public class LadderDrawer {
+
   private final Board board;
   private final Canvas canvas;
 
@@ -41,7 +42,7 @@ public class LadderDrawer {
   }
 
   private void drawLadder() {
-    
+
   }
 
   public void update() {
