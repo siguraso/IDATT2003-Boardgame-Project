@@ -13,6 +13,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.ReturnToStartTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -54,8 +55,8 @@ public class BoardWriterGson implements BoardFileWriter {
     try (FileWriter fileWriter = new FileWriter(filePath);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
       bufferedWriter.write(jsonString);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (IOException e) {
+      throw new RuntimeException("Error writing to file: " + filePath, e);
     }
   }
 }

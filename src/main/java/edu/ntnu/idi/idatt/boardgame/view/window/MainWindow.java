@@ -58,6 +58,8 @@ public class MainWindow implements Window {
 
   // check weather or not to use two dice
   private boolean useTwoDice = false;
+  private boolean useJson = false;
+  private String jsonFilePath = null;
 
   /**
    * Constructor for the MainWindow class.
@@ -201,41 +203,18 @@ public class MainWindow implements Window {
       sidebarHeader.setStyle("-fx-font-size: 18px; -fx-text-alignment: center;");
 
       HBox startGameButtons = new HBox();
-      startGameButtons.getChildren().addAll(startGameButton);
+      Button startGameJsonButton = new Button("Start Game (From .json)");
+      startGameButtons.getChildren().addAll(startGameButton, startGameJsonButton);
       startGameButtons.setAlignment(Pos.CENTER);
       startGameButtons.setSpacing(10);
 
       startGameButton.setOnAction(onPressed -> {
-        playerSelectionView.getChildren().forEach(playerProfile -> {
-          HBox playerProfileEditor = (HBox) playerProfile;
-          String playerName = ((TextField) playerProfileEditor.getChildren().get(1)).getText();
-          String playerPieceString = ((ComboBox<String>) playerProfileEditor.getChildren()
-              .get(2)).getValue();
-          PlayerPiece playerPiece;
+        startGame();
+      });
 
-          switch (playerPieceString) {
-            case "Paul" -> playerPiece = PlayerPiece.PAUL;
-            case "Evil Paul" -> playerPiece = PlayerPiece.EVIL_PAUL;
-            case "Konkey Dong" -> playerPiece = PlayerPiece.KONKEY_DONG;
-            case "Mariotinelli" -> playerPiece = PlayerPiece.MARIOTINELLI;
-            case "My Love" -> playerPiece = PlayerPiece.MY_LOVE;
-            case "My Love (hat)" -> playerPiece = PlayerPiece.MY_LOVE_WITH_HAT;
-            case "Propeller Accessories" -> playerPiece = PlayerPiece.PROPELLER_ACCESSORIES;
-            case "Locked in Snowman" -> playerPiece = PlayerPiece.LOCKED_IN_SNOWMAN;
-            default -> playerPiece = null;
-          }
-
-          playersController.addPlayer(playerName, playerPiece);
-        });
-
-        // start the game by initiating the game controller and the game window
-        GameController gameController = new GameController(playersController, useTwoDice);
-        gameController.setBoard(boardType);
-
-        BoardGameWindow gameWindow = new BoardGameWindow(gameController, useTwoDice);
-
-        window.close();
-        gameWindow.show();
+      startGameJsonButton.setOnAction(onPressed -> {
+        useJson = true;
+        startGame();
       });
 
       Line separator = new Line();
@@ -453,5 +432,38 @@ public class MainWindow implements Window {
     numberOfDiceComponent.setPadding(new Insets(10, 10, 10, 10));
 
     return numberOfDiceComponent;
+  }
+
+  private void startGame() {
+    playerSelectionView.getChildren().forEach(playerProfile -> {
+      HBox playerProfileEditor = (HBox) playerProfile;
+      String playerName = ((TextField) playerProfileEditor.getChildren().get(1)).getText();
+      String playerPieceString = ((ComboBox<String>) playerProfileEditor.getChildren()
+          .get(2)).getValue();
+      PlayerPiece playerPiece;
+
+      switch (playerPieceString) {
+        case "Paul" -> playerPiece = PlayerPiece.PAUL;
+        case "Evil Paul" -> playerPiece = PlayerPiece.EVIL_PAUL;
+        case "Konkey Dong" -> playerPiece = PlayerPiece.KONKEY_DONG;
+        case "Mariotinelli" -> playerPiece = PlayerPiece.MARIOTINELLI;
+        case "My Love" -> playerPiece = PlayerPiece.MY_LOVE;
+        case "My Love (hat)" -> playerPiece = PlayerPiece.MY_LOVE_WITH_HAT;
+        case "Propeller Accessories" -> playerPiece = PlayerPiece.PROPELLER_ACCESSORIES;
+        case "Locked in Snowman" -> playerPiece = PlayerPiece.LOCKED_IN_SNOWMAN;
+        default -> playerPiece = null;
+      }
+
+      playersController.addPlayer(playerName, playerPiece);
+    });
+
+    // start the game by initiating the game controller and the game window
+    GameController gameController = new GameController(playersController, useTwoDice);
+    gameController.setBoard(boardType, useJson, jsonFilePath);
+
+    BoardGameWindow gameWindow = new BoardGameWindow(gameController, useTwoDice);
+
+    window.close();
+    gameWindow.show();
   }
 }

@@ -7,6 +7,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.ReturnToStartTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.RollAgainTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.WinnerTile;
+import edu.ntnu.idi.idatt.boardgame.model.io.board.BoardReaderGson;
 import java.util.HashMap;
 import java.util.stream.IntStream;
 
@@ -32,12 +33,21 @@ public class BoardFactory {
    * @param boardType the boardType of board to create.
    * @return a new board of the given boardType.
    */
-  public static Board createBoard(BoardType boardType) {
-    return switch (boardType) {
-      case LADDER_GAME_SPECIAL -> specialLadderGameBoard(boardType);
-      case LADDER_GAME_REGULAR -> vanillaLadderGameBoard(boardType);
-      default -> throw new IllegalArgumentException("Unknown BoardType: " + boardType);
-    };
+  public static Board createBoard(BoardType boardType, boolean useJson, String filePath) {
+    if (!useJson) {
+      return switch (boardType) {
+        case LADDER_GAME_SPECIAL -> specialLadderGameBoard(boardType);
+        case LADDER_GAME_REGULAR -> vanillaLadderGameBoard(boardType);
+        default -> throw new IllegalArgumentException("Unknown BoardType: " + boardType);
+      };
+    } else {
+      return switch (boardType) {
+        case LADDER_GAME_SPECIAL -> specialLadderGameBoardJson(boardType);
+        case LADDER_GAME_REGULAR -> vanillaLadderGameBoardJson(boardType);
+        //case LADDER_GAME_JSON -> ; //TODO: implement this
+        default -> throw new IllegalArgumentException("Unknown BoardType: " + boardType);
+      };
+    }
   }
 
   // specific board creation methods
@@ -173,6 +183,27 @@ public class BoardFactory {
     tiles.put(90, new WinnerTile(90, tiles.get(90).getOnscreenPosition()));
 
     return vanillaLadderGameBoard;
+  }
+
+  private static Board vanillaLadderGameBoardJson(BoardType boardType) {
+    BoardReaderGson boardFileReader = new BoardReaderGson();
+
+    Board board = boardFileReader.readBoardFile("/JSON/LadderGameRegular.json");
+
+    board.setBoardType(boardType);
+
+    return board;
+  }
+
+  private static Board specialLadderGameBoardJson(BoardType boardType) {
+    BoardReaderGson boardFileReader = new BoardReaderGson();
+
+    Board board = boardFileReader.readBoardFile(
+        "/JSON/LadderGameSpecial.json");
+
+    board.setBoardType(boardType);
+
+    return board;
   }
 
   private static HashMap<Integer, Tile> getBlankBoard() {
