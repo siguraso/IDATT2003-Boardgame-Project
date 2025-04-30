@@ -3,6 +3,8 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
+import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersReaderCsv;
+import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersWriterCsv;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.io.File;
 import java.util.Objects;
@@ -228,9 +230,9 @@ public class MainWindow implements Window {
           startGameButtons.getChildren().add(startGameJsonButton);
         }
 
-        startGameButton.setOnAction(onPress -> {
-          startGame();
-        });
+        startGameButton.setOnAction(onPress ->
+            startGame()
+        );
       }
 
     });
@@ -253,9 +255,9 @@ public class MainWindow implements Window {
       startGameButtons.setAlignment(Pos.CENTER);
       startGameButtons.setSpacing(10);
 
-      startGameButton.setOnAction(onPressed -> {
-        startGame();
-      });
+      startGameButton.setOnAction(onPressed ->
+          startGame()
+      );
 
       startGameJsonButton.setOnAction(onPressed -> {
         useJson = true;
@@ -323,13 +325,13 @@ public class MainWindow implements Window {
     fileButtons.setSpacing(10);
     fileButtons.setAlignment(Pos.CENTER);
 
-    readButton.setOnAction(onPressed -> {
-      // TODO Implement read from file
-    });
+    readButton.setOnAction(onPressed ->
+        showFileChooserCsv()
+    );
 
-    writeButton.setOnAction(onPressed -> {
-      // TODO Implement write to file
-    });
+    writeButton.setOnAction(onPressed ->
+        showFileWriterCsv()
+    );
 
     // add a line separator and header
     Line separator = new Line();
@@ -500,6 +502,108 @@ public class MainWindow implements Window {
     }
   }
 
+  private void showFileChooserCsv() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Open CSV File");
+
+    fileChooser.getExtensionFilters().add(new ExtensionFilter(
+        "CSV files (*.csv)", "*.csv"));
+
+    fileChooser.setInitialDirectory(
+        new File(System.getProperty("user.home")));
+
+    File file = fileChooser.showOpenDialog(window);
+
+    if (file != null) {
+      try {
+
+        PlayersReaderCsv playersReaderCsv = new PlayersReaderCsv();
+
+        playersController.setPlayers(
+            playersReaderCsv.readPlayersFile(file.getAbsolutePath()));
+
+        if (playersController.getPlayers().size() > 4) {
+          warningDialog.update("You can have max 4 players in the game!", "Too many players");
+          warningDialog.show();
+          return;
+        } else if (playersController.getPlayers().size() < 2) {
+          warningDialog.update("You need at least 2 players to start the game!", "Too few players");
+          warningDialog.show();
+          return;
+        }
+
+        int numberOfPlayers = playersController.getPlayers().size();
+        int playersInSelection = playerSelectionView.getChildren().size();
+
+        int delta = numberOfPlayers - playersInSelection;
+
+        if (delta > 0) {
+          for (int i = 0; i < delta; i++) {
+            playerSelectionView.getChildren().add(getPlayerProfileEditor());
+          }
+        } else if (delta < 0) {
+          for (int i = 0; i < Math.abs(delta); i++) {
+            playerSelectionView.getChildren().removeLast();
+          }
+        }
+
+        playersController.getPlayers().forEach(player -> {
+          int index = playersController.getPlayers().indexOf(player);
+
+          HBox playerProfileEditor = (HBox) playerSelectionView.getChildren().get(index);
+          ((TextField) playerProfileEditor.getChildren().get(1)).setText(player.getName());
+          ((ComboBox<String>) playerProfileEditor.getChildren().get(2))
+              .setValue(player.getPlayerPiece().getPieceName());
+        });
+      } catch (Exception e) {
+        warningDialog.update("There was an error reading the file. \n "
+            + "Is it formatted correctly?", "Error reading file");
+        warningDialog.show();
+      } finally {
+        playersController.clearPlayers();
+      }
+    }
+  }
+
+  private void showFileWriterCsv() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Save CSV File");
+
+    fileChooser.getExtensionFilters().add(new ExtensionFilter(
+        "CSV files (*.csv)", "*.csv"));
+
+    fileChooser.setInitialDirectory(
+        new File(System.getProperty("user.home")));
+
+    File file = fileChooser.showSaveDialog(window);
+
+    if (file != null) {
+      playerSelectionView.getChildren().forEach(profile -> {
+        String playerName = ((TextField) ((HBox) profile).getChildren().get(1)).getText();
+        String playerPieceString = ((ComboBox<String>) ((HBox) profile).getChildren()
+            .get(2)).getValue();
+
+        PlayerPiece playerPiece = selectPlayerPiece(playerPieceString);
+
+        playersController.addPlayer(playerName, playerPiece);
+
+      });
+
+      PlayersWriterCsv playersWriter = new PlayersWriterCsv();
+
+      try {
+        playersWriter.writePlayersFile(file.getAbsolutePath(), file.getName(),
+            playersController.getPlayers());
+      } catch (Exception e) {
+        warningDialog.update("There was an error writing the file!",
+            "Error writing file");
+        warningDialog.show();
+      } finally {
+        playersController.clearPlayers();
+      }
+    }
+  }
+
   private void startGame() {
 
     // get all players
@@ -508,19 +612,8 @@ public class MainWindow implements Window {
       String playerName = ((TextField) playerProfileEditor.getChildren().get(1)).getText();
       String playerPieceString = ((ComboBox<String>) playerProfileEditor.getChildren()
           .get(2)).getValue();
-      PlayerPiece playerPiece;
 
-      switch (playerPieceString) {
-        case "Paul" -> playerPiece = PlayerPiece.PAUL;
-        case "Evil Paul" -> playerPiece = PlayerPiece.EVIL_PAUL;
-        case "Konkey Dong" -> playerPiece = PlayerPiece.KONKEY_DONG;
-        case "Mariotinelli" -> playerPiece = PlayerPiece.MARIOTINELLI;
-        case "My Love" -> playerPiece = PlayerPiece.MY_LOVE;
-        case "My Love (hat)" -> playerPiece = PlayerPiece.MY_LOVE_WITH_HAT;
-        case "Propeller Accessories" -> playerPiece = PlayerPiece.PROPELLER_ACCESSORIES;
-        case "Locked in Snowman" -> playerPiece = PlayerPiece.LOCKED_IN_SNOWMAN;
-        default -> playerPiece = null;
-      }
+      PlayerPiece playerPiece = selectPlayerPiece(playerPieceString);
 
       playersController.addPlayer(playerName, playerPiece);
     });
@@ -533,4 +626,34 @@ public class MainWindow implements Window {
     window.close();
     gameWindow.show();
   }
+
+  private PlayerPiece selectPlayerPiece(String playerPieceString) {
+    switch (playerPieceString) {
+      case "Evil Paul" -> {
+        return PlayerPiece.EVIL_PAUL;
+      }
+      case "Konkey Dong" -> {
+        return PlayerPiece.KONKEY_DONG;
+      }
+      case "Mariotinelli" -> {
+        return PlayerPiece.MARIOTINELLI;
+      }
+      case "My Love" -> {
+        return PlayerPiece.MY_LOVE;
+      }
+      case "My Love (hat)" -> {
+        return PlayerPiece.MY_LOVE_WITH_HAT;
+      }
+      case "Propeller Accessories" -> {
+        return PlayerPiece.PROPELLER_ACCESSORIES;
+      }
+      case "Locked in Snowman" -> {
+        return PlayerPiece.LOCKED_IN_SNOWMAN;
+      }
+      default -> {
+        return PlayerPiece.PAUL;
+      }
+    }
+  }
+
 }
