@@ -397,7 +397,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
         }
 
         case "WinnerTile" -> showWinnerScreen();
-        
+
       }
 
       ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
@@ -477,9 +477,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
           sfxPlayer.openSoundFile(SoundFile.RETURN_TO_START);
 
-          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
-            updatePlayerPositions(initialPlayerPositions);
-          });
+          updatePlayerPositions(initialPlayerPositions);
+
         }
         case "Roll again" -> {
           // logic gets handled in the game controller, all we have to do is prompt the player
@@ -491,9 +490,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
           sfxPlayer.openSoundFile(SoundFile.ROLL_AGAIN);
 
-          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
-            updatePlayerPositions(initialPlayerPositions);
-          });
+          updatePlayerPositions(initialPlayerPositions);
+
         }
         case "Move to a random tile" -> {
           dialogBox.refresh(
@@ -505,9 +503,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
           sfxPlayer.openSoundFile(SoundFile.RANDOM_TILE);
 
-          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
-            updatePlayerPositions(initialPlayerPositions);
-          });
+          updatePlayerPositions(initialPlayerPositions);
         }
         default -> {
           // default is swap players.
@@ -520,9 +516,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
           sfxPlayer.openSoundFile(SoundFile.SWAP_PLAYERS);
 
-          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
-            updatePlayerPositions(initialPlayerPositions);
-          });
+          updatePlayerPositions(initialPlayerPositions);
         }
       }
     });

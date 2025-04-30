@@ -55,7 +55,10 @@ public class MainWindow implements Window {
   private final Button ladderGameButton = new Button("Ladder Game");
   private final Button parioMartyButton = new Button("Pario Marty");
   private final Label sidebarHeader = new Label();
+
+  // player selection view
   private final VBox playerSelectionView = new VBox();
+  private final Label errorLabel = new Label();
 
   // start game buttons
   private final HBox startGameButtons = new HBox();
@@ -299,7 +302,7 @@ public class MainWindow implements Window {
     playerSelection.setSpacing(10);
     playerSelection.setAlignment(Pos.TOP_CENTER);
     playerSelection.setPadding(new Insets(10, 0, 10, 0));
-    playerSelection.setPrefHeight(340);
+    playerSelection.setPrefHeight(380);
 
     Button addPlayerButton = new Button("Add Player");
 
@@ -344,8 +347,14 @@ public class MainWindow implements Window {
 
     Label playerSelectionHeader = new Label("Add Players: ");
 
+    errorLabel.getStyleClass().add("error-label");
+    // placeholder text for error label so that the height of the VBox does not change when
+    // showing the label.
+    errorLabel.setText("error");
+    errorLabel.setVisible(false);
+
     playerSelection.getChildren()
-        .addAll(separator, playerSelectionHeader, addPlayerButton, playerSelectionView,
+        .addAll(separator, playerSelectionHeader, addPlayerButton, playerSelectionView, errorLabel,
             fileButtons);
 
     return playerSelection;
@@ -483,6 +492,13 @@ public class MainWindow implements Window {
   }
 
   private void showFileChooserJson() {
+    if (!arePlayersValid()) {
+      playerSelectionView.getStyleClass().add("player-selection-view-error");
+      errorLabel.setText("Please fill in all player fields!");
+      errorLabel.setVisible(true);
+      return;
+    }
+
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Open JSON File");
 
@@ -566,6 +582,13 @@ public class MainWindow implements Window {
   }
 
   private void showFileWriterCsv() {
+    if (!arePlayersValid()) {
+      playerSelectionView.getStyleClass().add("player-selection-view-error");
+      errorLabel.setText("Please fill in all player fields!");
+      errorLabel.setVisible(true);
+      return;
+    }
+
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Save CSV File");
 
@@ -605,26 +628,37 @@ public class MainWindow implements Window {
   }
 
   private void startGame() {
+    try {
+      // get all players
+      playerSelectionView.getChildren().forEach(playerProfile -> {
+        HBox playerProfileEditor = (HBox) playerProfile;
 
-    // get all players
-    playerSelectionView.getChildren().forEach(playerProfile -> {
-      HBox playerProfileEditor = (HBox) playerProfile;
-      String playerName = ((TextField) playerProfileEditor.getChildren().get(1)).getText();
-      String playerPieceString = ((ComboBox<String>) playerProfileEditor.getChildren()
-          .get(2)).getValue();
+        PlayerPiece playerPiece = selectPlayerPiece(
+            ((ComboBox<String>) playerProfileEditor.getChildren()
+                .get(2)).getValue());
 
-      PlayerPiece playerPiece = selectPlayerPiece(playerPieceString);
+        playersController.addPlayer(
+            ((TextField) playerProfileEditor.getChildren().get(1)).getText(),
+            playerPiece);
 
-      playersController.addPlayer(playerName, playerPiece);
-    });
+      });
 
-    GameController gameController = new GameController(playersController, useTwoDice);
-    gameController.setBoard(boardType, useJson, jsonFilePath);
+      GameController gameController = new GameController(playersController, useTwoDice);
+      gameController.setBoard(boardType, useJson, jsonFilePath);
 
-    BoardGameWindow gameWindow = new BoardGameWindow(gameController, useTwoDice);
+      BoardGameWindow gameWindow = new BoardGameWindow(gameController, useTwoDice);
 
-    window.close();
-    gameWindow.show();
+      window.close();
+      gameWindow.show();
+
+    } catch (NullPointerException e) {
+      playersController.clearPlayers();
+
+      playerSelectionView.getStyleClass().add("player-selection-view-error");
+      errorLabel.setText("Please fill in all player fields!");
+      errorLabel.setVisible(true);
+    }
+
   }
 
   private PlayerPiece selectPlayerPiece(String playerPieceString) {
@@ -654,6 +688,23 @@ public class MainWindow implements Window {
         return PlayerPiece.PAUL;
       }
     }
+  }
+
+  private boolean arePlayersValid() {
+    var arePlayersValidWrapper = new Object() {
+      boolean areValid = true;
+    };
+
+    playerSelectionView.getChildren().forEach(playerProfile -> {
+      String piece = ((ComboBox<String>) ((HBox) playerProfile).getChildren().get(2)).getValue();
+      String name = ((TextField) ((HBox) playerProfile).getChildren().get(1)).getText();
+
+      if (piece == null || name == null || piece.isEmpty() || name.isEmpty()) {
+        arePlayersValidWrapper.areValid = false;
+      }
+
+    });
+    return arePlayersValidWrapper.areValid;
   }
 
 }
