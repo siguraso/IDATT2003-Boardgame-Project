@@ -547,5 +547,4 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     sfxPlayer.openSoundFile(SoundFile.GAME_WON);
     sfxPlayer.playSound();
   }
-
 }
