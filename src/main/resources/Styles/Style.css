@@ -192,9 +192,10 @@
   -fx-border-color: bg_400
 }
 
-.winner-tile .label {
+.winner-tile Label {
+  -fx-font-size: 60px;
   -fx-text-fill: text_wht;
-  -fx-font-size: 16px;
+  -fx-text-alignment: center;
 }
 
 .start-tile {
@@ -247,6 +248,13 @@
 
 .winner-screen {
   -fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+.winner-label {
+  -fx-text-fill: text_wht;
+  -fx-font-size: 60px;
+  -fx-font-weight: bold;
+  -fx-text-alignment: center;
 }
 
 .action-list {
