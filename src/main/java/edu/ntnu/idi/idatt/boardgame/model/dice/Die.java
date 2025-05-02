@@ -35,9 +35,9 @@ public class Die implements BoardGameObservable {
    * Throws the {@link Die} and notifies the observers.
    */
   public void roll() {
-    //int[] currentThrow = new int[]{(int) (Math.random() * sides) + 1};
+    int[] currentThrow = new int[]{(int) (Math.random() * sides) + 1};
     //to test confetti
-    int[] currentThrow = new int[] {89};
+    //int[] currentThrow = new int[] {89};
     notifyObservers(currentThrow);
   }
 
