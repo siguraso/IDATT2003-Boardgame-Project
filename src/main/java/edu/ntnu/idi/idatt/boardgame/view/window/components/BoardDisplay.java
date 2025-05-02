@@ -205,7 +205,7 @@ public class BoardDisplay implements WindowComponent {
           /*logger.log(Level.INFO, "End position: x=" + endPos[0]
               + ", y=" + endPos[1] + ".");*/
 
-          ld.draw(startPos, endPos);
+          ld.draw(startPos, endPos, tileDimensions);
         }));
   }
 
