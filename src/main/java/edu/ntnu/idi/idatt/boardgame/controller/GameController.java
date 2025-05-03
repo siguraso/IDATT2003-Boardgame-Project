@@ -13,6 +13,7 @@ import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h1>Class - GameController.</h1>
@@ -192,6 +193,11 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   @Override
   public void notifyObservers(int[] i) {
     uiObservers.forEach(o -> o.update(i));
+  }
+
+  @Override
+  public List<BoardGameObserver> getObservers() {
+    return uiObservers;
   }
 
 }

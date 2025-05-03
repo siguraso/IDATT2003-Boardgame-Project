@@ -6,7 +6,7 @@ package edu.ntnu.idi.idatt.boardgame.model.player;
  * <p>Enum for the different player pieces in the game.
  * Just some fun names for the player pieces.</p>
  *
- * @author siguraso
+ * @author siguraso & MagnusNaessanGaarder
  * @version 1.0
  * @since 1.0
  */
@@ -41,6 +41,11 @@ public enum PlayerPiece {
    * @param imagePath The path to the image of the player piece.
    */
   PlayerPiece(String imagePath, String pieceName) {
+    if (imagePath == null || pieceName == null) {
+      throw new NullPointerException("Image path and pieceName cannot be null.");
+    } else if (imagePath.isEmpty() || pieceName.isEmpty()) {
+      throw new IllegalArgumentException("Image path and pieceName cannot be empty.");
+    }
     this.imagePath = imagePath;
     this.pieceName = pieceName;
   }

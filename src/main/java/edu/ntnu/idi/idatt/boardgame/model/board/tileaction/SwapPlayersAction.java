@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * A tile action that swaps to players positions on the board.
  *
- * @author siguraso
+ * @author siguraso & MagnusNaessanGaarder
  * @version 1.0
  * @since 1.0
  */
@@ -22,10 +22,31 @@ public class SwapPlayersAction implements TileAction {
   }
 
   /**
+   * Returns the players that are currently in the game.
+   *
+   * @return the players that are currently in the game.
+   */
+  public ArrayList<Player> getPlayers() {
+    if (players == null) {
+      throw new IllegalStateException(
+          "Players have not been set. Please call setPlayers() first.");
+    }
+    return players;
+  }
+
+  /**
    * Sets the players that are currently in the game.
    */
   public void setPlayers(ArrayList<Player> players) {
-    this.players = players;
+    if (players == null) {
+      throw new NullPointerException(
+          "Players cannot be null. Please provide a valid list of players.");
+    } else if (players.size() < 2) {
+      throw new IllegalArgumentException(
+          "At least two players are required to perform a swap.");
+    } else {
+      this.players = players;
+    }
   }
 
   /**
@@ -34,6 +55,10 @@ public class SwapPlayersAction implements TileAction {
    * @return the {@link Player} that the {@link Player} is swapping with.
    */
   public Player getPlayerToSwapWith() {
+    if (playerToSwapWith == null) {
+      throw new IllegalStateException(
+          "Player to swap with is not set. Please call performAction() first.");
+    }
     return playerToSwapWith;
   }
 
@@ -44,6 +69,10 @@ public class SwapPlayersAction implements TileAction {
    */
   @Override
   public void performAction(Player player) {
+    if (player == null) {
+      throw new NullPointerException(
+          "Player cannot be null. Please provide a valid player.");
+    }
     ArrayList<Player> playersToSwapWith = new ArrayList<>(players);
 
     // remove the player from the list of players to swap with
@@ -58,6 +87,4 @@ public class SwapPlayersAction implements TileAction {
     player.moveTo(swappingPlayerPosition);
     playerToSwapWith.moveTo(landingPlayerPosition);
   }
-
-
 }
