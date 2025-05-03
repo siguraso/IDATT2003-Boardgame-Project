@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 
 class ReturnToStartTileTest {
 
-  Tile tile;
-  Player player;
+  private Tile tile;
+  private Player player;
 
   @BeforeEach
   void setUp() {

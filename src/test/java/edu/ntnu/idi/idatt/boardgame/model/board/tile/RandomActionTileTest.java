@@ -13,11 +13,10 @@ import org.junit.jupiter.api.Test;
 
 class RandomActionTileTest {
 
-
-  Tile tile;
-  Player player;
-  Player player1;
-  ArrayList<Player> players;
+  private Tile tile;
+  private Player player;
+  private Player player1;
+  private ArrayList<Player> players;
 
   @BeforeEach
   void setUp() {

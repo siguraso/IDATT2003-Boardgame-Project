@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 
 class LadderTileTest {
 
-  LadderTile tile;
-  Player player;
+  private LadderTile tile;
+  private Player player;
 
   @BeforeEach
   void setUp() {

@@ -3,6 +3,7 @@ package edu.ntnu.idi.idatt.boardgame.controller;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class representing the controller for the players in the game.
@@ -89,11 +90,11 @@ public class PlayersController {
   }
 
   /**
-   * Returns the {@link ArrayList} containing the players in the game.
+   * Returns the {@link List} containing the players in the game.
    *
-   * @return The {@link ArrayList} containing the players in the game.
+   * @return The {@link List} containing the players in the game.
    */
-  public ArrayList<Player> getPlayers() {
+  public List<Player> getPlayers() {
     return players;
   }
 
@@ -115,11 +116,11 @@ public class PlayersController {
   }
 
   /**
-   * Sets the {@link ArrayList} of players.
+   * Sets the {@link List} of players.
    *
-   * @param players The {@link ArrayList} of players to set.
+   * @param players The {@link List} of players to set.
    */
-  public void setPlayers(ArrayList<Player> players) {
+  public void setPlayers(List<Player> players) {
     this.players.clear();
     this.players.addAll(players);
   }
