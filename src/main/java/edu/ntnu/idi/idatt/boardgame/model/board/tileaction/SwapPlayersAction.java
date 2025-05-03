@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A tile action that swaps to players positions on the board.
@@ -26,7 +27,7 @@ public class SwapPlayersAction implements TileAction {
    *
    * @return the players that are currently in the game.
    */
-  public ArrayList<Player> getPlayers() {
+  public List<Player> getPlayers() {
     if (players == null) {
       throw new IllegalStateException(
           "Players have not been set. Please call setPlayers() first.");
@@ -37,7 +38,7 @@ public class SwapPlayersAction implements TileAction {
   /**
    * Sets the players that are currently in the game.
    */
-  public void setPlayers(ArrayList<Player> players) {
+  public void setPlayers(List<Player> players) {
     if (players == null) {
       throw new NullPointerException(
           "Players cannot be null. Please provide a valid list of players.");
@@ -47,6 +48,7 @@ public class SwapPlayersAction implements TileAction {
     } else {
       this.players = players;
     }
+    this.players = new ArrayList<>(players);
   }
 
   /**

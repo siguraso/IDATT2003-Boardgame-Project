@@ -1,11 +1,9 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.ladder.LadderDrawer;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
@@ -28,6 +26,7 @@ import javafx.scene.layout.StackPane;
  * @since 1.0
  */
 public class BoardDisplay implements WindowComponent {
+
   private final Logger logger = Logger.getLogger("BoardDisplay");
   private GridPane boardGrid;
   private static final int ROWS = 10;
@@ -70,8 +69,8 @@ public class BoardDisplay implements WindowComponent {
       tilePane.setMaxWidth(tileWidth);
       tilePane.setMaxHeight(tileHeight);
 
-      int row = gameController.getBoard().getTiles().get(t).getOnscreenPosition()[1];
-      int col = gameController.getBoard().getTiles().get(t).getOnscreenPosition()[0];
+      int row = gameController.getBoard().tiles().get(t).getOnscreenPosition()[1];
+      int col = gameController.getBoard().tiles().get(t).getOnscreenPosition()[0];
 
       tilePane.setAlignment(javafx.geometry.Pos.CENTER);
 

@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * An interface for reading a .csv file containing players.
@@ -22,7 +23,7 @@ public class PlayersReaderCsv implements PlayersFileReader {
   }
 
   @Override
-  public ArrayList<Player> readPlayersFile(String filePath) {
+  public List<Player> readPlayersFile(String filePath) {
     try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
       String line;
       ArrayList<Player> players = new ArrayList<>();

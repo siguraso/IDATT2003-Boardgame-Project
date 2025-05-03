@@ -1,0 +1,187 @@
+package edu.ntnu.idi.idatt.boardgame.model.board.tile;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import edu.ntnu.idi.idatt.boardgame.model.board.Board;
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
+import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
+import java.util.ArrayList;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class RandomActionTileTest {
+
+  private Tile tile;
+  private Player player;
+  private Player player1;
+  private ArrayList<Player> players;
+
+  @BeforeEach
+  void setUp() {
+    Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_REGULAR, false,
+        null);
+
+    tile = new RandomActionTile(1, new int[]{0, 0}, board);
+
+    player = new Player("TestPlayer", PlayerPiece.EVIL_PAUL);
+    player1 = new Player("TestPlayer1", PlayerPiece.EVIL_PAUL);
+
+    player1.moveTo(2);
+    player.moveTo(5);
+
+    players = new ArrayList<>();
+    players.add(player);
+    players.add(player1);
+  }
+
+  @Test
+  void testConstructor() {
+    // negative test for constructor
+    try {
+      tile = new RandomActionTile(1, new int[]{0, 0}, null);
+      fail("Expected an exception to be thrown");
+    } catch (NullPointerException e) {
+      assertEquals("Board cannot be null.", e.getMessage());
+    }
+
+    // Test constructor
+    assertEquals(1, tile.getTileNumber());
+    assertArrayEquals(new int[]{0, 0}, tile.getOnscreenPosition());
+    assertEquals("RandomActionTile", tile.getTileType());
+  }
+
+
+  @Test
+  void testClassAccessors() {
+    assertEquals(1, tile.getTileNumber());
+    assertArrayEquals(new int[]{0, 0}, tile.getOnscreenPosition());
+    assertEquals("RandomActionTile", tile.getTileType());
+
+    // negative test getPlayerToSwapWith
+    try {
+      ((RandomActionTile) tile).getPlayerToSwapWith();
+      fail("Expected an exception to be thrown");
+    } catch (Exception e) {
+      assertEquals("No players have been swapped yet.", e.getMessage());
+    }
+
+    ((RandomActionTile) tile).setPlayers(players);
+
+    // make the swap action happen
+    boolean swapAction = false;
+
+    while (!swapAction) {
+      ((RandomActionTile) tile).performAction(player);
+
+      try {
+        ((RandomActionTile) tile).getPlayerToSwapWith();
+        swapAction = true;
+      } catch (Exception e) {
+        continue;
+      }
+
+    }
+
+    // test getPlayerToSwapWith
+    try {
+      assertEquals("TestPlayer1", ((RandomActionTile) tile).getPlayerToSwapWith().getName());
+      assertEquals("SwapPlayersAction", ((RandomActionTile) tile).getTileAction());
+    } catch (Exception e) {
+      fail("Expected no exception to be thrown");
+    }
+
+  }
+
+  @Test
+  void testSetPlayers() {
+
+    try {
+      ((RandomActionTile) tile).setPlayers(null);
+      fail("Expected an exception to be thrown");
+    } catch (NullPointerException e) {
+      assertEquals("Players cannot be null. Please provide a valid set of players.",
+          e.getMessage());
+    }
+
+    try {
+      ((RandomActionTile) tile).setPlayers(new ArrayList<>());
+      fail("Expected an exception to be thrown");
+    } catch (IllegalArgumentException e) {
+      assertEquals("At least two players are required to perform a swap.", e.getMessage());
+    }
+
+    ((RandomActionTile) tile).setPlayers(players);
+
+    boolean swapAction = false;
+
+    // if it manages to do the swap action, then we successfully set the players
+    while (!swapAction) {
+      ((RandomActionTile) tile).performAction(player);
+
+      try {
+        ((RandomActionTile) tile).getPlayerToSwapWith();
+        swapAction = true;
+      } catch (Exception e) {
+        continue;
+      }
+
+    }
+
+  }
+
+  @Test
+  void testPerformAction() {
+    // negative test for performAction
+    try {
+      ((RandomActionTile) tile).performAction(null);
+      fail("Expected an exception to be thrown");
+    } catch (NullPointerException e) {
+      assertEquals("Player cannot be null", e.getMessage());
+    }
+
+    try {
+      ((RandomActionTile) tile).setPlayers(players);
+      ((RandomActionTile) tile).performAction(player);
+
+      int numberOfActionsRun = 0;
+      boolean returnToStartAction = false;
+      boolean rollAgainAction = false;
+      boolean swapAction = false;
+      boolean moveToRandomTileAction = false;
+
+      while (numberOfActionsRun < 4) {
+        ((RandomActionTile) tile).performAction(player);
+        if (((RandomActionTile) tile).getTileAction().equals("ReturnToStartAction")) {
+          if (!returnToStartAction) {
+            numberOfActionsRun++;
+            returnToStartAction = true;
+            assertEquals(1, player.getPosition());
+          }
+        } else if (((RandomActionTile) tile).getTileAction().equals("RollAgainAction")) {
+          if (!rollAgainAction) {
+            numberOfActionsRun++;
+            rollAgainAction = true;
+            assertTrue(player.canRollAgain());
+          }
+        } else if (((RandomActionTile) tile).getTileAction().equals("SwapPlayersAction")) {
+          if (!swapAction) {
+            numberOfActionsRun++;
+            swapAction = true;
+            assertEquals("TestPlayer1", ((RandomActionTile) tile).getPlayerToSwapWith().getName());
+          }
+        } else if (((RandomActionTile) tile).getTileAction().equals("MoveToRandomTileAction")) {
+          if (!moveToRandomTileAction) {
+            numberOfActionsRun++;
+            moveToRandomTileAction = true;
+            assertTrue(player.getPosition() >= 1 && player.getPosition() <= 89);
+          }
+        }
+      }
+
+    } catch (Exception e) {
+      fail("Expected no exception to be thrown");
+    }
+  }
+}

@@ -75,14 +75,8 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
     } catch (IOException e) {
       if (e.getMessage().contains("No such file or directory")) {
         throw new RuntimeException("File not found: " + filePath);
-      } else if (e.getMessage().contains("Permission denied")) {
-        throw new RuntimeException("Permission denied: " + filePath);
-      } else if (e.getMessage().contains("Malformed JSON")) {
-        throw new RuntimeException("Malformed JSON: " + filePath);
-      } else if (e.getMessage().contains("Unexpected character")) {
-        throw new RuntimeException("Unexpected character in JSON: " + filePath);
       }
-      throw new RuntimeException("An Unexpected IOException Occured: " + e.getMessage());
+      throw new RuntimeException("An Unexpected IOException Occurred: " + e.getMessage());
     }
   }
 

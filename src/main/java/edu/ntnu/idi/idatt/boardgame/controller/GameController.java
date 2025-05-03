@@ -101,7 +101,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
    */
   public void finishTurn() {
     // check the tile the current player is on
-    Tile currentTile = board.getTiles().get(playersController.getCurrentPlayer().getPosition());
+    Tile currentTile = board.tiles().get(playersController.getCurrentPlayer().getPosition());
 
     // check what typa tile it is, do the action if it is a special tile
     if (!currentTile.getTileType().equals(TileType.NORMAL.getTileType())) {
@@ -128,7 +128,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
    * @param tileNumber an integer representing the tile number.
    */
   public int getLadderDestinationTileNumber(int tileNumber) {
-    Tile tile = board.getTiles().get(tileNumber);
+    Tile tile = board.tiles().get(tileNumber);
 
     if (!tile.getTileType().equals(TileType.LADDER.getTileType())) {
       throw new IllegalArgumentException("Tile number " + tileNumber + " is not a LadderTile");
@@ -145,7 +145,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   public String getLastRandomAction() {
 
     //this method is only called when the last special tile was a RandomActionTile
-    Tile tile = board.getTiles().get(lastSpecialTile);
+    Tile tile = board.tiles().get(lastSpecialTile);
 
     if (!tile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())) {
       throw new IllegalArgumentException(
@@ -164,7 +164,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   public String getLastSwappedPlayer() {
 
     //this method is only called when the last special tile was a RandomActionTile
-    Tile tile = board.getTiles().get(lastSpecialTile);
+    Tile tile = board.tiles().get(lastSpecialTile);
 
     if (!tile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())) {
       throw new IllegalArgumentException(
