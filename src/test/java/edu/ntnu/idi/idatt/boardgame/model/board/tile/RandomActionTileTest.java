@@ -97,27 +97,39 @@ class RandomActionTileTest {
 
   @Test
   void testSetPlayers() {
+
     try {
-      ((RandomActionTile) tile).setPlayers(players);
+      ((RandomActionTile) tile).setPlayers(null);
+      fail("Expected an exception to be thrown");
+    } catch (NullPointerException e) {
+      assertEquals("Players cannot be null. Please provide a valid set of players.",
+          e.getMessage());
+    }
 
-      boolean swapAction = false;
+    try {
+      ((RandomActionTile) tile).setPlayers(new ArrayList<>());
+      fail("Expected an exception to be thrown");
+    } catch (IllegalArgumentException e) {
+      assertEquals("At least two players are required to perform a swap.", e.getMessage());
+    }
 
-      // if it manages to do the swap action, then we successfully set the players
-      while (!swapAction) {
-        ((RandomActionTile) tile).performAction(player);
+    ((RandomActionTile) tile).setPlayers(players);
 
-        try {
-          ((RandomActionTile) tile).getPlayerToSwapWith();
-          swapAction = true;
-        } catch (Exception e) {
-          continue;
-        }
+    boolean swapAction = false;
 
+    // if it manages to do the swap action, then we successfully set the players
+    while (!swapAction) {
+      ((RandomActionTile) tile).performAction(player);
+
+      try {
+        ((RandomActionTile) tile).getPlayerToSwapWith();
+        swapAction = true;
+      } catch (Exception e) {
+        continue;
       }
 
-    } catch (Exception e) {
-      assertEquals("Players cannot be null", e.getMessage());
     }
+
   }
 
   @Test

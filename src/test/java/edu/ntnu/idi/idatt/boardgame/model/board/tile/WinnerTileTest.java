@@ -7,39 +7,35 @@ import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ReturnToStartTileTest {
+class WinnerTileTest {
 
   Tile tile;
   Player player;
 
   @BeforeEach
   void setUp() {
-    tile = new ReturnToStartTile(1, new int[]{0, 0});
+    tile = new WinnerTile(1, new int[]{0, 0});
     player = new Player("TestPlayer", PlayerPiece.EVIL_PAUL);
   }
 
   @Test
-  void testAccessors() {
+  void testClassAccessors() {
     assertEquals(1, tile.getTileNumber());
     assertArrayEquals(new int[]{0, 0}, tile.getOnscreenPosition());
-    assertEquals("ReturnToStartTile", tile.getTileType());
+    assertEquals("WinnerTile", tile.getTileType());
   }
 
   @Test
   void testPerformAction() {
     try {
-      ((ReturnToStartTile) tile).performAction(null);
+      ((WinnerTile) tile).performAction(null);
     } catch (NullPointerException e) {
       assertEquals("Player cannot be null.", e.getMessage());
     }
 
-    try {
-      ((ReturnToStartTile) tile).performAction(null);
-    } catch (NullPointerException e) {
-      assertEquals("Tile action cannot be null.", e.getMessage());
-    }
+    ((WinnerTile) tile).performAction(player);
 
-    assertEquals(1, player.getPosition());
+    assertTrue(player.isWinner());
   }
 
 }

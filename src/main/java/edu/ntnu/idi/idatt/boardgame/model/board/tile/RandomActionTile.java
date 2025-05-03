@@ -8,7 +8,6 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.SwapPlayersAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Tile that performs a random action when a player lands on it.
@@ -48,12 +47,16 @@ public class RandomActionTile extends SpecialTile {
    *                game.
    */
   public void setPlayers(ArrayList<Player> players) {
+    try {
+      ((SwapPlayersAction) tileActions[2]).setPlayers(players);
 
-    Arrays.stream(tileActions).forEach(tileAction -> {
-      if (tileAction.getClass().getSimpleName().equals("SwapPlayersAction")) {
-        ((SwapPlayersAction) tileAction).setPlayers(players);
-      }
-    });
+    } catch (NullPointerException e) {
+      throw new NullPointerException(e.getMessage());
+
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(e.getMessage());
+
+    }
   }
 
   @Override
