@@ -37,25 +37,24 @@ public class BoardFactory {
   public static Board createBoard(BoardType boardType, boolean useJson, String filePath) {
     if (!useJson) {
       return switch (boardType) {
-        case LADDER_GAME_SPECIAL -> specialLadderGameBoard(boardType);
-        case LADDER_GAME_REGULAR -> vanillaLadderGameBoard(boardType);
+        case LADDER_GAME_SPECIAL -> specialLadderGameBoard();
+        case LADDER_GAME_REGULAR -> vanillaLadderGameBoard();
         default -> throw new IllegalArgumentException("Unknown BoardType: " + boardType);
       };
     } else {
       return switch (boardType) {
-        case LADDER_GAME_SPECIAL -> specialLadderGameBoardJson(boardType);
-        case LADDER_GAME_REGULAR -> vanillaLadderGameBoardJson(boardType);
-        case LADDER_GAME_JSON -> ladderGameCustomJsonBoard(boardType, filePath);
+        case LADDER_GAME_SPECIAL -> specialLadderGameBoardJson();
+        case LADDER_GAME_REGULAR -> vanillaLadderGameBoardJson();
+        case LADDER_GAME_JSON -> ladderGameCustomJsonBoard(filePath);
         default -> throw new IllegalArgumentException("Unknown BoardType: " + boardType);
       };
     }
   }
 
   // specific board creation methods
-  private static Board specialLadderGameBoard(BoardType boardType) {
+  private static Board specialLadderGameBoard() {
     HashMap<Integer, Tile> tiles = getBlankBoard();
     Board specialLadderGameBoard = new Board(tiles);
-    specialLadderGameBoard.setBoardType(boardType);
 
     // add the special tiles to the board
     // random action tiles
@@ -130,10 +129,9 @@ public class BoardFactory {
     return specialLadderGameBoard;
   }
 
-  private static Board vanillaLadderGameBoard(BoardType boardType) {
+  private static Board vanillaLadderGameBoard() {
     HashMap<Integer, Tile> tiles = getBlankBoard();
     Board vanillaLadderGameBoard = new Board(tiles);
-    vanillaLadderGameBoard.setBoardType(boardType);
 
     // ladder tiles
 
@@ -186,48 +184,43 @@ public class BoardFactory {
     return vanillaLadderGameBoard;
   }
 
-  private static Board vanillaLadderGameBoardJson(BoardType boardType) {
+  private static Board vanillaLadderGameBoardJson() {
     BoardReaderGson boardFileReader = new BoardReaderGson();
 
-    Board board = boardFileReader.readBoardFile("/JSON/LadderGameRegular.json", false);
-
-    board.setBoardType(boardType);
-
-    return board;
+    return boardFileReader.readBoardFile("/JSON/LadderGameRegular.json", false);
   }
 
-  private static Board specialLadderGameBoardJson(BoardType boardType) {
+  private static Board specialLadderGameBoardJson() {
     BoardReaderGson boardFileReader = new BoardReaderGson();
 
-    Board board = boardFileReader.readBoardFile(
+    return boardFileReader.readBoardFile(
         "/JSON/LadderGameSpecial.json", false);
-
-    board.setBoardType(boardType);
-
-    return board;
   }
 
-  private static Board ladderGameCustomJsonBoard(BoardType boardType, String filePath) {
+  private static Board ladderGameCustomJsonBoard(String filePath) {
     BoardReaderGson boardFileReader = new BoardReaderGson();
+    Board board;
 
-    Board board = boardFileReader.readBoardFile(filePath, true);
-
-    board.setBoardType(boardType);
+    try {
+      board = boardFileReader.readBoardFile(filePath, true);
+    } catch (RuntimeException e) {
+      throw new RuntimeException(e.getMessage());
+    }
 
     // check if the board is valid:
     // needs to be 90 tiles,
     // the first tile must be a normal tile, and the last tile must be winner tile
     // the tiles must be in order from 1 to 90
-    if (board.getTiles().size() != 90) {
+    if (board.tiles().size() != 90) {
       throw new IllegalStateException("Board must have 90 tiles");
 
-    } else if (board.getTiles().keySet().stream().anyMatch(tile -> tile < 1 || tile > 90)) {
+    } else if (board.tiles().keySet().stream().anyMatch(tile -> tile < 1 || tile > 90)) {
       throw new IllegalStateException("Tiles must be in order from 1 to 90");
 
-    } else if (!board.getTiles().get(1).getTileType().equals(TileType.NORMAL.getTileType())) {
+    } else if (!board.tiles().get(1).getTileType().equals(TileType.NORMAL.getTileType())) {
       throw new IllegalStateException("First tile must be a normal tile");
 
-    } else if (!board.getTiles().get(90).getTileType().equals(TileType.WINNER.getTileType())) {
+    } else if (!board.tiles().get(90).getTileType().equals(TileType.WINNER.getTileType())) {
       throw new IllegalStateException("Last tile must be a winner tile");
     }
 

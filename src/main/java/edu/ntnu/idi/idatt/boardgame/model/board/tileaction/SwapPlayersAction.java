@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A tile action that swaps to players positions on the board.
@@ -24,8 +25,8 @@ public class SwapPlayersAction implements TileAction {
   /**
    * Sets the players that are currently in the game.
    */
-  public void setPlayers(ArrayList<Player> players) {
-    this.players = players;
+  public void setPlayers(List<Player> players) {
+    this.players = new ArrayList<>(players);
   }
 
   /**

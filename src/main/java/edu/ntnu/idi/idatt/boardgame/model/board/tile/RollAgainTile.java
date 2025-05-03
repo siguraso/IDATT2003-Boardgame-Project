@@ -32,7 +32,11 @@ public class RollAgainTile extends SpecialTile {
 
   @Override
   public void performAction(Player player) {
-    RollAgainAction rollAgainAction = new RollAgainAction();
-    rollAgainAction.performAction(player);
+    try {
+      RollAgainAction rollAgainAction = new RollAgainAction();
+      rollAgainAction.performAction(player);
+    } catch (NullPointerException e) {
+      throw new NullPointerException(e.getMessage());
+    }
   }
 }

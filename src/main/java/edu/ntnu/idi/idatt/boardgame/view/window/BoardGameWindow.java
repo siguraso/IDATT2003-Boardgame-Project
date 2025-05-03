@@ -169,7 +169,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     this.boardDisplay.init(tileWidth, tileHeight, gameController.getBoard().getTileTypes());
     this.boardDisplay.drawLadders(gameController.getBoard().getTileTypes(),
-        new int[] {tileWidth, tileHeight});
+        new int[]{tileWidth, tileHeight});
 
     boardGrid.getChildren().add(this.boardDisplay.getComponent());
 
@@ -332,7 +332,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     // get the player object from the players hashmap
     gameController.finishTurn();
 
-    String currentTileType = gameController.getBoard().getTiles()
+    String currentTileType = gameController.getBoard().tiles()
         .get(initialPlayerPositions[gameController.getPlayersController().getPlayers()
             .indexOf(gameController.getPlayersController().getPreviousPlayer())]).getTileType();
 
@@ -549,7 +549,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
         + gameController.getPlayersController().getPreviousPlayer().getName() + "!\n"
         + "You have won the game!"));
     winnerScreen.getChildren().getLast().getStyleClass().add("winner-label");
-
 
     allElements.getChildren().add(winnerScreen);
 

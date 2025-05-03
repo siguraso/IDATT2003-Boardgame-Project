@@ -1,8 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.io.player;
 
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * An interface for writing a player to a .csv file.
@@ -20,5 +19,5 @@ public interface PlayersFileWriter {
    * @param players       {@link java.util.HashMap} containing the players to write to the file.
    * @param fileName      name of the file to write to.
    */
-  void writePlayersFile(String fileDirectory, String fileName, ArrayList<Player> players);
+  void writePlayersFile(String fileDirectory, String fileName, List<Player> players);
 }

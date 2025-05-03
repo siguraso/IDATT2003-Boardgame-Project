@@ -28,10 +28,14 @@ public class WinnerTile extends SpecialTile {
 
   @Override
   public void performAction(Player player) {
-    // initialize the tileAction with a WinnerAction
-    this.tileAction = new WinnerAction();
+    try {
+      // initialize the tileAction with a WinnerAction
+      this.tileAction = new WinnerAction();
 
-    tileAction.performAction(player);
+      tileAction.performAction(player);
+    } catch (NullPointerException e) {
+      throw new NullPointerException(e.getMessage());
+    }
   }
 
   @Override

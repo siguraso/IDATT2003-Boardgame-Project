@@ -31,9 +31,7 @@ public abstract class SpecialTile implements Tile {
    *
    * @param player the player to perform the action on.
    */
-  public void performAction(Player player) {
-    tileAction.performAction(player);
-  }
+  public abstract void performAction(Player player);
 
   @Override
   public abstract String getTileType();

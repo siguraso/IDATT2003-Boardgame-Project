@@ -137,11 +137,6 @@
   -fx-border-color: bg_400
 }
 
-.ladder-tile-negative .label {
-  -fx-text-fill: text_wht;
-  -fx-font-size: 16px;
-}
-
 .ladder-tile-negative-destination {
   -fx-background-color: ladder_negative_destination;
   -fx-background-radius: 8;
@@ -166,10 +161,6 @@
   -fx-border-color: bg_400
 }
 
-.random-action-tile .label {
-  -fx-text-fill: text_wht;
-  -fx-font-size: 16px;
-}
 
 .roll-again-tile {
   -fx-background-color: roll_again;
@@ -177,11 +168,6 @@
   -fx-border-width: 2;
   -fx-border-radius: 5;
   -fx-border-color: bg_400
-}
-
-.roll-again-tile .label {
-  -fx-text-fill: text_wht;
-  -fx-font-size: 16px;
 }
 
 .winner-tile {
@@ -192,10 +178,10 @@
   -fx-border-color: bg_400
 }
 
-.winner-tile Label {
-  -fx-font-size: 60px;
+.winner-tile .label, .roll-again-tile .label, .random-action-tile .label,
+.ladder-tile-negative .label {
   -fx-text-fill: text_wht;
-  -fx-text-alignment: center;
+  -fx-font-size: 16px;
 }
 
 .start-tile {
