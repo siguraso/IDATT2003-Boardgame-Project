@@ -156,6 +156,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     int tileHeight = (800 - (2 * 28)) / 10;
 
     this.boardDisplay.init(tileWidth, tileHeight, gameController.getBoard().getTileTypes());
+    this.boardDisplay.drawLadders(gameController.getBoard().getTileTypes(),
+        new int[] {tileWidth, tileHeight});
 
     boardGrid.getChildren().add(this.boardDisplay.getComponent());
 
@@ -539,5 +541,4 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     sfxPlayer.openSoundFile(SoundFile.GAME_WON);
     sfxPlayer.playSound();
   }
-
 }
