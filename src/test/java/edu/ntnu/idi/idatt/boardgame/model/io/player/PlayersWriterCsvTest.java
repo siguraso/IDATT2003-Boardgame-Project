@@ -37,5 +37,10 @@ class PlayersWriterCsvTest {
       assertEquals(player.getName(), players.get(readPlayers.indexOf(player)).getName());
     });
 
+    // Clean up
+    if (file.exists()) {
+      file.delete();
+    }
+
   }
 }

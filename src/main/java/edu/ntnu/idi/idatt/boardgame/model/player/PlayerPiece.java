@@ -12,9 +12,10 @@ package edu.ntnu.idi.idatt.boardgame.model.player;
  */
 public enum PlayerPiece {
   // literally just donkey kong
-  KONKEY_DONG("file:src/main/resources/Images/player-pieces/konkey_dong.png", "Konkey Dong"),
+  KONKEY_DONG(this.getClass().getResourceAsStream("Images/player-pieces/mariotinelli.png"),
+      "Konkey Dong"),
   // gabriel martinelli and mario infused into one
-  MARIOTINELLI("file:src/main/resources/Images/player-pieces/mariotinelli.png", "Mariotinelli"),
+  MARIOTINELLI("Images/player-pieces/mariotinelli.png", "Mariotinelli"),
   // literally just luigi without his hat
   PAUL("file:src/main/resources/Images/player-pieces/paul.png", "Paul"),
   // literally just luigi without his hat with inverted colors

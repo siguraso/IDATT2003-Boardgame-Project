@@ -55,7 +55,7 @@ public class WarningDialogWindow implements Window {
     root.setTop(header);
 
     ImageView icon = new ImageView(new Image(
-        Objects.requireNonNull(getClass().getResourceAsStream("/images/warning_icon.png"))));
+        Objects.requireNonNull(getClass().getResourceAsStream("/Images/warning_icon.png"))));
     icon.setFitHeight(64);
     icon.setFitWidth(64);
     root.setLeft(icon);
