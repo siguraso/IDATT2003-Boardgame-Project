@@ -46,9 +46,8 @@ public class SwapPlayersAction implements TileAction {
       throw new IllegalArgumentException(
           "At least two players are required to perform a swap.");
     } else {
-      this.players = players;
+      this.players = new ArrayList<>(players);
     }
-    this.players = new ArrayList<>(players);
   }
 
   /**

@@ -23,7 +23,7 @@ public class MoveToRandomTileAction implements TileAction {
   public MoveToRandomTileAction(Board board) {
     if (board == null) {
       throw new NullPointerException("Board cannot be null");
-    } else if (board.getTiles().isEmpty()) {
+    } else if (board.tiles().isEmpty()) {
       throw new IllegalArgumentException("Board cannot be empty");
     } else {
       this.board = board;
