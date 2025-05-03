@@ -10,6 +10,7 @@
     },
     {
       "tileType": "WINNER",
+      "destinationTileNumber": 89,
       "tileNumber": 2,
       "onscreenPosition": [
         1,

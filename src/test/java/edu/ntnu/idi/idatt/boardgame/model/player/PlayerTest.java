@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PlayerTest {
+
   private Player player;
 
   @BeforeEach
@@ -82,12 +83,11 @@ class PlayerTest {
   void updateNegative() {
     assertThrows(NullPointerException.class, () -> player.update(null));
     assertThrows(IllegalArgumentException.class, () -> player.update(new int[]{}));
-    assertThrows(IllegalArgumentException.class, () -> player.update(new int[]{1, 2}));
     assertThrows(IllegalArgumentException.class, () -> player.update(new int[]{-1}));
     assertThrows(IllegalArgumentException.class, () -> player.update(new int[]{0}));
   }
 
-    @Test
+  @Test
   void testMoveToInvalidTileNumber() {
     assertThrows(IllegalArgumentException.class, () -> player.moveTo(-1));
     assertThrows(IllegalArgumentException.class, () -> player.moveTo(91));

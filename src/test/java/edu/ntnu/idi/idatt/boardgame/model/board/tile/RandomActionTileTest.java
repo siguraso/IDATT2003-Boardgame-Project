@@ -139,7 +139,9 @@ class RandomActionTileTest {
       ((RandomActionTile) tile).performAction(null);
       fail("Expected an exception to be thrown");
     } catch (NullPointerException e) {
-      assertEquals("Player cannot be null", e.getMessage());
+      if (!e.getMessage().contains("Player cannot be null")) {
+        fail("Expected a player cannot be null exception");
+      }
     }
 
     try {

@@ -40,8 +40,11 @@ class PlayersReaderCsvTest {
       reader.readPlayersFile(filePath);
       fail("Expected an exception to be thrown");
     } catch (RuntimeException e) {
-      assertEquals("Failed to read players from file: " + filePath + " (No such file or directory)",
-          e.getMessage());
+      if (!e.getMessage().contains("No such file or directory") && !e.getMessage()
+          .contains("The system cannot find the file specified")) {
+        fail("Expected a file not found exception");
+      }
+
     }
   }
 

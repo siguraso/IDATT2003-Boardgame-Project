@@ -60,8 +60,9 @@ public final class Dice extends Die {
       throw new IllegalArgumentException("Number of dice rolled does not match the number of dice");
     }
 
-    IntStream.of(i).forEach(j ->
-        super.getObservers().forEach(o -> o.update(new int[]{j})));
+    super.getObservers().forEach(o -> {
+      o.update(i);
+    });
   }
 
   @Override

@@ -4,6 +4,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window.components;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
+import java.util.Objects;
 import java.util.stream.IntStream;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -32,7 +33,7 @@ import javafx.scene.shape.Rectangle;
 public class DieComponent implements WindowComponent, BoardGameObserver {
 
   // constant for the path to the die images
-  private final String imagePath = "file:src/main/resources/Images/die-Faces/";
+  private final String imagePath = "/Images/die-faces/";
   private ImageView dieImage;
   private ImageView dieImage2;
   private Button rollDieButton = new Button("Roll die");
@@ -57,7 +58,8 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
     HBox diceContainer = new HBox();
 
     if (!useTwoDice) {
-      dieImage = new ImageView(imagePath + "1.jpg");
+      dieImage = new ImageView(new Image(
+          Objects.requireNonNull(this.getClass().getResourceAsStream(imagePath + "1.jpg"))));
       dieImage.setFitWidth(200);
       dieImage.setFitHeight(200);
       dieImage.getStyleClass().add("die-image");
@@ -71,8 +73,10 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
 
       diceContainer.getChildren().add(dieImage);
     } else {
-      dieImage = new ImageView(imagePath + "1.jpg");
-      dieImage2 = new ImageView(imagePath + "2.jpg");
+      dieImage = new ImageView(new Image(
+          Objects.requireNonNull(this.getClass().getResourceAsStream(imagePath + "1.jpg"))));
+      dieImage2 = new ImageView(new Image(
+          Objects.requireNonNull(this.getClass().getResourceAsStream(imagePath + "2.jpg"))));
 
       dieImage.setFitWidth(150);
       dieImage.setFitHeight(150);
@@ -119,8 +123,13 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
           int[] randomDieFaces = new int[]{(int) (Math.random() * 6) + 1,
               (int) (Math.random() * 6) + 1};
 
-          dieImage.setImage(new Image(imagePath + randomDieFaces[0] + ".jpg"));
-          dieImage2.setImage(new Image(imagePath + randomDieFaces[1] + ".jpg"));
+          dieImage.setImage(new Image(
+              Objects.requireNonNull(
+                  this.getClass().getResourceAsStream(imagePath + randomDieFaces[0] + ".jpg"))));
+
+          dieImage2.setImage(new Image(
+              Objects.requireNonNull(
+                  this.getClass().getResourceAsStream(imagePath + randomDieFaces[1] + ".jpg"))));
         });
         timeline.getKeyFrames().add(keyFrame);
       });
@@ -159,9 +168,11 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
   @Override
   public void update(int[] i) {
     if (useTwoDice) {
-      dieImage2.setImage(new Image(imagePath + i[1] + ".jpg"));
+      dieImage2.setImage(new Image(
+          Objects.requireNonNull(this.getClass().getResourceAsStream(imagePath + i[1] + ".jpg"))));
     }
-    dieImage.setImage(new Image(imagePath + i[0] + ".jpg"));
+    dieImage.setImage(new Image(
+        Objects.requireNonNull(this.getClass().getResourceAsStream(imagePath + i[0] + ".jpg"))));
   }
 
 }

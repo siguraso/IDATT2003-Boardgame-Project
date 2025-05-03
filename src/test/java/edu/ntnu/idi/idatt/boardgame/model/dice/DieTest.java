@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class DieTest {
+
   private Die die;
   private Player player;
 
@@ -88,6 +89,5 @@ class DieTest {
     assertThrows(IllegalArgumentException.class, () -> die.notifyObservers(new int[]{}));
     assertThrows(IllegalArgumentException.class, () -> die.notifyObservers(new int[]{-1}));
     assertThrows(IllegalArgumentException.class, () -> die.notifyObservers(new int[]{0}));
-    assertThrows(IllegalArgumentException.class, () -> die.notifyObservers(new int[]{1, -1}));
   }
 }

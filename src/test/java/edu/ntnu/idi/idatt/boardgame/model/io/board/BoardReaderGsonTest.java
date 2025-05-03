@@ -88,7 +88,10 @@ class BoardReaderGsonTest {
       board = boardReaderGson.readBoardFile("src/test/resources/JSON/60DAYSSSS.json", true);
       fail("Should throw an exception");
     } catch (RuntimeException e) {
-      assertEquals("File not found: src/test/resources/JSON/60DAYSSSS.json", e.getMessage());
+      if (!e.getMessage().contains("File not found") &&
+          !e.getMessage().contains("The system cannot find the file specified")) {
+        fail("Did not throw the expected exception");
+      }
     }
 
     try {

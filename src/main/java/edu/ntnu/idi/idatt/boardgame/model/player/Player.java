@@ -11,6 +11,7 @@ import java.util.Arrays;
  * @since 1.0
  */
 public class Player implements BoardGameObserver {
+
   private final String name;
   private int position;
   private boolean isWinner = false;
@@ -151,8 +152,6 @@ public class Player implements BoardGameObserver {
       throw new NullPointerException("Input cannot be null");
     } else if (i.length == 0) {
       throw new IllegalArgumentException("Input cannot be empty");
-    } else if (i.length > 1) {
-      throw new IllegalArgumentException("Input array must be of length 1");
     } else if (i[0] <= 0) {
       throw new IllegalArgumentException("Input value must be greater than 0");
     } else {

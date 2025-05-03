@@ -8,6 +8,7 @@ import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersWriterCsv;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
