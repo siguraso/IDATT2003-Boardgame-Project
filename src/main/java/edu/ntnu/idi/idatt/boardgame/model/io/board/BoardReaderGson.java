@@ -82,7 +82,7 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
       } else if (e.getMessage().contains("Unexpected character")) {
         throw new RuntimeException("Unexpected character in JSON: " + filePath);
       }
-      throw new RuntimeException("An Unexpected IOException Occured: " + e.getMessage());
+      throw new RuntimeException("An Unexpected IOException Occurred: " + e.getMessage());
     }
   }
 

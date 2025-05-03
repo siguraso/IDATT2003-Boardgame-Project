@@ -5,18 +5,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
-import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
-import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.ReturnToStartTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.WinnerTile;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.stream.IntStream;
 
 /**
  * A class that writes a {@link Board} object to a file in JSON format using the Gson library.
@@ -42,7 +35,7 @@ public class BoardWriterGson implements BoardFileWriter {
   @Override
   public void writeBoardFile(Board board, String filePath) {
     // Create a json array with the tiles in the board
-    HashMap<Integer, Tile> tiles = board.getTiles();
+    HashMap<Integer, Tile> tiles = board.tiles();
     JsonArray jsonTileArray = new JsonArray();
 
     tiles.keySet().forEach(key -> jsonTileArray.add(gson.toJsonTree(tiles.get(key))));

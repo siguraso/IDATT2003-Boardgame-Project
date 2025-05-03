@@ -5,7 +5,7 @@ package edu.ntnu.idi.idatt.boardgame.model.board;
  *
  * <p>LADDER_GAME: A board for the game Snakes and Ladders.</p>
  *
- * <p>PARIO_MARTI: A board for the Pario Marti game.</p>
+ * <p>PARIO_MARTY: A board for the Pario Marti game.</p>
  *
  * <p>There are different types of boards that can be created for each game,
  * which are represented by their game name, then the type of board that is created for that game.
