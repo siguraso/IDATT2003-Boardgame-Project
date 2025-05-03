@@ -32,7 +32,7 @@ class LadderTileTest {
     try {
       tile.performAction(null);
     } catch (NullPointerException e) {
-      assertEquals("Player cannot be null.", e.getMessage());
+      assertEquals("Player cannot be null", e.getMessage());
     }
 
     tile.performAction(player);

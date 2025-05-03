@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class MoveToRandomTileActionTest {
+
   private HashMap<Integer, Tile> tiles;
   private Board board;
   private MoveToRandomTileAction moveToRandomTileAction;
@@ -23,7 +24,7 @@ class MoveToRandomTileActionTest {
   void setUp() {
     //Arrange
     tiles = BoardFactory
-        .createBoard(BoardType.LADDER_GAME_SPECIAL, false, null).getTiles();
+        .createBoard(BoardType.LADDER_GAME_SPECIAL, false, null).tiles();
     board = new Board(tiles);
     moveToRandomTileAction = new MoveToRandomTileAction(board);
     player = new Player("TestPlayer", PlayerPiece.MARIOTINELLI);
@@ -58,12 +59,12 @@ class MoveToRandomTileActionTest {
       moveToRandomTileAction.performAction(player);
     });
     assertThrows(IllegalArgumentException.class, () -> {
-        moveToRandomTileAction = new MoveToRandomTileAction(new Board(new HashMap<>()));
-        moveToRandomTileAction.performAction(player);
+      moveToRandomTileAction = new MoveToRandomTileAction(new Board(new HashMap<>()));
+      moveToRandomTileAction.performAction(player);
     });
     assertThrows(NullPointerException.class, () -> {
-        moveToRandomTileAction = new MoveToRandomTileAction(board);
-        moveToRandomTileAction.performAction(null);
+      moveToRandomTileAction = new MoveToRandomTileAction(board);
+      moveToRandomTileAction.performAction(null);
     });
   }
 }

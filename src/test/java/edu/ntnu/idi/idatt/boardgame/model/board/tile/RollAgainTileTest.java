@@ -30,7 +30,7 @@ class RollAgainTileTest {
     try {
       ((RollAgainTile) tile).performAction(null);
     } catch (NullPointerException e) {
-      assertEquals("Player cannot be null.", e.getMessage());
+      assertEquals("Player cannot be null", e.getMessage());
     }
 
     ((RollAgainTile) tile).performAction(player);

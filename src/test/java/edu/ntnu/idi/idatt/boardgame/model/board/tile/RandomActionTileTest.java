@@ -64,7 +64,8 @@ class RandomActionTileTest {
       ((RandomActionTile) tile).getPlayerToSwapWith();
       fail("Expected an exception to be thrown");
     } catch (Exception e) {
-      assertEquals("No players have been swapped yet.", e.getMessage());
+      assertEquals("Player to swap with is not set. Please call performAction() first.",
+          e.getMessage());
     }
 
     ((RandomActionTile) tile).setPlayers(players);
@@ -101,7 +102,7 @@ class RandomActionTileTest {
       ((RandomActionTile) tile).setPlayers(null);
       fail("Expected an exception to be thrown");
     } catch (NullPointerException e) {
-      assertEquals("Players cannot be null. Please provide a valid set of players.",
+      assertEquals("Players cannot be null. Please provide a valid list of players.",
           e.getMessage());
     }
 

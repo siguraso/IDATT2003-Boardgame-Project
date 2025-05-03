@@ -30,13 +30,13 @@ class ReturnToStartTileTest {
     try {
       ((ReturnToStartTile) tile).performAction(null);
     } catch (NullPointerException e) {
-      assertEquals("Player cannot be null.", e.getMessage());
+      assertEquals("Player cannot be null", e.getMessage());
     }
 
     try {
       ((ReturnToStartTile) tile).performAction(null);
     } catch (NullPointerException e) {
-      assertEquals("Tile action cannot be null.", e.getMessage());
+      assertEquals("Player cannot be null", e.getMessage());
     }
 
     assertEquals(1, player.getPosition());
