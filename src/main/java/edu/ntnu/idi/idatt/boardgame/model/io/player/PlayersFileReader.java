@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.io.player;
 
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 /**
@@ -20,7 +20,7 @@ public interface PlayersFileReader {
    * Reads a file containing players and returns a list of player objects.
    *
    * @param filePath The file path to the readable file.
-   * @return A {@link HashMap} of {@link Player} objects containing the players from the JSON file.
+   * @return A {@link List} of {@link Player} objects containing the players from the JSON file.
    */
-  ArrayList<Player> readPlayersFile(String filePath);
+  List<Player> readPlayersFile(String filePath);
 }

@@ -8,6 +8,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.SwapPlayersAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Tile that performs a random action when a player lands on it.
@@ -43,10 +44,9 @@ public class RandomActionTile extends SpecialTile {
   /**
    * Set the players that are currently in the game. Used to perform the swap action.
    *
-   * @param players an {@link ArrayList} of {@link Player} instances that are currently in the
-   *                game.
+   * @param players an {@link List} of {@link Player} instances that are currently in the game.
    */
-  public void setPlayers(ArrayList<Player> players) {
+  public void setPlayers(List<Player> players) {
     try {
       ((SwapPlayersAction) tileActions[2]).setPlayers(players);
 
