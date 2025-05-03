@@ -15,16 +15,28 @@ import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDi
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.Random;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.ParallelTransition;
+import javafx.animation.PauseTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.animation.Timeline;
-import javafx.animation.KeyFrame;
 import javafx.util.Duration;
 
 /**
@@ -326,7 +338,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     // if the player is on a special tile, tell the players, and perform on button click
     if (!currentTileType.equals(TileType.NORMAL.getTileType())) {
-
       switch (currentTileType) {
         case "LadderTile" -> {
           int ladderDelta = gameController.getPlayersController().getPreviousPlayer().getPosition()
@@ -531,14 +542,92 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     StackPane winnerScreen = new StackPane();
 
     winnerScreen.getStyleClass().add("winner-screen");
-    winnerScreen.getChildren().add(new Label(
-        gameController.getPlayersController().getPreviousPlayer().getName() + " wins the game!"));
+    winnerScreen.setAlignment(Pos.CENTER);
 
-    winnerScreen.getChildren().getFirst().setStyle("-fx-font-size: 60px; -fx-text-fill: text_wht;");
+    createConfettiAnimation(winnerScreen);
+    winnerScreen.getChildren().add(new Label("Congratulations, "
+        + gameController.getPlayersController().getPreviousPlayer().getName() + "!\n"
+        + "You have won the game!"));
+    winnerScreen.getChildren().getLast().getStyleClass().add("winner-label");
+
 
     allElements.getChildren().add(winnerScreen);
 
     sfxPlayer.openSoundFile(SoundFile.GAME_WON);
     sfxPlayer.playSound();
+  }
+
+  private void createConfettiAnimation(StackPane winnerScreen) {
+    winnerScreen.getChildren().clear();
+    winnerScreen.setOpacity(1.0);
+    winnerScreen.setVisible(true);
+    winnerScreen.setMouseTransparent(false);
+
+    HBox confettiContainer = new HBox();
+    confettiContainer.setPrefWidth(winnerScreen.getWidth());
+    winnerScreen.getChildren().add(confettiContainer);
+
+    Random random = new Random();
+    Platform.runLater(() -> {
+      double stageWidth = winnerScreen.getWidth();
+      double stageHeight = winnerScreen.getHeight();
+
+      if (stageWidth <= 0 || stageHeight <= 0) {
+        return;
+      }
+
+      for (int i = 0; i < 1000; i++) {
+        int delay = i * 5; // 5 millisekunder mellom hver konfetti
+
+        PauseTransition initialDelay = new PauseTransition(Duration.millis(delay));
+        initialDelay.setOnFinished(e -> {
+          Rectangle confetti =
+              new Rectangle(10 + random.nextDouble() * 50, 10 + random.nextDouble() * 50);
+          confetti.setFill(getRandomColor());
+          confetti.setTranslateX(random.nextDouble() * (stageWidth * 0.8) + (stageWidth * 0.1));
+          confetti.setTranslateY(stageHeight);
+          confetti.setOpacity(1.0);
+          confettiContainer.getChildren().add(confetti);
+
+          double duration = 400 + random.nextDouble() * 400;
+
+          TranslateTransition translate =
+              new TranslateTransition(Duration.millis(duration), confetti);
+          translate.setByX((random.nextDouble() - 0.5) * stageWidth * 0.2);
+          translate.setByY(-stageHeight * (0.6 + random.nextDouble() * 0.4));
+          translate.setInterpolator(Interpolator.EASE_OUT);
+
+          RotateTransition rotate = new RotateTransition(Duration.millis(duration), confetti);
+          rotate.setByAngle(180 + random.nextDouble() * 360);
+          rotate.setInterpolator(Interpolator.LINEAR);
+
+          FadeTransition fade = new FadeTransition(Duration.millis(duration), confetti);
+          fade.setFromValue(1.0);
+          fade.setToValue(0.0);
+
+          ParallelTransition confettiGroup = new ParallelTransition(translate, rotate, fade);
+          confettiGroup.setOnFinished(event -> {
+            confettiContainer.getChildren().remove(confetti);
+            if (confettiContainer.getChildren().isEmpty()) {
+              winnerScreen.setMouseTransparent(true);
+            }
+          });
+
+          confettiGroup.play();
+        });
+
+        initialDelay.play();
+      }
+    });
+  }
+
+  private Color getRandomColor() {
+    Random random = new Random();
+    return Color.rgb(
+        random.nextInt(256),
+        random.nextInt(256),
+        random.nextInt(256),
+        1
+    );
   }
 }

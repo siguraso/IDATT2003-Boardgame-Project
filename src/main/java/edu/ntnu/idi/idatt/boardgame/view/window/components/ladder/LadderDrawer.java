@@ -20,6 +20,7 @@ public final class LadderDrawer extends Canvas {
     this.setHeight(height);
   }
 
+
   public void draw(double[] startPos, double[] endPos, int[] dimensions) {
     // This could involve rendering the board, players, and other game elements
     gc.beginPath();

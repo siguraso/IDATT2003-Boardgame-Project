@@ -137,9 +137,9 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   }
 
   /**
-   * Accesses the action that was last performed by a RandomActionTile represented as a String.
+   * Accesses the action last performed by a RandomActionTile represented as a String.
    *
-   * @return the action that was last performed by a RandomActionTile represented as a String.
+   * @return the action last performed by a RandomActionTile represented as a String.
    */
   public String getLastRandomAction() {
 
