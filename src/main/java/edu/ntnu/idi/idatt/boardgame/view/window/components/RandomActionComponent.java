@@ -4,6 +4,8 @@ import edu.ntnu.idi.idatt.boardgame.util.sound.SfxPlayer;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
+import javafx.collections.ObservableArray;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -29,7 +31,6 @@ public class RandomActionComponent implements WindowComponent {
    * Constructor for the RandomActionComponent class.
    */
   public RandomActionComponent() {
-    // Constructor implementation
   }
 
   @Override
@@ -45,7 +46,14 @@ public class RandomActionComponent implements WindowComponent {
 
     actionsListView.getSelectionModel().select(0);
 
-    header.setStyle("-fx-font-size: 20px; -fx-text-fill: text_wht;");
+    // from css sheet
+    int listHeight = 30;
+    actionsListView.setMaxHeight(listHeight * actionsListView.getItems().size() + 3);
+    actionsListView.setPrefHeight(listHeight * actionsListView.getItems().size() + 3);
+
+    header.getStyleClass().add("header");
+    header.setStyle("-fx-text-fill: text_wht;");
+
     listViewContainer.getChildren().addAll(header, actionsListView);
 
     listViewContainer.setAlignment(javafx.geometry.Pos.CENTER);
@@ -105,7 +113,7 @@ public class RandomActionComponent implements WindowComponent {
     randomActionTimeline.getKeyFrames().add(keyFrame);
 
     KeyFrame finalKeyFrame = new KeyFrame(
-        javafx.util.Duration.millis(actionsListView.getItems().size() * 3 * 150 + 500),
+        javafx.util.Duration.millis(actionsListView.getItems().size() * 3 * 150 + 700),
         event -> {
           listViewContainer.getChildren().remove(actionsListView);
 

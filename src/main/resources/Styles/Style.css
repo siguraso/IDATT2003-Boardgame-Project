@@ -266,7 +266,6 @@
   -fx-border-radius: 10;
   -fx-background-radius: 10;
   -fx-alignment: center;
-  -fx-max-height: 117;
   -fx-max-width: 370;
   -fx-font-size: 16px;
 }
@@ -276,6 +275,8 @@
   -fx-text-fill: text_blk;
   -fx-border-radius: 10;
   -fx-background-radius: 10;
+  -fx-min-height: 30;
+  -fx-pref-height: 30;
 }
 
 .action-list .list-view .list-cell:selected {
@@ -359,6 +360,22 @@
   -fx-background-radius: 10;
   -fx-min-height: 45;
   -fx-min-width: 300;
+}
+
+.player-selection-view-error {
+  -fx-background-color: bg_300;
+  -fx-text-fill: text_blk;
+  -fx-background-radius: 10;
+  -fx-border-radius: 10;
+  -fx-min-height: 45;
+  -fx-min-width: 300;
+  -fx-border-color: cta_red;
+  -fx-border-width: 2;
+}
+
+.error-label {
+  -fx-text-fill: cta_red;
+  -fx-font-size: 16px;
 }
 
 .warning-dialog {
