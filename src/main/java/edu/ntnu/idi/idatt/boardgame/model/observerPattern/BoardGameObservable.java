@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.observerPattern;
 
+import java.util.List;
+
 /**
  * <h1>Abstract class - Observable.</h1>
  *
@@ -34,4 +36,9 @@ public interface BoardGameObservable {
    * @param i an integer.
    */
   void notifyObservers(int[] i);
+
+  /**
+   * Get-method to get all observers.
+   */
+  List<BoardGameObserver> getObservers();
 }

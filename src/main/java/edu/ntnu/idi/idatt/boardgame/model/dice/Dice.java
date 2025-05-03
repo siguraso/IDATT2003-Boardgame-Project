@@ -1,19 +1,22 @@
 package edu.ntnu.idi.idatt.boardgame.model.dice;
 
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
+
 
 /**
  * A class that represents two or more dice. This class extends the {@link Die} class and can be
  * used to represent multiple dice in a game, rather than only one.
+ *
+ * @author siguraso & MagnusNaessanGaarder
+ * @version 1.0
+ * @since 1.0
  */
-public class Dice extends Die {
+public final class Dice extends Die {
 
   private final int numberOfDice;
   private final int sides;
-
-  private final ArrayList<BoardGameObserver> observers = new ArrayList<>();
 
   /**
    * Constructor for the Dice class.
@@ -23,6 +26,9 @@ public class Dice extends Die {
    */
   public Dice(int numberOfDice, int sides) {
     super(sides);
+    if (numberOfDice < 2) {
+      throw new IllegalArgumentException("Dice must have at least two dice");
+    }
     this.numberOfDice = numberOfDice;
     this.sides = sides;
   }
@@ -40,17 +46,27 @@ public class Dice extends Die {
 
   @Override
   public void addObserver(BoardGameObserver o) {
-    observers.add(o);
+    super.getObservers().add(o);
   }
 
   @Override
   public void removeObserver(BoardGameObserver o) {
-    observers.remove(o);
+    super.getObservers().remove(o);
   }
 
   @Override
   public void notifyObservers(int[] i) {
-    observers.forEach(o -> o.update(i));
+    if (i.length != numberOfDice) {
+      throw new IllegalArgumentException("Number of dice rolled does not match the number of dice");
+    }
+
+    super.getObservers().forEach(o -> {
+      o.update(i);
+    });
   }
 
+  @Override
+  public List<BoardGameObserver> getObservers() {
+    return super.getObservers();
+  }
 }

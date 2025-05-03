@@ -1,0 +1,19 @@
+package edu.ntnu.idi.idatt.boardgame.model.board.tile;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class TileTypeTest {
+
+
+  @Test
+  void testGetTileType() {
+    assertEquals("NormalTile", TileType.NORMAL.getTileType());
+    assertEquals("LadderTile", TileType.LADDER.getTileType());
+    assertEquals("RandomActionTile", TileType.RANDOM_ACTION.getTileType());
+    assertEquals("RollAgainTile", TileType.ROLL_AGAIN.getTileType());
+    assertEquals("ReturnToStartTile", TileType.RETURN_TO_START.getTileType());
+    assertEquals("WinnerTile", TileType.WINNER.getTileType());
+  }
+}

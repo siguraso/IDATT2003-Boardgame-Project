@@ -5,7 +5,7 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 /**
  * A special action that moves a player up or down a ladder on the board.
  *
- * @author siguraso
+ * @author siguraso & MagnusNaessanGaarder
  * @version 1.0
  * @since 1.0
  */
@@ -20,11 +20,18 @@ public class LadderAction implements TileAction {
    *                    space.
    */
   public LadderAction(int destination) {
+    if (destination < 1 || destination >= 90) {
+      throw new IllegalArgumentException("Destination must be between 1 and 89");
+    }
     this.destination = destination;
   }
 
   @Override
   public void performAction(Player player) {
-    player.moveTo(destination);
+    if (player == null) {
+      throw new NullPointerException("Player cannot be null");
+    } else {
+      player.moveTo(destination);
+    }
   }
 }

@@ -6,7 +6,7 @@ import java.util.Arrays;
 /**
  * A player in a board game.
  *
- * @author siguraso
+ * @author siguraso & MagnusNaessanGaarder
  * @version 1.0
  * @since 1.0
  */
@@ -27,13 +27,22 @@ public class Player implements BoardGameObserver {
    *                    {@link PlayerPiece} enum.
    */
   public Player(String name, PlayerPiece playerPiece) {
-    this.name = name;
-    this.piece = playerPiece;
-    this.position = 1;
-
+    if (name == null || playerPiece == null) {
+      throw new NullPointerException("Name or Player piece cannot be null.");
+    } else if (name.isEmpty()) {
+      throw new IllegalArgumentException("Name or Player piece cannot be empty.");
+    } else {
+      this.name = name;
+      this.piece = playerPiece;
+      this.position = 1;
+    }
   }
 
-  // accessor methods
+  /*
+  **************************************************************************************************
+                                          Accessor methods
+  **************************************************************************************************
+  */
 
   /**
    * Used to get the name of the player.
@@ -62,7 +71,11 @@ public class Player implements BoardGameObserver {
     return isWinner;
   }
 
-  // mutator methods
+  /*
+  **************************************************************************************************
+                                         Mutator methods
+  **************************************************************************************************
+  */
 
   /**
    * Used to moveForward a player to a new tile by adding the current dice throw to the player's
@@ -78,12 +91,9 @@ public class Player implements BoardGameObserver {
 
     if (position + steps > 90) {
       this.position = 90 - (position + steps - 90);
-
     } else {
       this.position += steps;
-
     }
-
   }
 
   /**
@@ -138,9 +148,15 @@ public class Player implements BoardGameObserver {
 
   @Override
   public void update(int[] i) {
-    int steps = Arrays.stream(i).sum();
-
-    moveForward(steps);
+    if (i == null) {
+      throw new NullPointerException("Input cannot be null");
+    } else if (i.length == 0) {
+      throw new IllegalArgumentException("Input cannot be empty");
+    } else if (i[0] <= 0) {
+      throw new IllegalArgumentException("Input value must be greater than 0");
+    } else {
+      int steps = Arrays.stream(i).sum();
+      moveForward(steps);
+    }
   }
-
 }

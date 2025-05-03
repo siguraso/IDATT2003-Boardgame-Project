@@ -8,14 +8,12 @@ import java.util.List;
 /**
  * A class representing a die with a given number of sides.
  *
- * @author siguraso
+ * @author siguraso & MagnusNaessanGaarder
  * @version 1.0
  * @since 1.0
  */
 public class Die implements BoardGameObservable {
-
   private final int sides;
-
   private final List<BoardGameObserver> observers = new ArrayList<>();
 
   /**
@@ -27,7 +25,6 @@ public class Die implements BoardGameObservable {
     if (sides < 2) {
       throw new IllegalArgumentException("A die must have at least two sides");
     }
-
     this.sides = sides;
   }
 
@@ -43,16 +40,36 @@ public class Die implements BoardGameObservable {
 
   @Override
   public void addObserver(BoardGameObserver o) {
+    if (o == null) {
+      throw new NullPointerException("Observer cannot be null");
+    }
     observers.add(o);
   }
 
   @Override
   public void removeObserver(BoardGameObserver o) {
-    observers.remove(o);
+    if (o == null) {
+      throw new NullPointerException("Observer cannot be null");
+    } else if (!observers.contains(o)) {
+      throw new IllegalArgumentException("Observer not found");
+    } else {
+      observers.remove(o);
+    }
   }
 
   @Override
   public void notifyObservers(int[] i) {
-    observers.forEach(o -> o.update(i));
+    try {
+      observers.forEach(o -> o.update(i));
+    } catch (NullPointerException e) {
+      throw new NullPointerException("Illegal Update: " + e.getMessage());
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Illegal Update: " + e.getMessage());
+    }
+  }
+
+  @Override
+  public List<BoardGameObserver> getObservers() {
+    return observers;
   }
 }

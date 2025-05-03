@@ -20,6 +20,8 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.WinnerTile;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Objects;
@@ -53,36 +55,49 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
     HashMap<Integer, Tile> tiles = new HashMap<>();
     board = new Board(tiles);
 
-    // if it is a custom json file, we need to use the file path as is, if it isnt we need to get
-    // the resource path from the classpath
+    // If it is a custom JSON file, use the file path as is; otherwise, get the resource path
     if (!isCustomJson) {
-      filePath = Objects.requireNonNull(this.getClass().getResource(filePath)).getPath();
-    }
+      try {
+        // Get the resource as a stream
+        InputStream resourceStream = this.getClass().getResourceAsStream(filePath);
+        if (resourceStream == null) {
+          throw new RuntimeException("Resource not found: " + filePath);
+        }
 
-    try (FileReader fileReader = new FileReader(filePath)) {
-      // get the "tiles" jsonarray from the file
-      JsonArray jsonArray = JsonParser.parseReader(fileReader).getAsJsonObject().get("tiles")
-          .getAsJsonArray();
+        // Use InputStreamReader to read the resource
+        try (InputStreamReader reader = new InputStreamReader(resourceStream)) {
+          JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonObject().get("tiles")
+              .getAsJsonArray();
 
-      // create json elements in the json array based on the tile
-      jsonArray.forEach(jsonElement -> {
-        Tile tile = gson.fromJson(jsonElement, Tile.class);
-        tiles.put(tile.getTileNumber(), tile);
-      });
+          // Create JSON elements in the JSON array based on the tile
+          jsonArray.forEach(jsonElement -> {
+            Tile tile = gson.fromJson(jsonElement, Tile.class);
+            tiles.put(tile.getTileNumber(), tile);
+          });
 
-      return board;
-
-    } catch (IOException e) {
-      if (e.getMessage().contains("No such file or directory")) {
-        throw new RuntimeException("File not found: " + filePath);
-      } else if (e.getMessage().contains("Permission denied")) {
-        throw new RuntimeException("Permission denied: " + filePath);
-      } else if (e.getMessage().contains("Malformed JSON")) {
-        throw new RuntimeException("Malformed JSON: " + filePath);
-      } else if (e.getMessage().contains("Unexpected character")) {
-        throw new RuntimeException("Unexpected character in JSON: " + filePath);
+          return board;
+        }
+      } catch (IOException e) {
+        throw new RuntimeException("An Unexpected IOException Occurred: " + e.getMessage());
       }
-      throw new RuntimeException("An Unexpected IOException Occured: " + e.getMessage());
+    } else {
+      // Handle custom JSON files as before
+      try (FileReader fileReader = new FileReader(filePath)) {
+        JsonArray jsonArray = JsonParser.parseReader(fileReader).getAsJsonObject().get("tiles")
+            .getAsJsonArray();
+
+        jsonArray.forEach(jsonElement -> {
+          Tile tile = gson.fromJson(jsonElement, Tile.class);
+          tiles.put(tile.getTileNumber(), tile);
+        });
+
+        return board;
+      } catch (IOException e) {
+        if (e.getMessage().contains("No such file or directory")) {
+          throw new RuntimeException("File not found: " + filePath);
+        }
+        throw new RuntimeException("An Unexpected IOException Occurred: " + e.getMessage());
+      }
     }
   }
 

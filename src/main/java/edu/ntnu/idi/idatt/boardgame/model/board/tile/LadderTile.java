@@ -40,9 +40,13 @@ public class LadderTile extends SpecialTile {
 
   @Override
   public void performAction(Player player) {
-    // initialize the tileAction with a LadderAction
-    this.tileAction = new LadderAction(destinationTileNumber);
-    tileAction.performAction(player);
+    try {
+      // initialize the tileAction with a LadderAction
+      this.tileAction = new LadderAction(destinationTileNumber);
+      tileAction.performAction(player);
+    } catch (NullPointerException e) {
+      throw new NullPointerException(e.getMessage());
+    }
   }
 
   @Override

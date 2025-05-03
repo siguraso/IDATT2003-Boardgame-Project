@@ -1,0 +1,84 @@
+{
+  "tiles": [
+    {
+      "tileType": "NORMAL",
+      "tileNumber": 1,
+      "onscreenPosition": [
+        0,
+        9
+      ]
+    },
+    {
+      "tileType": "RANDOM_ACTION",
+      "tileNumber": 2,
+      "onscreenPosition": [
+        1,
+        9
+      ]
+    },
+    {
+      "tileType": "RANDOM_ACTION",
+      "tileNumber": 3,
+      "onscreenPosition": [
+        2,
+        9
+      ]
+    },
+    {
+      "tileType": "RANDOM_ACTION",
+      "tileNumber": 4,
+      "onscreenPosition": [
+        3,
+        9
+      ]
+    },
+    {
+      "tileType": "RANDOM_ACTION",
+      "tileNumber": 5,
+      "onscreenPosition": [
+        4,
+        9
+      ]
+    },
+    {
+      "tileType": "RANDOM_ACTION",
+      "tileNumber": 6,
+      "onscreenPosition": [
+        5,
+        9
+      ]
+    },
+    {
+      "tileType": "RANDOM_ACTION",
+      "tileNumber": 7,
+      "onscreenPosition": [
+        6,
+        9
+      ]
+    },
+    {
+      "tileType": "RANDOM_ACTION",
+      "tileNumber": 8,
+      "onscreenPosition": [
+        7,
+        9
+      ]
+    },
+    {
+      "tileType": "RANDOM_ACTION",
+      "tileNumber": 9,
+      "onscreenPosition": [
+        8,
+        9
+      ]
+    },
+    {
+      "tileType": "RANDOM_ACTION",
+      "tileNumber": 10,
+      "onscreenPosition": [
+        8,
+        8
+      ]
+    }
+  ]
+}

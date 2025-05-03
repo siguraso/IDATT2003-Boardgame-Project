@@ -14,10 +14,10 @@ public interface BoardFileReader {
   /**
    * Reads a file containing a board and returns a board object.
    *
-   * @param filePath     The file path to the readable file.
-   * @param isCustomJson A boolean indicating if the file is a user specified JSON file.
+   * @param filePath         The file path to the readable file.
+   * @param isCustomFilePath A boolean indicating if the file is a user specified JSON file.
    * @return A {@link Board} object containing the board from the JSON file.
    */
-  Board readBoardFile(String filePath, boolean isCustomJson);
+  Board readBoardFile(String filePath, boolean isCustomFilePath);
 
 }

@@ -28,10 +28,14 @@ public class ReturnToStartTile extends SpecialTile {
 
   @Override
   public void performAction(Player player) {
-    // initialize the tileAction with a ReturnToStartAction
-    this.tileAction = new ReturnToStartAction();
+    try {
+      // initialize the tileAction with a ReturnToStartAction
+      this.tileAction = new ReturnToStartAction();
 
-    tileAction.performAction(player);
+      tileAction.performAction(player);
+    } catch (NullPointerException e) {
+      throw new NullPointerException(e.getMessage());
+    }
   }
 
   @Override
