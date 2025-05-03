@@ -30,6 +30,10 @@ public class RandomActionTile extends SpecialTile {
    * @param onscreenPosition The position of the tile on the screen.
    */
   public RandomActionTile(int tileNumber, int[] onscreenPosition, Board board) {
+    if (board == null) {
+      throw new NullPointerException("Board cannot be null.");
+    }
+
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
     this.board = board;
@@ -54,11 +58,15 @@ public class RandomActionTile extends SpecialTile {
 
   @Override
   public void performAction(Player player) {
-    // initialize the tileAction with a random TileAction
-    int randomAction = (int) (Math.random() * tileActions.length);
-    this.tileAction = tileActions[randomAction];
+    try {
+      // initialize the tileAction with a random TileAction
+      int randomAction = (int) (Math.random() * tileActions.length);
+      this.tileAction = tileActions[randomAction];
 
-    tileAction.performAction(player);
+      tileAction.performAction(player);
+    } catch (NullPointerException e) {
+      throw new NullPointerException(e.getMessage());
+    }
   }
 
   @Override
@@ -66,11 +74,8 @@ public class RandomActionTile extends SpecialTile {
     return tileType.getTileType();
   }
 
-  /**
-   * Method that initializes the tile actions that can be performed when a player lands on the tile.
-   * The tile actions are ReturnToStartAction, RollAgainAction and SwapPlayersAction.
-   */
-  public void initializeTileActions() {
+
+  private void initializeTileActions() {
     tileActions[0] = new ReturnToStartAction();
     tileActions[1] = new RollAgainAction();
     tileActions[2] = new SwapPlayersAction();
@@ -83,6 +88,10 @@ public class RandomActionTile extends SpecialTile {
    * @return the {@link TileAction} (represented as a String) that was performed on this tile.
    */
   public String getTileAction() {
+    if (tileAction == null) {
+      throw new NullPointerException("No tile action has been performed yet.");
+    }
+
     return tileAction.getClass().getSimpleName();
   }
 
