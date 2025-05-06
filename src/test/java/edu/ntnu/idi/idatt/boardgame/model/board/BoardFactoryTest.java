@@ -12,7 +12,7 @@ class BoardFactoryTest {
   @Test
   void testCreateBoard() {
     Board regularBoard = BoardFactory.createBoard(BoardType.LADDER_GAME_REGULAR, false, null);
-    HashMap<Integer, String> tileTypes = regularBoard.getTileTypes();
+    HashMap<Integer, String> tileTypes = new HashMap<>(regularBoard.getTileTypes());
 
     IntStream.range(1, 91).forEach(i -> {
       if (!tileTypes.containsKey(i)) {
@@ -31,7 +31,7 @@ class BoardFactoryTest {
     });
 
     Board specialBoard = BoardFactory.createBoard(BoardType.LADDER_GAME_SPECIAL, false, null);
-    HashMap<Integer, String> specialTileTypes = specialBoard.getTileTypes();
+    HashMap<Integer, String> specialTileTypes = new HashMap<>(specialBoard.getTileTypes());
 
     IntStream.range(1, 91).forEach(i -> {
       if (!specialTileTypes.containsKey(i)) {
@@ -62,7 +62,7 @@ class BoardFactoryTest {
     Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_REGULAR, true,
         null);
 
-    HashMap<Integer, String> regularTileTypes = board.getTileTypes();
+    HashMap<Integer, String> regularTileTypes = new HashMap<>(board.getTileTypes());
     IntStream.range(1, 91).forEach(i -> {
       if (!regularTileTypes.containsKey(i)) {
         fail("Tile " + i + " should be present in the board");
@@ -82,7 +82,7 @@ class BoardFactoryTest {
     Board specialBoard = BoardFactory.createBoard(BoardType.LADDER_GAME_SPECIAL, true,
         null);
 
-    HashMap<Integer, String> specialTileTypes = specialBoard.getTileTypes();
+    HashMap<Integer, String> specialTileTypes = new HashMap<>(specialBoard.getTileTypes());
 
     IntStream.range(1, 91).forEach(i -> {
       if (!specialTileTypes.containsKey(i)) {

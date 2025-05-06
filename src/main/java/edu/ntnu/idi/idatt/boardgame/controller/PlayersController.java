@@ -3,7 +3,12 @@ package edu.ntnu.idi.idatt.boardgame.controller;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * A class representing the controller for the players in the game.
@@ -105,6 +110,10 @@ public class PlayersController {
    * @param piece The {@link PlayerPiece} that the player will use on the board.
    */
   public void addPlayer(String name, PlayerPiece piece) {
+    if (hasPlayerWithName(name)) {
+      throw new IllegalArgumentException("Duplicate player name: " + name);
+    }
+
     players.add(new Player(name, piece));
   }
 
@@ -121,6 +130,14 @@ public class PlayersController {
    * @param players The {@link List} of players to set.
    */
   public void setPlayers(List<Player> players) {
+    Set<String> playerNames = new HashSet<>();
+
+    players.forEach(player -> {
+      if (!playerNames.add(player.getName().toLowerCase())) {
+        throw new IllegalArgumentException("Duplicate player name: " + player.getName());
+      }
+    });
+
     this.players.clear();
     this.players.addAll(players);
   }
@@ -131,5 +148,32 @@ public class PlayersController {
    */
   public void removeWinners() {
     players.removeIf(Player::isWinner);
+  }
+
+  /**
+   * Accesses the {@link Player} positions based on their name, and turns it into a {@link Map}
+   * where the key is the {@link Player} name and the value is the player position.
+   *
+   * @return A {@link Map} containing the player names and their positions.
+   */
+  public Map<String, Integer> getPlayerPositions() {
+    Map<String, Integer> playerPositions = new HashMap<>();
+
+    players.forEach(player -> {
+      playerPositions.put(player.getName(), player.getPosition());
+    });
+
+    return playerPositions;
+  }
+
+  /**
+   * Checks if a player name already exists in the player list.
+   *
+   * @param name The name to check for duplicates
+   * @return true if the name already exists, false otherwise
+   */
+  private boolean hasPlayerWithName(String name) {
+    return players.stream()
+        .anyMatch(player -> player.getName().equalsIgnoreCase(name));
   }
 }

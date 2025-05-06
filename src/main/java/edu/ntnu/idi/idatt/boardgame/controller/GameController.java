@@ -186,11 +186,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
 
     die.addObserver(playersController.getCurrentPlayer());
 
-    System.out.println("current player before: " + playersController.getCurrentPlayer().getName());
-
     playersController.removeWinners();
-
-    System.out.println("current player after: " + playersController.getCurrentPlayer().getName());
   }
 
   @Override

@@ -100,7 +100,8 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
 
     diceContainer.setAlignment(Pos.CENTER);
 
-    rollDieButton = new Button("Roll die");
+    rollDieButton = new Button(useTwoDice ? "Roll dice" : "Roll die");
+    rollDieButton.getStyleClass().add("roll-die-button");
 
     dieBox = new VBox(diceContainer, rollDieButton);
     dieBox.setAlignment(javafx.geometry.Pos.CENTER);

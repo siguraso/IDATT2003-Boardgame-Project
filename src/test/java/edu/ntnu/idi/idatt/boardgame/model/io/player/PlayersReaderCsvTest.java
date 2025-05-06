@@ -30,7 +30,7 @@ class PlayersReaderCsvTest {
 
     // Check if the first player is as expected
     Player firstPlayer = players.getFirst();
-    assertEquals("styggve", firstPlayer.getName());
+    assertEquals("sigern", firstPlayer.getName());
     assertEquals(PlayerPiece.PAUL, firstPlayer.getPlayerPiece());
 
     // negative test

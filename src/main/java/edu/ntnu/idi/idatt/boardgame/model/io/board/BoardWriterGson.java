@@ -9,7 +9,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A class that writes a {@link Board} object to a file in JSON format using the Gson library.
@@ -35,7 +35,7 @@ public class BoardWriterGson implements BoardFileWriter {
   @Override
   public void writeBoardFile(Board board, String filePath) {
     // Create a json array with the tiles in the board
-    HashMap<Integer, Tile> tiles = board.tiles();
+    Map<Integer, Tile> tiles = board.tiles();
     JsonArray jsonTileArray = new JsonArray();
 
     tiles.keySet().forEach(key -> jsonTileArray.add(gson.toJsonTree(tiles.get(key))));

@@ -3,7 +3,6 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SfxPlayer;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
@@ -58,7 +57,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   private Leaderboard leaderboard;
   private final DieComponent dieBox;
   private DialogBox dialogBox;
-  private RandomActionComponent randomActionComponent;
   private StackPane randomActionPane;
 
   // player HashMap containing all the player pieves corresponding to the player profiles given.
@@ -203,12 +201,9 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     sidebar.setCenter(dieBox.getComponent());
 
-    dieBox.getRollDieButton().setDisable(true);
+    ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
 
-    ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
-      ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
-      dieBox.getRollDieButton().setDisable(false);
-    });
+    dieBox.getRollDieButton().setDisable(false);
 
     // when the button is pressed, it initializes a players turn, meaning that this button is more
     // or less what keeps the game going.
@@ -234,7 +229,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     });
 
-    leaderboard = new Leaderboard(gameController.getPlayersController().getPlayers());
+    leaderboard = new Leaderboard(gameController.getPlayersController());
 
     sidebar.setBottom(leaderboard.getComponent());
 
@@ -244,10 +239,11 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
   private Timeline moveCurrentPlayerAnimation(int steps) {
 
-    Player currentPlayer = gameController.getPlayersController().getCurrentPlayer();
+    int currentPlayerPiecePosition = gameController.getPlayersController().getCurrentPlayer()
+        .getPosition();
 
-    int currentPlayerPiecePosition = currentPlayer.getPosition();
-    ImageView currentPlayerPiece = playerPieces.get(currentPlayer.getName());
+    ImageView currentPlayerPiece = playerPieces.get(
+        gameController.getPlayersController().getCurrentPlayer().getName());
 
     // create a timeline to animate the player's movement
     Timeline timeline = new Timeline();
@@ -340,6 +336,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     // if the player is on a special tile, tell the players, and perform on button click
     if (!currentTileType.equals(TileType.NORMAL.getTileType())) {
+      ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
       switch (currentTileType) {
         case "LadderTile" -> {
           int ladderDelta = gameController.getPlayersController().getPreviousPlayer().getPosition()
@@ -373,7 +370,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
         case "ReturnToStartTile" -> {
           dialogBox.refresh(
               gameController.getPlayersController().getPreviousPlayer().getName()
-                  + " fell down a hole and returned to start! 🥲");
+                  + " fell down a hole and returned to start!");
 
           sfxPlayer.openSoundFile(SoundFile.RETURN_TO_START);
 
@@ -415,18 +412,12 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
       }
 
-      ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
-
     } else {
-      ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
 
       dialogBox.refresh(
           gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
 
-      ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
-        ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
-        dieBox.getRollDieButton().setDisable(false);
-      });
+      dieBox.getRollDieButton().setDisable(false);
 
     }
 
@@ -435,7 +426,6 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   }
 
   private void updatePlayerPositions(int[] initialPlayerPositions) {
-
     ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
 
       gameController.getPlayersController().getPlayers().forEach(player -> {
@@ -457,10 +447,9 @@ public class BoardGameWindow implements Window, BoardGameObserver {
       dialogBox.refresh(
           gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
 
-      ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress2 -> {
-        ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
-        dieBox.getRollDieButton().setDisable(false);
-      });
+      ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+
+      dieBox.getRollDieButton().setDisable(false);
 
       // play the sound that was opened earlier
       sfxPlayer.playSound();
@@ -472,7 +461,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   private void showRandomActionList(String tileAction, int[] initialPlayerPositions) {
     sfxPlayer.stopSound();
 
-    randomActionComponent = new RandomActionComponent();
+    RandomActionComponent randomActionComponent = new RandomActionComponent();
 
     randomActionPane = (StackPane) randomActionComponent.getComponent();
 
@@ -562,6 +551,12 @@ public class BoardGameWindow implements Window, BoardGameObserver {
       // remove the winners from the game
       gameController.removeWinners();
 
+      dialogBox.refresh(
+          gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+
+      ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+      dieBox.getRollDieButton().setDisable(false);
+
       allElements.getChildren().remove(winnerScreen);
       sfxPlayer.stopSound();
     });
@@ -582,9 +577,13 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     if (gameController.getPlayersController().getPlayers().size() > 2) {
       buttonsBox.getChildren().addAll(keepPlayingButton, exitButton);
+
+      keepPlayingButton.setAlignment(Pos.CENTER);
     } else {
       buttonsBox.getChildren().add(exitButton);
     }
+
+    exitButton.setAlignment(Pos.CENTER);
 
     buttonsBox.getStyleClass().add("winner-buttons");
     buttonsBox.setAlignment(Pos.CENTER);
@@ -598,6 +597,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
     VBox winnerScreenBox = new VBox(winnerText, buttonsBox);
     winnerScreenBox.setAlignment(Pos.CENTER);
+    winnerScreenBox.setSpacing(50);
 
     createConfettiAnimation(winnerScreen);
 
@@ -667,9 +667,8 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
           confettiGroup.play();
 
-          confettiGroup.setOnFinished(event -> {
-            allElements.getChildren().remove(confetti);
-          });
+          confettiGroup.setOnFinished(event -> allElements.getChildren().remove(confetti));
+
         });
 
         initialDelay.play();

@@ -1,9 +1,10 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+
+import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
@@ -16,43 +17,43 @@ import javafx.scene.layout.VBox;
  */
 public class Leaderboard implements WindowComponent {
 
-  private final ArrayList<Player> players;
+  private Map<String, Integer> players;
+
+  private final PlayersController playersController;
 
   private final GridPane leaderboard = new GridPane();
 
   /**
    * A constructor for the Leaderboard class.
    *
-   * @param players A HashMap containing the players currently in the game.
+   * @param playersController the controller for the players in the game
    */
-  public Leaderboard(List<Player> players) {
-    // since the leaderboard is a 3 column table, the amount of rows are the top 3 players
-
-    this.players = new ArrayList<>(players);
+  public Leaderboard(PlayersController playersController) {
+    this.playersController = playersController;
   }
 
   /**
    * Updates the leaderboard with the current players in the game.
    */
   public void update() {
-    leaderboard.getChildren().clear();
+    // Clear the leaderboard grid
+    this.leaderboard.getChildren().clear();
 
-    players.sort(Comparator.comparingInt(Player::getPosition));
+    this.players = playersController.getPlayerPositions();
 
-    List<Player> sortedPlayers = players.reversed();
+    // Create a list of map entries and sort them by position (descending order)
+    List<Map.Entry<String, Integer>> sortedPlayers = new ArrayList<>(players.entrySet());
+    sortedPlayers.sort(Map.Entry.<String, Integer>comparingByValue().reversed());
 
     // Add the players to the leaderboard grid
-    sortedPlayers.forEach(player -> {
-      if (sortedPlayers.indexOf(player) > 2) {
-        return;
-      }
+    sortedPlayers.forEach((playerEntry) -> {
+      String playerName = playerEntry.getKey();
+      Integer position = playerEntry.getValue();
+      int i = sortedPlayers.indexOf(playerEntry);
 
-      this.leaderboard.add(new Label((sortedPlayers.indexOf(player) + 1) + "."), 0,
-          sortedPlayers.indexOf(player));
-      this.leaderboard.add(new Label(player.getName()), 1,
-          sortedPlayers.indexOf(player));
-      this.leaderboard.add(new Label(player.getPosition() + ""), 2,
-          sortedPlayers.indexOf(player));
+      leaderboard.add(new Label((i + 1) + "."), 0, i);
+      leaderboard.add(new Label(playerName), 1, i);
+      leaderboard.add(new Label(position.toString()), 2, i);
     });
   }
 
@@ -60,7 +61,6 @@ public class Leaderboard implements WindowComponent {
   public Node getComponent() {
     VBox leaderboard = new VBox();
     leaderboard.setMinHeight(110);
-    leaderboard.setMaxHeight(150);
     leaderboard.setMinWidth(380);
     leaderboard.setMaxWidth(380);
     leaderboard.setAlignment(javafx.geometry.Pos.TOP_CENTER);
@@ -79,8 +79,7 @@ public class Leaderboard implements WindowComponent {
 
     update();
 
-    Label header = new Label(
-        players.size() > 3 ? "Top 3 Players" : "Top " + players.size() + " Players");
+    Label header = new Label("Leaderboard");
 
     header.getStyleClass().add("header");
 
