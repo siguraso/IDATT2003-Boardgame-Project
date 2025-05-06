@@ -541,6 +541,7 @@ public class BoardGameWindow implements Window, BoardGameObserver {
   }
 
   private void showWinnerScreen() {
+    sfxPlayer.stopSound();
     StackPane winnerScreen = new StackPane();
 
     winnerScreen.getStyleClass().add("winner-screen");
@@ -563,19 +564,28 @@ public class BoardGameWindow implements Window, BoardGameObserver {
 
       allElements.getChildren().remove(winnerScreen);
       sfxPlayer.stopSound();
-
-
     });
 
     Button exitButton = new Button("Return to main menu");
     exitButton.setOnAction(e -> {
-      gameController.removeWinners();
-      allElements.getChildren().remove(winnerScreen);
+      Stage MainWindowStage = new Stage();
+
+      MainWindow mainWindow = new MainWindow(MainWindowStage);
+      mainWindow.init();
+
       sfxPlayer.stopSound();
-      window.close();
+      close();
+      mainWindow.show();
     });
 
-    HBox buttonsBox = new HBox(keepPlayingButton, exitButton);
+    HBox buttonsBox = new HBox();
+
+    if (gameController.getPlayersController().getPlayers().size() > 2) {
+      buttonsBox.getChildren().addAll(keepPlayingButton, exitButton);
+    } else {
+      buttonsBox.getChildren().add(exitButton);
+    }
+
     buttonsBox.getStyleClass().add("winner-buttons");
     buttonsBox.setAlignment(Pos.CENTER);
     buttonsBox.setSpacing(20);
@@ -656,6 +666,10 @@ public class BoardGameWindow implements Window, BoardGameObserver {
           });
 
           confettiGroup.play();
+
+          confettiGroup.setOnFinished(event -> {
+            allElements.getChildren().remove(confetti);
+          });
         });
 
         initialDelay.play();
