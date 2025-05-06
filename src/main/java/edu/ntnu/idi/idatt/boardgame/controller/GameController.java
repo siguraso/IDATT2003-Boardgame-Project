@@ -175,6 +175,24 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
     return ((RandomActionTile) tile).getPlayerToSwapWith().getName();
   }
 
+  /**
+   * Remove the winners from the game. Used when a player wins the game. and the user chooses to
+   * continue playing.
+   */
+  public void removeWinners() {
+    die.removeObserver(playersController.getCurrentPlayer());
+
+    playersController.nextPlayer();
+
+    die.addObserver(playersController.getCurrentPlayer());
+
+    System.out.println("current player before: " + playersController.getCurrentPlayer().getName());
+
+    playersController.removeWinners();
+
+    System.out.println("current player after: " + playersController.getCurrentPlayer().getName());
+  }
+
   @Override
   public void update(int[] i) {
     notifyObservers(i);

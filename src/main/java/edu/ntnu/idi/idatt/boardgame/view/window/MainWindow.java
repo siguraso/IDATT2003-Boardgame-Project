@@ -8,7 +8,6 @@ import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersWriterCsv;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -494,7 +493,7 @@ public class MainWindow implements Window {
   }
 
   private void showFileChooserJson() {
-    if (!arePlayersValid()) {
+    if (arePlayersInvalid()) {
       playerSelectionView.getStyleClass().add("player-selection-view-error");
       errorLabel.setText("Please fill in all player fields!");
       errorLabel.setVisible(true);
@@ -584,7 +583,7 @@ public class MainWindow implements Window {
   }
 
   private void showFileWriterCsv() {
-    if (!arePlayersValid()) {
+    if (arePlayersInvalid()) {
       playerSelectionView.getStyleClass().add("player-selection-view-error");
       errorLabel.setText("Please fill in all player fields!");
       errorLabel.setVisible(true);
@@ -692,7 +691,7 @@ public class MainWindow implements Window {
     }
   }
 
-  private boolean arePlayersValid() {
+  private boolean arePlayersInvalid() {
     var arePlayersValidWrapper = new Object() {
       boolean areValid = true;
     };
@@ -706,7 +705,7 @@ public class MainWindow implements Window {
       }
 
     });
-    return arePlayersValidWrapper.areValid;
+    return !arePlayersValidWrapper.areValid;
   }
 
 }

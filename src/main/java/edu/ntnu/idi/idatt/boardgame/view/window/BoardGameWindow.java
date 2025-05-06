@@ -28,12 +28,14 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -544,11 +546,52 @@ public class BoardGameWindow implements Window, BoardGameObserver {
     winnerScreen.getStyleClass().add("winner-screen");
     winnerScreen.setAlignment(Pos.CENTER);
 
-    createConfettiAnimation(winnerScreen);
-    winnerScreen.getChildren().add(new Label("Congratulations, "
+    Button keepPlayingButton = new Button("Keep playing");
+
+    keepPlayingButton.setOnAction(e -> {
+      // remove the winning player pieces from the board
+      gameController.getPlayersController().getPlayers().forEach(player -> {
+        if (player.isWinner()) {
+          boardDisplay.getGridTiles().get(player.getPosition()).getChildren()
+              .remove(playerPieces.get(player.getName()));
+          playerPieces.remove(player.getName());
+        }
+      });
+
+      // remove the winners from the game
+      gameController.removeWinners();
+
+      allElements.getChildren().remove(winnerScreen);
+      sfxPlayer.stopSound();
+
+
+    });
+
+    Button exitButton = new Button("Return to main menu");
+    exitButton.setOnAction(e -> {
+      gameController.removeWinners();
+      allElements.getChildren().remove(winnerScreen);
+      sfxPlayer.stopSound();
+      window.close();
+    });
+
+    HBox buttonsBox = new HBox(keepPlayingButton, exitButton);
+    buttonsBox.getStyleClass().add("winner-buttons");
+    buttonsBox.setAlignment(Pos.CENTER);
+    buttonsBox.setSpacing(20);
+
+    Label winnerText = new Label("Congratulations, "
         + gameController.getPlayersController().getPreviousPlayer().getName() + "!\n"
-        + "You have won the game!"));
-    winnerScreen.getChildren().getLast().getStyleClass().add("winner-label");
+        + "You have won the game!");
+    winnerText.setAlignment(Pos.CENTER);
+    winnerText.getStyleClass().add("winner-label");
+
+    VBox winnerScreenBox = new VBox(winnerText, buttonsBox);
+    winnerScreenBox.setAlignment(Pos.CENTER);
+
+    createConfettiAnimation(winnerScreen);
+
+    winnerScreen.getChildren().add(winnerScreenBox);
 
     allElements.getChildren().add(winnerScreen);
 

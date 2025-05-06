@@ -125,4 +125,11 @@ public class PlayersController {
     this.players.addAll(players);
   }
 
+  /**
+   * Removes the {@link Player} objects where isWinner is true from the {@link ArrayList} of
+   * players.
+   */
+  public void removeWinners() {
+    players.removeIf(Player::isWinner);
+  }
 }

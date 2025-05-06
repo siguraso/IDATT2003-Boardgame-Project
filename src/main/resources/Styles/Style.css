@@ -369,3 +369,18 @@
   -fx-text-fill: text_blk;
   -fx-padding: 15;
 }
+
+.winner-buttons .button {
+  -fx-background-color: bg_600;
+  -fx-text-fill: text_wht;
+  -fx-font-size: 20px;
+  -fx-background-radius: 10;
+}
+
+.winner-buttons .button:hover {
+  -fx-background-color: bg_700;
+}
+
+.winner-buttons .button:pressed {
+  -fx-background-color: bg_800;
+}
