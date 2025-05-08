@@ -3,6 +3,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window.components;
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.ladder.LadderDrawer;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -28,7 +29,8 @@ import javafx.scene.layout.StackPane;
 public class BoardDisplay implements WindowComponent {
 
   private final Logger logger = Logger.getLogger("BoardDisplay");
-  private GridPane boardGrid;
+  private final GridPane boardGrid = new GridPane();
+  private final GridPane playersGrid = new GridPane();
   private static final int ROWS = 10;
   private static final int COLS = 9;
   private final HashMap<Integer, FlowPane> gridTiles = new HashMap<>();
@@ -55,12 +57,15 @@ public class BoardDisplay implements WindowComponent {
    * @param tileTypes  a {@link HashMap} containing the tile types for each tile on the board. The
    *                   key designates what tile number it is.
    */
-  public void init(int tileWidth, int tileHeight, HashMap<Integer, String> tileTypes) {
-    boardGrid = new GridPane();
+  public void init(int tileWidth, int tileHeight, Map<Integer, String> tileTypes) {
     boardGrid.setMaxWidth(tileWidth * COLS);
     boardGrid.setMaxHeight(tileHeight * ROWS);
     boardGrid.setAlignment(javafx.geometry.Pos.CENTER);
     boardGrid.getStyleClass().add("board");
+
+    playersGrid.setMaxWidth(tileWidth * COLS);
+    playersGrid.setMaxHeight(tileHeight * ROWS);
+    playersGrid.setAlignment(javafx.geometry.Pos.CENTER);
 
     tileTypes.keySet().forEach(t -> {
       StackPane tilePane = new StackPane();
@@ -91,10 +96,11 @@ public class BoardDisplay implements WindowComponent {
       Label tileNumber = new Label(t + "");
       tileNumber.setPadding(new Insets(3, 6, 0, 0));
       tileNumber.getStyleClass().add("tile-number");
-      tilePane.getChildren().addAll(tileNumber, playersBox);
+      tilePane.getChildren().add(tileNumber);
       StackPane.setAlignment(tileNumber, Pos.TOP_RIGHT);
 
       boardGrid.add(tilePane, col, row);
+      playersGrid.add(playersBox, col, row);
       gridTileStack.put(t, tilePane);
       gridTiles.put(t, playersBox);
     });
@@ -180,10 +186,17 @@ public class BoardDisplay implements WindowComponent {
     gridTileStack.get(1).getChildren().add(startLabel);
     startLabel.toBack();
 
-    boardPane.getChildren().addAll(boardGrid, ld);
+    boardPane.getChildren().addAll(boardGrid, ld, playersGrid);
   }
 
-  public void drawLadders(HashMap<Integer, String> tileTypes, int[] tileDimensions) {
+  /**
+   * Draws the ladders on the board. This method is called when the game is started, and it draws
+   * the ladders based on their positions on the board.
+   *
+   * @param tileTypes      a {@link Map} containing the tile types for each tile on the board. The
+   * @param tileDimensions an array containing the width and height of the tiles.
+   */
+  public void drawLadders(Map<Integer, String> tileTypes, int[] tileDimensions) {
     Platform.runLater(() -> gridTileStack.keySet().stream()
         .filter(i -> tileTypes.get(i).equals("LadderTile"))
         .forEach(t -> {
@@ -208,7 +221,7 @@ public class BoardDisplay implements WindowComponent {
         }));
   }
 
-  public HashMap<Integer, FlowPane> getGridTiles() {
+  public Map<Integer, FlowPane> getGridTiles() {
     return gridTiles;
   }
 

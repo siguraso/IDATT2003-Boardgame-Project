@@ -344,19 +344,15 @@
   -fx-background-color: bg_300;
   -fx-text-fill: text_blk;
   -fx-background-radius: 10;
-  -fx-min-height: 45;
-  -fx-min-width: 300;
-}
-
-.player-selection-view-error {
-  -fx-background-color: bg_300;
-  -fx-text-fill: text_blk;
-  -fx-background-radius: 10;
   -fx-border-radius: 10;
   -fx-min-height: 45;
   -fx-min-width: 300;
-  -fx-border-color: cta_red;
+  -fx-border-color: bg_300;
   -fx-border-width: 2;
+}
+
+.player-selection-view-error {
+  -fx-border-color: cta_red;
 }
 
 .error-label {
@@ -368,4 +364,25 @@
   -fx-background-color: bg_300;
   -fx-text-fill: text_blk;
   -fx-padding: 15;
+}
+
+.winner-buttons .button {
+  -fx-background-color: bg_600;
+  -fx-text-fill: text_wht;
+  -fx-font-size: 20px;
+  -fx-background-radius: 10;
+}
+
+.winner-buttons .button:hover {
+  -fx-background-color: bg_700;
+}
+
+.winner-buttons .button:pressed {
+  -fx-background-color: bg_800;
+}
+
+.roll-die-button {
+  -fx-font-size: 24px;
+  -fx-pref-width: 200;
+  -fx-background-radius: 18;
 }

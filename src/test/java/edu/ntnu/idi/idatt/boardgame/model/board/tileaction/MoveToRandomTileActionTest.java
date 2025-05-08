@@ -23,7 +23,7 @@ class MoveToRandomTileActionTest {
   @BeforeEach
   void setUp() {
     //Arrange
-    tiles = BoardFactory
+    tiles = (HashMap<Integer, Tile>) BoardFactory
         .createBoard(BoardType.LADDER_GAME_SPECIAL, false, null).tiles();
     board = new Board(tiles);
     moveToRandomTileAction = new MoveToRandomTileAction(board);

@@ -8,7 +8,6 @@ import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersWriterCsv;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -367,6 +366,16 @@ public class MainWindow implements Window {
     playerName.setPromptText("Enter Name");
     playerName.setPrefWidth(100);
 
+    playerName.textProperty().addListener((observable, oldValue, newValue) -> {
+      playerSelectionView.getStyleClass().remove("player-selection-view-error");
+      errorLabel.setVisible(false);
+
+      if (newValue.length() > 30) {
+        playerName.setText(oldValue);
+      }
+
+    });
+
     ImageView playerImage = new ImageView(new
         Image(
         Objects.requireNonNull(
@@ -494,7 +503,7 @@ public class MainWindow implements Window {
   }
 
   private void showFileChooserJson() {
-    if (!arePlayersValid()) {
+    if (arePlayersInvalid()) {
       playerSelectionView.getStyleClass().add("player-selection-view-error");
       errorLabel.setText("Please fill in all player fields!");
       errorLabel.setVisible(true);
@@ -573,6 +582,16 @@ public class MainWindow implements Window {
           ((ComboBox<String>) playerProfileEditor.getChildren().get(2))
               .setValue(player.getPlayerPiece().getPieceName());
         });
+      } catch (IllegalArgumentException e) {
+        if (e.getMessage().contains("Duplicate player name")) {
+          playerSelectionView.getStyleClass().add("player-selection-view-error");
+          errorLabel.setVisible(true);
+          errorLabel.setText(e.getMessage() + "!");
+        } else {
+          warningDialog.update("There was an error reading the file. \n "
+              + "Is it formatted correctly?", "Error reading file");
+          warningDialog.show();
+        }
       } catch (Exception e) {
         warningDialog.update("There was an error reading the file. \n "
             + "Is it formatted correctly?", "Error reading file");
@@ -584,7 +603,7 @@ public class MainWindow implements Window {
   }
 
   private void showFileWriterCsv() {
-    if (!arePlayersValid()) {
+    if (arePlayersInvalid()) {
       playerSelectionView.getStyleClass().add("player-selection-view-error");
       errorLabel.setText("Please fill in all player fields!");
       errorLabel.setVisible(true);
@@ -659,6 +678,18 @@ public class MainWindow implements Window {
       playerSelectionView.getStyleClass().add("player-selection-view-error");
       errorLabel.setText("Please fill in all player fields!");
       errorLabel.setVisible(true);
+    } catch (IllegalArgumentException e) {
+      if (e.getMessage().contains("Duplicate player name")) {
+        playersController.clearPlayers();
+        playerSelectionView.getStyleClass().add("player-selection-view-error");
+        errorLabel.setText(e.getMessage() + "!");
+        errorLabel.setVisible(true);
+      } else {
+        playersController.clearPlayers();
+        playerSelectionView.getStyleClass().add("player-selection-view-error");
+        errorLabel.setText("Please fill in all player fields!");
+        errorLabel.setVisible(true);
+      }
     }
 
   }
@@ -692,7 +723,7 @@ public class MainWindow implements Window {
     }
   }
 
-  private boolean arePlayersValid() {
+  private boolean arePlayersInvalid() {
     var arePlayersValidWrapper = new Object() {
       boolean areValid = true;
     };
@@ -701,12 +732,12 @@ public class MainWindow implements Window {
       String piece = ((ComboBox<String>) ((HBox) playerProfile).getChildren().get(2)).getValue();
       String name = ((TextField) ((HBox) playerProfile).getChildren().get(1)).getText();
 
-      if (piece == null || name == null || piece.isEmpty() || name.isEmpty()) {
+      if (piece == null || name == null || piece.isEmpty() || name.isBlank()) {
         arePlayersValidWrapper.areValid = false;
       }
 
     });
-    return arePlayersValidWrapper.areValid;
+    return !arePlayersValidWrapper.areValid;
   }
 
 }

@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.model.board;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The board of a board game that contains the tiles on the board. This is a record class that
@@ -12,7 +13,7 @@ import java.util.HashMap;
  * @version 1.0
  * @since 1.0
  */
-public record Board(HashMap<Integer, Tile> tiles) {
+public record Board(Map<Integer, Tile> tiles) {
 
   /**
    * Constructor for the Board class.
@@ -34,7 +35,7 @@ public record Board(HashMap<Integer, Tile> tiles) {
    * @return A HashMap containing all the tiles on the board.
    */
   @Override
-  public HashMap<Integer, Tile> tiles() {
+  public Map<Integer, Tile> tiles() {
     return tiles;
   }
 
@@ -43,9 +44,9 @@ public record Board(HashMap<Integer, Tile> tiles) {
    * Return all the TileTypes on the board as a {@link HashMap} with the tile number as the key and
    * the tile type as the value.
    *
-   * @return A {@link HashMap} containing all the tile types on the board.
+   * @return A {@link Map} containing all the tile types on the board.
    */
-  public HashMap<Integer, String> getTileTypes() {
+  public Map<Integer, String> getTileTypes() {
     HashMap<Integer, String> tileTypes = new HashMap<>();
     tiles.keySet().forEach(tile -> {
       tileTypes.put(tile, tiles.get(tile).getTileType());

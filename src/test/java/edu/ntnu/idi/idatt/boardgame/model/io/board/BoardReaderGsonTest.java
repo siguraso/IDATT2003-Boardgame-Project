@@ -60,7 +60,7 @@ class BoardReaderGsonTest {
       fail("Should not throw an exception");
     }
 
-    HashMap<Integer, String> specialTileTypes = board2.getTileTypes();
+    HashMap<Integer, String> specialTileTypes = (HashMap<Integer, String>) board2.getTileTypes();
 
     IntStream.range(1, 91).forEach(i -> {
       if (!specialTileTypes.containsKey(i)) {

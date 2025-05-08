@@ -30,7 +30,7 @@ class BoardTest {
   void testTiles() {
     Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_REGULAR, false, null);
 
-    HashMap<Integer, Tile> tiles = board.tiles();
+    HashMap<Integer, Tile> tiles = (HashMap<Integer, Tile>) board.tiles();
     assertNotNull(tiles);
 
     assertEquals(90, tiles.size());
@@ -45,7 +45,7 @@ class BoardTest {
   void testGetTileTypes() {
     Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_REGULAR, false, null);
 
-    HashMap<Integer, String> tileTypes = board.getTileTypes();
+    HashMap<Integer, String> tileTypes = (HashMap<Integer, String>) board.getTileTypes();
     assertNotNull(tileTypes);
 
     assertEquals(90, tileTypes.size());

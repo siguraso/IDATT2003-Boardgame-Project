@@ -8,6 +8,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeLineCap;
 
 public final class LadderDrawer extends Canvas {
+
   private final GraphicsContext gc = getGraphicsContext2D();
 
   public LadderDrawer() {
@@ -67,7 +68,6 @@ public final class LadderDrawer extends Canvas {
     gc.moveTo(rightStart.getX(), rightStart.getY());
     gc.lineTo(rightEnd.getX(), rightEnd.getY());
 
-
     // Draw steps in ladder
     int stepCount = (int) (length / ((double) dimensions[1] / 3));
     IntStream.range(0, stepCount).forEach(i -> {
@@ -93,9 +93,4 @@ public final class LadderDrawer extends Canvas {
     gc.closePath();
   }
 
-  public void clear() {
-    // Clear the canvas
-    System.out.println("Clearing the canvas...");
-    //canvas.getGraphicsContext2D().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-  }
 }
