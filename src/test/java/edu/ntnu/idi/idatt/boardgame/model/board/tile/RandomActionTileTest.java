@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
+import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.ArrayList;
@@ -14,8 +15,8 @@ import org.junit.jupiter.api.Test;
 class RandomActionTileTest {
 
   private Tile tile;
-  private Player player;
-  private Player player1;
+  private LadderGamePlayer player;
+  private LadderGamePlayer player1;
   private ArrayList<Player> players;
 
   @BeforeEach
@@ -25,8 +26,8 @@ class RandomActionTileTest {
 
     tile = new RandomActionTile(1, new int[]{0, 0}, board);
 
-    player = new Player("TestPlayer", PlayerPiece.EVIL_PAUL);
-    player1 = new Player("TestPlayer1", PlayerPiece.EVIL_PAUL);
+    player = new LadderGamePlayer("TestPlayer", PlayerPiece.EVIL_PAUL);
+    player1 = new LadderGamePlayer("TestPlayer1", PlayerPiece.EVIL_PAUL);
 
     player1.moveTo(2);
     player.moveTo(5);

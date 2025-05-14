@@ -2,10 +2,9 @@ package edu.ntnu.idi.idatt.boardgame.model.dice;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,13 +13,13 @@ import org.junit.jupiter.api.Test;
 class DieTest {
 
   private Die die;
-  private Player player;
+  private LadderGamePlayer player;
 
   @BeforeEach
   void setUp() {
     // Arrange
     die = new Die(6);
-    player = new Player("TestPlayer", PlayerPiece.LOCKED_IN_SNOWMAN);
+    player = new LadderGamePlayer("TestPlayer", PlayerPiece.LOCKED_IN_SNOWMAN);
     die.addObserver(player);
   }
 
@@ -44,7 +43,8 @@ class DieTest {
 
   @Test
   void testObserverPattern() {
-    Player newPlayer = new Player("testPlayer2", PlayerPiece.PROPELLER_ACCESSORIES);
+    LadderGamePlayer newPlayer = new LadderGamePlayer("testPlayer2",
+        PlayerPiece.PROPELLER_ACCESSORIES);
     // Test add
     assertDoesNotThrow(() -> die.addObserver(newPlayer));
     assertTrue(die.getObservers().contains(newPlayer));
@@ -83,7 +83,7 @@ class DieTest {
 
     assertThrows(NullPointerException.class, () -> die.removeObserver(null));
     assertThrows(IllegalArgumentException.class, () ->
-        die.removeObserver(new Player("testPlayer2", PlayerPiece.PROPELLER_ACCESSORIES)));
+        die.removeObserver(new LadderGamePlayer("testPlayer2", PlayerPiece.PROPELLER_ACCESSORIES)));
 
     assertThrows(NullPointerException.class, () -> die.notifyObservers(null));
     assertThrows(IllegalArgumentException.class, () -> die.notifyObservers(new int[]{}));

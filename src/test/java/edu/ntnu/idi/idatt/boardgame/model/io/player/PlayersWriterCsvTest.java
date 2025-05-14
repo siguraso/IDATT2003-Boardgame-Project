@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.model.io.player;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.io.File;
@@ -17,8 +18,8 @@ class PlayersWriterCsvTest {
     String fileDirectory = "test.csv";
     String fileName = "test.csv";
     List<Player> players = new ArrayList<>();
-    players.add(new Player("Player1", PlayerPiece.MY_LOVE));
-    players.add(new Player("Player2", PlayerPiece.MARIOTINELLI));
+    players.add(new LadderGamePlayer("Player1", PlayerPiece.MY_LOVE));
+    players.add(new LadderGamePlayer("Player2", PlayerPiece.MARIOTINELLI));
 
     // Test writing to file
     writer.writePlayersFile(fileDirectory, fileName, players);

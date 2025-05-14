@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.io.player;
 
+
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import java.util.List;
 import java.util.HashMap;

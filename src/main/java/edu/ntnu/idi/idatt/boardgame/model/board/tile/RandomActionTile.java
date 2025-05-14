@@ -7,7 +7,6 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RollAgainAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.SwapPlayersAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

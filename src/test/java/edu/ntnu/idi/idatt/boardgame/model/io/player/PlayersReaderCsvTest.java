@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.model.io.player;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.List;
@@ -24,7 +25,7 @@ class PlayersReaderCsvTest {
       // check if it includes the players
       if (!player.getName().equals("styggve") && !player.getName().equals("sigern")
           && !player.getName().equals("liggve") && !player.getName().equals("sigve these nuts")) {
-        fail("Player not found in the list: " + player.getName());
+        fail("LadderGamePlayer not found in the list: " + player.getName());
       }
     });
 

@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.controller;
 
+import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.ArrayList;
@@ -8,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * A class representing the controller for the players in the game.
@@ -114,7 +114,8 @@ public class PlayersController {
       throw new IllegalArgumentException("Duplicate player name: " + name);
     }
 
-    players.add(new Player(name, piece));
+    // TODO: check if the player is a LadderGamePlayer or a ParioMartyPlayer
+    players.add(new LadderGamePlayer(name, piece));
   }
 
   /**

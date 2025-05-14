@@ -2,7 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.model.dice;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,14 +11,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class DiceTest {
+
   private Dice dice;
-  private Player player;
+  private LadderGamePlayer player;
 
   @BeforeEach
   void setUp() {
     // Arrange
     dice = new Dice(2, 6);
-    player = new Player("TestPlayer", PlayerPiece.LOCKED_IN_SNOWMAN);
+    player = new LadderGamePlayer("TestPlayer", PlayerPiece.LOCKED_IN_SNOWMAN);
     dice.addObserver(player);
   }
 
@@ -44,7 +45,8 @@ class DiceTest {
 
   @Test
   void testObserverPattern() {
-    Player newPlayer = new Player("testPlayer2", PlayerPiece.PROPELLER_ACCESSORIES);
+    LadderGamePlayer newPlayer = new LadderGamePlayer("testPlayer2",
+        PlayerPiece.PROPELLER_ACCESSORIES);
     // Test add
     assertDoesNotThrow(() -> dice.addObserver(newPlayer));
     assertTrue(dice.getObservers().contains(newPlayer));
