@@ -47,7 +47,7 @@ public record Board(Map<Integer, Tile> tiles) {
    * @return A {@link Map} containing all the tile types on the board.
    */
   public Map<Integer, String> getTileTypes() {
-    HashMap<Integer, String> tileTypes = new HashMap<>();
+    Map<Integer, String> tileTypes = new HashMap<>();
     tiles.keySet().forEach(tile -> {
       tileTypes.put(tile, tiles.get(tile).getTileType());
     });

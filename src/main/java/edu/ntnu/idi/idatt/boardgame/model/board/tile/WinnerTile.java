@@ -12,9 +12,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class WinnerTile extends SpecialTile {
 
-  //
-  private final TileType tileType = TileType.WINNER;
-
   /**
    * Constructor for the WinnerTile class.
    *
@@ -25,6 +22,7 @@ public class WinnerTile extends SpecialTile {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
     this.tileAction = new WinnerAction();
+    this.tileType = TileType.WINNER;
   }
 
   @Override
@@ -36,9 +34,5 @@ public class WinnerTile extends SpecialTile {
     }
   }
 
-  @Override
-  public String getTileType() {
-    return tileType.getTileType();
-  }
 
 }

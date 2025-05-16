@@ -13,7 +13,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class LadderTile extends SpecialTile {
 
-  private final TileType tileType = TileType.LADDER;
   private final int destinationTileNumber;
 
 
@@ -30,6 +29,7 @@ public class LadderTile extends SpecialTile {
 
     // initialize the tileAction with a LadderAction
     this.tileAction = new LadderAction(destinationTileNumber);
+    this.tileType = TileType.LADDER;
   }
 
   /**
@@ -48,11 +48,6 @@ public class LadderTile extends SpecialTile {
     } catch (NullPointerException e) {
       throw new NullPointerException(e.getMessage());
     }
-  }
-
-  @Override
-  public String getTileType() {
-    return tileType.getTileType();
   }
 
 }

@@ -10,8 +10,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class RemoveCoinsTile extends SpecialTile {
 
-  private final TileType tileType = TileType.REMOVE_COINS;
-
   /**
    * Constructor for the RemoveCoinsTile class.
    *
@@ -26,11 +24,7 @@ public class RemoveCoinsTile extends SpecialTile {
 
     this.tileNumber = coinsToRemove;
     this.onscreenPosition = onscreenPosition;
-  }
-
-  @Override
-  public String getTileType() {
-    return tileType.getTileType();
+    this.tileType = TileType.REMOVE_COINS;
   }
 
   @Override

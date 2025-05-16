@@ -12,8 +12,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class ReturnToStartTile extends SpecialTile {
 
-  private final TileType tileType = TileType.RETURN_TO_START;
-
   /**
    * Constructor for the ReturnToStartTile class.
    *
@@ -25,6 +23,7 @@ public class ReturnToStartTile extends SpecialTile {
     this.onscreenPosition = onscreenPosition;
 
     this.tileAction = new ReturnToStartAction();
+    this.tileType = TileType.RETURN_TO_START;
   }
 
   @Override
@@ -35,11 +34,6 @@ public class ReturnToStartTile extends SpecialTile {
     } catch (NullPointerException e) {
       throw new NullPointerException(e.getMessage());
     }
-  }
-
-  @Override
-  public String getTileType() {
-    return tileType.getTileType();
   }
 
 }

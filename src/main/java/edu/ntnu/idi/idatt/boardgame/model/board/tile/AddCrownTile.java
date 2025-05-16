@@ -7,8 +7,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
 public class AddCrownTile extends SpecialTile {
 
-  private final TileType tileType = TileType.ADD_CROWN;
-
   /**
    * Constructor for the AddCrownTile class.
    *
@@ -19,11 +17,8 @@ public class AddCrownTile extends SpecialTile {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
     this.tileAction = new AddCrownAction();
-  }
 
-  @Override
-  public String getTileType() {
-    return tileType.getTileType();
+    this.tileType = TileType.ADD_CROWN;
   }
 
   @Override

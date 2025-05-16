@@ -14,8 +14,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class AddCoinsTile extends SpecialTile {
 
-  private final TileType tileType = TileType.ADD_COINS;
-
   /**
    * Constructor for the AddCoinsTile class.
    *
@@ -30,11 +28,7 @@ public class AddCoinsTile extends SpecialTile {
 
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
-  }
-
-  @Override
-  public String getTileType() {
-    return tileType.getTileType();
+    this.tileType = TileType.ADD_COINS;
   }
 
   @Override

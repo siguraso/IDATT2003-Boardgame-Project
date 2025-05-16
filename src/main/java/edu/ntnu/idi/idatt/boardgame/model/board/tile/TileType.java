@@ -62,6 +62,12 @@ public enum TileType {
     public String getTileType() {
       return "AddCrownTile";
     }
+  },
+  MOWSER() {
+    @Override
+    public String getTileType() {
+      return "MowserTile";
+    }
   };
 
   /**

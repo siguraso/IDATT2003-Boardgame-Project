@@ -9,15 +9,15 @@ import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class BoardWriterGsonTest {
+class LadderBoardWriterGsonTest {
 
-  private BoardWriterGson boardWriterGson;
+  private LadderBoardWriterGson ladderBoardWriterGson;
   private BoardFileReader boardFileReader;
 
   @BeforeEach
   void setUp() {
-    boardWriterGson = new BoardWriterGson();
-    boardFileReader = new BoardReaderGson();
+    ladderBoardWriterGson = new LadderBoardWriterGson();
+    boardFileReader = new LadderBoardReaderGson();
   }
 
   @Test
@@ -32,7 +32,7 @@ class BoardWriterGsonTest {
     Board board = new Board(tiles);
 
     try {
-      boardWriterGson.writeBoardFile(board, filePath + "TestBoard2.json");
+      ladderBoardWriterGson.writeBoardFile(board, filePath + "TestBoard2.json");
 
       Board board2 = boardFileReader.readBoardFile(filePath + "TestBoard2.json", true);
 
