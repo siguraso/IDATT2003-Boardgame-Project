@@ -2,17 +2,18 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import org.junit.jupiter.api.Test;
 
 class LadderActionTest {
+
   @Test
   void performAction() {
     // Arrange
     int destination = 5;
     LadderAction ladderAction = new LadderAction(destination);
-    Player player = new Player("TestPlayer", PlayerPiece.MARIOTINELLI);
+    LadderGamePlayer player = new LadderGamePlayer("TestPlayer", PlayerPiece.MARIOTINELLI);
 
     // Act
     ladderAction.performAction(player);
@@ -20,11 +21,12 @@ class LadderActionTest {
     // Assert
     assertEquals(destination, player.getPosition());
   }
+
   @Test
   void testNegativePerformAction() {
     // Arrange
     int destination = -5;
-    Player player = new Player("TestPlayer", PlayerPiece.MARIOTINELLI);
+    LadderGamePlayer player = new LadderGamePlayer("TestPlayer", PlayerPiece.MARIOTINELLI);
 
     // Act & Assert
     assertThrows(IllegalArgumentException.class, () -> new LadderAction(91));

@@ -6,7 +6,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.HashMap;
 import org.junit.jupiter.api.AfterEach;
@@ -18,7 +18,7 @@ class MoveToRandomTileActionTest {
   private HashMap<Integer, Tile> tiles;
   private Board board;
   private MoveToRandomTileAction moveToRandomTileAction;
-  private Player player;
+  private LadderGamePlayer player;
 
   @BeforeEach
   void setUp() {
@@ -27,7 +27,7 @@ class MoveToRandomTileActionTest {
         .createBoard(BoardType.LADDER_GAME_SPECIAL, false, null).tiles();
     board = new Board(tiles);
     moveToRandomTileAction = new MoveToRandomTileAction(board);
-    player = new Player("TestPlayer", PlayerPiece.MARIOTINELLI);
+    player = new LadderGamePlayer("TestPlayer", PlayerPiece.MARIOTINELLI);
   }
 
   @AfterEach

@@ -1,16 +1,10 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
+
 import java.util.Arrays;
 
-/**
- * A player in a board game.
- *
- * @author siguraso & MagnusNaessanGaarder
- * @version 1.0
- * @since 1.0
- */
-public class Player implements BoardGameObserver {
+public abstract class Player implements BoardGameObserver {
 
   private final String name;
   private int position;
@@ -159,4 +153,6 @@ public class Player implements BoardGameObserver {
       moveForward(steps);
     }
   }
+
+
 }

@@ -15,6 +15,7 @@ public abstract class SpecialTile implements Tile {
   protected int tileNumber;
   protected int[] onscreenPosition;
   protected TileAction tileAction;
+  protected TileType tileType;
 
   @Override
   public int getTileNumber() {
@@ -34,6 +35,8 @@ public abstract class SpecialTile implements Tile {
   public abstract void performAction(Player player);
 
   @Override
-  public abstract String getTileType();
+  public String getTileType() {
+    return tileType.getTileType();
+  }
 
 }

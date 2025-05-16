@@ -6,13 +6,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PlayerTest {
+class LadderGamePlayerTest {
 
-  private Player player;
+  private LadderGamePlayer player;
 
   @BeforeEach
   void setUp() {
-    player = new Player("TestPlayer", PlayerPiece.PAUL);
+    player = new LadderGamePlayer("TestPlayer", PlayerPiece.PAUL);
   }
 
   @AfterEach
@@ -95,8 +95,8 @@ class PlayerTest {
 
   @Test
   void testConstructorNegative() {
-    assertThrows(NullPointerException.class, () -> new Player(null, PlayerPiece.PAUL));
-    assertThrows(IllegalArgumentException.class, () -> new Player("", PlayerPiece.PAUL));
-    assertThrows(NullPointerException.class, () -> new Player("TestPlayer", null));
+    assertThrows(NullPointerException.class, () -> new LadderGamePlayer(null, PlayerPiece.PAUL));
+    assertThrows(IllegalArgumentException.class, () -> new LadderGamePlayer("", PlayerPiece.PAUL));
+    assertThrows(NullPointerException.class, () -> new LadderGamePlayer("TestPlayer", null));
   }
 }

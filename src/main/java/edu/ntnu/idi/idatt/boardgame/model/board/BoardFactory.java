@@ -8,7 +8,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.RollAgainTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.WinnerTile;
-import edu.ntnu.idi.idatt.boardgame.model.io.board.BoardReaderGson;
+import edu.ntnu.idi.idatt.boardgame.model.io.board.LadderBoardReaderGson;
 import java.util.HashMap;
 import java.util.stream.IntStream;
 
@@ -185,20 +185,20 @@ public class BoardFactory {
   }
 
   private static Board vanillaLadderGameBoardJson() {
-    BoardReaderGson boardFileReader = new BoardReaderGson();
+    LadderBoardReaderGson boardFileReader = new LadderBoardReaderGson();
 
     return boardFileReader.readBoardFile("/JSON/LadderGameRegular.json", false);
   }
 
   private static Board specialLadderGameBoardJson() {
-    BoardReaderGson boardFileReader = new BoardReaderGson();
+    LadderBoardReaderGson boardFileReader = new LadderBoardReaderGson();
 
     return boardFileReader.readBoardFile(
         "/JSON/LadderGameSpecial.json", false);
   }
 
   private static Board ladderGameCustomJsonBoard(String filePath) {
-    BoardReaderGson boardFileReader = new BoardReaderGson();
+    LadderBoardReaderGson boardFileReader = new LadderBoardReaderGson();
     Board board;
 
     try {

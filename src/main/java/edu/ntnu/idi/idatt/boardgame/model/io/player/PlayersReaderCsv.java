@@ -1,12 +1,12 @@
 package edu.ntnu.idi.idatt.boardgame.model.io.player;
 
+import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -31,7 +31,7 @@ public class PlayersReaderCsv implements PlayersFileReader {
       while ((line = br.readLine()) != null) {
         String[] values = line.split(",");
 
-        Player player = new Player(values[0], PlayerPiece.valueOf(values[1]));
+        Player player = new LadderGamePlayer(values[0], PlayerPiece.valueOf(values[1]));
         players.add(player);
       }
       return players;

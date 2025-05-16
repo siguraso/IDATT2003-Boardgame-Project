@@ -10,13 +10,13 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class BoardReaderGsonTest {
+class LadderBoardReaderGsonTest {
 
-  private BoardReaderGson boardReaderGson;
+  private LadderBoardReaderGson ladderBoardReaderGson;
 
   @BeforeEach
   void setUp() {
-    boardReaderGson = new BoardReaderGson();
+    ladderBoardReaderGson = new LadderBoardReaderGson();
   }
 
 
@@ -29,7 +29,7 @@ class BoardReaderGsonTest {
     Board board = null;
 
     try {
-      board = boardReaderGson.readBoardFile(filePath, true);
+      board = ladderBoardReaderGson.readBoardFile(filePath, true);
     } catch (Exception e) {
       fail("Should not throw an exception");
     }
@@ -54,7 +54,7 @@ class BoardReaderGsonTest {
     Board board2 = null;
 
     try {
-      board2 = boardReaderGson.readBoardFile("/JSON/LadderGameSpecial.json",
+      board2 = ladderBoardReaderGson.readBoardFile("/JSON/LadderGameSpecial.json",
           false);
     } catch (Exception e) {
       fail("Should not throw an exception");
@@ -85,7 +85,7 @@ class BoardReaderGsonTest {
     // Negative tests
 
     try {
-      board = boardReaderGson.readBoardFile("src/test/resources/JSON/60DAYSSSS.json", true);
+      board = ladderBoardReaderGson.readBoardFile("src/test/resources/JSON/60DAYSSSS.json", true);
       fail("Should throw an exception");
     } catch (RuntimeException e) {
       if (!e.getMessage().contains("File not found") &&
@@ -98,7 +98,7 @@ class BoardReaderGsonTest {
       File file2 = new File("src/test/resources/JSON/Malformed.json");
       filePath = file2.getAbsolutePath();
 
-      board = boardReaderGson.readBoardFile(filePath, true);
+      board = ladderBoardReaderGson.readBoardFile(filePath, true);
       fail("Should throw an exception");
     } catch (RuntimeException e) {
       if (!e.getMessage().contains(

@@ -18,16 +18,16 @@ import java.util.Map;
  * @version 1.0
  * @since 1.0
  */
-public class BoardWriterGson implements BoardFileWriter {
+public class LadderBoardWriterGson implements BoardFileWriter {
 
   private final Gson gson;
 
   /**
-   * Constructor for the BoardWriterGson class. Writes a {@link Board} object to a JSON file in the
-   * GSON format. The file contains a JSON array of tiles, where each tile is represented as a JSON
-   * object.
+   * Constructor for the LadderBoardWriterGson class. Writes a {@link Board} object to a JSON file
+   * in the GSON format. The file contains a JSON array of tiles, where each tile is represented as
+   * a JSON object.
    */
-  public BoardWriterGson() {
+  public LadderBoardWriterGson() {
     // Instantiate a new Gson object with pretty printing
     this.gson = new GsonBuilder().setPrettyPrinting().create();
   }

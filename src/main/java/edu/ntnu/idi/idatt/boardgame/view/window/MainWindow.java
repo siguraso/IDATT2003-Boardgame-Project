@@ -213,7 +213,7 @@ public class MainWindow implements Window {
         // define the action for the start game button to fetch a json file
         startGameButton.setOnAction(onPress -> {
           try {
-            showFileChooserJson();
+            jsonFileChooserSequence();
           } catch (IllegalStateException e) {
             warningDialog.update(
                 "There is something wrong with the provided board file: \n" + e.getMessage(),
@@ -330,7 +330,7 @@ public class MainWindow implements Window {
     fileButtons.setAlignment(Pos.CENTER);
 
     readButton.setOnAction(onPressed ->
-        showFileChooserCsv()
+        csvFileChooserSequence()
     );
 
     writeButton.setOnAction(onPressed ->
@@ -502,7 +502,7 @@ public class MainWindow implements Window {
     return numberOfDiceComponent;
   }
 
-  private void showFileChooserJson() {
+  private void jsonFileChooserSequence() {
     if (arePlayersInvalid()) {
       playerSelectionView.getStyleClass().add("player-selection-view-error");
       errorLabel.setText("Please fill in all player fields!");
@@ -529,7 +529,7 @@ public class MainWindow implements Window {
     }
   }
 
-  private void showFileChooserCsv() {
+  private void csvFileChooserSequence() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Open CSV File");
 

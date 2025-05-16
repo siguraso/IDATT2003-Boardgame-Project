@@ -7,7 +7,6 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RollAgainAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.SwapPlayersAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +20,6 @@ public class RandomActionTile extends SpecialTile {
 
   private final transient TileAction[] tileActions = new TileAction[4];
   private final transient Board board;
-  private final TileType tileType = TileType.RANDOM_ACTION;
 
   /**
    * Constructor for the RandomActionTile class.
@@ -37,6 +35,7 @@ public class RandomActionTile extends SpecialTile {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
     this.board = board;
+    this.tileType = TileType.RANDOM_ACTION;
 
     initializeTileActions();
   }
@@ -71,12 +70,6 @@ public class RandomActionTile extends SpecialTile {
       throw new NullPointerException(e.getMessage());
     }
   }
-
-  @Override
-  public String getTileType() {
-    return tileType.getTileType();
-  }
-
 
   private void initializeTileActions() {
     tileActions[0] = new ReturnToStartAction();

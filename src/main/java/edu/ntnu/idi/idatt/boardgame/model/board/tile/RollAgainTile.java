@@ -12,8 +12,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class RollAgainTile extends SpecialTile {
 
-  private final TileType tileType = TileType.ROLL_AGAIN;
-
   /**
    * Constructor for a RollAgainTile.
    *
@@ -23,18 +21,15 @@ public class RollAgainTile extends SpecialTile {
   public RollAgainTile(int tileNumber, int[] onscreenPosition) {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
-  }
+    this.tileAction = new RollAgainAction();
 
-  @Override
-  public String getTileType() {
-    return tileType.getTileType();
+    this.tileType = TileType.ROLL_AGAIN;
   }
 
   @Override
   public void performAction(Player player) {
     try {
-      RollAgainAction rollAgainAction = new RollAgainAction();
-      rollAgainAction.performAction(player);
+      tileAction.performAction(player);
     } catch (NullPointerException e) {
       throw new NullPointerException(e.getMessage());
     }

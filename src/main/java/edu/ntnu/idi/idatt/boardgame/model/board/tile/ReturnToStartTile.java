@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
-import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.ReturnToStartAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
@@ -13,8 +12,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class ReturnToStartTile extends SpecialTile {
 
-  private final TileType tileType = TileType.RETURN_TO_START;
-
   /**
    * Constructor for the ReturnToStartTile class.
    *
@@ -24,23 +21,19 @@ public class ReturnToStartTile extends SpecialTile {
   public ReturnToStartTile(int tileNumber, int[] onscreenPosition) {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
+
+    this.tileAction = new ReturnToStartAction();
+    this.tileType = TileType.RETURN_TO_START;
   }
 
   @Override
   public void performAction(Player player) {
     try {
-      // initialize the tileAction with a ReturnToStartAction
-      this.tileAction = new ReturnToStartAction();
 
       tileAction.performAction(player);
     } catch (NullPointerException e) {
       throw new NullPointerException(e.getMessage());
     }
-  }
-
-  @Override
-  public String getTileType() {
-    return tileType.getTileType();
   }
 
 }

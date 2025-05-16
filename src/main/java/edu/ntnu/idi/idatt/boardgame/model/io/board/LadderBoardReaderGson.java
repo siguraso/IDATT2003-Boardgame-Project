@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * A class that reads a board from a file in JSON format using the Gson library.
@@ -33,17 +32,17 @@ import java.util.Objects;
  * @version 1.0
  * @since 1.0
  */
-public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> {
+public class LadderBoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> {
 
   private final Gson gson;
   private Board board;
 
   /**
-   * Constructor for the BoardReaderGson class. Reads a board from a JSON file in the GSON format.
-   * The file contains a JSON array of tiles, where each tile is represented as a JSON object, which
-   * gets translated into a {@link Board} object.
+   * Constructor for the LadderBoardReaderGson class. Reads a board from a JSON file in the GSON
+   * format. The file contains a JSON array of tiles, where each tile is represented as a JSON
+   * object, which gets translated into a {@link Board} object.
    */
-  public BoardReaderGson() {
+  public LadderBoardReaderGson() {
     gson = new GsonBuilder()
         .setPrettyPrinting()
         .registerTypeAdapter(Tile.class, this)
@@ -126,6 +125,7 @@ public class BoardReaderGson implements BoardFileReader, JsonDeserializer<Tile> 
       case RANDOM_ACTION -> new RandomActionTile(tileNumber, onscreenPosition, board);
       case WINNER -> new WinnerTile(tileNumber, onscreenPosition);
       case ROLL_AGAIN -> new RollAgainTile(tileNumber, onscreenPosition);
+      default -> throw new JsonParseException("Cannot add Pario Marty tile to a ladder game board");
     };
   }
 }

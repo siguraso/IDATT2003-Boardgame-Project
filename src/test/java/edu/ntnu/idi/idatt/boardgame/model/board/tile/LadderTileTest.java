@@ -2,21 +2,20 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class LadderTileTest {
 
   private LadderTile tile;
-  private Player player;
+  private LadderGamePlayer player;
 
   @BeforeEach
   void setUp() {
     tile = new LadderTile(1, new int[]{0, 0}, 2);
-    player = new Player("TestPlayer", PlayerPiece.EVIL_PAUL);
+    player = new LadderGamePlayer("TestPlayer", PlayerPiece.EVIL_PAUL);
   }
 
   @Test

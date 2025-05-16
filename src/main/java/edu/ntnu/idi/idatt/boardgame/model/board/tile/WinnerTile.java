@@ -12,9 +12,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class WinnerTile extends SpecialTile {
 
-  //
-  private final TileType tileType = TileType.WINNER;
-
   /**
    * Constructor for the WinnerTile class.
    *
@@ -24,23 +21,18 @@ public class WinnerTile extends SpecialTile {
   public WinnerTile(int tileNumber, int[] onscreenPosition) {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
+    this.tileAction = new WinnerAction();
+    this.tileType = TileType.WINNER;
   }
 
   @Override
   public void performAction(Player player) {
     try {
-      // initialize the tileAction with a WinnerAction
-      this.tileAction = new WinnerAction();
-
       tileAction.performAction(player);
     } catch (NullPointerException e) {
       throw new NullPointerException(e.getMessage());
     }
   }
 
-  @Override
-  public String getTileType() {
-    return tileType.getTileType();
-  }
 
 }
