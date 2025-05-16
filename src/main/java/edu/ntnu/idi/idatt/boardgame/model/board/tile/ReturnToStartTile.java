@@ -23,13 +23,13 @@ public class ReturnToStartTile extends SpecialTile {
   public ReturnToStartTile(int tileNumber, int[] onscreenPosition) {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
+
+    this.tileAction = new ReturnToStartAction();
   }
 
   @Override
   public void performAction(Player player) {
     try {
-      // initialize the tileAction with a ReturnToStartAction
-      this.tileAction = new ReturnToStartAction();
 
       tileAction.performAction(player);
     } catch (NullPointerException e) {

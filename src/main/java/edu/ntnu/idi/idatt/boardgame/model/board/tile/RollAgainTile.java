@@ -23,6 +23,7 @@ public class RollAgainTile extends SpecialTile {
   public RollAgainTile(int tileNumber, int[] onscreenPosition) {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
+    this.tileAction = new RollAgainAction();
   }
 
   @Override
@@ -33,8 +34,7 @@ public class RollAgainTile extends SpecialTile {
   @Override
   public void performAction(Player player) {
     try {
-      RollAgainAction rollAgainAction = new RollAgainAction();
-      rollAgainAction.performAction(player);
+      tileAction.performAction(player);
     } catch (NullPointerException e) {
       throw new NullPointerException(e.getMessage());
     }

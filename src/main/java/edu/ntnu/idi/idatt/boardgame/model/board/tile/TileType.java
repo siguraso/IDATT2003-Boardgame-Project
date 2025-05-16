@@ -44,6 +44,24 @@ public enum TileType {
     public String getTileType() {
       return "WinnerTile";
     }
+  },
+  ADD_COINS() {
+    @Override
+    public String getTileType() {
+      return "AddCoinsTile";
+    }
+  },
+  REMOVE_COINS() {
+    @Override
+    public String getTileType() {
+      return "RemoveCoinsTile";
+    }
+  },
+  ADD_CROWN() {
+    @Override
+    public String getTileType() {
+      return "AddCrownTile";
+    }
   };
 
   /**

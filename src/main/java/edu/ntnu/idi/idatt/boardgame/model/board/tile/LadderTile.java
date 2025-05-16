@@ -27,6 +27,9 @@ public class LadderTile extends SpecialTile {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
     this.destinationTileNumber = destinationTileNumber;
+
+    // initialize the tileAction with a LadderAction
+    this.tileAction = new LadderAction(destinationTileNumber);
   }
 
   /**
@@ -41,8 +44,6 @@ public class LadderTile extends SpecialTile {
   @Override
   public void performAction(Player player) {
     try {
-      // initialize the tileAction with a LadderAction
-      this.tileAction = new LadderAction(destinationTileNumber);
       tileAction.performAction(player);
     } catch (NullPointerException e) {
       throw new NullPointerException(e.getMessage());

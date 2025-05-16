@@ -24,14 +24,12 @@ public class WinnerTile extends SpecialTile {
   public WinnerTile(int tileNumber, int[] onscreenPosition) {
     this.tileNumber = tileNumber;
     this.onscreenPosition = onscreenPosition;
+    this.tileAction = new WinnerAction();
   }
 
   @Override
   public void performAction(Player player) {
     try {
-      // initialize the tileAction with a WinnerAction
-      this.tileAction = new WinnerAction();
-
       tileAction.performAction(player);
     } catch (NullPointerException e) {
       throw new NullPointerException(e.getMessage());
