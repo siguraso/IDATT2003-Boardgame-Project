@@ -8,6 +8,7 @@ import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDi
 import java.util.Objects;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -32,12 +33,12 @@ public class LadderGameWindow extends BoardGameWindow {
 
   // individual methods for setting up different parts of the window.
   @Override
-  protected StackPane getBoardRegion() {
+  protected Node getBoardRegion() {
     StackPane boardDisplay = new StackPane();
     // padding top: 28px, side: 29px
     boardDisplay.setMinWidth(800);
     boardDisplay.setMinHeight(800);
-    boardDisplay.getStyleClass().add("root");
+
     int tileWidth = (800 - (2 * 29)) / 9;
     int tileHeight = (800 - (2 * 28)) / 10;
 
@@ -64,7 +65,7 @@ public class LadderGameWindow extends BoardGameWindow {
   }
 
   @Override
-  protected BorderPane getSidebar() {
+  protected void initSidebar() {
     sidebar.setMinWidth(400);
     sidebar.setMinHeight(800);
     sidebar.setPadding(new javafx.geometry.Insets(20, 10, 20, 10));
@@ -109,7 +110,6 @@ public class LadderGameWindow extends BoardGameWindow {
     sidebar.setBottom(leaderboard.getComponent());
 
     sidebar.getStyleClass().add("sidebar");
-    return sidebar;
   }
 
   @Override

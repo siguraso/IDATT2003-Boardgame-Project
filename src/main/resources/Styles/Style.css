@@ -15,7 +15,7 @@
 
   /* Text Colors */
   text_blk: #1d1f20;
-  text_wht: bg_000;
+  text_wht: #ffffff;
 
   /* Call to action */
   cta_orange: #df9323;
@@ -210,8 +210,9 @@
 
 .board-region {
   -fx-background-color: bg_800;
-  -fx-text-fill: bg_100;
+  -fx-alignment: center;
 }
+
 
 .sidebar {
   -fx-background-color: bg_400;
@@ -385,4 +386,9 @@
   -fx-font-size: 24px;
   -fx-pref-width: 200;
   -fx-background-radius: 18;
+}
+
+.turns-label {
+  -fx-text-fill: text_wht;
+  -fx-font-size: 20px;
 }

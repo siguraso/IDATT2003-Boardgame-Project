@@ -100,7 +100,7 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
     BorderPane root = new BorderPane();
     root.setCenter(getBoardRegion());
 
-    BorderPane sidebar = getSidebar();
+    initSidebar();
 
     root.setRight(sidebar);
 
@@ -153,16 +153,14 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
   /**
    * Method to set the contents of the board area of the window.
    *
-   * @return a {@link StackPane} containing the board area.
+   * @return a {@link Node} containing the board area.
    */
-  protected abstract StackPane getBoardRegion();
+  protected abstract Node getBoardRegion();
 
   /**
    * Method to set the contents of the sidebar area of the window.
-   *
-   * @return a {@link Node} containing the sidebar area.
    */
-  protected abstract BorderPane getSidebar();
+  protected abstract void initSidebar();
 
   /**
    * Creates a timeline that moves the current player piece on the board based on the number of
