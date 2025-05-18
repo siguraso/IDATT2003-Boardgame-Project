@@ -35,8 +35,12 @@ public class MoveToRandomTileAction implements TileAction {
     if (player == null) {
       throw new NullPointerException("Player cannot be null");
     }
-    // -1 to avoid the last tile, which is the winner tile
-    int newPosition = (int) (Math.random() * (board.tiles().size() - 1));
+
+    int newPosition = (int) (Math.random() * (board.tiles().size() - 1)) + 1;
+
+    // if the new position is 0 or 90, move to 1 to avoid landing on the end tile or on tile 0
+    // which is not a valid tile
+    newPosition = newPosition == 90 ? 89 : newPosition;
 
     player.moveTo(newPosition);
   }

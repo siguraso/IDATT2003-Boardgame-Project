@@ -667,7 +667,7 @@ public class MainWindow implements Window {
       GameController gameController = new GameController(playersController, useTwoDice);
       gameController.setBoard(boardType, useJson, jsonFilePath);
 
-      BoardGameWindow gameWindow = new BoardGameWindow(gameController, useTwoDice);
+      BoardGameWindow gameWindow = new LadderGameWindow(gameController, useTwoDice);
 
       window.close();
       gameWindow.show();
