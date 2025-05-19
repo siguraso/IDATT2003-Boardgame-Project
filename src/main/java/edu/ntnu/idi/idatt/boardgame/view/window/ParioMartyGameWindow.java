@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.ParioMartyLeaderBoard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -12,7 +13,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+/**
+ * A class that constructs the game window for the Pario Marty game. This class extends the
+ * {@link BoardGameWindow} class and implements the game-specific UI logic for the Pario Marty
+ * game.
+ *
+ * @author siguraso
+ * @version 1.0
+ * @since 1.0
+ */
 public class ParioMartyGameWindow extends BoardGameWindow {
+
+  private ParioMartyLeaderBoard leaderboard;
 
   /**
    * Constructor for the ParioMartyGameWindow class.
@@ -58,8 +70,10 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     dialogBox = new HappeningDialogBox("fwæh");
     sidebar.setTop(dialogBox.getComponent());
     sidebar.setCenter(dieBox.getComponent());
-    // TODO: Make a new leaderboard for ParioMarty
-    sidebar.setBottom(null);
+
+    leaderboard = new ParioMartyLeaderBoard(gameController.getPlayersController(), playerPieces);
+
+    sidebar.setBottom(leaderboard.getComponent());
 
     dieBox.getRollDieButton().setOnAction(e -> {
       dieBox.getRollDieButton().setDisable(true);

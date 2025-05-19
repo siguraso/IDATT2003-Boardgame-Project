@@ -2,7 +2,6 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
-import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersReaderCsv;
 import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersWriterCsv;
@@ -645,7 +644,7 @@ public class MainWindow implements Window {
 
         PlayerPiece playerPiece = selectPlayerPiece(playerPieceString);
 
-        playersController.addPlayer(playerName, playerPiece);
+        playersController.addLadderGamePlayer(playerName, playerPiece);
 
       });
 
@@ -666,19 +665,35 @@ public class MainWindow implements Window {
 
   private void startGame() {
     try {
-      // get all players
-      playerSelectionView.getChildren().forEach(playerProfile -> {
-        HBox playerProfileEditor = (HBox) playerProfile;
+      if (boardType != BoardType.PARIO_MARTY) {
+        // get all players
+        playerSelectionView.getChildren().forEach(playerProfile -> {
+          HBox playerProfileEditor = (HBox) playerProfile;
 
-        PlayerPiece playerPiece = selectPlayerPiece(
-            ((ComboBox<String>) playerProfileEditor.getChildren()
-                .get(2)).getValue());
+          PlayerPiece playerPiece = selectPlayerPiece(
+              ((ComboBox<String>) playerProfileEditor.getChildren()
+                  .get(2)).getValue());
 
-        playersController.addPlayer(
-            ((TextField) playerProfileEditor.getChildren().get(1)).getText(),
-            playerPiece);
+          playersController.addLadderGamePlayer(
+              ((TextField) playerProfileEditor.getChildren().get(1)).getText(),
+              playerPiece);
 
-      });
+        });
+      } else {
+        // get all players
+        playerSelectionView.getChildren().forEach(playerProfile -> {
+              HBox playerProfileEditor = (HBox) playerProfile;
+
+              PlayerPiece playerPiece = selectPlayerPiece(
+                  ((ComboBox<String>) playerProfileEditor.getChildren()
+                      .get(2)).getValue());
+
+              playersController.addParioMartyPlayer(
+                  ((TextField) playerProfileEditor.getChildren().get(1)).getText(),
+                  playerPiece);
+            }
+        );
+      }
 
       GameController gameController = new GameController(playersController, useTwoDice);
       gameController.setBoard(boardType, useJson, jsonFilePath);
@@ -694,7 +709,9 @@ public class MainWindow implements Window {
       window.close();
       gameWindow.show();
 
-    } catch (NullPointerException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
+    }/*catch (NullPointerException e) {
       playersController.clearPlayers();
 
       playerSelectionView.getStyleClass().add("player-selection-view-error");
@@ -713,6 +730,7 @@ public class MainWindow implements Window {
         errorLabel.setVisible(true);
       }
     }
+    */
 
   }
 

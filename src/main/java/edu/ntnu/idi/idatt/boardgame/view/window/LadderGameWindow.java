@@ -3,7 +3,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
-import edu.ntnu.idi.idatt.boardgame.view.window.components.Leaderboard;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.LadderGameLeaderboard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
 import java.util.Objects;
 import javafx.animation.KeyFrame;
@@ -14,10 +14,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
+/**
+ * A class that constructs the game window for the Ladder Game. This class extends the
+ * {@link BoardGameWindow} class and implements the game-specific UI logic for the Ladder Game.
+ *
+ * @author siguraso
+ * @version 1.0
+ * @since 1.0
+ */
 public class LadderGameWindow extends BoardGameWindow {
 
   // different components of the window
-  private Leaderboard leaderboard;
+  private LadderGameLeaderboard leaderboard;
 
   /**
    * Constructor for the BoardGameWindow class.
@@ -104,7 +112,7 @@ public class LadderGameWindow extends BoardGameWindow {
 
     });
 
-    leaderboard = new Leaderboard(gameController.getPlayersController());
+    leaderboard = new LadderGameLeaderboard(gameController.getPlayersController());
 
     sidebar.setBottom(leaderboard.getComponent());
 

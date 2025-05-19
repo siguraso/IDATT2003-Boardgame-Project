@@ -127,8 +127,6 @@ public class BoardDisplay implements WindowComponent {
     int row = gameController.getBoard().tiles().get(t).getOnscreenPosition()[1];
     int col = gameController.getBoard().tiles().get(t).getOnscreenPosition()[0];
 
-    System.out.println("Tile " + t + " is at row " + row + " and col " + col);
-
     tilePane.setAlignment(javafx.geometry.Pos.CENTER);
 
     if (row < 0 || row >= ROWS || col < 0 || col >= COLS) {
@@ -260,8 +258,8 @@ public class BoardDisplay implements WindowComponent {
               new Image(Objects.requireNonNull(
                   this.getClass()
                       .getResourceAsStream("/Images/boards/tile-icons/remove_coin.png"))));
-          icon.setFitWidth(60);
-          icon.setFitHeight(54);
+          icon.setFitWidth(55);
+          icon.setFitHeight(51);
 
           gridTileStack.get(t).getChildren().add(icon);
           icon.toBack();

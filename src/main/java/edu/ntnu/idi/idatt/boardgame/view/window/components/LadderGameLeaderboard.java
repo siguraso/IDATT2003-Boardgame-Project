@@ -12,23 +12,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 /**
- * A class for the Leaderboard component in the game window. The leaderboard is a table that
- * displays the players in the game, their current tile, and therefore placement.
+ * A class for the LadderGameLeaderboard component in the game window. The leaderboard is a table
+ * that displays the players in the game, their current tile, and therefore placement.
  */
-public class Leaderboard implements WindowComponent {
-
-  private Map<String, Integer> players;
+public class LadderGameLeaderboard implements WindowComponent {
 
   private final PlayersController playersController;
 
   private final GridPane leaderboard = new GridPane();
 
   /**
-   * A constructor for the Leaderboard class.
+   * A constructor for the LadderGameLeaderboard class.
    *
    * @param playersController the controller for the players in the game
    */
-  public Leaderboard(PlayersController playersController) {
+  public LadderGameLeaderboard(PlayersController playersController) {
     this.playersController = playersController;
   }
 
@@ -39,7 +37,7 @@ public class Leaderboard implements WindowComponent {
     // Clear the leaderboard grid
     this.leaderboard.getChildren().clear();
 
-    this.players = playersController.getPlayerPositions();
+    Map<String, Integer> players = playersController.getPlayerPositions();
 
     // Create a list of map entries and sort them by position (descending order)
     List<Map.Entry<String, Integer>> sortedPlayers = new ArrayList<>(players.entrySet());

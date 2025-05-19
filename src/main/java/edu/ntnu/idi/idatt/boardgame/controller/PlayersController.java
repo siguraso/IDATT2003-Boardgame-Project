@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.controller;
 
 import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
+import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.ArrayList;
@@ -103,19 +104,46 @@ public class PlayersController {
     return players;
   }
 
+  public List<ParioMartyPlayer> getPlayersAsParioMarty() {
+    List<ParioMartyPlayer> parioMartyPlayers = new ArrayList<>();
+
+    players.forEach((player) -> {
+      try {
+        parioMartyPlayers.add((ParioMartyPlayer) player);
+      } catch (ClassCastException e) {
+        throw new IllegalArgumentException("Player is not a ParioMartyPlayer: " + player.getName());
+      }
+    });
+
+    return parioMartyPlayers;
+  }
+
   /**
-   * Adds a {@link Player} to the {@link ArrayList} of players.
+   * Adds a {@link LadderGamePlayer} to the {@link ArrayList} of players.
    *
    * @param name  The name of the player.
    * @param piece The {@link PlayerPiece} that the player will use on the board.
    */
-  public void addPlayer(String name, PlayerPiece piece) {
+  public void addLadderGamePlayer(String name, PlayerPiece piece) {
     if (hasPlayerWithName(name)) {
       throw new IllegalArgumentException("Duplicate player name: " + name);
     }
 
-    // TODO: check if the player is a LadderGamePlayer or a ParioMartyPlayer
     players.add(new LadderGamePlayer(name, piece));
+  }
+
+  /**
+   * Adds a {@link ParioMartyPlayer} to the {@link ArrayList} of players.
+   *
+   * @param name  The name of the player.
+   * @param piece The {@link PlayerPiece} that the player will use on the board.
+   */
+  public void addParioMartyPlayer(String name, PlayerPiece piece) {
+    if (hasPlayerWithName(name)) {
+      throw new IllegalArgumentException("Duplicate player name: " + name);
+    }
+
+    players.add(new ParioMartyPlayer(name, piece));
   }
 
   /**
@@ -177,4 +205,5 @@ public class PlayersController {
     return players.stream()
         .anyMatch(player -> player.getName().equalsIgnoreCase(name));
   }
+
 }

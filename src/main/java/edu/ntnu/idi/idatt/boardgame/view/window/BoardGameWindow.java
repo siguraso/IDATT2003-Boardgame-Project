@@ -37,7 +37,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- * Class to create a window that displays a board game, with a sidebar.
+ * Abstract class to create a window that displays a board game, with a sidebar. This class is
+ * extended by specific game windows, and contains the common functionality for all game windows.
  *
  * @author siguraso & MagnusNaesanGaarder
  * @version 1.0
@@ -100,10 +101,6 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
     BorderPane root = new BorderPane();
     root.setCenter(getBoardRegion());
 
-    initSidebar();
-
-    root.setRight(sidebar);
-
     this.gameController.getPlayersController().getPlayers().forEach(player -> {
 
       ImageView playerPiece = new ImageView(
@@ -118,6 +115,10 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
       boardDisplay.getGridTiles().get(1).getChildren().add(playerPiece);
 
     });
+
+    initSidebar();
+
+    root.setRight(sidebar);
 
     allElements.getChildren().add(root);
 
