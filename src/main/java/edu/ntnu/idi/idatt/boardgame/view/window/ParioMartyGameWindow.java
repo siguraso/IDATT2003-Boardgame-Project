@@ -20,7 +20,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
    * @param useTwoDice     boolean indicating whether to use two dice or not
    */
   public ParioMartyGameWindow(GameController gameController, boolean useTwoDice) {
-    super(gameController, useTwoDice);
+    super(gameController, useTwoDice, true);
 
     window.setTitle("Pario Marty");
   }

@@ -11,7 +11,6 @@ import javafx.animation.Timeline;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
@@ -26,7 +25,7 @@ public class LadderGameWindow extends BoardGameWindow {
    * @param gameController The controller object for the game.
    */
   public LadderGameWindow(GameController gameController, boolean useTwoDice) {
-    super(gameController, useTwoDice);
+    super(gameController, useTwoDice, false);
 
     window.setTitle("Ladder Game");
   }

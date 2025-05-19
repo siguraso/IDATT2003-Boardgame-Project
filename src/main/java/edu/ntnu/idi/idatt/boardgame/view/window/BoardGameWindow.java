@@ -77,12 +77,12 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
    *
    * @param gameController The controller object for the game.
    */
-  public BoardGameWindow(GameController gameController, boolean useTwoDice) {
+  public BoardGameWindow(GameController gameController, boolean useTwoDice, boolean isParioMarty) {
     this.dieBox = new DieComponent(gameController, useTwoDice);
     this.gameController = gameController;
     gameController.addObserver(this);
 
-    this.boardDisplay = new BoardDisplay(gameController);
+    this.boardDisplay = new BoardDisplay(gameController, isParioMarty);
 
     init();
   }

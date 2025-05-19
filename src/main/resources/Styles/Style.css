@@ -33,6 +33,10 @@
   return_to_start: #e7d302;
   random_action: #c63ec2;
   roll_again: #5e9ee6;
+  add_coins: #84e195;
+  remove_coins: #ff5a75;
+  add_crown: #f49009;
+  mowser: #db314d;
   winner: #dd9223;
   start: #ff95f9;
 
@@ -179,7 +183,8 @@
 }
 
 .winner-tile .label, .roll-again-tile .label, .random-action-tile .label,
-.ladder-tile-negative .label {
+.ladder-tile-negative .label, .add-coins-tile .label,
+.remove-coins-tile .label {
   -fx-text-fill: text_wht;
   -fx-font-size: 16px;
 }
@@ -195,6 +200,49 @@
 .start-tile .label {
   -fx-font-weight: bold;
 }
+
+.add-coins-tile {
+  -fx-background-color: add_coins;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
+}
+
+.remove-coins-tile {
+  -fx-background-color: remove_coins;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
+}
+
+.add-crown-tile {
+  -fx-background-color: white;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
+}
+
+.add-crown-tile .label {
+  -fx-text-fill: add_crown;
+  -fx-font-size: 16px;
+}
+
+.mowser-tile {
+  -fx-background-color: black;
+  -fx-background-radius: 8;
+  -fx-border-width: 2;
+  -fx-border-radius: 5;
+  -fx-border-color: bg_400
+}
+
+.mowser-tile .label {
+  -fx-text-fill: mowser;
+  -fx-font-size: 16px;
+}
+
 
 .tile-number {
   -fx-text-fill: text_blk;
