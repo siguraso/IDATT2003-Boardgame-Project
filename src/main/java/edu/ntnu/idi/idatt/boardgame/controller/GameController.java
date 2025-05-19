@@ -16,24 +16,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <h1>Class - GameController.</h1>
- *
- * <p>A controller-class to control the flow of the game</p>
+ * Abstract class for the game controller. This class is responsible for controlling the flow of the
+ * game, including rolling the die, moving players, and handling special tiles.
  *
  * @author Magnus Næssan Gaarder & siguraso
  * @version 1.0
  * @see BoardGameObserver
  * @since 1.0
  */
-public class GameController implements BoardGameObserver, BoardGameObservable {
+public abstract class GameController implements BoardGameObserver, BoardGameObservable {
 
-  private final Die die;
-  private final PlayersController playersController;
-  private Board board;
+  protected final Die die;
+  protected final PlayersController playersController;
+  protected Board board;
 
-  private final ArrayList<BoardGameObserver> uiObservers = new ArrayList<>();
-
-  private int lastSpecialTile;
+  protected final ArrayList<BoardGameObserver> uiObservers = new ArrayList<>();
+  protected int lastSpecialTile;
 
   /**
    * Constructor for the GameController.
@@ -99,43 +97,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   /**
    * Finishes the current players turn, and sets the next player to take their turn.
    */
-  public void finishTurn() {
-    // check the tile the current player is on
-    Tile currentTile = board.tiles().get(playersController.getCurrentPlayer().getPosition());
-
-    // check what typa tile it is, do the action if it is a special tile
-    if (!currentTile.getTileType().equals(TileType.NORMAL.getTileType())) {
-      if (currentTile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())) {
-        ((RandomActionTile) currentTile).setPlayers(playersController.getPlayers());
-      }
-
-      lastSpecialTile = playersController.getCurrentPlayer().getPosition();
-      ((SpecialTile) currentTile).performAction(playersController.getCurrentPlayer());
-    }
-
-    if (playersController.getCurrentPlayer() != null) {
-      die.removeObserver(playersController.getCurrentPlayer());
-    }
-
-    playersController.nextPlayer();
-
-    die.addObserver(playersController.getCurrentPlayer());
-  }
-
-  /**
-   * Method to get the destination tile number of a LadderTile.
-   *
-   * @param tileNumber an integer representing the tile number.
-   */
-  public int getLadderDestinationTileNumber(int tileNumber) {
-    Tile tile = board.tiles().get(tileNumber);
-
-    if (!tile.getTileType().equals(TileType.LADDER.getTileType())) {
-      throw new IllegalArgumentException("Tile number " + tileNumber + " is not a LadderTile");
-    }
-
-    return ((LadderTile) tile).getDestinationTileNumber();
-  }
+  public abstract void finishTurn();
 
   /**
    * Accesses the action last performed by a RandomActionTile represented as a String.
@@ -173,20 +135,6 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
     }
 
     return ((RandomActionTile) tile).getPlayerToSwapWith().getName();
-  }
-
-  /**
-   * Remove the winners from the game. Used when a player wins the game. and the user chooses to
-   * continue playing.
-   */
-  public void removeWinners() {
-    die.removeObserver(playersController.getCurrentPlayer());
-
-    playersController.nextPlayer();
-
-    die.addObserver(playersController.getCurrentPlayer());
-
-    playersController.removeWinners();
   }
 
   @Override

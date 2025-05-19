@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
+import edu.ntnu.idi.idatt.boardgame.controller.LadderGameController;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SfxPlayer;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
@@ -321,7 +322,7 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
       });
 
       // remove the winners from the game
-      gameController.removeWinners();
+      ((LadderGameController) gameController).removeWinners();
 
       dialogBox.refresh(
           gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");

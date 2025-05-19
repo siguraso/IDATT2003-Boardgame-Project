@@ -1,6 +1,8 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
+import edu.ntnu.idi.idatt.boardgame.controller.LadderGameController;
+import edu.ntnu.idi.idatt.boardgame.controller.ParioMartyGameController;
 import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersReaderCsv;
@@ -679,6 +681,15 @@ public class MainWindow implements Window {
               playerPiece);
 
         });
+
+        GameController gameController = new LadderGameController(playersController, useTwoDice);
+        gameController.setBoard(boardType, useJson, jsonFilePath);
+
+        BoardGameWindow gameWindow = new LadderGameWindow(gameController, useTwoDice);
+
+        close();
+        gameWindow.show();
+
       } else {
         // get all players
         playerSelectionView.getChildren().forEach(playerProfile -> {
@@ -693,25 +704,14 @@ public class MainWindow implements Window {
                   playerPiece);
             }
         );
+
+        GameController gameController = new ParioMartyGameController(playersController, useTwoDice);
+        BoardGameWindow gameWindow = new ParioMartyGameWindow(gameController, useTwoDice);
+
+        close();
+        gameWindow.show();
       }
-
-      GameController gameController = new GameController(playersController, useTwoDice);
-      gameController.setBoard(boardType, useJson, jsonFilePath);
-
-      BoardGameWindow gameWindow;
-
-      if (boardType == BoardType.PARIO_MARTY) {
-        gameWindow = new ParioMartyGameWindow(gameController, useTwoDice);
-      } else {
-        gameWindow = new LadderGameWindow(gameController, useTwoDice);
-      }
-
-      window.close();
-      gameWindow.show();
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }/*catch (NullPointerException e) {
+    } catch (NullPointerException e) {
       playersController.clearPlayers();
 
       playerSelectionView.getStyleClass().add("player-selection-view-error");
@@ -730,7 +730,6 @@ public class MainWindow implements Window {
         errorLabel.setVisible(true);
       }
     }
-    */
 
   }
 

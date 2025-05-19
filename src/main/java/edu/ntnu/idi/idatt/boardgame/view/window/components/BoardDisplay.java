@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
+import edu.ntnu.idi.idatt.boardgame.controller.LadderGameController;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.ladder.LadderDrawer;
 import java.util.HashMap;
 import java.util.Map;
@@ -159,7 +160,8 @@ public class BoardDisplay implements WindowComponent {
     gridTileStack.keySet().forEach(t -> {
       switch (tileTypes.get(t)) {
         case "LadderTile" -> {
-          int destTileNum = gameController.getLadderDestinationTileNumber(t);
+          int destTileNum = ((LadderGameController) gameController).getLadderDestinationTileNumber(
+              t);
 
           /*logger.log(Level.INFO, "Ladder tile " + t + " has destination tile "
               + gameController.getLadderDestinationTileNumber(t));*/
@@ -361,7 +363,8 @@ public class BoardDisplay implements WindowComponent {
     Platform.runLater(() -> gridTileStack.keySet().stream()
         .filter(i -> tileTypes.get(i).equals("LadderTile"))
         .forEach(t -> {
-          int destTileNum = gameController.getLadderDestinationTileNumber(t);
+          int destTileNum = ((LadderGameController) gameController).getLadderDestinationTileNumber(
+              t);
           Bounds startBounds = gridTileStack.get(t).localToScene(
               gridTileStack.get(t).getBoundsInLocal());
           double[] startPos = {
