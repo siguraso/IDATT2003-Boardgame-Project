@@ -143,16 +143,16 @@ public class LadderGameWindow extends BoardGameWindow {
 
       KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), event -> {
 
-        if (nextTileWrapper.nextTile == boardDisplay.getGridTiles().size() + 1) {
+        if (nextTileWrapper.nextTile == boardDisplay.getPlayerGrid().size() + 1) {
           // if it is about to moveForward one over the last tile, moveForward them backwards,
           // in other words set nextTile to nextTile - 2
 
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile - 1).getChildren()
               .remove(currentPlayerPiece);
 
           nextTileWrapper.nextTile = nextTileWrapper.nextTile - 2;
 
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile).getChildren()
               .add(currentPlayerPiece);
 
           // update the next tile wrapper
@@ -163,10 +163,10 @@ public class LadderGameWindow extends BoardGameWindow {
           // if it is one over the last tile, moveForward them backwards, in other words,
           // set nexTile to nextTile - 2
 
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile + 1).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile + 1).getChildren()
               .remove(currentPlayerPiece);
 
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile).getChildren()
               .add(currentPlayerPiece);
 
           // update the next tile wrapper
@@ -177,11 +177,11 @@ public class LadderGameWindow extends BoardGameWindow {
           // if the player is not moving past the last tile, moveForward them normally
 
           // Remove the player from the current position
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile - 1).getChildren()
               .remove(currentPlayerPiece);
 
           // Add the player to the new position
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile).getChildren()
               .add(currentPlayerPiece);
 
           // update the next tile wrapper

@@ -113,7 +113,7 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
       // add the player piece to the player piece hashmap, set the key as the player name
       playerPieces.put(player.getName(), playerPiece);
 
-      boardDisplay.getGridTiles().get(1).getChildren().add(playerPiece);
+      boardDisplay.getPlayerGrid().get(1).getChildren().add(playerPiece);
 
     });
 
@@ -194,13 +194,13 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
         ImageView playerPiece = playerPieces.get(name);
 
         // remove the player piece from the current tile
-        boardDisplay.getGridTiles()
+        boardDisplay.getPlayerGrid()
             .get(initialPlayerPositions[gameController.getPlayersController().getPlayers()
                 .indexOf(player)]).getChildren().remove(playerPiece);
 
         // add the player piece to the new tile
 
-        boardDisplay.getGridTiles().get(player.getPosition()).getChildren()
+        boardDisplay.getPlayerGrid().get(player.getPosition()).getChildren()
             .add(playerPiece);
       });
 
@@ -315,7 +315,7 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
       // remove the winning player pieces from the board
       gameController.getPlayersController().getPlayers().forEach(player -> {
         if (player.isWinner()) {
-          boardDisplay.getGridTiles().get(player.getPosition()).getChildren()
+          boardDisplay.getPlayerGrid().get(player.getPosition()).getChildren()
               .remove(playerPieces.get(player.getName()));
           playerPieces.remove(player.getName());
         }

@@ -1,14 +1,17 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
+import edu.ntnu.idi.idatt.boardgame.controller.ParioMartyGameController;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.ParioMartyLeaderBoard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
+import java.util.Objects;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -25,6 +28,7 @@ import javafx.util.Duration;
 public class ParioMartyGameWindow extends BoardGameWindow {
 
   private ParioMartyLeaderBoard leaderboard;
+  private Label turns;
 
   /**
    * Constructor for the ParioMartyGameWindow class.
@@ -48,7 +52,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     this.boardDisplay.init(tileWidth, tileHeight, gameController.getBoard().getTileTypes());
     boardGrid.getChildren().add(this.boardDisplay.getComponent());
 
-    Label turns = new Label("Turn 1 of 15");
+    turns = new Label("Turn 1 of 15");
 
     VBox boardVBox = new VBox();
     turns.getStyleClass().add("turns-label");
@@ -76,6 +80,8 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     sidebar.setBottom(leaderboard.getComponent());
 
     dieBox.getRollDieButton().setOnAction(e -> {
+      placeCrownTile();
+
       dieBox.getRollDieButton().setDisable(true);
 
       sfxPlayer.openSoundFile(SoundFile.ROLL_DIE);
@@ -114,15 +120,15 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     for (int i = 0; i < steps; i++) {
       KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), e -> {
         if (nextTileWrapper.nextTile == 36) {
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile - 1).getChildren()
               .remove(currentPlayerPiece);
-          boardDisplay.getGridTiles().get(2).getChildren().add(currentPlayerPiece);
+          boardDisplay.getPlayerGrid().get(2).getChildren().add(currentPlayerPiece);
 
           nextTileWrapper.nextTile = 3;
         } else {
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile - 1).getChildren()
               .remove(currentPlayerPiece);
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile).getChildren()
               .add(currentPlayerPiece);
 
           nextTileWrapper.nextTile++;
@@ -140,6 +146,58 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
   @Override
   protected void finishTurn() {
+    gameController.finishTurn();
+
+    dieBox.getRollDieButton().setDisable(false);
+    turns.setText(
+        "Turn " + ((ParioMartyGameController) gameController).getCurrentTurn() + " of 15");
+
+    leaderboard.update();
+  }
+
+  private void placeCrownTile() {
+    ((ParioMartyGameController) gameController).setCrownTile();
+
+    Integer lastCrownTile = ((ParioMartyGameController) gameController).getLastCrownTile();
+
+    if (lastCrownTile != null) {
+      boardDisplay.getGridTileStack().get(lastCrownTile).getChildren().removeFirst();
+
+      boardDisplay.getGridTileStack().get(lastCrownTile).getStyleClass().clear();
+
+      boardDisplay.getGridTileStack().get(lastCrownTile).getStyleClass().add("add-coins-tile");
+
+      ImageView icon = new ImageView(
+          new Image(Objects.requireNonNull(
+              this.getClass()
+                  .getResourceAsStream("/Images/boards/tile-icons/add_coin.png"))));
+      icon.setFitWidth(60);
+      icon.setFitHeight(54);
+
+      boardDisplay.getGridTileStack().get(lastCrownTile).getChildren().add(icon);
+      icon.toBack();
+    }
+
+    Integer currentCrownTile = ((ParioMartyGameController) gameController).getCurrentCrownTile();
+
+    if (currentCrownTile != null) {
+      boardDisplay.getGridTileStack().get(currentCrownTile).getChildren().removeFirst();
+
+      boardDisplay.getGridTileStack().get(currentCrownTile).getStyleClass().clear();
+
+      boardDisplay.getGridTileStack().get(currentCrownTile).getStyleClass().add("add-crown-tile");
+
+      ImageView icon = new ImageView(
+          new Image(Objects.requireNonNull(
+              this.getClass()
+                  .getResourceAsStream("/Images/boards/tile-icons/crown_gold.png"))));
+      icon.setFitWidth(60);
+      icon.setFitHeight(54);
+
+      boardDisplay.getGridTileStack().get(currentCrownTile).getChildren().add(icon);
+      icon.toBack();
+    }
+
   }
 
 }

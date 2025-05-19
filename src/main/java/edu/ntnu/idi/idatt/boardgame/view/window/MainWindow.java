@@ -706,6 +706,8 @@ public class MainWindow implements Window {
         );
 
         GameController gameController = new ParioMartyGameController(playersController, useTwoDice);
+        gameController.setBoard(boardType, useJson, jsonFilePath);
+
         BoardGameWindow gameWindow = new ParioMartyGameWindow(gameController, useTwoDice);
 
         close();

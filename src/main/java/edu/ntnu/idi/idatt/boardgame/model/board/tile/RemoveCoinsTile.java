@@ -17,7 +17,7 @@ public class RemoveCoinsTile extends SpecialTile {
    */
   public RemoveCoinsTile(int tileNumber, int[] onscreenPosition, int coinsToRemove) {
     try {
-      TileAction tileAction = new RemoveCoinsAction(coinsToRemove);
+      this.tileAction = new RemoveCoinsAction(coinsToRemove);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Coins cannot be negative");
     }
