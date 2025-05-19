@@ -79,4 +79,9 @@ public class ParioMartyPlayer extends Player {
     this.crowns -= crowns;
   }
 
+  @Override
+  public void handleLadderAction(int destination) {
+    throw new IllegalArgumentException("ParioMartyPlayer cannot use ladder action");
+  }
+
 }

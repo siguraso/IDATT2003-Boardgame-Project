@@ -39,7 +39,7 @@ public enum BoardType {
       return "Ladder Game .json";
     }
   },
-  PARIO_MARTI() {
+  PARIO_MARTY() {
     @Override
     public String getBoardName() {
       return "Pario Marti";

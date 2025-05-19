@@ -47,6 +47,8 @@ public class LadderTile extends SpecialTile {
       tileAction.performAction(player);
     } catch (NullPointerException e) {
       throw new NullPointerException(e.getMessage());
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(e.getMessage());
     }
   }
 

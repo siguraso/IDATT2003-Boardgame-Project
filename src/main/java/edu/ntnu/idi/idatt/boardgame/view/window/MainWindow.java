@@ -163,7 +163,14 @@ public class MainWindow implements Window {
 
   private FlowPane getParioMartyPage() {
     FlowPane flowPane = new FlowPane();
-    // TODO add all the board selection views to the flow pane
+
+    flowPane.getChildren().add(getBoardSelectionView(BoardType.PARIO_MARTY, "Pario Marty Game"));
+
+    flowPane.setVgap(20);
+    flowPane.setHgap(20);
+
+    flowPane.setAlignment(Pos.CENTER);
+    flowPane.setPadding(new Insets(20, 20, 20, 20));
 
     return flowPane;
   }
@@ -229,9 +236,17 @@ public class MainWindow implements Window {
           }
         });
 
-      } else {
+      } else if (boardType != BoardType.PARIO_MARTY) {
         if (startGameButtons.getChildren().size() < 2) {
           startGameButtons.getChildren().add(startGameJsonButton);
+        }
+
+        startGameButton.setOnAction(onPress ->
+            startGame()
+        );
+      } else {
+        if (startGameButtons.getChildren().size() > 1) {
+          startGameButtons.getChildren().remove(1);
         }
 
         startGameButton.setOnAction(onPress ->
@@ -629,7 +644,7 @@ public class MainWindow implements Window {
 
         PlayerPiece playerPiece = selectPlayerPiece(playerPieceString);
 
-        playersController.addPlayer(playerName, playerPiece);
+        playersController.addLadderGamePlayer(playerName, playerPiece);
 
       });
 
@@ -650,29 +665,53 @@ public class MainWindow implements Window {
 
   private void startGame() {
     try {
-      // get all players
-      playerSelectionView.getChildren().forEach(playerProfile -> {
-        HBox playerProfileEditor = (HBox) playerProfile;
+      if (boardType != BoardType.PARIO_MARTY) {
+        // get all players
+        playerSelectionView.getChildren().forEach(playerProfile -> {
+          HBox playerProfileEditor = (HBox) playerProfile;
 
-        PlayerPiece playerPiece = selectPlayerPiece(
-            ((ComboBox<String>) playerProfileEditor.getChildren()
-                .get(2)).getValue());
+          PlayerPiece playerPiece = selectPlayerPiece(
+              ((ComboBox<String>) playerProfileEditor.getChildren()
+                  .get(2)).getValue());
 
-        playersController.addPlayer(
-            ((TextField) playerProfileEditor.getChildren().get(1)).getText(),
-            playerPiece);
+          playersController.addLadderGamePlayer(
+              ((TextField) playerProfileEditor.getChildren().get(1)).getText(),
+              playerPiece);
 
-      });
+        });
+      } else {
+        // get all players
+        playerSelectionView.getChildren().forEach(playerProfile -> {
+              HBox playerProfileEditor = (HBox) playerProfile;
+
+              PlayerPiece playerPiece = selectPlayerPiece(
+                  ((ComboBox<String>) playerProfileEditor.getChildren()
+                      .get(2)).getValue());
+
+              playersController.addParioMartyPlayer(
+                  ((TextField) playerProfileEditor.getChildren().get(1)).getText(),
+                  playerPiece);
+            }
+        );
+      }
 
       GameController gameController = new GameController(playersController, useTwoDice);
       gameController.setBoard(boardType, useJson, jsonFilePath);
 
-      BoardGameWindow gameWindow = new BoardGameWindow(gameController, useTwoDice);
+      BoardGameWindow gameWindow;
+
+      if (boardType == BoardType.PARIO_MARTY) {
+        gameWindow = new ParioMartyGameWindow(gameController, useTwoDice);
+      } else {
+        gameWindow = new LadderGameWindow(gameController, useTwoDice);
+      }
 
       window.close();
       gameWindow.show();
 
-    } catch (NullPointerException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
+    }/*catch (NullPointerException e) {
       playersController.clearPlayers();
 
       playerSelectionView.getStyleClass().add("player-selection-view-error");
@@ -691,6 +730,7 @@ public class MainWindow implements Window {
         errorLabel.setVisible(true);
       }
     }
+    */
 
   }
 

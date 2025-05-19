@@ -21,4 +21,9 @@ public class LadderGamePlayer extends Player {
   public LadderGamePlayer(String name, PlayerPiece piece) {
     super(name, piece);
   }
+
+  @Override
+  public void handleLadderAction(int destination) {
+    moveTo(destination);
+  }
 }

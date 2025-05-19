@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
+import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
 /**
@@ -31,7 +32,11 @@ public class LadderAction implements TileAction {
     if (player == null) {
       throw new NullPointerException("Player cannot be null");
     } else {
-      player.moveTo(destination);
+      try {
+        player.handleLadderAction(destination);
+      } catch (IllegalArgumentException e) {
+        throw new IllegalArgumentException(e.getMessage());
+      }
     }
   }
 }
