@@ -1,14 +1,16 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
-import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.DialogBox;
+import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 public class ParioMartyGameWindow extends BoardGameWindow {
 
@@ -60,7 +62,22 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     sidebar.setBottom(null);
 
     dieBox.getRollDieButton().setOnAction(e -> {
-      // TODO: add the whole complicated logic for rolling the die
+      dieBox.getRollDieButton().setDisable(true);
+
+      sfxPlayer.openSoundFile(SoundFile.ROLL_DIE);
+      sfxPlayer.playSound();
+
+      Timeline dieAnimation = dieBox.dieAnimation();
+
+      dieAnimation.setOnFinished(event -> {
+        sfxPlayer.stopSound();
+
+        gameController.rollDice();
+
+        movementAnimation.play();
+      });
+
+      dieAnimation.play();
     });
 
     sidebar.getStyleClass().add("sidebar");
@@ -68,7 +85,43 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
   @Override
   protected Timeline moveCurrentPlayerAnimation(int steps) {
-    return null;
+    int currentPlayerPiecePosition = gameController.getPlayersController().getCurrentPlayer()
+        .getPosition();
+
+    ImageView currentPlayerPiece = playerPieces.get(
+        gameController.getPlayersController().getCurrentPlayer().getName());
+
+    Timeline timeline = new Timeline();
+
+    var nextTileWrapper = new Object() {
+      int nextTile = currentPlayerPiecePosition + 1;
+    };
+
+    for (int i = 0; i < steps; i++) {
+      KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), e -> {
+        if (nextTileWrapper.nextTile == 36) {
+          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
+              .remove(currentPlayerPiece);
+          boardDisplay.getGridTiles().get(2).getChildren().add(currentPlayerPiece);
+
+          nextTileWrapper.nextTile = 3;
+        } else {
+          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
+              .remove(currentPlayerPiece);
+          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
+              .add(currentPlayerPiece);
+
+          nextTileWrapper.nextTile++;
+        }
+
+        sfxPlayer.openSoundFile(SoundFile.PIECE_MOVED);
+        sfxPlayer.playSound();
+      });
+
+      timeline.getKeyFrames().add(keyFrame);
+    }
+
+    return timeline;
   }
 
   @Override

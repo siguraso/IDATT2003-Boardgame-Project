@@ -66,7 +66,6 @@ public class BoardDisplay implements WindowComponent {
     boardGrid.setMaxWidth(tileWidth * COLS);
     boardGrid.setMaxHeight(tileHeight * ROWS);
     boardGrid.setAlignment(javafx.geometry.Pos.CENTER);
-    boardGrid.getStyleClass().add("board");
 
     playersGrid.setMaxWidth(tileWidth * COLS);
     playersGrid.setMaxHeight(tileHeight * ROWS);
@@ -76,6 +75,8 @@ public class BoardDisplay implements WindowComponent {
     // tile layout
     if (isParioMarty) {
       fillOutEmptyGrids(tileWidth, tileHeight);
+    } else {
+      boardGrid.getStyleClass().add("board");
     }
 
     tileTypes.keySet().forEach(t ->
