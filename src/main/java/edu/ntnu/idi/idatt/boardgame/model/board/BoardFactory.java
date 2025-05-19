@@ -60,44 +60,45 @@ public class BoardFactory {
   // specific board creation methods
   private static Board parioMartyBoard() {
     Map<Integer, Tile> tiles = new HashMap<>();
+    Board board = new Board(tiles);
 
-    tiles.put(1, new AddCrownTile(1, new int[]{1, 0}));
-    tiles.put(2, new AddCrownTile(2, new int[]{2, 0}));
-    tiles.put(3, new AddCrownTile(3, new int[]{3, 0}));
-    tiles.put(4, new AddCrownTile(4, new int[]{4, 0}));
-    tiles.put(5, new AddCrownTile(5, new int[]{5, 0}));
-    tiles.put(6, new RemoveCoinsTile(6, new int[]{6, 0}, 5));
-    tiles.put(7, new AddCrownTile(7, new int[]{6, 1}));
-    tiles.put(8, new AddCoinsTile(8, new int[]{6, 2}, 5));
-    tiles.put(9, new MowserTile(9, new int[]{7, 2}));
-    tiles.put(10, new AddCoinsTile(10, new int[]{8, 2}, 5));
-    tiles.put(11, new RemoveCoinsTile(11, new int[]{8, 3}, 5));
-    tiles.put(12, new AddCoinsTile(12, new int[]{8, 4}, 5));
-    tiles.put(13, new RemoveCoinsTile(13, new int[]{8, 5}, 5));
-    tiles.put(14, new AddCoinsTile(14, new int[]{8, 6}, 5));
-    tiles.put(15, new RemoveCoinsTile(15, new int[]{8, 7}, 5));
-    tiles.put(16, new AddCoinsTile(16, new int[]{7, 7}, 5));
-    tiles.put(17, new RemoveCoinsTile(17, new int[]{6, 7}, 5));
-    tiles.put(18, new AddCoinsTile(18, new int[]{6, 8}, 5));
-    tiles.put(19, new RemoveCoinsTile(19, new int[]{6, 9}, 5));
-    tiles.put(20, new AddCoinsTile(20, new int[]{5, 9}, 5));
-    tiles.put(21, new RemoveCoinsTile(21, new int[]{4, 9}, 5));
-    tiles.put(22, new AddCoinsTile(22, new int[]{3, 9}, 5));
-    tiles.put(23, new RemoveCoinsTile(23, new int[]{2, 9}, 5));
-    tiles.put(24, new AddCoinsTile(24, new int[]{2, 8}, 5));
-    tiles.put(25, new RemoveCoinsTile(25, new int[]{2, 7}, 5));
-    tiles.put(26, new AddCoinsTile(26, new int[]{1, 7}, 5));
-    tiles.put(27, new RemoveCoinsTile(27, new int[]{0, 7}, 5));
-    tiles.put(28, new AddCoinsTile(28, new int[]{0, 6}, 5));
-    tiles.put(29, new RemoveCoinsTile(29, new int[]{0, 5}, 5));
-    tiles.put(30, new AddCoinsTile(30, new int[]{0, 4}, 5));
-    tiles.put(31, new RemoveCoinsTile(31, new int[]{0, 3}, 5));
-    tiles.put(32, new AddCoinsTile(32, new int[]{0, 2}, 5));
-    tiles.put(33, new RemoveCoinsTile(33, new int[]{1, 2}, 5));
-    tiles.put(34, new AddCoinsTile(34, new int[]{2, 2}, 5));
-    tiles.put(35, new RemoveCoinsTile(35, new int[]{2, 1}, 5));
+    tiles.put(1, new NormalTile(1, new int[]{1, 0}));
+    tiles.put(2, new AddCoinsTile(1, new int[]{2, 0}, 5));
+    tiles.put(3, new AddCoinsTile(2, new int[]{3, 0}, 5));
+    tiles.put(4, new RemoveCoinsTile(3, new int[]{4, 0}, 5));
+    tiles.put(5, new AddCoinsTile(4, new int[]{5, 0}, 5));
+    tiles.put(6, new RollAgainTile(5, new int[]{6, 0}));
+    tiles.put(7, new AddCoinsTile(6, new int[]{6, 1}, 5));
+    tiles.put(8, new RemoveCoinsTile(7, new int[]{6, 2}, 5));
+    tiles.put(9, new AddCoinsTile(8, new int[]{7, 2}, 5));
+    tiles.put(10, new AddCoinsTile(9, new int[]{8, 2}, 5));
+    tiles.put(11, new AddCoinsTile(10, new int[]{8, 3}, 5));
+    tiles.put(12, new RemoveCoinsTile(11, new int[]{8, 4}, 5));
+    tiles.put(13, new MowserTile(12, new int[]{8, 5}));
+    tiles.put(14, new AddCoinsTile(13, new int[]{8, 6}, 5));
+    tiles.put(15, new AddCoinsTile(14, new int[]{8, 7}, 5));
+    tiles.put(16, new RollAgainTile(15, new int[]{7, 7}));
+    tiles.put(17, new RandomActionTile(16, new int[]{6, 7}, board));
+    tiles.put(18, new AddCoinsTile(17, new int[]{6, 8}, 5));
+    tiles.put(19, new AddCoinsTile(18, new int[]{6, 9}, 5));
+    tiles.put(20, new AddCoinsTile(19, new int[]{5, 9}, 5));
+    tiles.put(21, new MowserTile(20, new int[]{4, 9}));
+    tiles.put(22, new AddCoinsTile(21, new int[]{3, 9}, 5));
+    tiles.put(23, new AddCoinsTile(22, new int[]{2, 9}, 5));
+    tiles.put(24, new ReturnToStartTile(23, new int[]{2, 8}));
+    tiles.put(25, new RemoveCoinsTile(24, new int[]{2, 7}, 5));
+    tiles.put(26, new AddCoinsTile(25, new int[]{1, 7}, 5));
+    tiles.put(27, new AddCoinsTile(26, new int[]{0, 7}, 5));
+    tiles.put(28, new RollAgainTile(27, new int[]{0, 5}));
+    tiles.put(29, new RemoveCoinsTile(28, new int[]{0, 6}, 5));
+    tiles.put(30, new AddCoinsTile(29, new int[]{0, 4}, 5));
+    tiles.put(31, new AddCoinsTile(30, new int[]{0, 3}, 5));
+    tiles.put(32, new RemoveCoinsTile(31, new int[]{0, 2}, 5));
+    tiles.put(33, new AddCoinsTile(32, new int[]{1, 2}, 5));
+    tiles.put(34, new AddCoinsTile(33, new int[]{2, 2}, 5));
+    tiles.put(35, new RandomActionTile(34, new int[]{2, 1}, board));
 
-    return new Board(tiles);
+    return board;
   }
 
 
