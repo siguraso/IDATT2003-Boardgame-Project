@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
+import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersReaderCsv;
 import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersWriterCsv;
@@ -163,7 +164,14 @@ public class MainWindow implements Window {
 
   private FlowPane getParioMartyPage() {
     FlowPane flowPane = new FlowPane();
-    // TODO add all the board selection views to the flow pane
+
+    flowPane.getChildren().add(getBoardSelectionView(BoardType.PARIO_MARTY, "Pario Marty Game"));
+
+    flowPane.setVgap(20);
+    flowPane.setHgap(20);
+
+    flowPane.setAlignment(Pos.CENTER);
+    flowPane.setPadding(new Insets(20, 20, 20, 20));
 
     return flowPane;
   }
@@ -229,9 +237,17 @@ public class MainWindow implements Window {
           }
         });
 
-      } else {
+      } else if (boardType != BoardType.PARIO_MARTY) {
         if (startGameButtons.getChildren().size() < 2) {
           startGameButtons.getChildren().add(startGameJsonButton);
+        }
+
+        startGameButton.setOnAction(onPress ->
+            startGame()
+        );
+      } else {
+        if (startGameButtons.getChildren().size() > 1) {
+          startGameButtons.getChildren().remove(1);
         }
 
         startGameButton.setOnAction(onPress ->
@@ -667,7 +683,13 @@ public class MainWindow implements Window {
       GameController gameController = new GameController(playersController, useTwoDice);
       gameController.setBoard(boardType, useJson, jsonFilePath);
 
-      BoardGameWindow gameWindow = new ParioMartyGameWindow(gameController, useTwoDice);
+      BoardGameWindow gameWindow;
+
+      if (boardType == BoardType.PARIO_MARTY) {
+        gameWindow = new ParioMartyGameWindow(gameController, useTwoDice);
+      } else {
+        gameWindow = new LadderGameWindow(gameController, useTwoDice);
+      }
 
       window.close();
       gameWindow.show();

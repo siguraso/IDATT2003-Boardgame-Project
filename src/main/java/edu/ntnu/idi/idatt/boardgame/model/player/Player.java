@@ -140,6 +140,13 @@ public abstract class Player implements BoardGameObserver {
     this.rollAgain = rollAgain;
   }
 
+  /**
+   * Used to check if the player can do a ladder action.
+   *
+   * @param destination The new position of the player.
+   */
+  public abstract void handleLadderAction(int destination);
+
   @Override
   public void update(int[] i) {
     if (i == null) {

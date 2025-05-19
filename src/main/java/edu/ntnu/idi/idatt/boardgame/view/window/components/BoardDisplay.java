@@ -126,6 +126,8 @@ public class BoardDisplay implements WindowComponent {
     int row = gameController.getBoard().tiles().get(t).getOnscreenPosition()[1];
     int col = gameController.getBoard().tiles().get(t).getOnscreenPosition()[0];
 
+    System.out.println("Tile " + t + " is at row " + row + " and col " + col);
+
     tilePane.setAlignment(javafx.geometry.Pos.CENTER);
 
     if (row < 0 || row >= ROWS || col < 0 || col >= COLS) {

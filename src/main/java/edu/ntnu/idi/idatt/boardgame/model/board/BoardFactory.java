@@ -1,8 +1,11 @@
 package edu.ntnu.idi.idatt.boardgame.model.board;
 
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.AddCoinsTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.MowserTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.RandomActionTile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.RemoveCoinsTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.ReturnToStartTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.RollAgainTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
@@ -10,6 +13,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.WinnerTile;
 import edu.ntnu.idi.idatt.boardgame.model.io.board.LadderBoardReaderGson;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 /**
@@ -29,7 +33,7 @@ public class BoardFactory {
    *
    * <p>SNAKES_AND_LADDERS: A {@link Board} for the game Snakes and Ladders.</p>
    *
-   * <p>PARIO_MARTI: A {@link Board} for the Pario Marti game.</p>
+   * <p>PARIO_MARTY: A {@link Board} for the Pario Marti game.</p>
    *
    * @param boardType the boardType of board to create.
    * @return a new board of the given boardType.
@@ -39,6 +43,7 @@ public class BoardFactory {
       return switch (boardType) {
         case LADDER_GAME_SPECIAL -> specialLadderGameBoard();
         case LADDER_GAME_REGULAR -> vanillaLadderGameBoard();
+        case PARIO_MARTY -> parioMartyBoard();
         default -> throw new IllegalArgumentException("Unknown BoardType: " + boardType);
       };
     } else {
@@ -52,8 +57,51 @@ public class BoardFactory {
   }
 
   // specific board creation methods
+  private static Board parioMartyBoard() {
+    Map<Integer, Tile> tiles = new HashMap<>();
+
+    tiles.put(1, new NormalTile(1, new int[]{1, 0}));
+    tiles.put(2, new AddCoinsTile(2, new int[]{2, 0}, 5));
+    tiles.put(3, new AddCoinsTile(3, new int[]{3, 0}, 5));
+    tiles.put(4, new RemoveCoinsTile(4, new int[]{4, 0}, 5));
+    tiles.put(5, new AddCoinsTile(5, new int[]{5, 0}, 5));
+    tiles.put(6, new RemoveCoinsTile(6, new int[]{6, 0}, 5));
+    tiles.put(7, new AddCoinsTile(7, new int[]{6, 1}, 5));
+    tiles.put(8, new AddCoinsTile(8, new int[]{6, 2}, 5));
+    tiles.put(9, new MowserTile(9, new int[]{7, 2}));
+    tiles.put(10, new AddCoinsTile(10, new int[]{8, 2}, 5));
+    tiles.put(11, new RemoveCoinsTile(11, new int[]{8, 3}, 5));
+    tiles.put(12, new AddCoinsTile(12, new int[]{8, 4}, 5));
+    tiles.put(13, new RemoveCoinsTile(13, new int[]{8, 5}, 5));
+    tiles.put(14, new AddCoinsTile(14, new int[]{8, 6}, 5));
+    tiles.put(15, new RemoveCoinsTile(15, new int[]{8, 7}, 5));
+    tiles.put(16, new AddCoinsTile(16, new int[]{7, 7}, 5));
+    tiles.put(17, new RemoveCoinsTile(17, new int[]{6, 7}, 5));
+    tiles.put(18, new AddCoinsTile(18, new int[]{6, 8}, 5));
+    tiles.put(19, new RemoveCoinsTile(19, new int[]{6, 9}, 5));
+    tiles.put(20, new AddCoinsTile(20, new int[]{5, 9}, 5));
+    tiles.put(21, new RemoveCoinsTile(21, new int[]{4, 9}, 5));
+    tiles.put(22, new AddCoinsTile(22, new int[]{3, 9}, 5));
+    tiles.put(23, new RemoveCoinsTile(23, new int[]{2, 9}, 5));
+    tiles.put(24, new AddCoinsTile(24, new int[]{2, 8}, 5));
+    tiles.put(25, new RemoveCoinsTile(25, new int[]{2, 7}, 5));
+    tiles.put(26, new AddCoinsTile(26, new int[]{1, 7}, 5));
+    tiles.put(27, new RemoveCoinsTile(27, new int[]{0, 7}, 5));
+    tiles.put(28, new AddCoinsTile(28, new int[]{0, 6}, 5));
+    tiles.put(29, new RemoveCoinsTile(29, new int[]{0, 5}, 5));
+    tiles.put(30, new AddCoinsTile(30, new int[]{0, 4}, 5));
+    tiles.put(31, new RemoveCoinsTile(31, new int[]{0, 3}, 5));
+    tiles.put(32, new AddCoinsTile(32, new int[]{0, 2}, 5));
+    tiles.put(33, new RemoveCoinsTile(33, new int[]{1, 2}, 5));
+    tiles.put(34, new AddCoinsTile(34, new int[]{2, 2}, 5));
+    tiles.put(35, new RemoveCoinsTile(35, new int[]{2, 1}, 5));
+
+    return new Board(tiles);
+  }
+
+
   private static Board specialLadderGameBoard() {
-    HashMap<Integer, Tile> tiles = getBlankBoard();
+    Map<Integer, Tile> tiles = getBlankBoard();
     Board specialLadderGameBoard = new Board(tiles);
 
     // add the special tiles to the board
@@ -130,7 +178,7 @@ public class BoardFactory {
   }
 
   private static Board vanillaLadderGameBoard() {
-    HashMap<Integer, Tile> tiles = getBlankBoard();
+    Map<Integer, Tile> tiles = getBlankBoard();
     Board vanillaLadderGameBoard = new Board(tiles);
 
     // ladder tiles
@@ -227,8 +275,8 @@ public class BoardFactory {
     return board;
   }
 
-  private static HashMap<Integer, Tile> getBlankBoard() {
-    HashMap<Integer, Tile> tiles = new HashMap<>();
+  private static Map<Integer, Tile> getBlankBoard() {
+    Map<Integer, Tile> tiles = new HashMap<>();
 
     IntStream.range(0, 90).forEach(i -> {
       int row = (LADDER_GAME_ROWS - 1) - (i / LADDER_GAME_COLS);
