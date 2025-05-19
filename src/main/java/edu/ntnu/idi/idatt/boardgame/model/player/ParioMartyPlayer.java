@@ -12,7 +12,7 @@ import java.util.Arrays;
  */
 public class ParioMartyPlayer extends Player {
 
-  int coins = 100;
+  int coins = 0;
   int crowns = 0;
 
   /**

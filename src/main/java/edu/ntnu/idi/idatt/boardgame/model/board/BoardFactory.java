@@ -89,8 +89,8 @@ public class BoardFactory {
     tiles.put(25, new RemoveCoinsTile(24, new int[]{2, 7}, 5));
     tiles.put(26, new AddCoinsTile(25, new int[]{1, 7}, 5));
     tiles.put(27, new AddCoinsTile(26, new int[]{0, 7}, 5));
-    tiles.put(28, new RollAgainTile(27, new int[]{0, 5}));
-    tiles.put(29, new RemoveCoinsTile(28, new int[]{0, 6}, 5));
+    tiles.put(28, new RollAgainTile(27, new int[]{0, 6}));
+    tiles.put(29, new RemoveCoinsTile(28, new int[]{0, 5}, 5));
     tiles.put(30, new AddCoinsTile(29, new int[]{0, 4}, 5));
     tiles.put(31, new AddCoinsTile(30, new int[]{0, 3}, 5));
     tiles.put(32, new RemoveCoinsTile(31, new int[]{0, 2}, 5));

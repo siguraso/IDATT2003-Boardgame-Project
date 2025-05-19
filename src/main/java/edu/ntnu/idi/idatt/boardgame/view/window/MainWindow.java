@@ -131,12 +131,10 @@ public class MainWindow implements Window {
 
     ladderGameButton.setOnAction(onPressed -> {
       boardGameSelection.setCenter(ladderBoardSelection);
-      boardType = null;
     });
 
     parioMartyButton.setOnAction(onPressed -> {
       boardGameSelection.setCenter(parioMartyBoardSelection);
-      boardType = null;
     });
 
     buttons.getChildren().add(ladderGameButton);
@@ -713,7 +711,9 @@ public class MainWindow implements Window {
         close();
         gameWindow.show();
       }
-    } catch (NullPointerException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
+    } /*catch (NullPointerException e) {
       playersController.clearPlayers();
 
       playerSelectionView.getStyleClass().add("player-selection-view-error");
@@ -732,6 +732,7 @@ public class MainWindow implements Window {
         errorLabel.setVisible(true);
       }
     }
+    */
 
   }
 

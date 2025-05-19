@@ -50,8 +50,15 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     int tileWidth = (800 - (2 * 29)) / 9;
     int tileHeight = (800 - (2 * 28)) / 10;
 
+    ImageView arrows = new ImageView(new Image(
+        Objects.requireNonNull(
+            this.getClass().getResourceAsStream("/Images/boards/pario_marty_arrows.png"))));
+
+    arrows.setFitWidth(800);
+    arrows.setFitHeight(800);
+
     this.boardDisplay.init(tileWidth, tileHeight, gameController.getBoard().getTileTypes());
-    boardGrid.getChildren().add(this.boardDisplay.getComponent());
+    boardGrid.getChildren().addAll(arrows, this.boardDisplay.getComponent());
 
     turns = new Label("Turn 1 of 15");
 
@@ -74,7 +81,9 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     sidebar.setMinHeight(800);
     sidebar.setPadding(new javafx.geometry.Insets(20, 10, 20, 10));
 
-    dialogBox = new HappeningDialogBox("fwæh");
+    dialogBox = new HappeningDialogBox(
+        gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+    ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
     sidebar.setTop(dialogBox.getComponent());
     sidebar.setCenter(dieBox.getComponent());
 
