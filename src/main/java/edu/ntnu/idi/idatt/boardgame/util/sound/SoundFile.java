@@ -97,6 +97,24 @@ public enum SoundFile {
     public String getSoundPath() {
       return filepath + "roll_die.wav";
     }
+  },
+  ADD_COINS() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "add_coins.wav";
+    }
+  },
+  REMOVE_COINS() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "remove_coins.wav";
+    }
+  },
+  GET_CROWN() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "get_crown.wav";
+    }
   };
 
   private static final String filepath = "/Sounds/";

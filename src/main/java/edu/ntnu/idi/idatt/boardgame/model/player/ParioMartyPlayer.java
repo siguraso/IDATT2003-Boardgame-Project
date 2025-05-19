@@ -12,7 +12,7 @@ import java.util.Arrays;
  */
 public class ParioMartyPlayer extends Player {
 
-  int coins = 0;
+  int coins = 100;
   int crowns = 0;
 
   /**
@@ -99,9 +99,8 @@ public class ParioMartyPlayer extends Player {
       if (position + steps > 35) {
         // if the player goes over 35, they go back to the start, and move forward the
         // remaining steps
-        int delta = position + steps - 35;
-        moveForward(delta);
-
+        int delta = position + steps - 35 + 1;
+        moveTo(delta);
       } else {
 
         moveForward(steps);

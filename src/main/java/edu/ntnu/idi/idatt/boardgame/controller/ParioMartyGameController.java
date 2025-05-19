@@ -6,6 +6,9 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.RandomActionTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.SpecialTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
+import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Controller class for Pario Marty. This class extends the {@link GameController} class.
@@ -19,6 +22,12 @@ public class ParioMartyGameController extends GameController {
   private Integer previousCrownTile = null;
   private Integer currentCrownTile = null;
   private int currentTurn = 1;
+  private final Set<String> playersThisTurn = new HashSet<>();
+
+  // player that i currently eligible to get a crown
+  private Player crownPlayer;
+
+  private Tile currentTile;
 
   /**
    * Constructor for the ParioMartyGameController class. This constructor initializes the game board
@@ -33,7 +42,7 @@ public class ParioMartyGameController extends GameController {
   @Override
   public void finishTurn() {
     // check the tile the current player is on
-    Tile currentTile = board.tiles().get(playersController.getCurrentPlayer().getPosition());
+    currentTile = board.tiles().get(playersController.getCurrentPlayer().getPosition());
 
     // check what typa tile it is, do the action if it is a special tile
 
@@ -41,9 +50,23 @@ public class ParioMartyGameController extends GameController {
       if (currentTile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())) {
         ((RandomActionTile) currentTile).setPlayers(playersController.getPlayers());
       }
+      if (currentTile.getTileType().equals(TileType.ADD_CROWN.getTileType())) {
+        crownPlayer = playersController.getCurrentPlayer();
+      } else {
+        lastSpecialTile = playersController.getCurrentPlayer().getPosition();
+        ((SpecialTile) currentTile).performAction(playersController.getCurrentPlayer());
+      }
+    }
 
-      lastSpecialTile = playersController.getCurrentPlayer().getPosition();
-      ((SpecialTile) currentTile).performAction(playersController.getCurrentPlayer());
+    playersThisTurn.add(playersController.getCurrentPlayer().getName());
+
+    // if the set of players this turn is equal to the number of players in the game,
+    // every player has had their turn, and the total turn count is increased
+    if (playersThisTurn.size() == playersController.getPlayers().size()
+        && !playersController.getCurrentPlayer()
+        .canRollAgain()) {
+      currentTurn++;
+      playersThisTurn.clear();
     }
 
     if (playersController.getCurrentPlayer() != null) {
@@ -54,7 +77,6 @@ public class ParioMartyGameController extends GameController {
 
     die.addObserver(playersController.getCurrentPlayer());
 
-    currentTurn++;
   }
 
   /**
@@ -85,7 +107,23 @@ public class ParioMartyGameController extends GameController {
           new AddCoinsTile(previousCrownTile,
               board.tiles().get(previousCrownTile).getOnscreenPosition(), 5));
     }
-    
+
+  }
+
+  /**
+   * Checks if the player that is eligible to buy a crown wants to buy it. This method should only
+   * be called if the current tile is a crown tile.
+   *
+   * @param buyCrown a boolean indicating if the player wants to buy the crown.
+   */
+  public void checkCrownPurchase(boolean buyCrown) {
+    if (buyCrown && currentTile.getTileType().equals(TileType.ADD_CROWN.getTileType())) {
+      try {
+        ((SpecialTile) currentTile).performAction(crownPlayer);
+      } catch (IllegalArgumentException e) {
+        throw new IllegalArgumentException(e.getMessage());
+      }
+    }
   }
 
   /**

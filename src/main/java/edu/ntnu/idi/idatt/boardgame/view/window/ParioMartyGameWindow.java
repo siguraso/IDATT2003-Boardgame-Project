@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.controller.ParioMartyGameController;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.ParioMartyLeaderBoard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
@@ -62,6 +63,8 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     boardVBox.getChildren().addAll(turns, boardGrid);
     boardVBox.setPadding(new Insets(20, 0, 0, 0));
 
+    placeCrownTile();
+
     return boardVBox;
   }
 
@@ -80,7 +83,6 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     sidebar.setBottom(leaderboard.getComponent());
 
     dieBox.getRollDieButton().setOnAction(e -> {
-      placeCrownTile();
 
       dieBox.getRollDieButton().setDisable(true);
 
@@ -117,7 +119,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
       int nextTile = currentPlayerPiecePosition + 1;
     };
 
-    for (int i = 0; i < steps; i++) {
+    for (int i = 1; i <= steps; i++) {
       KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), e -> {
         if (nextTileWrapper.nextTile == 36) {
           boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile - 1).getChildren()
@@ -146,13 +148,95 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
   @Override
   protected void finishTurn() {
+    dieBox.getRollDieButton().setDisable(true);
+
     gameController.finishTurn();
 
-    dieBox.getRollDieButton().setDisable(false);
-    turns.setText(
-        "Turn " + ((ParioMartyGameController) gameController).getCurrentTurn() + " of 15");
+    int[] initialPlayerPositions = new int[4];
+
+    gameController.getPlayersController().getPlayers().forEach(player ->
+        initialPlayerPositions[gameController.getPlayersController().getPlayers()
+            .indexOf(player)] = player.getPosition()
+    );
+
+    String currentTileType = gameController.getBoard().tiles()
+        .get(initialPlayerPositions[gameController.getPlayersController().getPlayers()
+            .indexOf(gameController.getPlayersController().getPreviousPlayer())]).getTileType();
+
+    // if the player is on a special tile, tell the players, and perform on button click
+    if (!currentTileType.equals(TileType.NORMAL.getTileType())) {
+
+      switch (currentTileType) {
+        case "AddCoinsTile" -> {
+          sfxPlayer.stopSound();
+          sfxPlayer.openSoundFile(SoundFile.ADD_COINS);
+          dieBox.getRollDieButton().setDisable(false);
+          sfxPlayer.playSound();
+          dialogBox.refresh(
+              gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+        }
+        case "RemoveCoinsTile" -> {
+          sfxPlayer.stopSound();
+          sfxPlayer.openSoundFile(SoundFile.REMOVE_COINS);
+          dieBox.getRollDieButton().setDisable(false);
+          sfxPlayer.playSound();
+          dialogBox.refresh(
+              gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+        }
+        case "AddCrownTile" -> {
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+          ((HappeningDialogBox) dialogBox).showYesNoDialogBox();
+
+          dialogBox.refresh(
+              "Congratulations " + gameController.getPlayersController().getPreviousPlayer()
+                  .getName() + "! You have landed on a crown tile! "
+                  + "Would you like to buy a crown for 30 coins?");
+
+          ((HappeningDialogBox) dialogBox).getYesButton().setOnAction(buyCrown -> {
+            try {
+
+              ((ParioMartyGameController) gameController).checkCrownPurchase(true);
+              ((HappeningDialogBox) dialogBox).showOkDialogBox();
+              dialogBox.refresh(gameController.getPlayersController().getCurrentPlayer().getName()
+                  + " got a crown!");
+              leaderboard.update();
+
+              sfxPlayer.openSoundFile(SoundFile.GET_CROWN);
+
+              updatePlayerPositions(initialPlayerPositions);
+
+
+            } catch (IllegalArgumentException e) {
+              ((HappeningDialogBox) dialogBox).showOkDialogBox();
+              dialogBox.refresh(e.getMessage());
+
+              updatePlayerPositions(initialPlayerPositions);
+
+            }
+          });
+
+          ((HappeningDialogBox) dialogBox).getNoButton().setOnAction(dontBuyCrown -> {
+            ((ParioMartyGameController) gameController).checkCrownPurchase(false);
+
+            dialogBox.refresh(gameController.getPlayersController().getCurrentPlayer().getName()
+                + " did not buy a crown.");
+
+            dieBox.getRollDieButton().setDisable(false);
+
+            updatePlayerPositions(initialPlayerPositions);
+          });
+
+        }
+      }
+    } else {
+      dialogBox.refresh(
+          gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+    }
 
     leaderboard.update();
+
+    turns.setText(
+        "Turn " + ((ParioMartyGameController) gameController).getCurrentTurn() + " of 15");
   }
 
   private void placeCrownTile() {
@@ -167,10 +251,8 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
       boardDisplay.getGridTileStack().get(lastCrownTile).getStyleClass().add("add-coins-tile");
 
-      ImageView icon = new ImageView(
-          new Image(Objects.requireNonNull(
-              this.getClass()
-                  .getResourceAsStream("/Images/boards/tile-icons/add_coin.png"))));
+      ImageView icon = new ImageView(new Image(Objects.requireNonNull(this.getClass()
+          .getResourceAsStream("/Images/boards/tile-icons/add_coin.png"))));
       icon.setFitWidth(60);
       icon.setFitHeight(54);
 

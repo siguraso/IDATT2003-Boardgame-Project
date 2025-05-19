@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.board;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.AddCoinsTile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.AddCrownTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.MowserTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
@@ -60,13 +61,13 @@ public class BoardFactory {
   private static Board parioMartyBoard() {
     Map<Integer, Tile> tiles = new HashMap<>();
 
-    tiles.put(1, new NormalTile(1, new int[]{1, 0}));
-    tiles.put(2, new AddCoinsTile(2, new int[]{2, 0}, 5));
-    tiles.put(3, new AddCoinsTile(3, new int[]{3, 0}, 5));
-    tiles.put(4, new RemoveCoinsTile(4, new int[]{4, 0}, 5));
-    tiles.put(5, new AddCoinsTile(5, new int[]{5, 0}, 5));
+    tiles.put(1, new AddCrownTile(1, new int[]{1, 0}));
+    tiles.put(2, new AddCrownTile(2, new int[]{2, 0}));
+    tiles.put(3, new AddCrownTile(3, new int[]{3, 0}));
+    tiles.put(4, new AddCrownTile(4, new int[]{4, 0}));
+    tiles.put(5, new AddCrownTile(5, new int[]{5, 0}));
     tiles.put(6, new RemoveCoinsTile(6, new int[]{6, 0}, 5));
-    tiles.put(7, new AddCoinsTile(7, new int[]{6, 1}, 5));
+    tiles.put(7, new AddCrownTile(7, new int[]{6, 1}));
     tiles.put(8, new AddCoinsTile(8, new int[]{6, 2}, 5));
     tiles.put(9, new MowserTile(9, new int[]{7, 2}));
     tiles.put(10, new AddCoinsTile(10, new int[]{8, 2}, 5));
