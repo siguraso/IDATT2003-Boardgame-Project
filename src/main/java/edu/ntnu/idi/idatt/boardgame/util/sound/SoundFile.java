@@ -115,6 +115,30 @@ public enum SoundFile {
     public String getSoundPath() {
       return filepath + "get_crown.wav";
     }
+  },
+  LOSE_CROWN() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "lose_crown.wav";
+    }
+  },
+  MOWSER_LAND() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "mowser_land.wav";
+    }
+  },
+  MOWSER_SHOW() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "mowser_show.wav";
+    }
+  },
+  MOWSER_SELECT() {
+    @Override
+    public String getSoundPath() {
+      return filepath + "mowser_select.wav";
+    }
   };
 
   private static final String filepath = "/Sounds/";

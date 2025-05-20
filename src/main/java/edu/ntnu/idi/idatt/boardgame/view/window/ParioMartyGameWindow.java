@@ -166,14 +166,14 @@ public class ParioMartyGameWindow extends BoardGameWindow {
   protected void finishTurn() {
     dieBox.getRollDieButton().setDisable(true);
 
-    gameController.finishTurn();
-
     int[] initialPlayerPositions = new int[4];
 
     gameController.getPlayersController().getPlayers().forEach(player ->
         initialPlayerPositions[gameController.getPlayersController().getPlayers()
             .indexOf(player)] = player.getPosition()
     );
+
+    gameController.finishTurn();
 
     String currentTileType = gameController.getBoard().tiles()
         .get(initialPlayerPositions[gameController.getPlayersController().getPlayers()
@@ -186,6 +186,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
       switch (currentTileType) {
         case "AddCoinsTile" -> {
+          leaderboard.update();
           sfxPlayer.stopSound();
           sfxPlayer.openSoundFile(SoundFile.ADD_COINS);
           dieBox.getRollDieButton().setDisable(false);
@@ -194,6 +195,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
               gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
         }
         case "RemoveCoinsTile" -> {
+          leaderboard.update();
           sfxPlayer.stopSound();
           sfxPlayer.openSoundFile(SoundFile.REMOVE_COINS);
           dieBox.getRollDieButton().setDisable(false);
@@ -202,6 +204,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
               gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
         }
         case "RollAgainTile" -> {
+          leaderboard.update();
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
           dialogBox.refresh(
               gameController.getPlayersController().getPreviousPlayer().getName()
@@ -222,7 +225,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
           ((HappeningDialogBox) dialogBox).getYesButton().setOnAction(buyCrown -> {
             try {
-
+              leaderboard.update();
               ((ParioMartyGameController) gameController).checkCrownPurchase(true);
               ((HappeningDialogBox) dialogBox).showOkDialogBox();
               dialogBox.refresh(gameController.getPlayersController().getCurrentPlayer().getName()
@@ -235,6 +238,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
 
             } catch (IllegalArgumentException e) {
+              leaderboard.update();
               ((HappeningDialogBox) dialogBox).showOkDialogBox();
               dialogBox.refresh(e.getMessage());
 
@@ -244,6 +248,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
           });
 
           ((HappeningDialogBox) dialogBox).getNoButton().setOnAction(dontBuyCrown -> {
+            leaderboard.update();
             ((ParioMartyGameController) gameController).checkCrownPurchase(false);
 
             dialogBox.refresh(gameController.getPlayersController().getCurrentPlayer().getName()
@@ -255,6 +260,8 @@ public class ParioMartyGameWindow extends BoardGameWindow {
           });
         }
         case "RandomActionTile" -> {
+          leaderboard.update();
+
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
           dialogBox.refresh(
               gameController.getPlayersController().getPreviousPlayer().getName()
@@ -276,6 +283,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
           });
         }
         case "ReturnToStartTile" -> {
+          leaderboard.update();
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
           dialogBox.refresh(
               gameController.getPlayersController().getPreviousPlayer().getName()
@@ -287,7 +295,11 @@ public class ParioMartyGameWindow extends BoardGameWindow {
         }
         case "MowserTile" -> {
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
-          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.stopSound();
+          sfxPlayer.openSoundFile(SoundFile.MOWSER_LAND);
+          sfxPlayer.playSound();
+
           dialogBox.refresh(
               "Oh No! " + gameController.getPlayersController().getPreviousPlayer().getName()
                   + " landed on a Mowser tile! What is going to happen?!");
@@ -296,14 +308,15 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
           switch (gameController.getLastRandomAction()) {
             case 0 -> mowserAction = "Lose 20 coins!";
-            case 1 -> mowserAction = "Lose a crown!";
-            case 2 -> mowserAction = "Lose all of your coins!";
+            case 1 -> mowserAction = "Lose all of your coins!";
+            case 2 -> mowserAction = "Lose a crown!";
             case 3 -> mowserAction = "Return back to start!";
             default -> mowserAction = null;
           }
 
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
             ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+            sfxPlayer.stopSound();
             showMowserActionList(mowserAction, initialPlayerPositions);
           });
         }
@@ -312,8 +325,6 @@ public class ParioMartyGameWindow extends BoardGameWindow {
       dialogBox.refresh(
           gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
     }
-
-    leaderboard.update();
 
     turns.setText(
         "Turn " + ((ParioMartyGameController) gameController).getCurrentTurn() + " of 15");
@@ -383,7 +394,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
 
-          sfxPlayer.openSoundFile(SoundFile.SWAP_PLAYERS);
+          sfxPlayer.openSoundFile(SoundFile.REMOVE_COINS);
 
           updatePlayerPositions(initialPlayerPositions);
         }
@@ -391,6 +402,12 @@ public class ParioMartyGameWindow extends BoardGameWindow {
           dialogBox.refresh(
               gameController.getPlayersController().getPreviousPlayer().getName()
                   + " lost a crown!");
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.openSoundFile(SoundFile.LOSE_CROWN);
+
+          updatePlayerPositions(initialPlayerPositions);
         }
         case "Lose all of your coins!" -> {
           dialogBox.refresh(
@@ -399,7 +416,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
 
-          sfxPlayer.openSoundFile(SoundFile.SWAP_PLAYERS);
+          sfxPlayer.openSoundFile(SoundFile.REMOVE_COINS);
 
           updatePlayerPositions(initialPlayerPositions);
         }
@@ -413,7 +430,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
 
-          sfxPlayer.openSoundFile(SoundFile.SWAP_PLAYERS);
+          sfxPlayer.openSoundFile(SoundFile.RETURN_TO_START);
 
           updatePlayerPositions(initialPlayerPositions);
         }
@@ -423,7 +440,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     });
 
     mowserActionComponent.randomActionSequence(mowserAction, SoundFile.RANDOM_ACTION_MOVE,
-        SoundFile.RANDOM_ACTION_SELECT, SoundFile.ROLL_AGAIN);
+        SoundFile.MOWSER_SELECT, SoundFile.MOWSER_SHOW);
 
   }
 
