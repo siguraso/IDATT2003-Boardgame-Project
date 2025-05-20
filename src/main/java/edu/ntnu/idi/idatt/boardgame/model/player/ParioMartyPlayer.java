@@ -100,6 +100,7 @@ public class ParioMartyPlayer extends Player {
         // if the player goes over 35, they go back to the start, and move forward the
         // remaining steps
         int delta = position + steps - 35 + 1;
+        System.out.println(delta);
         moveTo(delta);
       } else {
 
@@ -107,5 +108,4 @@ public class ParioMartyPlayer extends Player {
       }
     }
   }
-
 }

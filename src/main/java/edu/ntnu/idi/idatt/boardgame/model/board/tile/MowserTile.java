@@ -4,6 +4,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RemoveCoinsAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RemoveCrownAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.ReturnToStartAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
+import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
 public class MowserTile extends SpecialTile {
@@ -54,6 +55,16 @@ public class MowserTile extends SpecialTile {
     } catch (NullPointerException e) {
       throw new NullPointerException(e.getMessage());
     }
+  }
+
+  /**
+   * Sets the amount of coins to remove from the player when the random action lands on the second
+   * action, which is to remove all coins.
+   *
+   * @param player the player that has landed on the moweser tile.
+   */
+  public void setPlayerCoins(ParioMartyPlayer player) {
+    ((RemoveCoinsAction) tileActions[1]).setCoinsToRemove(player.getCoins());
   }
 
 

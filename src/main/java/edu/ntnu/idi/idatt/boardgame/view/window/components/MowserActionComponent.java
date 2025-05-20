@@ -3,6 +3,15 @@ package edu.ntnu.idi.idatt.boardgame.view.window.components;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 
+/**
+ * This class represents the action component for the Mowser tile in the game. It extends the
+ * RandomActionComponent class and provides a list of actions that can be performed when a player
+ * lands on a Mowser tile.
+ *
+ * @author siguraso
+ * @version 1.0
+ * @since 1.0
+ */
 public class MowserActionComponent extends RandomActionComponent {
 
   /**

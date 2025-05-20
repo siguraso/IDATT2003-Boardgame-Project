@@ -4,6 +4,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.MowserTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.RandomActionTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.SpecialTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
@@ -106,13 +107,18 @@ public abstract class GameController implements BoardGameObserver, BoardGameObse
    */
   public int getLastRandomAction() {
 
-    //this method is only called when the last special tile was a RandomActionTile
+    // this method is only called when the last special tile was a RandomActionTile
     Tile tile = board.tiles().get(lastSpecialTile);
 
-    if (!tile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())) {
+    if (!tile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())
+        && !tile.getTileType().equals(TileType.MOWSER.getTileType())) {
       throw new IllegalArgumentException(
           "Tile number " + playersController.getPreviousPlayer().getPosition()
-              + " is not a RandomActionTile");
+              + " is not a RandomActionTile or a MowserTile");
+    }
+
+    if (tile.getTileType().equals(TileType.MOWSER.getTileType())) {
+      return ((MowserTile) tile).getTileAction();
     }
 
     return ((RandomActionTile) tile).getTileAction();

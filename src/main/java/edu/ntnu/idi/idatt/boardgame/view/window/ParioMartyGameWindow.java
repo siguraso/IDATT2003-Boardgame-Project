@@ -285,8 +285,28 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
           updatePlayerPositions(initialPlayerPositions);
         }
+        case "MowserTile" -> {
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+          dialogBox.refresh(
+              "Oh No! " + gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " landed on a Mowser tile! What is going to happen?!");
 
+          String mowserAction;
 
+          switch (gameController.getLastRandomAction()) {
+            case 0 -> mowserAction = "Lose 20 coins!";
+            case 1 -> mowserAction = "Lose a crown!";
+            case 2 -> mowserAction = "Lose all of your coins!";
+            case 3 -> mowserAction = "Return back to start!";
+            default -> mowserAction = null;
+          }
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+            ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+            showMowserActionList(mowserAction, initialPlayerPositions);
+          });
+        }
       }
     } else {
       dialogBox.refresh(
@@ -341,35 +361,71 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     }
 
   }
-/*
-  protected void showMowserActionList(String tileAction, int[] initialPlayerPositions) {
+
+  protected void showMowserActionList(String mowserAction, int[] initialPlayerPositions) {
     sfxPlayer.stopSound();
 
     MowserActionComponent mowserActionComponent = new MowserActionComponent();
 
     mowserActionPane = (StackPane) mowserActionComponent.getComponent();
 
-    allElements.getChildren().add(randomActionPane);
+    allElements.getChildren().add(mowserActionPane);
 
     mowserActionComponent.getRandomActionTimeline().setOnFinished(onFinished -> {
-      allElements.getChildren().remove(randomActionPane);
+      allElements.getChildren().remove(mowserActionPane);
 
       // perform the action that was selected
-      switch (tileAction) {
-        case "ReturnToStartAction" -> {
-          gameController.getPlayersController().getCurrentPlayer().setPosition(0);
-          boardDisplay.getPlayerGrid().get(0).getChildren()
-              .add(playerPieces.get(gameController.getPlayersController().getCurrentPlayer()
-                  .getName()));
+      switch (mowserAction) {
+        case "Lose 20 coins!" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " lost 20 coins!");
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.openSoundFile(SoundFile.SWAP_PLAYERS);
+
+          updatePlayerPositions(initialPlayerPositions);
+        }
+        case "Lose a crown!" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " lost a crown!");
+        }
+        case "Lose all of your coins!" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " lost all of their coins!");
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.openSoundFile(SoundFile.SWAP_PLAYERS);
+
+          updatePlayerPositions(initialPlayerPositions);
+        }
+
+        default -> {
+          // default case is return to start.
+
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " returned to start!");
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.openSoundFile(SoundFile.SWAP_PLAYERS);
+
+          updatePlayerPositions(initialPlayerPositions);
         }
       }
+
+      leaderboard.update();
     });
 
-    randomActionComponent.randomActionSequence(tileAction, SoundFile.RANDOM_ACTION_MOVE,
+    mowserActionComponent.randomActionSequence(mowserAction, SoundFile.RANDOM_ACTION_MOVE,
         SoundFile.RANDOM_ACTION_SELECT, SoundFile.ROLL_AGAIN);
 
   }
 
- */
 
 }

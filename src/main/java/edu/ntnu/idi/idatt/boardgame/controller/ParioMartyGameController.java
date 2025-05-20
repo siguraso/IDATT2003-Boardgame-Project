@@ -2,10 +2,12 @@ package edu.ntnu.idi.idatt.boardgame.controller;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.AddCoinsTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.AddCrownTile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.MowserTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.RandomActionTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.SpecialTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
+import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import java.util.HashSet;
 import java.util.Set;
@@ -45,10 +47,13 @@ public class ParioMartyGameController extends GameController {
     currentTile = board.tiles().get(playersController.getCurrentPlayer().getPosition());
 
     // check what typa tile it is, do the action if it is a special tile
-
     if (!currentTile.getTileType().equals(TileType.NORMAL.getTileType())) {
       if (currentTile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())) {
         ((RandomActionTile) currentTile).setPlayers(playersController.getPlayers());
+      }
+      if (currentTile.getTileType().equals(TileType.MOWSER.getTileType())) {
+        ((MowserTile) currentTile).setPlayerCoins(
+            ((ParioMartyPlayer) playersController.getCurrentPlayer()));
       }
       if (currentTile.getTileType().equals(TileType.ADD_CROWN.getTileType())) {
         crownPlayer = playersController.getCurrentPlayer();
