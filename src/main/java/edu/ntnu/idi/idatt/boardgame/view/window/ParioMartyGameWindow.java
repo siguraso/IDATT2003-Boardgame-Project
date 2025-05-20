@@ -57,8 +57,11 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     arrows.setFitWidth(800);
     arrows.setFitHeight(800);
 
+    Label header = new Label("Pario Marty");
+    header.getStyleClass().add("pario-marty-header");
+
     this.boardDisplay.init(tileWidth, tileHeight, gameController.getBoard().getTileTypes());
-    boardGrid.getChildren().addAll(arrows, this.boardDisplay.getComponent());
+    boardGrid.getChildren().addAll(arrows, header, this.boardDisplay.getComponent());
 
     turns = new Label("Turn 1 of 15");
 
@@ -172,6 +175,8 @@ public class ParioMartyGameWindow extends BoardGameWindow {
         .get(initialPlayerPositions[gameController.getPlayersController().getPlayers()
             .indexOf(gameController.getPlayersController().getPreviousPlayer())]).getTileType();
 
+    System.out.println(currentTileType);
+
     // if the player is on a special tile, tell the players, and perform on button click
     if (!currentTileType.equals(TileType.NORMAL.getTileType())) {
 
@@ -191,6 +196,16 @@ public class ParioMartyGameWindow extends BoardGameWindow {
           sfxPlayer.playSound();
           dialogBox.refresh(
               gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+        }
+        case "RollAgainTile" -> {
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " landed on a roll again tile! They get to roll again!");
+
+          sfxPlayer.openSoundFile(SoundFile.ROLL_AGAIN);
+
+          updatePlayerPositions(initialPlayerPositions);
         }
         case "AddCrownTile" -> {
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
@@ -234,8 +249,40 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
             updatePlayerPositions(initialPlayerPositions);
           });
-
         }
+        case "RandomActionTile" -> {
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " landed on a random action tile! They get to do a random action!");
+
+          String randomAction;
+
+          switch (gameController.getLastRandomAction()) {
+            case "ReturnToStartAction" -> randomAction = "Return to start";
+            case "RollAgainAction" -> randomAction = "Roll again";
+            case "SwapPlayersAction" -> randomAction = "Swap spaces with a random player";
+            case "MoveToRandomTileAction" -> randomAction = "Move to a random tile";
+            default -> randomAction = null;
+          }
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+            ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+            showRandomActionList(randomAction, initialPlayerPositions);
+          });
+        }
+        case "ReturnToStartTile" -> {
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " fell down a hole and returned to start!");
+
+          sfxPlayer.openSoundFile(SoundFile.RETURN_TO_START);
+
+          updatePlayerPositions(initialPlayerPositions);
+        }
+
+
       }
     } else {
       dialogBox.refresh(

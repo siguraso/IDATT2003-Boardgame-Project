@@ -92,8 +92,6 @@ public class ParioMartyGameController extends GameController {
       currentCrownTile = (int) (Math.random() * board.tiles().size());
       Tile tile = board.tiles().get(currentCrownTile);
 
-      System.out.println("Current tile: " + currentCrownTile);
-
       if (tile.getTileType().equals(TileType.ADD_COINS.getTileType())) {
         board.tiles().put(currentCrownTile, tile);
         new AddCrownTile(currentCrownTile, tile.getOnscreenPosition());

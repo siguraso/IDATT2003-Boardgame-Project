@@ -446,3 +446,9 @@
   -fx-background-radius: 10;
   -fx-pref-width: 320;
 }
+
+.pario-marty-header {
+  -fx-font-size: 100px;
+  -fx-text-fill: white;
+  -fx-font-weight: bold;
+}
