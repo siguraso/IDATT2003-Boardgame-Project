@@ -51,10 +51,12 @@ public class ParioMartyGameController extends GameController {
       if (currentTile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())) {
         ((RandomActionTile) currentTile).setPlayers(playersController.getPlayers());
       }
+
       if (currentTile.getTileType().equals(TileType.MOWSER.getTileType())) {
         ((MowserTile) currentTile).setPlayerCoins(
             ((ParioMartyPlayer) playersController.getCurrentPlayer()));
       }
+
       if (currentTile.getTileType().equals(TileType.ADD_CROWN.getTileType())) {
         crownPlayer = playersController.getCurrentPlayer();
       } else {
@@ -93,18 +95,20 @@ public class ParioMartyGameController extends GameController {
     boolean hasPlacedCrownTile = false;
     previousCrownTile = currentCrownTile;
 
+    // place the crown tile on a random addCoins tile
     while (!hasPlacedCrownTile) {
-      currentCrownTile = (int) (Math.random() * board.tiles().size());
+      currentCrownTile = (int) (Math.random() * board.tiles().size()) + 1;
       Tile tile = board.tiles().get(currentCrownTile);
 
       if (tile.getTileType().equals(TileType.ADD_COINS.getTileType())) {
-        board.tiles().put(currentCrownTile, tile);
-        new AddCrownTile(currentCrownTile, tile.getOnscreenPosition());
+        board.tiles()
+            .put(currentCrownTile, new AddCrownTile(currentCrownTile, tile.getOnscreenPosition()));
 
         hasPlacedCrownTile = true;
       }
     }
 
+    // if there was a previous crown tile, replace it with an addCoins tile
     if (previousCrownTile != null) {
       board.tiles().put(previousCrownTile,
           new AddCoinsTile(previousCrownTile,

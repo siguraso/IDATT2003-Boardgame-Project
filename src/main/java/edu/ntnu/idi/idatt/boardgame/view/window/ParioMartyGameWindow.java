@@ -179,8 +179,6 @@ public class ParioMartyGameWindow extends BoardGameWindow {
         .get(initialPlayerPositions[gameController.getPlayersController().getPlayers()
             .indexOf(gameController.getPlayersController().getPreviousPlayer())]).getTileType();
 
-    System.out.println(currentTileType);
-
     // if the player is on a special tile, tell the players, and perform on button click
     if (!currentTileType.equals(TileType.NORMAL.getTileType())) {
 
@@ -221,21 +219,25 @@ public class ParioMartyGameWindow extends BoardGameWindow {
           dialogBox.refresh(
               "Congratulations " + gameController.getPlayersController().getPreviousPlayer()
                   .getName() + "! You have landed on a crown tile! "
-                  + "Would you like to buy a crown for 30 coins?");
+                  + "Would you like to buy a crown for 10 coins?");
 
           ((HappeningDialogBox) dialogBox).getYesButton().setOnAction(buyCrown -> {
             try {
               leaderboard.update();
               ((ParioMartyGameController) gameController).checkCrownPurchase(true);
+
               ((HappeningDialogBox) dialogBox).showOkDialogBox();
+
               dialogBox.refresh(gameController.getPlayersController().getCurrentPlayer().getName()
                   + " got a crown!");
+
+              placeCrownTile();
+
               leaderboard.update();
 
               sfxPlayer.openSoundFile(SoundFile.GET_CROWN);
 
               updatePlayerPositions(initialPlayerPositions);
-
 
             } catch (IllegalArgumentException e) {
               leaderboard.update();
