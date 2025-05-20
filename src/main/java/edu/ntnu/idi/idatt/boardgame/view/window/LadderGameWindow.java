@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.LadderGameLeaderboard;
@@ -18,7 +19,7 @@ import javafx.util.Duration;
  * A class that constructs the game window for the Ladder Game. This class extends the
  * {@link BoardGameWindow} class and implements the game-specific UI logic for the Ladder Game.
  *
- * @author siguraso
+ * @author siguraso & MagnusNaessanGaarder
  * @version 1.0
  * @since 1.0
  */
@@ -26,15 +27,20 @@ public class LadderGameWindow extends BoardGameWindow {
 
   // different components of the window
   private LadderGameLeaderboard leaderboard;
+  private final BoardType boardtype;
 
   /**
    * Constructor for the BoardGameWindow class.
    *
    * @param gameController The controller object for the game.
    */
-  public LadderGameWindow(GameController gameController, boolean useTwoDice) {
+  public LadderGameWindow(GameController gameController, boolean useTwoDice, BoardType boardtype) {
     super(gameController, useTwoDice, false);
-
+    if (boardtype == null) {
+      throw new IllegalArgumentException("Board type cannot be null");
+    }
+    this.boardtype = boardtype;
+    super.init();
     window.setTitle("Ladder Game");
   }
 
@@ -78,7 +84,8 @@ public class LadderGameWindow extends BoardGameWindow {
     sidebar.setPadding(new javafx.geometry.Insets(20, 10, 20, 10));
 
     dialogBox = new HappeningDialogBox(
-        gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+        gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!",
+        boardtype);
 
     sidebar.setTop(dialogBox.getComponent());
 

@@ -1,13 +1,14 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components.helperComponents;
 
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
-import java.text.ParseException;
 import java.util.List;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -21,23 +22,24 @@ import javafx.scene.layout.VBox;
  * @version 1.0
  * @since 1.0
  */
-public abstract class HelperWindow extends StackPane implements WindowComponent {
+public abstract class HelperWindow extends BorderPane implements WindowComponent {
   private Label titleLabel;
   private Label subTitleLabel;
   private ImageView image;
   private Label descriptionLabel;
+  private Scene scene;
 
   public HelperWindow() {
     titleLabel = new Label("Title");
     subTitleLabel = new Label("Subtitle");
     image = new ImageView(new Image("file:src/main/resources/Images/placeholder.jpg"));
-    image.setFitWidth(200);
-    image.setFitHeight(200);
+    image.setFitWidth(400);
+    image.setFitHeight(400);
     descriptionLabel = new Label("""
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-        laboris nisi ut aliquip. Duis aute irure dolor in reprehenderit in voluptate velit esse 
-        cillum dolore eu. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
+        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
         deserunt. Mollit anim id est laborum.
         
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
@@ -45,6 +47,8 @@ public abstract class HelperWindow extends StackPane implements WindowComponent 
         laboris nisi ut aliquip. Duis aute irure dolor in reprehenderit in voluptate velit esse
         cillum dolore eu. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
         deserunt. Mollit anim id est laborum.""");
+    this.scene = new Scene(this, 1100, 800);
+    this.scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
   }
 
   public HelperWindow(String title, String subTitle, String description, String image) {
@@ -59,9 +63,11 @@ public abstract class HelperWindow extends StackPane implements WindowComponent 
         this.titleLabel = new Label(title);
         this.subTitleLabel = new Label(subTitle);
         this.image = new ImageView(new Image(image));
-        this.image.setFitWidth(200);
-        this.image.setFitHeight(200);
+        this.image.setFitWidth(400);
+        this.image.setFitHeight(400);
         this.descriptionLabel = new Label(description);
+        this.scene = new Scene(this, 1100, 800);
+        this.scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
       }
     }
   }
@@ -89,37 +95,28 @@ public abstract class HelperWindow extends StackPane implements WindowComponent 
   protected void init() {
     // Set the style
     this.getStyleClass().add("helper-window");
+    titleLabel.getStyleClass().add("title-label");
+    subTitleLabel.getStyleClass().add("subtitle-label");
+    descriptionLabel.getStyleClass().add("description-label");
 
-    // Set the size and other properties
+    HBox titleBox = new HBox();
+    titleBox.getStyleClass().add("title-box");
+    titleBox.getChildren().add(titleLabel);
+    HBox.setHgrow(titleBox, javafx.scene.layout.Priority.ALWAYS);
 
-    // Add the components to the window
-    titleLabel = new Label("Title");
-    subTitleLabel = new Label("Subtitle");
-    image = new ImageView(new Image("file:src/main/resources/Images/placeholder.jpg"));
-    image.setFitWidth(200);
-    image.setFitHeight(200);
-    descriptionLabel = new Label("""
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-        laboris nisi ut aliquip. Duis aute irure dolor in reprehenderit in voluptate velit esse 
-        cillum dolore eu. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
-        deserunt. Mollit anim id est laborum.
-        
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-        deserunt. Mollit anim id est laborum.""");
+    VBox textBox = new VBox();
+    textBox.getStyleClass().add("text-box");
+    textBox.getChildren().addAll(subTitleLabel, descriptionLabel);
 
-    HBox TitleBox = new HBox();
-    TitleBox.getStyleClass().add("title-box");
-    TitleBox.getChildren().add(titleLabel);
+    VBox imageBox = new VBox(image);
 
-    VBox ContentBox = new VBox();
+    BorderPane ContentBox = new BorderPane();
     ContentBox.getStyleClass().add("content-box");
-    ContentBox.getChildren().addAll(subTitleLabel, descriptionLabel);
+    ContentBox.setLeft(textBox);
+    ContentBox.setRight(imageBox);
 
-    this.getChildren().addAll(TitleBox, image, ContentBox);
+    setTop(titleBox);
+    setCenter(ContentBox);
   }
 
   protected void setTitle(String title) {
@@ -146,6 +143,13 @@ public abstract class HelperWindow extends StackPane implements WindowComponent 
   protected void setContent(List<Node> content) {
     this.getChildren().clear();
     this.getChildren().addAll(content);
+  }
+
+  public Scene getSecondaryScene() {
+    return scene;
+  }
+  protected void setScene(HelperWindow element) {
+    this.scene.setRoot(element);
   }
 
   public Node getComponent() {

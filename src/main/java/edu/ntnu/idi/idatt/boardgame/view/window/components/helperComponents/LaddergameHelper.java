@@ -7,12 +7,14 @@ public class LaddergameHelper extends HelperWindow {
     if (version == null || version.isEmpty()) {
       throw new IllegalArgumentException("Version cannot be null or empty");
     }
-    init(version);
+    this.init(version);
+    super.setScene(this);
   }
 
   private void init(String version) {
     switch (version) {
-      case "regular" -> {
+      case "Regular" -> {
+        System.out.println("Regular version");
         super.setTitle("Ladder Game - Help");
         super.setSubTitle("Explanation of the \"Ladder Game\", Regular version:");
         super.setImage("file:src/main/resources/Images/boards/ladder_game_regular.png");
@@ -43,7 +45,8 @@ public class LaddergameHelper extends HelperWindow {
             number that would take them past the last square, they must move back the number of
             spaces that would take them past the last square.""");
       }
-      case "special" -> {
+      case "Special" -> {
+        System.out.println("Special version");
         super.setTitle("Ladder Game - Help");
         super.setSubTitle("Explanation of the \"Ladder Game\", Special version:");
         super.setImage("file:src/main/resources/Images/boards/ladder_game_special.png");
