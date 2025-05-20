@@ -84,8 +84,6 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
     gameController.addObserver(this);
 
     this.boardDisplay = new BoardDisplay(gameController, isParioMarty);
-
-    init();
   }
 
 

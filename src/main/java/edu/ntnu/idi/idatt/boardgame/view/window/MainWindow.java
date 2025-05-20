@@ -667,6 +667,7 @@ public class MainWindow implements Window {
     try {
       if (boardType != BoardType.PARIO_MARTY) {
         // get all players
+
         playerSelectionView.getChildren().forEach(playerProfile -> {
           HBox playerProfileEditor = (HBox) playerProfile;
 
@@ -701,9 +702,9 @@ public class MainWindow implements Window {
       BoardGameWindow gameWindow;
 
       if (boardType == BoardType.PARIO_MARTY) {
-        gameWindow = new ParioMartyGameWindow(gameController, useTwoDice);
+        gameWindow = new ParioMartyGameWindow(gameController, useTwoDice, boardType);
       } else {
-        gameWindow = new LadderGameWindow(gameController, useTwoDice);
+        gameWindow = new LadderGameWindow(gameController, useTwoDice, boardType);
       }
 
       window.close();

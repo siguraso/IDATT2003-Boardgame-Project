@@ -1,6 +1,10 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox;
 
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.helperComponents.HelperWindow;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.helperComponents.LaddergameHelper;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.helperComponents.ParioMartyHelper;
 import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -16,6 +20,25 @@ import javafx.scene.shape.Rectangle;
 public abstract class DialogBox implements WindowComponent {
 
   private final Label dialogText = new Label();
+  private final HelperWindow helpWindow;
+
+  public DialogBox(BoardType boardType) {
+    System.out.println(boardType.getBoardName());
+    if (boardType == BoardType.PARIO_MARTY) {
+      System.out.println("Pario Marty");
+      this.helpWindow = new ParioMartyHelper();
+    } else if (boardType == BoardType.LADDER_GAME_REGULAR) {
+      System.out.println("Ladder Game Regular");
+      this.helpWindow = new LaddergameHelper("Regular");
+    } else {
+      System.out.println("Ladder Game Special");
+      this.helpWindow = new LaddergameHelper("Special");
+    }
+  }
+
+  protected HelperWindow getHelpWindow() {
+    return helpWindow;
+  }
 
   /**
    * Gets the template for backdrop, speaker and dialog text for every dialog box.
