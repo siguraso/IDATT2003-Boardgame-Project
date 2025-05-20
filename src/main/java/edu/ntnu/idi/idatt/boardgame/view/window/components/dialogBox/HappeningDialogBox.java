@@ -32,14 +32,13 @@ public class HappeningDialogBox extends DialogBox {
   }
 
   private void init() {
-
     dialogBox.getChildren().add(confirmationButton);
     dialogBox.getChildren().add(helperButton);
     helperButton.setOnAction(e -> {
       Stage helpStage = new Stage();
       helpStage.setScene(getHelpWindow().getScene());
       helpStage.setTitle("Help");
-      helpStage.setResizable(false);
+      helpStage.setResizable(true);
       helpStage.show();
     });
     dialogBox.setSpacing(10);
