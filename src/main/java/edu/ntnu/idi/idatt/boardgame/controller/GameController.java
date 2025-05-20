@@ -104,7 +104,7 @@ public abstract class GameController implements BoardGameObserver, BoardGameObse
    *
    * @return the action last performed by a RandomActionTile represented as a String.
    */
-  public String getLastRandomAction() {
+  public int getLastRandomAction() {
 
     //this method is only called when the last special tile was a RandomActionTile
     Tile tile = board.tiles().get(lastSpecialTile);

@@ -4,7 +4,9 @@ import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.controller.ParioMartyGameController;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.MowserActionComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.ParioMartyLeaderBoard;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.RandomActionComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
 import java.util.Objects;
 import javafx.animation.KeyFrame;
@@ -14,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -30,6 +33,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
   private ParioMartyLeaderBoard leaderboard;
   private Label turns;
+  private StackPane mowserActionPane;
 
   /**
    * Constructor for the ParioMartyGameWindow class.
@@ -259,10 +263,10 @@ public class ParioMartyGameWindow extends BoardGameWindow {
           String randomAction;
 
           switch (gameController.getLastRandomAction()) {
-            case "ReturnToStartAction" -> randomAction = "Return to start";
-            case "RollAgainAction" -> randomAction = "Roll again";
-            case "SwapPlayersAction" -> randomAction = "Swap spaces with a random player";
-            case "MoveToRandomTileAction" -> randomAction = "Move to a random tile";
+            case 0 -> randomAction = "Return to start";
+            case 1 -> randomAction = "Roll again";
+            case 2 -> randomAction = "Swap spaces with a random player";
+            case 3 -> randomAction = "Move to a random tile";
             default -> randomAction = null;
           }
 
@@ -337,5 +341,35 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     }
 
   }
+/*
+  protected void showMowserActionList(String tileAction, int[] initialPlayerPositions) {
+    sfxPlayer.stopSound();
+
+    MowserActionComponent mowserActionComponent = new MowserActionComponent();
+
+    mowserActionPane = (StackPane) mowserActionComponent.getComponent();
+
+    allElements.getChildren().add(randomActionPane);
+
+    mowserActionComponent.getRandomActionTimeline().setOnFinished(onFinished -> {
+      allElements.getChildren().remove(randomActionPane);
+
+      // perform the action that was selected
+      switch (tileAction) {
+        case "ReturnToStartAction" -> {
+          gameController.getPlayersController().getCurrentPlayer().setPosition(0);
+          boardDisplay.getPlayerGrid().get(0).getChildren()
+              .add(playerPieces.get(gameController.getPlayersController().getCurrentPlayer()
+                  .getName()));
+        }
+      }
+    });
+
+    randomActionComponent.randomActionSequence(tileAction, SoundFile.RANDOM_ACTION_MOVE,
+        SoundFile.RANDOM_ACTION_SELECT, SoundFile.ROLL_AGAIN);
+
+  }
+
+ */
 
 }

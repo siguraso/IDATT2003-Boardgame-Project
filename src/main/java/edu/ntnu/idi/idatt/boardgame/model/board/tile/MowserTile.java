@@ -9,6 +9,7 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 public class MowserTile extends SpecialTile {
 
   private final TileAction[] tileActions = new TileAction[4];
+  private int randomIndex;
 
 
   /**
@@ -28,21 +29,21 @@ public class MowserTile extends SpecialTile {
   /**
    * Accesses the last {@link TileAction} that was performed on the tile.
    *
-   * @return the last {@link TileAction} (represented as a String) that was performed on the tile.
+   * @return the last {@link TileAction} (represented as an int) that was performed on the tile.
    */
-  public String getTileAction() {
+  public int getTileAction() {
     if (tileAction == null) {
       throw new NullPointerException("Tile action is null.");
     }
 
-    return tileAction.getClass().getSimpleName();
+    return randomIndex;
   }
 
   @Override
   public void performAction(Player player) {
     try {
       // initialize the tileAction with a random TileAction
-      int randomIndex = (int) (Math.random() * tileActions.length);
+      randomIndex = (int) (Math.random() * tileActions.length);
       tileAction = tileActions[randomIndex];
       try {
         tileAction.performAction(player);

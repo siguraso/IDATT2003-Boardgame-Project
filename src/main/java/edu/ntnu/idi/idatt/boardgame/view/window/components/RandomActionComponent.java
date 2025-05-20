@@ -22,10 +22,10 @@ import javafx.scene.layout.VBox;
  */
 public class RandomActionComponent implements WindowComponent {
 
-  private final ListView<String> actionsListView = new ListView<>();
+  protected final ListView<String> actionsListView = new ListView<>();
   private final Timeline randomActionTimeline = new Timeline();
-  private final VBox listViewContainer = new VBox();
-  private final Label header = new Label("Random Happening!");
+  protected final VBox listViewContainer = new VBox();
+  protected final Label header = new Label("Random Happening!");
 
   /**
    * Constructor for the RandomActionComponent class.
@@ -72,9 +72,16 @@ public class RandomActionComponent implements WindowComponent {
    * that was passed in at the end of the animation. Used to show the user what action the
    * RandomAction tile has performed.
    *
-   * @param tileAction A String containing tile action to be selected at the end of the animation.
+   * @param tileAction  A String containing tile action to be selected at the end of the animation.
+   * @param moveSound   A SoundFile object containing the sound to be played when moving to a new
+   *                    action.
+   * @param selectSound A SoundFile object containing the sound to be played when selecting an
+   *                    action.
+   * @param showSound   A SoundFile object containing the sound to be played when showing the
+   *                    action.
    */
-  public void randomActionSequence(String tileAction) {
+  public void randomActionSequence(String tileAction, SoundFile moveSound, SoundFile selectSound,
+      SoundFile showSound) {
     SfxPlayer sfxPlayer = new SfxPlayer();
 
     randomActionTimeline.getKeyFrames().clear();
@@ -94,7 +101,7 @@ public class RandomActionComponent implements WindowComponent {
               selectedWrapper.currentSelected = 0;
             }
 
-            sfxPlayer.openSoundFile(SoundFile.RANDOM_ACTION_MOVE);
+            sfxPlayer.openSoundFile(moveSound);
             sfxPlayer.playSound();
           });
 
@@ -106,7 +113,7 @@ public class RandomActionComponent implements WindowComponent {
         event -> {
           actionsListView.getSelectionModel().select(selectedWrapper.finalSelected);
 
-          sfxPlayer.openSoundFile(SoundFile.RANDOM_ACTION_SELECT);
+          sfxPlayer.openSoundFile(selectSound);
           sfxPlayer.playSound();
         });
 
@@ -119,7 +126,7 @@ public class RandomActionComponent implements WindowComponent {
 
           header.setText(tileAction);
 
-          sfxPlayer.openSoundFile(SoundFile.RANDOM_ACTION_SHOW);
+          sfxPlayer.openSoundFile(showSound);
           sfxPlayer.playSound();
         });
 

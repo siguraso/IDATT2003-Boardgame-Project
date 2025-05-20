@@ -279,10 +279,10 @@ public class LadderGameWindow extends BoardGameWindow {
           String randomAction;
 
           switch (gameController.getLastRandomAction()) {
-            case "ReturnToStartAction" -> randomAction = "Return to start";
-            case "RollAgainAction" -> randomAction = "Roll again";
-            case "SwapPlayersAction" -> randomAction = "Swap spaces with a random player";
-            case "MoveToRandomTileAction" -> randomAction = "Move to a random tile";
+            case 0 -> randomAction = "Return to start";
+            case 1 -> randomAction = "Roll again";
+            case 2 -> randomAction = "Swap spaces with a random player";
+            case 3 -> randomAction = "Move to a random tile";
             default -> randomAction = null;
           }
 

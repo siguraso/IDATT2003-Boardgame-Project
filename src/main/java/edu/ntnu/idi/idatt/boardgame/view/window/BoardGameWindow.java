@@ -294,7 +294,8 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
       }
     });
 
-    randomActionComponent.randomActionSequence(tileAction);
+    randomActionComponent.randomActionSequence(tileAction, SoundFile.RANDOM_ACTION_MOVE,
+        SoundFile.RANDOM_ACTION_SELECT, SoundFile.RANDOM_ACTION_SHOW);
 
   }
 
