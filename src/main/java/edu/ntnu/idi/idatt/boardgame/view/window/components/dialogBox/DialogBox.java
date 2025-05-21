@@ -23,15 +23,11 @@ public abstract class DialogBox implements WindowComponent {
   private final HelperWindow helpWindow;
 
   public DialogBox(BoardType boardType) {
-    System.out.println(boardType.getBoardName());
     if (boardType == BoardType.PARIO_MARTY) {
-      System.out.println("Pario Marty");
       this.helpWindow = new ParioMartyHelper();
     } else if (boardType == BoardType.LADDER_GAME_REGULAR) {
-      System.out.println("Ladder Game Regular");
       this.helpWindow = new LaddergameHelper("Regular");
     } else {
-      System.out.println("Ladder Game Special");
       this.helpWindow = new LaddergameHelper("Special");
     }
   }

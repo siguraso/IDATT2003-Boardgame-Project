@@ -37,8 +37,8 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
   private ParioMartyLeaderBoard leaderboard;
 
-  private BoardType boardtype;
-  
+  private final BoardType boardType;
+
   private StackPane mowserActionPane;
   private Label turns;
 
@@ -50,9 +50,11 @@ public class ParioMartyGameWindow extends BoardGameWindow {
    *                       through the PlayerController
    * @param useTwoDice     boolean indicating whether to use two dice or not
    */
-  public ParioMartyGameWindow(GameController gameController, boolean useTwoDice, BoardType boardtype) {
+  public ParioMartyGameWindow(GameController gameController, boolean useTwoDice,
+      BoardType boardType) {
     super(gameController, useTwoDice, true);
-    this.boardtype = boardtype;
+    this.boardType = boardType;
+    init();
 
     window.setTitle("Pario Marty");
   }
@@ -98,11 +100,10 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     sidebar.setMinHeight(800);
     sidebar.setPadding(new javafx.geometry.Insets(20, 10, 20, 10));
 
-
     dialogBox = new HappeningDialogBox(
-        gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+        gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!", boardType);
     ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
-    
+
     sidebar.setTop(dialogBox.getComponent());
     sidebar.setCenter(dieBox.getComponent());
 

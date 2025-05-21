@@ -3,7 +3,6 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.controller.LadderGameController;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SfxPlayer;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
@@ -348,8 +347,14 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
    * @return an array of integers containing the player positions on the board.
    */
   protected int[] getPlayerPositions() {
-    return gameController.getPlayersController().getPlayers().stream()
-        .mapToInt(Player::getPosition).toArray();
+    int[] playerPositions = new int[gameController.getPlayersController().getPlayers().size()];
+
+    gameController.getPlayersController().getPlayers().forEach((player) -> {
+      playerPositions[gameController.getPlayersController().getPlayers()
+          .indexOf(player)] = player.getPosition();
+    });
+
+    return playerPositions;
   }
 
   /**

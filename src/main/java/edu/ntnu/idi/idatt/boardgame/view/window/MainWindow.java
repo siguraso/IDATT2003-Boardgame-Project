@@ -43,6 +43,7 @@ import javafx.stage.Stage;
  * @since 1.0
  */
 public class MainWindow implements Window {
+
   private final Stage window;
 
   // BoardType that is currently selected
@@ -684,7 +685,7 @@ public class MainWindow implements Window {
         GameController gameController = new LadderGameController(playersController, useTwoDice);
         gameController.setBoard(boardType, useJson, jsonFilePath);
 
-        BoardGameWindow gameWindow = new LadderGameWindow(gameController, useTwoDice);
+        BoardGameWindow gameWindow = new LadderGameWindow(gameController, useTwoDice, boardType);
 
         close();
         gameWindow.show();
@@ -707,14 +708,13 @@ public class MainWindow implements Window {
         GameController gameController = new ParioMartyGameController(playersController, useTwoDice);
         gameController.setBoard(boardType, useJson, jsonFilePath);
 
-        BoardGameWindow gameWindow = new ParioMartyGameWindow(gameController, useTwoDice);
+        BoardGameWindow gameWindow = new ParioMartyGameWindow(gameController, useTwoDice,
+            boardType);
 
         close();
         gameWindow.show();
       }
-    } catch (Exception e) {
-      e.printStackTrace();
-    } /*catch (NullPointerException e) {
+    } catch (NullPointerException e) {
       playersController.clearPlayers();
 
       playerSelectionView.getStyleClass().add("player-selection-view-error");
@@ -733,7 +733,7 @@ public class MainWindow implements Window {
         errorLabel.setVisible(true);
       }
     }
-    */
+
 
   }
 
