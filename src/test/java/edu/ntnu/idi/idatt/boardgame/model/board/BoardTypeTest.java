@@ -13,7 +13,7 @@ class BoardTypeTest {
     assertEquals("/Images/boards/ladder_game_regular.png",
         BoardType.LADDER_GAME_REGULAR.getFilePath());
     assertEquals("/Images/boards/ladder_game_json.png", BoardType.LADDER_GAME_JSON.getFilePath());
-    assertEquals("/Images/boards/pario_marti.png", BoardType.PARIO_MARTY.getFilePath());
+    assertEquals("/Images/boards/pario_marty.png", BoardType.PARIO_MARTY.getFilePath());
   }
 
   @Test

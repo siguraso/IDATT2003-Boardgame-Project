@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.controller.ParioMartyGameController;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
@@ -35,8 +36,12 @@ import javafx.util.Duration;
 public class ParioMartyGameWindow extends BoardGameWindow {
 
   private ParioMartyLeaderBoard leaderboard;
+
+  private BoardType boardtype;
+  
   private StackPane mowserActionPane;
   private Label turns;
+
 
   /**
    * Constructor for the ParioMartyGameWindow class.
@@ -45,8 +50,9 @@ public class ParioMartyGameWindow extends BoardGameWindow {
    *                       through the PlayerController
    * @param useTwoDice     boolean indicating whether to use two dice or not
    */
-  public ParioMartyGameWindow(GameController gameController, boolean useTwoDice) {
+  public ParioMartyGameWindow(GameController gameController, boolean useTwoDice, BoardType boardtype) {
     super(gameController, useTwoDice, true);
+    this.boardtype = boardtype;
 
     window.setTitle("Pario Marty");
   }
@@ -92,9 +98,11 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     sidebar.setMinHeight(800);
     sidebar.setPadding(new javafx.geometry.Insets(20, 10, 20, 10));
 
+
     dialogBox = new HappeningDialogBox(
         gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
     ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+    
     sidebar.setTop(dialogBox.getComponent());
     sidebar.setCenter(dieBox.getComponent());
 

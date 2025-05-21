@@ -1,10 +1,13 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox;
 
+
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  * A dialog that is displayed to the user when something happens in the game, of which the player
@@ -14,15 +17,19 @@ public class HappeningDialogBox extends DialogBox {
 
   private final VBox dialogBox;
   private final Button confirmationButton = new Button("OK");
+  private final Button helperButton = new Button("Help");
+
   private final Button NoButton = new Button("No");
   private final Button YesButton = new Button("Yes");
 
   private final HBox yesNoButtons = new HBox();
 
+
   /**
    * Constructor for the HappeningDialogBox.
    */
-  public HappeningDialogBox(String message) {
+  public HappeningDialogBox(String message, BoardType boardType) {
+    super(boardType);
     dialogBox = (VBox) getTemplate(message);
   }
 
@@ -40,6 +47,15 @@ public class HappeningDialogBox extends DialogBox {
 
   private void init() {
     dialogBox.getChildren().add(confirmationButton);
+    dialogBox.getChildren().add(helperButton);
+    helperButton.setOnAction(e -> {
+      Stage helpStage = new Stage();
+      helpStage.setScene(getHelpWindow().getScene());
+      helpStage.setTitle("Help");
+      helpStage.setResizable(true);
+      helpStage.show();
+    });
+    dialogBox.setSpacing(10);
   }
 
   @Override
