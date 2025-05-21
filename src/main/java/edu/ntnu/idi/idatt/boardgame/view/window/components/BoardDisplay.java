@@ -1,6 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
+import edu.ntnu.idi.idatt.boardgame.controller.LadderGameController;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.ladder.LadderDrawer;
 import java.util.HashMap;
 import java.util.Map;
@@ -93,8 +94,24 @@ public class BoardDisplay implements WindowComponent {
 
   }
 
-  public Map<Integer, FlowPane> getGridTiles() {
+  /**
+   * Accesses the {@link Map} of grid tiles that the players move on.
+   *
+   * @return a {@link Map} of {@link FlowPane} objects, where the key is the tile number and the
+   * value is the {@link FlowPane} object representing the tile, which contains the players.
+   */
+  public Map<Integer, FlowPane> getPlayerGrid() {
     return gridTiles;
+  }
+
+  /**
+   * Accesses the {@link Map} of grid tiles that contain the background of the tiles.
+   *
+   * @return a {@link Map} of {@link StackPane} objects, where the key is the tile number and the
+   * value is the {@link StackPane} object representing the tile, which contains the tile number.
+   */
+  public Map<Integer, StackPane> getGridTileStack() {
+    return gridTileStack;
   }
 
   @Override
@@ -159,7 +176,8 @@ public class BoardDisplay implements WindowComponent {
     gridTileStack.keySet().forEach(t -> {
       switch (tileTypes.get(t)) {
         case "LadderTile" -> {
-          int destTileNum = gameController.getLadderDestinationTileNumber(t);
+          int destTileNum = ((LadderGameController) gameController).getLadderDestinationTileNumber(
+              t);
 
           /*logger.log(Level.INFO, "Ladder tile " + t + " has destination tile "
               + gameController.getLadderDestinationTileNumber(t));*/
@@ -270,7 +288,7 @@ public class BoardDisplay implements WindowComponent {
           ImageView icon = new ImageView(
               new Image(Objects.requireNonNull(
                   this.getClass()
-                      .getResourceAsStream("/Images/boards/tile-icons/add_crown.png"))));
+                      .getResourceAsStream("/Images/boards/tile-icons/crown_gold.png"))));
           icon.setFitWidth(60);
           icon.setFitHeight(54);
 
@@ -361,7 +379,8 @@ public class BoardDisplay implements WindowComponent {
     Platform.runLater(() -> gridTileStack.keySet().stream()
         .filter(i -> tileTypes.get(i).equals("LadderTile"))
         .forEach(t -> {
-          int destTileNum = gameController.getLadderDestinationTileNumber(t);
+          int destTileNum = ((LadderGameController) gameController).getLadderDestinationTileNumber(
+              t);
           Bounds startBounds = gridTileStack.get(t).localToScene(
               gridTileStack.get(t).getBoundsInLocal());
           double[] startPos = {

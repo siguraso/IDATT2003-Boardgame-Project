@@ -2,16 +2,26 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
+import edu.ntnu.idi.idatt.boardgame.controller.ParioMartyGameController;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
+import edu.ntnu.idi.idatt.boardgame.view.window.components.MowserActionComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.ParioMartyLeaderBoard;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
+import java.util.Arrays;
+import java.util.Objects;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -26,7 +36,12 @@ import javafx.util.Duration;
 public class ParioMartyGameWindow extends BoardGameWindow {
 
   private ParioMartyLeaderBoard leaderboard;
+
   private BoardType boardtype;
+  
+  private StackPane mowserActionPane;
+  private Label turns;
+
 
   /**
    * Constructor for the ParioMartyGameWindow class.
@@ -48,10 +63,20 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     int tileWidth = (800 - (2 * 29)) / 9;
     int tileHeight = (800 - (2 * 28)) / 10;
 
-    this.boardDisplay.init(tileWidth, tileHeight, gameController.getBoard().getTileTypes());
-    boardGrid.getChildren().add(this.boardDisplay.getComponent());
+    ImageView arrows = new ImageView(new Image(
+        Objects.requireNonNull(
+            this.getClass().getResourceAsStream("/Images/boards/pario_marty_arrows.png"))));
 
-    Label turns = new Label("Turn 1 of 15");
+    arrows.setFitWidth(800);
+    arrows.setFitHeight(800);
+
+    Label header = new Label("Pario Marty");
+    header.getStyleClass().add("pario-marty-header");
+
+    this.boardDisplay.init(tileWidth, tileHeight, gameController.getBoard().getTileTypes());
+    boardGrid.getChildren().addAll(arrows, header, this.boardDisplay.getComponent());
+
+    turns = new Label("Turn 1 of 20");
 
     VBox boardVBox = new VBox();
     turns.getStyleClass().add("turns-label");
@@ -60,6 +85,9 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
     boardVBox.getChildren().addAll(turns, boardGrid);
     boardVBox.setPadding(new Insets(20, 0, 0, 0));
+
+    placeCrownTile(null);
+    placeCrownTile(null);
 
     return boardVBox;
   }
@@ -70,7 +98,11 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     sidebar.setMinHeight(800);
     sidebar.setPadding(new javafx.geometry.Insets(20, 10, 20, 10));
 
-    dialogBox = new HappeningDialogBox("fwæh", boardtype);
+
+    dialogBox = new HappeningDialogBox(
+        gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+    ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+    
     sidebar.setTop(dialogBox.getComponent());
     sidebar.setCenter(dieBox.getComponent());
 
@@ -79,6 +111,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     sidebar.setBottom(leaderboard.getComponent());
 
     dieBox.getRollDieButton().setOnAction(e -> {
+
       dieBox.getRollDieButton().setDisable(true);
 
       sfxPlayer.openSoundFile(SoundFile.ROLL_DIE);
@@ -114,18 +147,18 @@ public class ParioMartyGameWindow extends BoardGameWindow {
       int nextTile = currentPlayerPiecePosition + 1;
     };
 
-    for (int i = 0; i < steps; i++) {
+    for (int i = 1; i <= steps; i++) {
       KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), e -> {
         if (nextTileWrapper.nextTile == 36) {
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile - 1).getChildren()
               .remove(currentPlayerPiece);
-          boardDisplay.getGridTiles().get(2).getChildren().add(currentPlayerPiece);
+          boardDisplay.getPlayerGrid().get(2).getChildren().add(currentPlayerPiece);
 
           nextTileWrapper.nextTile = 3;
         } else {
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile - 1).getChildren()
               .remove(currentPlayerPiece);
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile).getChildren()
               .add(currentPlayerPiece);
 
           nextTileWrapper.nextTile++;
@@ -143,6 +176,348 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
   @Override
   protected void finishTurn() {
+    dieBox.getRollDieButton().setDisable(true);
+
+    int[] initialPlayerPositions = getPlayerPositions();
+
+    gameController.finishTurn();
+
+    String currentTileType = gameController.getBoard().tiles()
+        .get(initialPlayerPositions[gameController.getPlayersController().getPlayers()
+            .indexOf(gameController.getPlayersController().getPreviousPlayer())]).getTileType();
+
+    // if the player is on a special tile, tell the players, and perform on button click
+    if (!currentTileType.equals(TileType.NORMAL.getTileType())) {
+
+      switch (currentTileType) {
+        case "AddCoinsTile" -> {
+          leaderboard.update();
+          sfxPlayer.stopSound();
+          sfxPlayer.openSoundFile(SoundFile.ADD_COINS);
+          sfxPlayer.playSound();
+
+          dieBox.getRollDieButton().setDisable(false);
+
+          checkForWinner();
+        }
+        case "RemoveCoinsTile" -> {
+          leaderboard.update();
+          sfxPlayer.stopSound();
+          sfxPlayer.openSoundFile(SoundFile.REMOVE_COINS);
+          sfxPlayer.playSound();
+
+          dieBox.getRollDieButton().setDisable(false);
+
+          checkForWinner();
+        }
+        case "RollAgainTile" -> {
+          leaderboard.update();
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " landed on a roll again tile! They get to roll again!");
+
+          sfxPlayer.openSoundFile(SoundFile.ROLL_AGAIN);
+
+          updatePlayerPositions(initialPlayerPositions);
+        }
+        case "AddCrownTile" -> {
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+          ((HappeningDialogBox) dialogBox).showYesNoDialogBox();
+
+          dialogBox.refresh(
+              "Congratulations " + gameController.getPlayersController().getPreviousPlayer()
+                  .getName() + "! You have landed on a crown tile! "
+                  + "Would you like to buy a crown for 10 coins?");
+
+          ((HappeningDialogBox) dialogBox).getYesButton().setOnAction(buyCrown -> {
+            try {
+              leaderboard.update();
+              ((ParioMartyGameController) gameController).checkCrownPurchase(true);
+
+              ((HappeningDialogBox) dialogBox).showOkDialogBox();
+
+              dialogBox.refresh(gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " got a crown!");
+
+              placeCrownTile(
+                  gameController.getPlayersController().getPreviousPlayer().getPosition());
+
+              leaderboard.update();
+
+              sfxPlayer.openSoundFile(SoundFile.GET_CROWN);
+
+              updatePlayerPositions(initialPlayerPositions);
+
+            } catch (IllegalArgumentException e) {
+              leaderboard.update();
+              ((HappeningDialogBox) dialogBox).showOkDialogBox();
+              dialogBox.refresh(e.getMessage());
+
+              sfxPlayer.openSoundFile(SoundFile.MOWSER_SHOW);
+
+              updatePlayerPositions(initialPlayerPositions);
+
+            }
+          });
+
+          ((HappeningDialogBox) dialogBox).getNoButton().setOnAction(dontBuyCrown -> {
+            leaderboard.update();
+            ((ParioMartyGameController) gameController).checkCrownPurchase(false);
+
+            ((HappeningDialogBox) dialogBox).showOkDialogBox();
+
+            dialogBox.refresh(gameController.getPlayersController().getPreviousPlayer().getName()
+                + " did not buy a crown.");
+
+            dieBox.getRollDieButton().setDisable(false);
+
+            updatePlayerPositions(initialPlayerPositions);
+          });
+        }
+        case "RandomActionTile" -> {
+          leaderboard.update();
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          doRandomActionTileLogic(initialPlayerPositions);
+
+        }
+        case "ReturnToStartTile" -> {
+          leaderboard.update();
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " fell down a hole and returned to start!");
+
+          sfxPlayer.openSoundFile(SoundFile.RETURN_TO_START);
+
+          updatePlayerPositions(initialPlayerPositions);
+        }
+        case "MowserTile" -> {
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.stopSound();
+          sfxPlayer.openSoundFile(SoundFile.MOWSER_LAND);
+          sfxPlayer.playSound();
+
+          dialogBox.refresh(
+              "Oh No! " + gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " landed on a Mowser tile! What is going to happen?!");
+
+          String mowserAction;
+
+          switch (gameController.getLastRandomAction()) {
+            case 0 -> mowserAction = "Lose 20 coins!";
+            case 1 -> mowserAction = "Lose all of your coins!";
+            case 2 -> mowserAction = "Lose a crown!";
+            case 3 -> mowserAction = "Return back to start!";
+            default -> mowserAction = null;
+          }
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+            ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+            sfxPlayer.stopSound();
+            showMowserActionList(mowserAction, initialPlayerPositions);
+          });
+        }
+      }
+    } else {
+      if (((ParioMartyGameController) gameController).getCurrentTurn() <= 20) {
+        dialogBox.refresh(
+            gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+      }
+    }
+
+    turns.setText(
+        "Turn " + ((ParioMartyGameController) gameController).getCurrentTurn() + " of 20");
+  }
+
+  private void placeCrownTile(Integer lastCrownTile) {
+    ((ParioMartyGameController) gameController).setCrownTile(lastCrownTile);
+
+    // if the current player is on the crown tile, the crown tile is removed
+    if (lastCrownTile != null) {
+      boardDisplay.getGridTileStack().get(lastCrownTile).getChildren().removeFirst();
+
+      boardDisplay.getGridTileStack().get(lastCrownTile).getStyleClass().clear();
+
+      boardDisplay.getGridTileStack().get(lastCrownTile).getStyleClass().add("add-coins-tile");
+
+      ImageView icon = new ImageView(new Image(Objects.requireNonNull(this.getClass()
+          .getResourceAsStream("/Images/boards/tile-icons/add_coin.png"))));
+      icon.setFitWidth(60);
+      icon.setFitHeight(54);
+
+      boardDisplay.getGridTileStack().get(lastCrownTile).getChildren().add(icon);
+      icon.toBack();
+    }
+
+    int currentCrownTile = ((ParioMartyGameController) gameController).getCurrentCrownTile();
+
+    boardDisplay.getGridTileStack().get(currentCrownTile).getChildren().removeFirst();
+
+    boardDisplay.getGridTileStack().get(currentCrownTile).getStyleClass().clear();
+
+    boardDisplay.getGridTileStack().get(currentCrownTile).getStyleClass().add("add-crown-tile");
+
+    ImageView icon = new ImageView(
+        new Image(Objects.requireNonNull(
+            this.getClass()
+                .getResourceAsStream("/Images/boards/tile-icons/crown_gold.png"))));
+    icon.setFitWidth(60);
+    icon.setFitHeight(54);
+
+    boardDisplay.getGridTileStack().get(currentCrownTile).getChildren().add(icon);
+    icon.toBack();
+
+
+  }
+
+  protected void showMowserActionList(String mowserAction, int[] initialPlayerPositions) {
+    sfxPlayer.stopSound();
+
+    MowserActionComponent mowserActionComponent = new MowserActionComponent();
+
+    mowserActionPane = (StackPane) mowserActionComponent.getComponent();
+
+    allElements.getChildren().add(mowserActionPane);
+
+    mowserActionComponent.getRandomActionTimeline().setOnFinished(onFinished -> {
+      allElements.getChildren().remove(mowserActionPane);
+
+      // perform the action that was selected
+      switch (mowserAction) {
+        case "Lose 20 coins!" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " lost 20 coins!");
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.openSoundFile(SoundFile.REMOVE_COINS);
+
+          updatePlayerPositions(initialPlayerPositions);
+        }
+        case "Lose a crown!" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " lost a crown!");
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.openSoundFile(SoundFile.LOSE_CROWN);
+
+          updatePlayerPositions(initialPlayerPositions);
+        }
+        case "Lose all of your coins!" -> {
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " lost all of their coins!");
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.openSoundFile(SoundFile.REMOVE_COINS);
+
+          updatePlayerPositions(initialPlayerPositions);
+        }
+
+        default -> {
+          // default case is return to start.
+
+          dialogBox.refresh(
+              gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " returned to start!");
+
+          ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
+
+          sfxPlayer.openSoundFile(SoundFile.RETURN_TO_START);
+
+          updatePlayerPositions(initialPlayerPositions);
+        }
+      }
+
+      leaderboard.update();
+    });
+
+    mowserActionComponent.randomActionSequence(mowserAction, SoundFile.RANDOM_ACTION_MOVE,
+        SoundFile.MOWSER_SELECT, SoundFile.MOWSER_SHOW);
+
+  }
+
+  @Override
+  protected void showWinnerScreen() {
+    sfxPlayer.stopSound();
+    StackPane winnerScreen = new StackPane();
+
+    winnerScreen.getStyleClass().add("winner-screen");
+    winnerScreen.setAlignment(Pos.CENTER);
+
+    Button exitButton = new Button("Return to main menu");
+    exitButton.setOnAction(e -> {
+      sfxPlayer.stopSound();
+      Stage MainWindowStage = new Stage();
+
+      MainWindow mainWindow = new MainWindow(MainWindowStage);
+      mainWindow.init();
+
+      close();
+      mainWindow.show();
+    });
+
+    String[] winnerNames = ((ParioMartyGameController) gameController).getWinnerNames();
+
+    Label winnerText;
+
+    if (winnerNames.length > 1) {
+      StringBuilder winnerTextBuilder = new StringBuilder("Congratulations, \n");
+      Arrays.stream(winnerNames).toList().forEach(winner -> {
+        winnerTextBuilder.append(winner);
+        if (Arrays.stream(winnerNames).toList().indexOf(winner) < winnerNames.length - 1) {
+          winnerTextBuilder.append(",\n");
+        } else {
+          winnerTextBuilder.append("\nHave won the game!");
+        }
+      });
+
+      winnerText = new Label(winnerTextBuilder.toString());
+      winnerText.setAlignment(Pos.CENTER);
+      winnerText.getStyleClass().add("winner-label");
+    } else {
+      winnerText = new Label("Congratulations, "
+          + winnerNames[0] + "!\n"
+          + "You have won the game!");
+      winnerText.setAlignment(Pos.CENTER);
+    }
+
+    winnerText.getStyleClass().add("winner-label");
+
+    exitButton.setAlignment(Pos.CENTER);
+
+    VBox winnerScreenBox = new VBox(winnerText, exitButton);
+    winnerScreenBox.setAlignment(Pos.CENTER);
+    winnerScreenBox.setSpacing(50);
+
+    exitButton.getStyleClass().add("winner-buttons");
+
+    createConfettiAnimation(winnerScreen);
+
+    winnerScreen.getChildren().add(winnerScreenBox);
+
+    allElements.getChildren().add(winnerScreen);
+
+    sfxPlayer.openSoundFile(SoundFile.GAME_WON);
+    sfxPlayer.playSound();
+  }
+
+  @Override
+  protected void checkForWinner() {
+    if (gameController.isGameOver()) {
+      sfxPlayer.stopSound();
+      ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+      dieBox.getRollDieButton().setDisable(true);
+      showWinnerScreen();
+    }
   }
 
 }

@@ -104,7 +104,13 @@ public class PlayersController {
     return players;
   }
 
-  public List<ParioMartyPlayer> getPlayersAsParioMarty() {
+  /**
+   * Returns the {@link List} containing the players in the game as {@link ParioMartyPlayer}.
+   *
+   * @return The {@link List} containing the players in the game as {@link ParioMartyPlayer}.
+   * @throws IllegalArgumentException if a player is not a {@link ParioMartyPlayer}.
+   */
+  public List<ParioMartyPlayer> getPlayersAsParioMarty() throws IllegalArgumentException {
     List<ParioMartyPlayer> parioMartyPlayers = new ArrayList<>();
 
     players.forEach((player) -> {

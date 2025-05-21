@@ -24,12 +24,12 @@ public class AddCrownTile extends SpecialTile {
   @Override
   public void performAction(Player player) {
     try {
-      if (((ParioMartyPlayer) player).getCoins() > 20) {
+      if (((ParioMartyPlayer) player).getCoins() >= 10) {
         tileAction.performAction(player);
-        ((ParioMartyPlayer) player).removeCoins(20);
+        ((ParioMartyPlayer) player).removeCoins(10);
 
       } else {
-        throw new IllegalArgumentException("Player does not have 20 or more coins.");
+        throw new IllegalArgumentException("Player does not have 10 or more coins.");
       }
 
     } catch (NullPointerException e) {

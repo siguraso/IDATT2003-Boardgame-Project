@@ -24,6 +24,11 @@
   cta_red_pressed: #a10000;
   cta_green: #3cec5f;
 
+  /* mowser list */
+  mowser_backg: #fd7a92;
+  mowser_highlight: cta_red_hover;
+
+
   /* Board */
   board_normal: #e7ece7;
   ladder_positive: #3cea5f;
@@ -292,7 +297,7 @@
   -fx-text-alignment: center;
 }
 
-.action-list {
+.action-list, .mowser-action-list {
   -fx-background-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -316,6 +321,29 @@
 
 .action-list .list-view .list-cell:selected {
   -fx-background-color: bg_500;
+  -fx-text-fill: text_wht;
+}
+
+.mowser-action-list .list-view {
+  -fx-background-color: mowser_backg;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+  -fx-alignment: center;
+  -fx-max-width: 370;
+  -fx-font-size: 16px;
+}
+
+.mowser-action-list .list-view .list-cell {
+  -fx-background-color: mowser_backg;
+  -fx-text-fill: text_blk;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+  -fx-min-height: 30;
+  -fx-pref-height: 30;
+}
+
+.mowser-action-list .list-view .list-cell:selected {
+  -fx-background-color: mowser_highlight;
   -fx-text-fill: text_wht;
 }
 
@@ -447,6 +475,7 @@
   -fx-pref-width: 320;
 }
 
+
 .helper-window {
   -fx-background-color: bg_200;
   -fx-border-radius: 10;
@@ -474,4 +503,11 @@ descriptionLabel {
   -fx-text-fill: text_blk;
   -fx-font-size: 16px;
   -fx-font-weight: normal;
+}
+  
+.pario-marty-header {
+  -fx-font-size: 100px;
+  -fx-text-fill: white;
+  -fx-font-weight: bold;
+
 }

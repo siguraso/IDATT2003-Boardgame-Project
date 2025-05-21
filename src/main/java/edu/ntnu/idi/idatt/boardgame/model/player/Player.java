@@ -7,7 +7,7 @@ import java.util.Arrays;
 public abstract class Player implements BoardGameObserver {
 
   private final String name;
-  private int position;
+  protected int position;
   private boolean isWinner = false;
   private final PlayerPiece piece;
   private boolean rollAgain = false;

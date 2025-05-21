@@ -24,12 +24,12 @@ public class RemoveCrownAction implements TileAction {
   public void performAction(Player player) {
     if (player == null) {
       throw new NullPointerException("Player cannot be null");
-    } else if (((ParioMartyPlayer) player).getCrowns() == 0) {
-      throw new IllegalArgumentException("Cannot remove crown from player with 0 crowns");
     }
 
     try {
-      ((ParioMartyPlayer) player).removeCrowns(1);
+      if (((ParioMartyPlayer) player).getCrowns() != 0) {
+        ((ParioMartyPlayer) player).removeCrowns(1);
+      }
     } catch (ClassCastException e) {
       throw new ClassCastException("Player is not of type ParioMartyPlayer");
     }
