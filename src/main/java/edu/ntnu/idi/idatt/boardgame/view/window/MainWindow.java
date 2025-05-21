@@ -9,6 +9,7 @@ import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -40,7 +41,6 @@ import javafx.stage.Stage;
  * @since 1.0
  */
 public class MainWindow implements Window {
-
   private final Stage window;
 
   // BoardType that is currently selected
