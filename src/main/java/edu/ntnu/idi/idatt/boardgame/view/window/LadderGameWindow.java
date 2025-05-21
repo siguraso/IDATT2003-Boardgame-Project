@@ -143,16 +143,16 @@ public class LadderGameWindow extends BoardGameWindow {
 
       KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), event -> {
 
-        if (nextTileWrapper.nextTile == boardDisplay.getGridTiles().size() + 1) {
+        if (nextTileWrapper.nextTile == boardDisplay.getPlayerGrid().size() + 1) {
           // if it is about to moveForward one over the last tile, moveForward them backwards,
           // in other words set nextTile to nextTile - 2
 
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile - 1).getChildren()
               .remove(currentPlayerPiece);
 
           nextTileWrapper.nextTile = nextTileWrapper.nextTile - 2;
 
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile).getChildren()
               .add(currentPlayerPiece);
 
           // update the next tile wrapper
@@ -163,10 +163,10 @@ public class LadderGameWindow extends BoardGameWindow {
           // if it is one over the last tile, moveForward them backwards, in other words,
           // set nexTile to nextTile - 2
 
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile + 1).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile + 1).getChildren()
               .remove(currentPlayerPiece);
 
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile).getChildren()
               .add(currentPlayerPiece);
 
           // update the next tile wrapper
@@ -177,11 +177,11 @@ public class LadderGameWindow extends BoardGameWindow {
           // if the player is not moving past the last tile, moveForward them normally
 
           // Remove the player from the current position
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile - 1).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile - 1).getChildren()
               .remove(currentPlayerPiece);
 
           // Add the player to the new position
-          boardDisplay.getGridTiles().get(nextTileWrapper.nextTile).getChildren()
+          boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile).getChildren()
               .add(currentPlayerPiece);
 
           // update the next tile wrapper
@@ -204,12 +204,7 @@ public class LadderGameWindow extends BoardGameWindow {
   @Override
   protected void finishTurn() {
 
-    int[] initialPlayerPositions = new int[4];
-
-    gameController.getPlayersController().getPlayers().forEach(player ->
-        initialPlayerPositions[gameController.getPlayersController().getPlayers()
-            .indexOf(player)] = player.getPosition()
-    );
+    int[] initialPlayerPositions = getPlayerPositions();
 
     // get the player object from the players hashmap
     gameController.finishTurn();
@@ -271,28 +266,9 @@ public class LadderGameWindow extends BoardGameWindow {
           updatePlayerPositions(initialPlayerPositions);
         }
 
-        case "RandomActionTile" -> {
-          dialogBox.refresh(
-              gameController.getPlayersController().getPreviousPlayer().getName()
-                  + " landed on a random action tile! They get to do a random action!");
+        case "RandomActionTile" -> doRandomActionTileLogic(initialPlayerPositions);
 
-          String randomAction;
-
-          switch (gameController.getLastRandomAction()) {
-            case "ReturnToStartAction" -> randomAction = "Return to start";
-            case "RollAgainAction" -> randomAction = "Roll again";
-            case "SwapPlayersAction" -> randomAction = "Swap spaces with a random player";
-            case "MoveToRandomTileAction" -> randomAction = "Move to a random tile";
-            default -> randomAction = null;
-          }
-
-          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
-            ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
-            showRandomActionList(randomAction, initialPlayerPositions);
-          });
-        }
-
-        case "WinnerTile" -> showWinnerScreen();
+        case "WinnerTile" -> checkForWinner();
 
       }
 

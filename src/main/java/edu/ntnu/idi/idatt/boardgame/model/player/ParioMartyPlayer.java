@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
+import java.util.Arrays;
+
 /**
  * A player in the ParioMarty game. This class extends the {@link Player} class and represents a
  * player in the ParioMarty game.
@@ -10,7 +12,7 @@ package edu.ntnu.idi.idatt.boardgame.model.player;
  */
 public class ParioMartyPlayer extends Player {
 
-  int coins = 0;
+  int coins = 10;
   int crowns = 0;
 
   /**
@@ -84,4 +86,25 @@ public class ParioMartyPlayer extends Player {
     throw new IllegalArgumentException("ParioMartyPlayer cannot use ladder action");
   }
 
+  @Override
+  public void update(int[] i) {
+    if (i == null) {
+      throw new NullPointerException("Input cannot be null");
+    } else if (i.length == 0) {
+      throw new IllegalArgumentException("Input cannot be empty");
+    } else if (i[0] <= 0) {
+      throw new IllegalArgumentException("Input value must be greater than 0");
+    } else {
+      int steps = Arrays.stream(i).sum();
+      if (position + steps > 35) {
+        // if the player goes over 35, they go back to the start, and move forward the
+        // remaining steps
+        int delta = position + steps - 35 + 1;
+        moveTo(delta);
+      } else {
+
+        moveForward(steps);
+      }
+    }
+  }
 }

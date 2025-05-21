@@ -20,6 +20,7 @@ public class RandomActionTile extends SpecialTile {
 
   private final transient TileAction[] tileActions = new TileAction[4];
   private final transient Board board;
+  private int randomIndex;
 
   /**
    * Constructor for the RandomActionTile class.
@@ -62,8 +63,8 @@ public class RandomActionTile extends SpecialTile {
   public void performAction(Player player) {
     try {
       // initialize the tileAction with a random TileAction
-      int randomAction = (int) (Math.random() * tileActions.length);
-      this.tileAction = tileActions[randomAction];
+      randomIndex = (int) (Math.random() * tileActions.length);
+      this.tileAction = tileActions[randomIndex];
 
       tileAction.performAction(player);
     } catch (NullPointerException e) {
@@ -81,14 +82,14 @@ public class RandomActionTile extends SpecialTile {
   /**
    * Method that returns the {@link TileAction} that was previously performed on this tile.
    *
-   * @return the {@link TileAction} (represented as a String) that was performed on this tile.
+   * @return the {@link TileAction} (represented as an integer) that was performed on this tile.
    */
-  public String getTileAction() {
+  public int getTileAction() {
     if (tileAction == null) {
       throw new NullPointerException("No tile action has been performed yet.");
     }
 
-    return tileAction.getClass().getSimpleName();
+    return randomIndex;
   }
 
   /**
