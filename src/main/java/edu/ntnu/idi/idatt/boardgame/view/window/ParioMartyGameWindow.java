@@ -6,18 +6,21 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.MowserActionComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.ParioMartyLeaderBoard;
-import edu.ntnu.idi.idatt.boardgame.view.window.components.RandomActionComponent;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox.HappeningDialogBox;
+import java.util.Arrays;
 import java.util.Objects;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -32,8 +35,8 @@ import javafx.util.Duration;
 public class ParioMartyGameWindow extends BoardGameWindow {
 
   private ParioMartyLeaderBoard leaderboard;
-  private Label turns;
   private StackPane mowserActionPane;
+  private Label turns;
 
   /**
    * Constructor for the ParioMartyGameWindow class.
@@ -67,7 +70,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     this.boardDisplay.init(tileWidth, tileHeight, gameController.getBoard().getTileTypes());
     boardGrid.getChildren().addAll(arrows, header, this.boardDisplay.getComponent());
 
-    turns = new Label("Turn 1 of 15");
+    turns = new Label("Turn 1 of 20");
 
     VBox boardVBox = new VBox();
     turns.getStyleClass().add("turns-label");
@@ -167,12 +170,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
   protected void finishTurn() {
     dieBox.getRollDieButton().setDisable(true);
 
-    int[] initialPlayerPositions = new int[4];
-
-    gameController.getPlayersController().getPlayers().forEach(player ->
-        initialPlayerPositions[gameController.getPlayersController().getPlayers()
-            .indexOf(player)] = player.getPosition()
-    );
+    int[] initialPlayerPositions = getPlayerPositions();
 
     gameController.finishTurn();
 
@@ -188,19 +186,21 @@ public class ParioMartyGameWindow extends BoardGameWindow {
           leaderboard.update();
           sfxPlayer.stopSound();
           sfxPlayer.openSoundFile(SoundFile.ADD_COINS);
-          dieBox.getRollDieButton().setDisable(false);
           sfxPlayer.playSound();
-          dialogBox.refresh(
-              gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+
+          dieBox.getRollDieButton().setDisable(false);
+
+          checkForWinner();
         }
         case "RemoveCoinsTile" -> {
           leaderboard.update();
           sfxPlayer.stopSound();
           sfxPlayer.openSoundFile(SoundFile.REMOVE_COINS);
-          dieBox.getRollDieButton().setDisable(false);
           sfxPlayer.playSound();
-          dialogBox.refresh(
-              gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+
+          dieBox.getRollDieButton().setDisable(false);
+
+          checkForWinner();
         }
         case "RollAgainTile" -> {
           leaderboard.update();
@@ -246,6 +246,8 @@ public class ParioMartyGameWindow extends BoardGameWindow {
               ((HappeningDialogBox) dialogBox).showOkDialogBox();
               dialogBox.refresh(e.getMessage());
 
+              sfxPlayer.openSoundFile(SoundFile.MOWSER_SHOW);
+
               updatePlayerPositions(initialPlayerPositions);
 
             }
@@ -254,6 +256,8 @@ public class ParioMartyGameWindow extends BoardGameWindow {
           ((HappeningDialogBox) dialogBox).getNoButton().setOnAction(dontBuyCrown -> {
             leaderboard.update();
             ((ParioMartyGameController) gameController).checkCrownPurchase(false);
+
+            ((HappeningDialogBox) dialogBox).showOkDialogBox();
 
             dialogBox.refresh(gameController.getPlayersController().getPreviousPlayer().getName()
                 + " did not buy a crown.");
@@ -267,24 +271,9 @@ public class ParioMartyGameWindow extends BoardGameWindow {
           leaderboard.update();
 
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
-          dialogBox.refresh(
-              gameController.getPlayersController().getPreviousPlayer().getName()
-                  + " landed on a random action tile! They get to do a random action!");
 
-          String randomAction;
+          doRandomActionTileLogic(initialPlayerPositions);
 
-          switch (gameController.getLastRandomAction()) {
-            case 0 -> randomAction = "Return to start";
-            case 1 -> randomAction = "Roll again";
-            case 2 -> randomAction = "Swap spaces with a random player";
-            case 3 -> randomAction = "Move to a random tile";
-            default -> randomAction = null;
-          }
-
-          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
-            ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
-            showRandomActionList(randomAction, initialPlayerPositions);
-          });
         }
         case "ReturnToStartTile" -> {
           leaderboard.update();
@@ -326,9 +315,14 @@ public class ParioMartyGameWindow extends BoardGameWindow {
         }
       }
     } else {
-      dialogBox.refresh(
-          gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+      if (((ParioMartyGameController) gameController).getCurrentTurn() <= 20) {
+        dialogBox.refresh(
+            gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+      }
     }
+
+    turns.setText(
+        "Turn " + ((ParioMartyGameController) gameController).getCurrentTurn() + " of 20");
   }
 
   private void placeCrownTile(Integer lastCrownTile) {
@@ -443,5 +437,79 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
   }
 
+  @Override
+  protected void showWinnerScreen() {
+    sfxPlayer.stopSound();
+    StackPane winnerScreen = new StackPane();
+
+    winnerScreen.getStyleClass().add("winner-screen");
+    winnerScreen.setAlignment(Pos.CENTER);
+
+    Button exitButton = new Button("Return to main menu");
+    exitButton.setOnAction(e -> {
+      sfxPlayer.stopSound();
+      Stage MainWindowStage = new Stage();
+
+      MainWindow mainWindow = new MainWindow(MainWindowStage);
+      mainWindow.init();
+
+      close();
+      mainWindow.show();
+    });
+
+    String[] winnerNames = ((ParioMartyGameController) gameController).getWinnerNames();
+
+    Label winnerText;
+
+    if (winnerNames.length > 1) {
+      StringBuilder winnerTextBuilder = new StringBuilder("Congratulations, \n");
+      Arrays.stream(winnerNames).toList().forEach(winner -> {
+        winnerTextBuilder.append(winner);
+        if (Arrays.stream(winnerNames).toList().indexOf(winner) < winnerNames.length - 1) {
+          winnerTextBuilder.append(",\n");
+        } else {
+          winnerTextBuilder.append("\nHave won the game!");
+        }
+      });
+
+      winnerText = new Label(winnerTextBuilder.toString());
+      winnerText.setAlignment(Pos.CENTER);
+      winnerText.getStyleClass().add("winner-label");
+    } else {
+      winnerText = new Label("Congratulations, "
+          + winnerNames[0] + "!\n"
+          + "You have won the game!");
+      winnerText.setAlignment(Pos.CENTER);
+    }
+
+    winnerText.getStyleClass().add("winner-label");
+
+    exitButton.setAlignment(Pos.CENTER);
+
+    VBox winnerScreenBox = new VBox(winnerText, exitButton);
+    winnerScreenBox.setAlignment(Pos.CENTER);
+    winnerScreenBox.setSpacing(50);
+
+    exitButton.getStyleClass().add("winner-buttons");
+
+    createConfettiAnimation(winnerScreen);
+
+    winnerScreen.getChildren().add(winnerScreenBox);
+
+    allElements.getChildren().add(winnerScreen);
+
+    sfxPlayer.openSoundFile(SoundFile.GAME_WON);
+    sfxPlayer.playSound();
+  }
+
+  @Override
+  protected void checkForWinner() {
+    if (gameController.isGameOver()) {
+      sfxPlayer.stopSound();
+      ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+      dieBox.getRollDieButton().setDisable(true);
+      showWinnerScreen();
+    }
+  }
 
 }

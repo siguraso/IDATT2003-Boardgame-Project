@@ -3,6 +3,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.controller.LadderGameController;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
+import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SfxPlayer;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;
@@ -73,6 +74,7 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
 
   // movement animation (changes based on the current player and the die throw)
   protected Timeline movementAnimation;
+
 
   /**
    * Constructor for the BoardGameWindow class.
@@ -187,6 +189,8 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
    *                               performed.
    */
   protected void updatePlayerPositions(int[] initialPlayerPositions) {
+    checkForWinner();
+
     ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
 
       gameController.getPlayersController().getPlayers().forEach(player -> {
@@ -214,9 +218,20 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
 
       // play the sound that was opened earlier
       sfxPlayer.playSound();
-
-
     });
+  }
+
+  /**
+   * Checks if the game is in a state where a player has won. If a player has won, it shows the
+   * winner screen.
+   */
+  protected void checkForWinner() {
+    if (gameController.getPlayersController().getPreviousPlayer().isWinner()) {
+      sfxPlayer.stopSound();
+      ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+      dieBox.getRollDieButton().setDisable(true);
+      showWinnerScreen();
+    }
   }
 
   /**
@@ -297,6 +312,46 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
     randomActionComponent.randomActionSequence(tileAction, SoundFile.RANDOM_ACTION_MOVE,
         SoundFile.RANDOM_ACTION_SELECT, SoundFile.RANDOM_ACTION_SHOW);
 
+  }
+
+  /**
+   * Handles the logic for when a player lands on a random action tile. It shows a dialog box
+   * prompting the player to select a random action, and then performs the action that was
+   * selected.
+   *
+   * @param initialPlayerPositions the initial positions of the players before the action is
+   *                               performed.
+   */
+  protected void doRandomActionTileLogic(int[] initialPlayerPositions) {
+    dialogBox.refresh(
+        gameController.getPlayersController().getPreviousPlayer().getName()
+            + " landed on a random action tile! They get to do a random action!");
+
+    String randomAction;
+
+    switch (gameController.getLastRandomAction()) {
+      case 0 -> randomAction = "Return to start";
+      case 1 -> randomAction = "Roll again";
+      case 2 -> randomAction = "Swap spaces with a random player";
+      case 3 -> randomAction = "Move to a random tile";
+      default -> randomAction = null;
+    }
+
+    ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
+      ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
+      showRandomActionList(randomAction, initialPlayerPositions);
+    });
+  }
+
+  /**
+   * Gets the player positions on the board. This is used to update the player positions when a
+   * player lands on a special tile.
+   *
+   * @return an array of integers containing the player positions on the board.
+   */
+  protected int[] getPlayerPositions() {
+    return gameController.getPlayersController().getPlayers().stream()
+        .mapToInt(Player::getPosition).toArray();
   }
 
   /**
@@ -383,7 +438,7 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
     sfxPlayer.playSound();
   }
 
-  private void createConfettiAnimation(StackPane winnerScreen) {
+  protected void createConfettiAnimation(StackPane winnerScreen) {
     winnerScreen.getChildren().clear();
     winnerScreen.setOpacity(1.0);
     winnerScreen.setVisible(true);

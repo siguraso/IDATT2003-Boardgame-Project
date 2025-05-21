@@ -204,12 +204,7 @@ public class LadderGameWindow extends BoardGameWindow {
   @Override
   protected void finishTurn() {
 
-    int[] initialPlayerPositions = new int[4];
-
-    gameController.getPlayersController().getPlayers().forEach(player ->
-        initialPlayerPositions[gameController.getPlayersController().getPlayers()
-            .indexOf(player)] = player.getPosition()
-    );
+    int[] initialPlayerPositions = getPlayerPositions();
 
     // get the player object from the players hashmap
     gameController.finishTurn();
@@ -271,28 +266,9 @@ public class LadderGameWindow extends BoardGameWindow {
           updatePlayerPositions(initialPlayerPositions);
         }
 
-        case "RandomActionTile" -> {
-          dialogBox.refresh(
-              gameController.getPlayersController().getPreviousPlayer().getName()
-                  + " landed on a random action tile! They get to do a random action!");
+        case "RandomActionTile" -> doRandomActionTileLogic(initialPlayerPositions);
 
-          String randomAction;
-
-          switch (gameController.getLastRandomAction()) {
-            case 0 -> randomAction = "Return to start";
-            case 1 -> randomAction = "Roll again";
-            case 2 -> randomAction = "Swap spaces with a random player";
-            case 3 -> randomAction = "Move to a random tile";
-            default -> randomAction = null;
-          }
-
-          ((HappeningDialogBox) dialogBox).getConfirmationButton().setOnAction(onPress -> {
-            ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(true);
-            showRandomActionList(randomAction, initialPlayerPositions);
-          });
-        }
-
-        case "WinnerTile" -> showWinnerScreen();
+        case "WinnerTile" -> checkForWinner();
 
       }
 

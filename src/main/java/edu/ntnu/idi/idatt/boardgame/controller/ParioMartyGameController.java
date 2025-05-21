@@ -9,7 +9,11 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -149,5 +153,36 @@ public class ParioMartyGameController extends GameController {
   public int getCurrentTurn() {
     return currentTurn;
   }
+
+  /**
+   * Accesses the name of the player(s) that have won the game.
+   *
+   * @return an array of Strings containing names of the winners.
+   */
+  public String[] getWinnerNames() {
+    List<ParioMartyPlayer> winners = new ArrayList<>(playersController.getPlayersAsParioMarty());
+    winners.sort(Comparator.comparing(ParioMartyPlayer::getCrowns)
+        .thenComparing(ParioMartyPlayer::getCoins).reversed());
+
+    // check if there are multiple winners
+    int winnerCoins = winners.getFirst().getCoins();
+    int winnerCrowns = winners.getFirst().getCrowns();
+    // remove all players that are not winners
+    winners.removeIf(
+        winner -> winner.getCrowns() < winnerCrowns || winner.getCoins() < winnerCoins);
+
+    String[] winnerNames = new String[winners.size()];
+    winners.forEach(
+        winner -> winnerNames[winners.indexOf(winner)] = winner.getName()
+    );
+
+    return winnerNames;
+  }
+
+  @Override
+  public boolean isGameOver() {
+    return currentTurn >= 20;
+  }
+
 
 }

@@ -143,6 +143,13 @@ public abstract class GameController implements BoardGameObserver, BoardGameObse
     return ((RandomActionTile) tile).getPlayerToSwapWith().getName();
   }
 
+  /**
+   * Checks if the game has reached a winning state.
+   *
+   * @return true if the game has reached a winning state, false otherwise.
+   */
+  public abstract boolean isGameOver();
+
   @Override
   public void update(int[] i) {
     notifyObservers(i);
