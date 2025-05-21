@@ -134,7 +134,10 @@ public class ParioMartyLeaderBoard implements WindowComponent {
     dataBox.setSpacing(2);
 
     HBox playerBox = new HBox();
-    playerBox.getChildren().addAll(playerImageBox, new Label(playerName));
+    Label playerNameLabel = new Label(playerName);
+    playerNameLabel.setWrapText(true);
+    playerNameLabel.setMaxWidth(145);
+    playerBox.getChildren().addAll(playerImageBox, playerNameLabel);
     playerBox.setAlignment(Pos.CENTER);
     playerBox.setSpacing(5);
 

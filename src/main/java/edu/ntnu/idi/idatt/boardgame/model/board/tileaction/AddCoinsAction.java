@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
+import edu.ntnu.idi.idatt.boardgame.exception.InvalidPlayerException;
 import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
@@ -37,7 +38,7 @@ public class AddCoinsAction implements TileAction {
     try {
       ((ParioMartyPlayer) player).addCoins(5);
     } catch (ClassCastException e) {
-      throw new ClassCastException("Player is not of type ParioMartyPlayer");
+      throw new InvalidPlayerException("Player is not of type ParioMartyPlayer");
     }
   }
 

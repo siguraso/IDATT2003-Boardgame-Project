@@ -181,7 +181,7 @@ public class ParioMartyGameController extends GameController {
 
   @Override
   public boolean isGameOver() {
-    return currentTurn >= 20;
+    return currentTurn > 20;
   }
 
 

@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
+import edu.ntnu.idi.idatt.boardgame.exception.InvalidPlayerException;
 import java.util.Arrays;
 
 /**
@@ -83,7 +84,7 @@ public class ParioMartyPlayer extends Player {
 
   @Override
   public void handleLadderAction(int destination) {
-    throw new IllegalArgumentException("ParioMartyPlayer cannot use ladder action");
+    throw new InvalidPlayerException("ParioMartyPlayer cannot use ladder action");
   }
 
   @Override

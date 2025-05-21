@@ -330,8 +330,11 @@ public class ParioMartyGameWindow extends BoardGameWindow {
       }
     }
 
-    turns.setText(
-        "Turn " + ((ParioMartyGameController) gameController).getCurrentTurn() + " of 20");
+    if (((ParioMartyGameController) gameController).getCurrentTurn() <= 20) {
+      turns.setText(
+          "Turn " + ((ParioMartyGameController) gameController).getCurrentTurn() + " of 20");
+    }
+
   }
 
   private void placeCrownTile(Integer lastCrownTile) {

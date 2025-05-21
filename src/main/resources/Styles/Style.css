@@ -484,30 +484,38 @@
 }
 
 .title-box {
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
-    -fx-padding: 10;
+  -fx-border-radius: 10;
+  -fx-background-radius: 10;
+  -fx-padding: 10;
 }
+
 .title-label {
   -fx-text-alignment: center;
   -fx-text-fill: bg_900;
   -fx-font-size: 34px;
   -fx-font-weight: bold;
 }
+
 .subtitle-label {
   -fx-text-fill: bg_900;
   -fx-font-size: 22px;
   -fx-font-weight: bold;
 }
-descriptionLabel {
+
+.descriptionLabel {
   -fx-text-fill: text_blk;
   -fx-font-size: 16px;
   -fx-font-weight: normal;
 }
-  
+
 .pario-marty-header {
   -fx-font-size: 100px;
   -fx-text-fill: white;
   -fx-font-weight: bold;
+}
 
+.helper-button {
+  -fx-background-radius: 700;
+  -fx-pref-height: 20;
+  -fx-pref-width: 20;
 }

@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
+import edu.ntnu.idi.idatt.boardgame.exception.InvalidPlayerException;
 import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
@@ -31,7 +32,7 @@ public class RemoveCrownAction implements TileAction {
         ((ParioMartyPlayer) player).removeCrowns(1);
       }
     } catch (ClassCastException e) {
-      throw new ClassCastException("Player is not of type ParioMartyPlayer");
+      throw new InvalidPlayerException("Player is not of type ParioMartyPlayer");
     }
   }
 }

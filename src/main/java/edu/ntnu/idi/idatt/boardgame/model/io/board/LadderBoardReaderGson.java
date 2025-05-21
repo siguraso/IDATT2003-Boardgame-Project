@@ -9,6 +9,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import edu.ntnu.idi.idatt.boardgame.exception.InvalidTileException;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
@@ -125,7 +126,8 @@ public class LadderBoardReaderGson implements BoardFileReader, JsonDeserializer<
       case RANDOM_ACTION -> new RandomActionTile(tileNumber, onscreenPosition, board);
       case WINNER -> new WinnerTile(tileNumber, onscreenPosition);
       case ROLL_AGAIN -> new RollAgainTile(tileNumber, onscreenPosition);
-      default -> throw new JsonParseException("Cannot add Pario Marty tile to a ladder game board");
+      default ->
+          throw new InvalidTileException("Cannot add Pario Marty tile to a ladder game board");
     };
   }
 }
