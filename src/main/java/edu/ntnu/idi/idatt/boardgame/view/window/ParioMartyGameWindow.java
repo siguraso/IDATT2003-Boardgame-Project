@@ -77,7 +77,8 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     boardVBox.getChildren().addAll(turns, boardGrid);
     boardVBox.setPadding(new Insets(20, 0, 0, 0));
 
-    placeCrownTile();
+    placeCrownTile(null);
+    placeCrownTile(null);
 
     return boardVBox;
   }
@@ -228,10 +229,11 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
               ((HappeningDialogBox) dialogBox).showOkDialogBox();
 
-              dialogBox.refresh(gameController.getPlayersController().getCurrentPlayer().getName()
+              dialogBox.refresh(gameController.getPlayersController().getPreviousPlayer().getName()
                   + " got a crown!");
 
-              placeCrownTile();
+              placeCrownTile(
+                  gameController.getPlayersController().getPreviousPlayer().getPosition());
 
               leaderboard.update();
 
@@ -253,7 +255,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
             leaderboard.update();
             ((ParioMartyGameController) gameController).checkCrownPurchase(false);
 
-            dialogBox.refresh(gameController.getPlayersController().getCurrentPlayer().getName()
+            dialogBox.refresh(gameController.getPlayersController().getPreviousPlayer().getName()
                 + " did not buy a crown.");
 
             dieBox.getRollDieButton().setDisable(false);
@@ -327,16 +329,12 @@ public class ParioMartyGameWindow extends BoardGameWindow {
       dialogBox.refresh(
           gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
     }
-
-    turns.setText(
-        "Turn " + ((ParioMartyGameController) gameController).getCurrentTurn() + " of 15");
   }
 
-  private void placeCrownTile() {
-    ((ParioMartyGameController) gameController).setCrownTile();
+  private void placeCrownTile(Integer lastCrownTile) {
+    ((ParioMartyGameController) gameController).setCrownTile(lastCrownTile);
 
-    Integer lastCrownTile = ((ParioMartyGameController) gameController).getLastCrownTile();
-
+    // if the current player is on the crown tile, the crown tile is removed
     if (lastCrownTile != null) {
       boardDisplay.getGridTileStack().get(lastCrownTile).getChildren().removeFirst();
 
@@ -353,25 +351,24 @@ public class ParioMartyGameWindow extends BoardGameWindow {
       icon.toBack();
     }
 
-    Integer currentCrownTile = ((ParioMartyGameController) gameController).getCurrentCrownTile();
+    int currentCrownTile = ((ParioMartyGameController) gameController).getCurrentCrownTile();
 
-    if (currentCrownTile != null) {
-      boardDisplay.getGridTileStack().get(currentCrownTile).getChildren().removeFirst();
+    boardDisplay.getGridTileStack().get(currentCrownTile).getChildren().removeFirst();
 
-      boardDisplay.getGridTileStack().get(currentCrownTile).getStyleClass().clear();
+    boardDisplay.getGridTileStack().get(currentCrownTile).getStyleClass().clear();
 
-      boardDisplay.getGridTileStack().get(currentCrownTile).getStyleClass().add("add-crown-tile");
+    boardDisplay.getGridTileStack().get(currentCrownTile).getStyleClass().add("add-crown-tile");
 
-      ImageView icon = new ImageView(
-          new Image(Objects.requireNonNull(
-              this.getClass()
-                  .getResourceAsStream("/Images/boards/tile-icons/crown_gold.png"))));
-      icon.setFitWidth(60);
-      icon.setFitHeight(54);
+    ImageView icon = new ImageView(
+        new Image(Objects.requireNonNull(
+            this.getClass()
+                .getResourceAsStream("/Images/boards/tile-icons/crown_gold.png"))));
+    icon.setFitWidth(60);
+    icon.setFitHeight(54);
 
-      boardDisplay.getGridTileStack().get(currentCrownTile).getChildren().add(icon);
-      icon.toBack();
-    }
+    boardDisplay.getGridTileStack().get(currentCrownTile).getChildren().add(icon);
+    icon.toBack();
+
 
   }
 

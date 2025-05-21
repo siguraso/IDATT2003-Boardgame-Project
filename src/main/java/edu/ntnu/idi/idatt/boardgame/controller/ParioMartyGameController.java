@@ -21,8 +21,7 @@ import java.util.Set;
  */
 public class ParioMartyGameController extends GameController {
 
-  private Integer previousCrownTile = null;
-  private Integer currentCrownTile = null;
+  private int currentCrownTile;
   private int currentTurn = 1;
   private final Set<String> playersThisTurn = new HashSet<>();
 
@@ -91,9 +90,8 @@ public class ParioMartyGameController extends GameController {
    * replaces it with a crown tile. If there was a previous crown tile, it is replaced with an
    * {@link AddCoinsTile}.
    */
-  public void setCrownTile() {
+  public void setCrownTile(Integer lasCrownTile) {
     boolean hasPlacedCrownTile = false;
-    previousCrownTile = currentCrownTile;
 
     // place the crown tile on a random addCoins tile
     while (!hasPlacedCrownTile) {
@@ -109,10 +107,10 @@ public class ParioMartyGameController extends GameController {
     }
 
     // if there was a previous crown tile, replace it with an addCoins tile
-    if (previousCrownTile != null) {
-      board.tiles().put(previousCrownTile,
-          new AddCoinsTile(previousCrownTile,
-              board.tiles().get(previousCrownTile).getOnscreenPosition(), 5));
+    if (lasCrownTile != null) {
+      board.tiles().put(lasCrownTile,
+          new AddCoinsTile(lasCrownTile,
+              board.tiles().get(lasCrownTile).getOnscreenPosition(), 5));
     }
 
   }
@@ -134,15 +132,6 @@ public class ParioMartyGameController extends GameController {
   }
 
   /**
-   * Accesses the previous crown tiles placement.
-   *
-   * @return the previous crown tile placement.
-   */
-  public Integer getLastCrownTile() {
-    return previousCrownTile;
-  }
-
-  /**
    * Accesses the current {@link AddCrownTile} placement.
    *
    * @return the current {@link AddCrownTile} tile placement.
@@ -150,6 +139,7 @@ public class ParioMartyGameController extends GameController {
   public Integer getCurrentCrownTile() {
     return currentCrownTile;
   }
+
 
   /**
    * Accesses the current turn number.
