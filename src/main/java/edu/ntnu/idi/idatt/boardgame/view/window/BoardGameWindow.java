@@ -122,13 +122,13 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
 
     allElements.getChildren().add(root);
 
-    Scene scene = new Scene(allElements, 1200, 815);
+    Scene scene = new Scene(allElements, 1200, 850);
     scene.getStylesheets().add(
         Objects.requireNonNull(BoardGameWindow.class.getResource("/Styles/Style.css"))
             .toExternalForm());
 
     window.setMinWidth(1200);
-    window.setMinHeight(820);
+    window.setMinHeight(840);
     window.setResizable(true);
     window.setScene(scene);
   }

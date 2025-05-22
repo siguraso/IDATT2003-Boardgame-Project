@@ -97,7 +97,6 @@ public class ParioMartyGameWindow extends BoardGameWindow {
   @Override
   protected void initSidebar() {
     sidebar.setMinWidth(400);
-    sidebar.setMinHeight(800);
     sidebar.setPadding(new javafx.geometry.Insets(20, 10, 20, 10));
 
     dialogBox = new HappeningDialogBox(
