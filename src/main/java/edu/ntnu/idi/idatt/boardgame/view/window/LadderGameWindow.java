@@ -17,7 +17,8 @@ import javafx.util.Duration;
 
 /**
  * A class that constructs the game window for the Ladder Game. This class extends the
- * {@link BoardGameWindow} class and implements the game-specific UI logic for the Ladder Game.
+ * {@link BoardGameWindow} class and implements the game-specific UserInterface logic for the Ladder
+ * Game.
  *
  * @author siguraso & MagnusNaessanGaarder
  * @version 1.0
@@ -275,7 +276,8 @@ public class LadderGameWindow extends BoardGameWindow {
 
         case "RandomActionTile" -> doRandomActionTileLogic(initialPlayerPositions);
 
-        case "WinnerTile" -> checkForWinner();
+        // default is the winner tile
+        default -> checkForWinner();
 
       }
 

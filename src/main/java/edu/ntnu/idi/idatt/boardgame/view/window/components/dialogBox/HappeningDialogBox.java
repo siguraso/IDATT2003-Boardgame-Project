@@ -18,8 +18,8 @@ public class HappeningDialogBox extends DialogBox {
   private final Button confirmationButton = new Button("OK");
 
 
-  private final Button NoButton = new Button("No");
-  private final Button YesButton = new Button("Yes");
+  private final Button noButton = new Button("No");
+  private final Button yesButton = new Button("Yes");
 
   private final HBox yesNoButtons = new HBox();
 
@@ -39,7 +39,7 @@ public class HappeningDialogBox extends DialogBox {
     yesNoButtons.setSpacing(10);
     yesNoButtons.setAlignment(Pos.CENTER);
 
-    yesNoButtons.getChildren().addAll(YesButton, NoButton);
+    yesNoButtons.getChildren().addAll(yesButton, noButton);
 
     return dialogBox;
   }
@@ -74,7 +74,7 @@ public class HappeningDialogBox extends DialogBox {
    * @return the yes {@link Button} in the dialog box.
    */
   public Button getYesButton() {
-    return YesButton;
+    return yesButton;
   }
 
   /**
@@ -85,7 +85,7 @@ public class HappeningDialogBox extends DialogBox {
    * @return the no {@link Button} in the dialog box.
    */
   public Button getNoButton() {
-    return NoButton;
+    return noButton;
   }
 
   /**

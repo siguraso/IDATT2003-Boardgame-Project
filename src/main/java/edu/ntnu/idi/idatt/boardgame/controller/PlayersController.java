@@ -194,9 +194,7 @@ public class PlayersController {
   public Map<String, Integer> getPlayerPositions() {
     Map<String, Integer> playerPositions = new HashMap<>();
 
-    players.forEach(player -> {
-      playerPositions.put(player.getName(), player.getPosition());
-    });
+    players.forEach(player -> playerPositions.put(player.getName(), player.getPosition()));
 
     return playerPositions;
   }

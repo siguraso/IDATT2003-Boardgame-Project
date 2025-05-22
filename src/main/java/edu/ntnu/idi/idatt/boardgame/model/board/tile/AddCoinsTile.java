@@ -2,7 +2,6 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
 import edu.ntnu.idi.idatt.boardgame.exception.InvalidPlayerException;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.AddCoinsAction;
-import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
 /**

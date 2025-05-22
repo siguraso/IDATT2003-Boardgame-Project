@@ -31,7 +31,6 @@ import javafx.scene.layout.StackPane;
  */
 public class BoardDisplay implements WindowComponent {
 
-  private final Logger logger = Logger.getLogger("BoardDisplay");
   private final GridPane boardGrid = new GridPane();
   private final GridPane playersGrid = new GridPane();
   private static final int ROWS = 10;

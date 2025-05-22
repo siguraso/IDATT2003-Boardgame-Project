@@ -6,11 +6,13 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.StrokeLineCap;
+
 /**
  * <h1>Final Class ~ LadderDrawer</h1>
- * This class is responsible for drawing the ladder on a canvas.
- * It takes in start and end positions, as well as dimensions to create the ladders.
- * Extends the JavaFX Canvas class "Canvas" to provide a drawing surface for ladders.
+ * This class is responsible for drawing the ladder on a canvas. It takes in start and end
+ * positions, as well as dimensions to create the ladders. Extends the JavaFX Canvas class "Canvas"
+ * to provide a drawing surface for ladders.
+ *
  * @author MagnusNaessanGaarder
  * @version 1.0
  * @since 1.0
@@ -20,29 +22,21 @@ public final class LadderDrawer extends Canvas {
   private final GraphicsContext gc = getGraphicsContext2D();
 
   /**
-   * Constructor for LadderDrawer. Manually sets the width and height of the canvas.
-   * The default width and height are set to 800 x 800 px.
+   * Constructor for LadderDrawer. Manually sets the width and height of the canvas. The default
+   * width and height are set to 800 x 800 px.
    */
   public LadderDrawer() {
     this.setWidth(800);
     this.setHeight(800);
   }
-  /**
-   * Constructor for LadderDrawer. Defines the width and height of the canvas. Use if necessary.
-   * @param width the width (double) to be assigned to the canvas.
-   * @param height the height (double) to be assigned to the canvas.
-   */
-  public LadderDrawer(double width, double height) {
-    this.setWidth(width);
-    this.setHeight(height);
-  }
 
   /**
    * Draws a ladder on the canvas, from a tile to another.
-   * @param startPos the starting position of the ladder (double[] {x-position, y-position}).
-   *                 The start-position from a tile on the board.
-   * @param endPos the ending position of the ladder (double[] {x-position, y-position}).
-   *               The end-position from a tile on the board.
+   *
+   * @param startPos   the starting position of the ladder (double[] {x-position, y-position}). The
+   *                   start-position from a tile on the board.
+   * @param endPos     the ending position of the ladder (double[] {x-position, y-position}). The
+   *                   end-position from a tile on the board.
    * @param dimensions an array (int[] {width, height}) with the width and height of a tile.
    */
   public void draw(double[] startPos, double[] endPos, int[] dimensions) {
@@ -79,7 +73,6 @@ public final class LadderDrawer extends Canvas {
         start.getY() - ny * widthLadder);
     Point2D rightEnd = new Point2D(end.getX() - nx * widthLadder,
         end.getY() - ny * widthLadder);
-
 
     // Draw the side rails
     gc.moveTo(leftStart.getX(), leftStart.getY());

@@ -201,7 +201,7 @@ class BoardFactoryTest {
       Map<Integer, Tile> invalidTilesOrder = new HashMap<>();
       IntStream.rangeClosed(1, 89).forEach(i ->
           invalidTilesOrder.put(i, new NormalTile(i, new int[]{i % 10, i / 10})));
-      invalidTilesOrder.put(91, new WinnerTile(91, new int[]{0, 0})); // Out of range tile number
+      invalidTilesOrder.put(91, new WinnerTile(91, new int[]{0, 0}));
       Board invalidBoardOrder = new Board(invalidTilesOrder);
       when(mockReader.readBoardFile("invalid/order.json", true)).thenReturn(invalidBoardOrder);
 
@@ -212,7 +212,7 @@ class BoardFactoryTest {
       // first tile not normal
       Map<Integer, Tile> invalidFirstTile = new HashMap<>();
       invalidFirstTile.put(1,
-          new LadderTile(1, new int[]{0, 0}, 40)); // First tile should be normal
+          new LadderTile(1, new int[]{0, 0}, 40));
       IntStream.rangeClosed(2, 89).forEach(i ->
           invalidFirstTile.put(i, new NormalTile(i, new int[]{i % 10, i / 10})));
       invalidFirstTile.put(90, new WinnerTile(90, new int[]{9, 9}));
@@ -228,7 +228,7 @@ class BoardFactoryTest {
       invalidLastTile.put(1, new NormalTile(1, new int[]{0, 0}));
       IntStream.rangeClosed(2, 89).forEach(i ->
           invalidLastTile.put(i, new NormalTile(i, new int[]{i % 10, i / 10})));
-      invalidLastTile.put(90, new NormalTile(90, new int[]{9, 9})); // Last tile should be winner
+      invalidLastTile.put(90, new NormalTile(90, new int[]{9, 9}));
       Board invalidBoardLastTile = new Board(invalidLastTile);
       when(mockReader.readBoardFile("invalid/last.json", true)).thenReturn(invalidBoardLastTile);
 

@@ -5,6 +5,15 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.AddCrownAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
+/**
+ * A special tile that adds a crown to the player when they land on it. This is a tile that only
+ * appears in the ParioMarty game, and thus, only works with Pario Marty players This class extends
+ * the {@link SpecialTile} class.
+ *
+ * @author siguraso
+ * @version 1.0
+ * @since 1.0
+ */
 public class AddCrownTile extends SpecialTile {
 
   /**

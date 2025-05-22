@@ -1,12 +1,15 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RemoveCoinsAction;
-import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
 /**
  * A special tile that adds coins to the player when they land on it. This tile is used in the Pario
  * Marty game.
+ *
+ * @author siguraso
+ * @version 1.0
+ * @since 1.0
  */
 public class RemoveCoinsTile extends SpecialTile {
 

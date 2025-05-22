@@ -6,7 +6,7 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 /**
  * A special tile on the board, where the player can moveForward to, and a TileAction happens.
  *
- * @author siguraso
+ * @author siguraso & MagnusNæssanGaarder
  * @version 1.0
  * @since 1.0
  */
@@ -17,6 +17,12 @@ public abstract class SpecialTile implements Tile {
   protected TileAction tileAction;
   protected TileType tileType;
 
+  /**
+   * Base constructor for the SpecialTile abstract class.
+   *
+   * @param tileNumber       the number that identifies the tile.
+   * @param onscreenPosition the position of the tile in the grid on the screen.
+   */
   protected SpecialTile(int tileNumber, int[] onscreenPosition) {
     if (tileNumber < 0) {
       throw new IllegalArgumentException("Tile number cannot be negative");

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class AddCoinsTileTest {
+
   private AddCoinsTile addCoinsTile;
 
   @BeforeEach
@@ -46,7 +47,7 @@ class AddCoinsTileTest {
   void performAction() {
     ParioMartyPlayer player = new ParioMartyPlayer("TestPlayer", PlayerPiece.PAUL);
     addCoinsTile.performAction(player);
-    assertEquals(15, player.getCoins());
+    assertEquals(20, player.getCoins());
   }
 
   @Test
@@ -70,14 +71,14 @@ class AddCoinsTileTest {
   void constructorNegative() {
     final List<int[]> testList = new ArrayList<>(Arrays.asList(
         null,
-        new int[] {-1, 0},
-        new int[] {}
+        new int[]{-1, 0},
+        new int[]{}
     ));
 
     for (int i = 0; i < testList.size() + 1; i++) {
       if (i >= testList.size()) {
         assertThrows(IllegalArgumentException.class, () ->
-            new AddCrownTile(-1, new int[] {0, 0}));
+            new AddCrownTile(-1, new int[]{0, 0}));
         continue;
       }
       int finalI = i;

@@ -23,8 +23,6 @@ public class SfxPlayer implements SoundPlayer {
 
   private Clip clip;
 
-  private String status;
-
   /**
    * Class that plays sound effects based on the {@link SoundFile} that is currently opened.
    */

@@ -48,9 +48,9 @@ public record Board(Map<Integer, Tile> tiles) {
    */
   public Map<Integer, String> getTileTypes() {
     Map<Integer, String> tileTypes = new HashMap<>();
-    tiles.keySet().forEach(tile -> {
-      tileTypes.put(tile, tiles.get(tile).getTileType());
-    });
+    tiles.keySet().forEach(tile ->
+        tileTypes.put(tile, tiles.get(tile).getTileType())
+    );
 
     return tileTypes;
   }

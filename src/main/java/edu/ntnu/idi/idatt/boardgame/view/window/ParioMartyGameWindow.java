@@ -1,8 +1,8 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
-import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.controller.ParioMartyGameController;
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.MowserActionComponent;
@@ -26,8 +26,8 @@ import javafx.util.Duration;
 
 /**
  * A class that constructs the game window for the Pario Marty game. This class extends the
- * {@link BoardGameWindow} class and implements the game-specific UI logic for the Pario Marty
- * game.
+ * {@link BoardGameWindow} class and implements the game-specific UserInterface logic for the Pario
+ * Marty game.
  *
  * @author siguraso
  * @version 1.0
@@ -62,9 +62,6 @@ public class ParioMartyGameWindow extends BoardGameWindow {
   @Override
   protected Node getBoardRegion() {
 
-    int tileWidth = (800 - (2 * 29)) / 9;
-    int tileHeight = (800 - (2 * 28)) / 10;
-
     ImageView arrows = new ImageView(new Image(
         Objects.requireNonNull(
             this.getClass().getResourceAsStream("/Images/boards/pario_marty_arrows.png"))));
@@ -75,23 +72,26 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     Label header = new Label("Pario Marty");
     header.getStyleClass().add("pario-marty-header");
 
+    int tileWidth = (800 - (2 * 29)) / 9;
+    int tileHeight = (800 - (2 * 28)) / 10;
+
     this.boardDisplay.init(tileWidth, tileHeight, gameController.getBoard().getTileTypes());
     boardGrid.getChildren().addAll(arrows, header, this.boardDisplay.getComponent());
 
     turns = new Label("Turn 1 of 20");
 
-    VBox boardVBox = new VBox();
+    VBox boardVbox = new VBox();
     turns.getStyleClass().add("turns-label");
 
-    boardVBox.getStyleClass().add("board-region");
+    boardVbox.getStyleClass().add("board-region");
 
-    boardVBox.getChildren().addAll(turns, boardGrid);
-    boardVBox.setPadding(new Insets(20, 0, 0, 0));
+    boardVbox.getChildren().addAll(turns, boardGrid);
+    boardVbox.setPadding(new Insets(20, 0, 0, 0));
 
     placeCrownTile(null);
     placeCrownTile(null);
 
-    return boardVBox;
+    return boardVbox;
   }
 
   @Override
@@ -302,7 +302,8 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
           updatePlayerPositions(initialPlayerPositions);
         }
-        case "MowserTile" -> {
+        // default case is mowser tile
+        default -> {
           ((HappeningDialogBox) dialogBox).getConfirmationButton().setDisable(false);
 
           sfxPlayer.stopSound();
@@ -385,7 +386,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
   }
 
-  protected void showMowserActionList(String mowserAction, int[] initialPlayerPositions) {
+  private void showMowserActionList(String mowserAction, int[] initialPlayerPositions) {
     sfxPlayer.stopSound();
 
     MowserActionComponent mowserActionComponent = new MowserActionComponent();
@@ -467,9 +468,9 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     Button exitButton = new Button("Return to main menu");
     exitButton.setOnAction(e -> {
       sfxPlayer.stopSound();
-      Stage MainWindowStage = new Stage();
+      Stage mainWindowStage = new Stage();
 
-      MainWindow mainWindow = new MainWindow(MainWindowStage);
+      MainWindow mainWindow = new MainWindow(mainWindowStage);
       mainWindow.init();
 
       close();

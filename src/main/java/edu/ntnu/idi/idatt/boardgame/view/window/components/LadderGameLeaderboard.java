@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
-
 import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
 import java.util.ArrayList;
 import java.util.List;

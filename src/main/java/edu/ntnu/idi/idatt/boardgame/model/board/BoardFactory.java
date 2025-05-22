@@ -3,7 +3,6 @@ package edu.ntnu.idi.idatt.boardgame.model.board;
 import edu.ntnu.idi.idatt.boardgame.exception.InvalidBoardException;
 import edu.ntnu.idi.idatt.boardgame.exception.MalformedBoardException;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.AddCoinsTile;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.AddCrownTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.MowserTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
@@ -183,7 +182,6 @@ public class BoardFactory {
 
   private static Board vanillaLadderGameBoard() {
     Map<Integer, Tile> tiles = getBlankBoard();
-    Board vanillaLadderGameBoard = new Board(tiles);
 
     // ladder tiles
 
@@ -233,7 +231,7 @@ public class BoardFactory {
 
     tiles.put(90, new WinnerTile(90, tiles.get(90).getOnscreenPosition()));
 
-    return vanillaLadderGameBoard;
+    return new Board(tiles);
   }
 
   private static Board vanillaLadderGameBoardJson() {

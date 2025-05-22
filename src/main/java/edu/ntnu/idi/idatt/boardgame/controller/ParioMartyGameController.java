@@ -10,7 +10,6 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -57,7 +56,7 @@ public class ParioMartyGameController extends GameController {
 
       if (currentTile.getTileType().equals(TileType.MOWSER.getTileType())) {
         ((MowserTile) currentTile).setPlayerCoins(
-            ((ParioMartyPlayer) playersController.getCurrentPlayer()));
+            playersController.getCurrentPlayer());
       }
 
       if (currentTile.getTileType().equals(TileType.ADD_CROWN.getTileType())) {

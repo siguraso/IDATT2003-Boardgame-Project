@@ -1,7 +1,23 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components.helperComponents;
 
 
+import java.util.Objects;
+
+/**
+ * A class representing a helper window for the Ladder Game. This window provides information about
+ * the game, including its objective, contents, rules, and how to play.
+ *
+ * @author MagnusNaessanGaarder & siguraso
+ * @version 1.0
+ * @since 1.0
+ */
 public class LaddergameHelper extends HelperWindow {
+
+  /**
+   * Constructor for the LaddergameHelper class. This constructor initializes the window and its
+   *
+   * @param version the version of the game, either "Regular" or "Special"
+   */
   public LaddergameHelper(String version) {
     super();
     if (version == null || version.isEmpty()) {
@@ -14,10 +30,10 @@ public class LaddergameHelper extends HelperWindow {
   private void init(String version) {
     switch (version) {
       case "Regular" -> {
-        System.out.println("Regular version");
         super.setTitle("Ladder Game - Help");
         super.setSubTitle("Explanation of the \"Ladder Game\", Regular version:");
-        super.setImage("file:src/main/resources/Images/boards/ladder_game_regular.png");
+        super.setImage(Objects.requireNonNull(this.getClass().getResourceAsStream(
+            "/Images/boards/ladder_game_regular.png")));
         super.setDescription("""
             OBJECTIVE:
             The goal of the game is to reach the final square from the starting square
@@ -46,10 +62,10 @@ public class LaddergameHelper extends HelperWindow {
             spaces that would take them past the last square.""");
       }
       case "Special" -> {
-        System.out.println("Special version");
         super.setTitle("Ladder Game - Help");
         super.setSubTitle("Explanation of the \"Ladder Game\", Special version:");
-        super.setImage("file:src/main/resources/Images/boards/ladder_game_special.png");
+        super.setImage(Objects.requireNonNull(this.getClass().getResourceAsStream(
+            "/Images/boards/ladder_game_special.png")));
         super.setDescription("""
             OBJECTIVE:
             The goal of the game is to reach the final square from the starting square

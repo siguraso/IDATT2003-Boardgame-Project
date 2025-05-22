@@ -13,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -25,6 +24,11 @@ public abstract class DialogBox implements WindowComponent {
   private final HelperWindow helpWindow;
   private final Button helperButton = new Button("?");
 
+  /**
+   * Base constructor for the DialogBox abstract class.
+   *
+   * @param boardType the type of board game being played (used for the help window).
+   */
   public DialogBox(BoardType boardType) {
     if (boardType == BoardType.PARIO_MARTY) {
       this.helpWindow = new ParioMartyHelper();

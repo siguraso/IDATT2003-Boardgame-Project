@@ -8,6 +8,19 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
+/**
+ * A special tile that only appears in the ParioMarty game. This tile has 4 tile actions that happen
+ * randomly when the player lands on it. The actions are:
+ * <ul>Remove 20 coins</ul>
+ * <ul>Remove all coins (automatically set to 0, updated during the game to match a players coin
+ * count</ul>
+ * <ul>Remove 1 crown</ul>
+ * <ul>Return to start</ul>
+ *
+ * @author siguraso
+ * @version 1.0
+ * @since 1.0
+ */
 public class MowserTile extends SpecialTile {
 
   private final TileAction[] tileActions = new TileAction[4];

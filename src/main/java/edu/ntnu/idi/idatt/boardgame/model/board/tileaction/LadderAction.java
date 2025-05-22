@@ -1,7 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
 import edu.ntnu.idi.idatt.boardgame.exception.InvalidPlayerException;
-import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
 /**

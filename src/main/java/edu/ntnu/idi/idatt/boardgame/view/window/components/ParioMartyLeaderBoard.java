@@ -18,7 +18,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * A {@link WindowComponent} class representing the leaderboard for the ParioMarty game.
+ * A {@link WindowComponent} class representing the leaderboard for the ParioMarty game. The
+ * leaderboard contains a list of up to four players that display their player piece, name, coins,
+ * crowns and position (e.g. 1., 2., etc.).
  *
  * @author siguraso
  * @version 1.0
@@ -32,6 +34,14 @@ public class ParioMartyLeaderBoard implements WindowComponent {
 
   private final Map<String, ImageView> playerPieces;
 
+  /**
+   * Constructor for the ParioMartyLeaderBoard class.
+   *
+   * @param playersController the controller for the players in the game, used to get the player
+   *                          data.
+   * @param playerPieces      a {@link Map} of player names to their corresponding {@link ImageView}
+   *                          pieces.
+   */
   public ParioMartyLeaderBoard(PlayersController playersController,
       Map<String, ImageView> playerPieces) {
     this.playersController = playersController;

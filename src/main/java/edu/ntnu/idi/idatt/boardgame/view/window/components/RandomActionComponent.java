@@ -4,8 +4,6 @@ import edu.ntnu.idi.idatt.boardgame.util.sound.SfxPlayer;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.binding.Bindings;
-import javafx.collections.ObservableArray;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -14,7 +12,7 @@ import javafx.scene.layout.VBox;
 
 
 /**
- * UI component that displays a random action that gets picked from a list of actions.
+ * UserInterface component that displays a random action that gets picked from a list of actions.
  *
  * @author siguraso
  * @version 1.0

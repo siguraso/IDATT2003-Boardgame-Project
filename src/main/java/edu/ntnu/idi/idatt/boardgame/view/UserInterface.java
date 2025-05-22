@@ -11,8 +11,7 @@ import javafx.stage.Stage;
  * @version 1.0
  * @since 1.0
  */
-public class UI extends Application {
-
+public class UserInterface extends Application {
 
   @Override
   public void start(Stage primaryStage) {
@@ -20,12 +19,5 @@ public class UI extends Application {
 
     mainWindow.init();
     mainWindow.show();
-  }
-
-  public void init() {
-    // TODO: Initialize the application
-
-    // Creating a stage
-
   }
 }

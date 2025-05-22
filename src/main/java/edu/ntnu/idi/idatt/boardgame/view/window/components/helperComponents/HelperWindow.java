@@ -1,7 +1,10 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components.helperComponents;
 
+import edu.ntnu.idi.idatt.boardgame.view.window.BoardGameWindow;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -15,24 +18,29 @@ import javafx.scene.layout.VBox;
 
 /**
  * <h1>Abstract Class ~ HelperWindow.</h1>
- * A class that represents a helper window in the game. This class extends the
- * {@link StackPane} class and implements the {@link WindowComponent} interface.
+ * A class that represents a helper window in the game. This class extends the {@link StackPane}
+ * class and implements the {@link WindowComponent} interface.
  *
- * @author MagnusNaessanGaarder
+ * @author MagnusNaessanGaarder & siguraso
  * @version 1.0
  * @since 1.0
  */
 public abstract class HelperWindow extends BorderPane implements WindowComponent {
-  private Label titleLabel;
-  private Label subTitleLabel;
-  private ImageView image;
-  private Label descriptionLabel;
-  private Scene scene;
 
+  private final Label titleLabel;
+  private final Label subTitleLabel;
+  private final ImageView image;
+  private final Label descriptionLabel;
+  private final Scene scene;
+
+  /**
+   * Base constructor for the HelperWindow class. This class serves as a baseline for the other
+   * helper windows.
+   */
   public HelperWindow() {
     titleLabel = new Label("Title");
     subTitleLabel = new Label("Subtitle");
-    image = new ImageView(new Image("file:src/main/resources/Images/placeholder.jpg"));
+    image = new ImageView();
     image.setFitWidth(400);
     image.setFitHeight(400);
     descriptionLabel = new Label("""
@@ -48,28 +56,9 @@ public abstract class HelperWindow extends BorderPane implements WindowComponent
         cillum dolore eu. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
         deserunt. Mollit anim id est laborum.""");
     this.scene = new Scene(this, 1100, 800);
-    this.scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
-  }
-
-  public HelperWindow(String title, String subTitle, String description, String image) {
-    if (title == null || title.isEmpty()) {
-      throw new IllegalArgumentException("Title cannot be null or empty");
-    } else if (subTitle == null || subTitle.isEmpty()) {
-      throw new IllegalArgumentException("Subtitle cannot be null or empty");
-    } else if (description == null || description.isEmpty()) {
-      throw new IllegalArgumentException("Description cannot be null or empty");
-    } else {
-      if (validateImage(image)) {
-        this.titleLabel = new Label(title);
-        this.subTitleLabel = new Label(subTitle);
-        this.image = new ImageView(new Image(image));
-        this.image.setFitWidth(400);
-        this.image.setFitHeight(400);
-        this.descriptionLabel = new Label(description);
-        this.scene = new Scene(this, 1100, 800);
-        this.scene.getStylesheets().add("file:src/main/resources/Styles/Style.css");
-      }
-    }
+    this.scene.getStylesheets().add(
+        Objects.requireNonNull(BoardGameWindow.class.getResource("/Styles/Style.css"))
+            .toExternalForm());
   }
 
   private boolean validateImage(String image) {
@@ -79,7 +68,8 @@ public abstract class HelperWindow extends BorderPane implements WindowComponent
       try {
         ImageView testImage = new ImageView(new Image(image));
         if (testImage.getImage().isError()) {
-          throw new IllegalStateException("Image path is wrong. Image is not found in the project.");
+          throw new IllegalStateException(
+              "Image path is wrong. Image is not found in the project.");
         } else if (testImage.getImage() == null) {
           throw new IllegalStateException("Image is null. Image is not found in the project.");
         }
@@ -92,6 +82,10 @@ public abstract class HelperWindow extends BorderPane implements WindowComponent
     return true;
   }
 
+  /**
+   * Initializes the helper window. This method sets the style of the window and adds the title,
+   * subtitle, description, and image to the window.
+   */
   protected void init() {
     // Set the style
     this.getStyleClass().add("helper-window");
@@ -110,48 +104,62 @@ public abstract class HelperWindow extends BorderPane implements WindowComponent
 
     VBox imageBox = new VBox(image);
 
-    BorderPane ContentBox = new BorderPane();
-    ContentBox.getStyleClass().add("content-box");
-    ContentBox.setLeft(textBox);
-    ContentBox.setRight(imageBox);
+    BorderPane contentBox = new BorderPane();
+    contentBox.getStyleClass().add("content-box");
+    contentBox.setLeft(textBox);
+    contentBox.setRight(imageBox);
 
     setTop(titleBox);
-    setCenter(ContentBox);
+    setCenter(contentBox);
   }
 
+  /**
+   * Sets the title of the helper window.
+   *
+   * @param title a String containing the title of the helper window.
+   */
   protected void setTitle(String title) {
     titleLabel.setText(title);
   }
 
+  /**
+   * Sets the subtitle of the helper window.
+   *
+   * @param subTitle a String containing the subtitle of the helper window.
+   */
   protected void setSubTitle(String subTitle) {
     subTitleLabel.setText(subTitle);
   }
 
+  /**
+   * Sets the description of the helper window.
+   *
+   * @param description a String containing the description of the helper window.
+   */
   protected void setDescription(String description) {
     descriptionLabel.setText(description);
   }
 
-  protected void setImage(String image) {
+  /**
+   * Sets the board image displayed in the helper window.
+   *
+   * @param image an {@link InputStream} that contains the image of the board that is to be
+   *              displayed in the helper window.
+   */
+  protected void setImage(InputStream image) {
     this.image.setImage(new Image(image));
   }
 
-  protected ObservableList<Node> getContent() {
-    return this.getChildren();
-  }
-
-  // Using this will render the previous setter-methods useless. Use for manual setting of content.
-  protected void setContent(List<Node> content) {
-    this.getChildren().clear();
-    this.getChildren().addAll(content);
-  }
-
-  public Scene getSecondaryScene() {
-    return scene;
-  }
+  /**
+   * Sets the scene of the helper window.
+   *
+   * @param element the {@link HelperWindow} element to be set as the scene.
+   */
   protected void setScene(HelperWindow element) {
     this.scene.setRoot(element);
   }
 
+  @Override
   public Node getComponent() {
     return this;
   }

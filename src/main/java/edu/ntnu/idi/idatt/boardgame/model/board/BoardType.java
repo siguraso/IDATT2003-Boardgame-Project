@@ -3,7 +3,9 @@ package edu.ntnu.idi.idatt.boardgame.model.board;
 /**
  * Enum for the different types of boards that can be created.
  *
- * <p>LADDER_GAME: A board for the game Snakes and Ladders.</p>
+ * <p>LADDER_GAME_REGULAR: A board for the ladder game.</p>
+ *
+ * <p>LADDER_GAME_SPECIAL: A board for the ladder game that includes more special tiles</p>
  *
  * <p>PARIO_MARTY: A board for the Pario Marti game.</p>
  *

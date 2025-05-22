@@ -13,7 +13,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -364,13 +363,13 @@ public class MainWindow implements Window {
     separator.setEndX(200);
     separator.setEndY(0);
 
-    Label playerSelectionHeader = new Label("Add Players: ");
-
     errorLabel.getStyleClass().add("error-label");
     // placeholder text for error label so that the height of the VBox does not change when
     // showing the label.
     errorLabel.setText("error");
     errorLabel.setVisible(false);
+
+    Label playerSelectionHeader = new Label("Add Players: ");
 
     playerSelection.getChildren()
         .addAll(separator, playerSelectionHeader, addPlayerButton, playerSelectionView, errorLabel,

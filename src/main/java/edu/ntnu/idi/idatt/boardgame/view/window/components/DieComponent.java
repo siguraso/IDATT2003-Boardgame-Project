@@ -38,7 +38,7 @@ public class DieComponent implements WindowComponent, BoardGameObserver {
   private ImageView dieImage2;
   private Button rollDieButton = new Button("Roll die");
   private VBox dieBox;
-  boolean useTwoDice = false;
+  private final boolean useTwoDice;
 
 
   /**
