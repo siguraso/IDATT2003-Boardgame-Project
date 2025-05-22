@@ -199,6 +199,9 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
           dieBox.getRollDieButton().setDisable(false);
 
+          dialogBox.refresh(
+              gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+
           checkForWinner();
         }
         case "RemoveCoinsTile" -> {
@@ -208,6 +211,9 @@ public class ParioMartyGameWindow extends BoardGameWindow {
           sfxPlayer.playSound();
 
           dieBox.getRollDieButton().setDisable(false);
+
+          dialogBox.refresh(
+              gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
 
           checkForWinner();
         }
@@ -253,7 +259,8 @@ public class ParioMartyGameWindow extends BoardGameWindow {
             } catch (IllegalArgumentException e) {
               leaderboard.update();
               ((HappeningDialogBox) dialogBox).showOkDialogBox();
-              dialogBox.refresh(e.getMessage());
+              dialogBox.refresh(gameController.getPlayersController().getPreviousPlayer().getName()
+                  + " does not have enough coins to buy a crown!");
 
               sfxPlayer.openSoundFile(SoundFile.MOWSER_SHOW);
 
@@ -324,10 +331,10 @@ public class ParioMartyGameWindow extends BoardGameWindow {
         }
       }
     } else {
-      if (((ParioMartyGameController) gameController).getCurrentTurn() <= 20) {
-        dialogBox.refresh(
-            gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
-      }
+
+      dialogBox.refresh(
+          gameController.getPlayersController().getCurrentPlayer().getName() + "'s turn!");
+
     }
 
     if (((ParioMartyGameController) gameController).getCurrentTurn() <= 20) {
