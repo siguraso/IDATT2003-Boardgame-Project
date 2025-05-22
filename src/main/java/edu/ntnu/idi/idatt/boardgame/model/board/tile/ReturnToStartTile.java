@@ -19,8 +19,7 @@ public class ReturnToStartTile extends SpecialTile {
    * @param onscreenPosition The position of the tile on the screen.
    */
   public ReturnToStartTile(int tileNumber, int[] onscreenPosition) {
-    this.tileNumber = tileNumber;
-    this.onscreenPosition = onscreenPosition;
+    super(tileNumber, onscreenPosition);
 
     this.tileAction = new ReturnToStartAction();
     this.tileType = TileType.RETURN_TO_START;

@@ -17,14 +17,29 @@ public abstract class SpecialTile implements Tile {
   protected TileAction tileAction;
   protected TileType tileType;
 
+  protected SpecialTile(int tileNumber, int[] onscreenPosition) {
+    if (tileNumber < 0) {
+      throw new IllegalArgumentException("Tile number cannot be negative");
+    } else if (onscreenPosition == null) {
+      throw new IllegalArgumentException("Onscreen position cannot be null");
+    } else if (onscreenPosition.length != 2) {
+      throw new IllegalArgumentException("Onscreen position must be an array of length 2");
+    } else if (onscreenPosition[0] < 0 || onscreenPosition[1] < 0) {
+      throw new IllegalArgumentException("Onscreen position cannot be negative");
+    } else {
+      this.tileNumber = tileNumber;
+      this.onscreenPosition = onscreenPosition;
+    }
+  }
+
   @Override
   public int getTileNumber() {
-    return tileNumber;
+    return this.tileNumber;
   }
 
   @Override
   public int[] getOnscreenPosition() {
-    return onscreenPosition;
+    return this.onscreenPosition;
   }
 
   /**

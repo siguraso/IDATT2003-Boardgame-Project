@@ -16,14 +16,13 @@ public class RemoveCoinsTile extends SpecialTile {
    * @param coinsToRemove the amount of coins to remove from the player when they land on this tile
    */
   public RemoveCoinsTile(int tileNumber, int[] onscreenPosition, int coinsToRemove) {
+    super(tileNumber, onscreenPosition);
     try {
       this.tileAction = new RemoveCoinsAction(coinsToRemove);
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Coins cannot be negative");
     }
 
-    this.tileNumber = coinsToRemove;
-    this.onscreenPosition = onscreenPosition;
     this.tileType = TileType.REMOVE_COINS;
   }
 
@@ -37,6 +36,4 @@ public class RemoveCoinsTile extends SpecialTile {
       throw new ClassCastException(e.getMessage());
     }
   }
-
-
 }

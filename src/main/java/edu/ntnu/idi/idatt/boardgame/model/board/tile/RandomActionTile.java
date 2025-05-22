@@ -29,12 +29,11 @@ public class RandomActionTile extends SpecialTile {
    * @param onscreenPosition The position of the tile on the screen.
    */
   public RandomActionTile(int tileNumber, int[] onscreenPosition, Board board) {
+    super(tileNumber, onscreenPosition);
     if (board == null) {
       throw new NullPointerException("Board cannot be null.");
     }
 
-    this.tileNumber = tileNumber;
-    this.onscreenPosition = onscreenPosition;
     this.board = board;
     this.tileType = TileType.RANDOM_ACTION;
 

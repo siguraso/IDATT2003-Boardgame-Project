@@ -14,10 +14,8 @@ public class AddCrownTile extends SpecialTile {
    * @param onscreenPosition The position of the tile on the screen.
    */
   public AddCrownTile(int tileNumber, int[] onscreenPosition) {
-    this.tileNumber = tileNumber;
-    this.onscreenPosition = onscreenPosition;
+    super(tileNumber, onscreenPosition);
     this.tileAction = new AddCrownAction();
-
     this.tileType = TileType.ADD_CROWN;
   }
 
@@ -25,16 +23,19 @@ public class AddCrownTile extends SpecialTile {
   public void performAction(Player player) {
     try {
       if (((ParioMartyPlayer) player).getCoins() >= 10) {
-        tileAction.performAction(player);
+        try {
+          tileAction.performAction(player);
+        } catch (NullPointerException e) {
+          throw new NullPointerException(e.getMessage());
+        }
         ((ParioMartyPlayer) player).removeCoins(10);
 
       } else {
         throw new IllegalArgumentException("Player does not have 10 or more coins.");
       }
-
     } catch (NullPointerException e) {
-      throw new NullPointerException(e.getMessage());
+      throw new NullPointerException("Player cannot be null");
     }
   }
-
 }
+

@@ -19,8 +19,7 @@ public class WinnerTile extends SpecialTile {
    * @param onscreenPosition The position of the tile on the screen.
    */
   public WinnerTile(int tileNumber, int[] onscreenPosition) {
-    this.tileNumber = tileNumber;
-    this.onscreenPosition = onscreenPosition;
+    super(tileNumber, onscreenPosition);
     this.tileAction = new WinnerAction();
     this.tileType = TileType.WINNER;
   }

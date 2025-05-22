@@ -2,6 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
 import edu.ntnu.idi.idatt.boardgame.exception.InvalidPlayerException;
 import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
+import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
 /**
  * A special tile action that adds a crown to a player in the ParioMarty game. The performAction
@@ -22,7 +23,7 @@ public class AddCrownAction implements TileAction {
 
 
   @Override
-  public void performAction(edu.ntnu.idi.idatt.boardgame.model.player.Player player) {
+  public void performAction(Player player) {
     if (player == null) {
       throw new NullPointerException("Player cannot be null");
     }

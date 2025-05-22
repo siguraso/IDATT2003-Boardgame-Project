@@ -12,7 +12,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  * @since 1.0
  */
 public class LadderTile extends SpecialTile {
-
   private final int destinationTileNumber;
 
 
@@ -23,8 +22,7 @@ public class LadderTile extends SpecialTile {
    * @param onscreenPosition The position of the tile on the screen.
    */
   public LadderTile(int tileNumber, int[] onscreenPosition, int destinationTileNumber) {
-    this.tileNumber = tileNumber;
-    this.onscreenPosition = onscreenPosition;
+    super(tileNumber, onscreenPosition);
     this.destinationTileNumber = destinationTileNumber;
 
     // initialize the tileAction with a LadderAction
