@@ -15,7 +15,7 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class AddCoinsAction implements TileAction {
 
-  private int coinsToAdd;
+  int coinsToAdd;
 
   /**
    * Constructor for the AddCoinsAction class.
@@ -36,22 +36,9 @@ public class AddCoinsAction implements TileAction {
       throw new NullPointerException("Player cannot be null");
     }
     try {
-      ((ParioMartyPlayer) player).addCoins(5);
+      ((ParioMartyPlayer) player).addCoins(coinsToAdd);
     } catch (ClassCastException e) {
       throw new InvalidPlayerException("Player is not of type ParioMartyPlayer");
     }
-  }
-
-  /**
-   * Mutator method for the coinsToAdd field. This method sets the amount of coins to add to the
-   * player when performing the action.
-   *
-   * @param coinsToAdd the amount of coins to add to the player when performing the action
-   */
-  public void setCoinsToAdd(int coinsToAdd) {
-    if (coinsToAdd < 0) {
-      throw new IllegalArgumentException("Coins cannot be negative");
-    }
-    this.coinsToAdd = coinsToAdd;
   }
 }

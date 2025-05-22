@@ -6,11 +6,13 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import java.util.HashMap;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BoardTest {
 
   @Test
+  @DisplayName("Test the constructor of Board, and check for exceptions")
   void testConstructor() {
     try {
       Board board = new Board(new HashMap<>());
@@ -27,6 +29,7 @@ class BoardTest {
   }
 
   @Test
+  @DisplayName("Test the accessor method for tiles of Board")
   void testTiles() {
     Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_REGULAR, false, null);
 
@@ -42,6 +45,7 @@ class BoardTest {
   }
 
   @Test
+  @DisplayName("Test the accessor method for tile types of Board")
   void testGetTileTypes() {
     Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_REGULAR, false, null);
 

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class DiceTest {
@@ -31,6 +32,18 @@ class DiceTest {
   }
 
   @Test
+  @DisplayName("Test the constructor of Dice, and check for exceptions")
+  void testConstructor() {
+    // Act
+    try {
+      new Dice(2, 6);
+    } catch (IllegalArgumentException e) {
+      fail("Constructor should not throw an exception");
+    }
+  }
+
+  @Test
+  @DisplayName("Positive test for the roll method of Dice")
   void roll() {
     // Arrange
     int initialValue = player.getPosition();
@@ -44,6 +57,7 @@ class DiceTest {
   }
 
   @Test
+  @DisplayName("Tests the observer pattern of the Dice class")
   void testObserverPattern() {
     LadderGamePlayer newPlayer = new LadderGamePlayer("testPlayer2",
         PlayerPiece.PROPELLER_ACCESSORIES);
@@ -71,6 +85,7 @@ class DiceTest {
   }
 
   @Test
+  @DisplayName("Negative test for the constructor of Dice")
   void testInvalidDiceCreation() {
     // Test invalid die creation
     assertThrows(IllegalArgumentException.class, () -> new Dice(0, 6));

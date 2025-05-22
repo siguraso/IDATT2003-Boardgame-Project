@@ -8,6 +8,7 @@ import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class SwapPlayersActionTest {
@@ -31,7 +32,18 @@ class SwapPlayersActionTest {
   }
 
   @Test
-  void setPlayers() {
+  @DisplayName("test the constructor of SwapPlayersAction")
+  void testConstructor() {
+    try {
+      new SwapPlayersAction();
+    } catch (Exception e) {
+      fail("Constructor should not throw an exception");
+    }
+  }
+
+  @Test
+  @DisplayName("test the setPlayers method of SwapPlayersAction")
+  void setSwapPlayersActionSetPlayers() {
     // Arrange
     ArrayList<Player> players = new ArrayList<>();
     players.add(player1);
@@ -46,6 +58,7 @@ class SwapPlayersActionTest {
   }
 
   @Test
+  @DisplayName("negative test of the setPlayers method of SwapPlayersAction")
   void negativeSetPlayers() {
     ArrayList<Player> players = new ArrayList<>();
     players.add(player1);
@@ -55,6 +68,7 @@ class SwapPlayersActionTest {
   }
 
   @Test
+  @DisplayName("test the getPlayerToSwapWith method of SwapPlayersAction")
   void getPlayerToSwapWithTwoPlayers() {
     // Arrange
     ArrayList<Player> players = new ArrayList<>();
