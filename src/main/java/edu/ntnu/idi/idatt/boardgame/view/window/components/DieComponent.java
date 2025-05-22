@@ -2,8 +2,8 @@ package edu.ntnu.idi.idatt.boardgame.view.window.components;
 
 
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
-import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
-import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
+import edu.ntnu.idi.idatt.boardgame.observer.BoardGameObservable;
+import edu.ntnu.idi.idatt.boardgame.observer.BoardGameObserver;
 import java.util.Objects;
 import java.util.Random;
 import java.util.stream.IntStream;

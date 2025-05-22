@@ -11,8 +11,8 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Dice;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Die;
-import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
-import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
+import edu.ntnu.idi.idatt.boardgame.observer.BoardGameObservable;
+import edu.ntnu.idi.idatt.boardgame.observer.BoardGameObserver;
 import java.util.ArrayList;
 import java.util.List;
 

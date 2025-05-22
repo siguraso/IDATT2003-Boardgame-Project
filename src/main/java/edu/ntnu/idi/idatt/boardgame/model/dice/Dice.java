@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.dice;
 
-import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
+import edu.ntnu.idi.idatt.boardgame.observer.BoardGameObserver;
 import java.util.stream.IntStream;
 
 

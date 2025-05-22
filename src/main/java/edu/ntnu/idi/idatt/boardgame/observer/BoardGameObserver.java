@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.boardgame.model.observerPattern;
+package edu.ntnu.idi.idatt.boardgame.observer;
 
 /**
  * <h1>Interface - BoardGameObserver.</h1>

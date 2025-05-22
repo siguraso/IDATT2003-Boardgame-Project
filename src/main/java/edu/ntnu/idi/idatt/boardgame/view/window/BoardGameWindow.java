@@ -2,7 +2,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.controller.LadderGameController;
-import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
+import edu.ntnu.idi.idatt.boardgame.observer.BoardGameObserver;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SfxPlayer;
 import edu.ntnu.idi.idatt.boardgame.util.sound.SoundFile;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.BoardDisplay;

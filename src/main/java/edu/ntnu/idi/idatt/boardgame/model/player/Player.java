@@ -1,6 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
-import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
+import edu.ntnu.idi.idatt.boardgame.observer.BoardGameObserver;
 
 import java.util.Arrays;
 
