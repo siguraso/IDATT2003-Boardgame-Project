@@ -43,6 +43,9 @@ public class ParioMartyPlayer extends Player {
    * @param coins The number of coins to set for the player.
    */
   public void addCoins(int coins) {
+    if (coins < 0) {
+      throw new IllegalArgumentException("Cannot add negative coins. Coins cannot be negative");
+    }
     this.coins += coins;
   }
 
@@ -52,6 +55,12 @@ public class ParioMartyPlayer extends Player {
    * @param coins The number of coins to remove from the player.
    */
   public void removeCoins(int coins) {
+    if (coins < 0) {
+      throw new IllegalArgumentException("Cannot subtract negative coins. Coins cannot be negative");
+    } else if (coins > this.coins) {
+      throw new IllegalArgumentException(
+          "Cannot subtract more coins than the player has. Coins cannot be negative");
+    }
     this.coins -= coins;
   }
 
@@ -70,6 +79,9 @@ public class ParioMartyPlayer extends Player {
    * @param crowns The number of crowns to set for the player.
    */
   public void addCrowns(int crowns) {
+    if (crowns < 0) {
+      throw new IllegalArgumentException("Cannot add negative crowns. Crowns cannot be negative");
+    }
     this.crowns += crowns;
   }
 
@@ -79,12 +91,28 @@ public class ParioMartyPlayer extends Player {
    * @param crowns The number of crowns to remove from the player.
    */
   public void removeCrowns(int crowns) {
+    if (crowns < 0) {
+      throw new IllegalArgumentException("Cannot subtract negative crowns. Crowns cannot be negative");
+    } else if (crowns > this.crowns) {
+      throw new IllegalArgumentException(
+          "Cannot subtract more crowns than the player has. Crowns cannot be negative");
+    }
     this.crowns -= crowns;
   }
 
   @Override
   public void handleLadderAction(int destination) {
     throw new InvalidPlayerException("ParioMartyPlayer cannot use ladder action");
+  }
+
+  @Override
+  public void moveTo(int tileNumber) {
+    if (tileNumber < 0 || tileNumber > 35) {
+      throw new IllegalArgumentException(
+          "Illegal Transport: cannot transport to a negative spaces or to tiles past 35.");
+    }
+
+    super.position = tileNumber;
   }
 
   @Override
@@ -101,7 +129,7 @@ public class ParioMartyPlayer extends Player {
         // if the player goes over 35, they go back to the start, and move forward the
         // remaining steps
         int delta = position + steps - 35 + 1;
-        moveTo(delta);
+        this.moveTo(delta);
       } else {
 
         moveForward(steps);
