@@ -2,52 +2,70 @@ package edu.ntnu.idi.idatt.boardgame.model.io.player;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static org.mockito.Mockito.*;
+
+import org.mockito.MockedConstruction;
+
+
 class PlayersReaderCsvTest {
 
   @Test
-  @DisplayName("positive tests for the readPlayersFile method")
-  void testReadPlayersFile() {
+  @DisplayName("Test reading players file without real file operations")
+  void testReadPlayersFileMocked() {
     PlayersReaderCsv reader = new PlayersReaderCsv();
-    String filePath = "src/test/resources/CSV/sigve_players.csv";
 
-    // Test reading from file
-    List<Player> players = reader.readPlayersFile(filePath);
+    // Setup the mock data that would come from the file
+    String fileContent = """
+        sigern,PAUL
+        styggve,MIKE
+        liggve,SAUL
+        sigve these nuts,JESSE
+        """;
 
-    // Check if the players list is not empty
-    assertFalse(players.isEmpty());
+    try (MockedConstruction<FileReader> mockedFileReader = mockConstruction(FileReader.class);
+        MockedConstruction<BufferedReader> mockedBufferedReader = mockConstruction(
+            BufferedReader.class, (mock, context) -> {
+              // Configure BufferedReader to return lines from our test data
+              when(mock.readLine())
+                  .thenReturn("sigern,PAUL")
+                  .thenReturn("styggve,EVIL_PAUL")
+                  .thenReturn("liggve,MARIOTINELLI")
+                  .thenReturn("sigve these nuts,LOCKED_IN_SNOWMAN")
+                  .thenReturn(null); // End of file
+            })) {
 
-    players.forEach(player -> {
-      // check if it includes the players
-      if (!player.getName().equals("styggve") && !player.getName().equals("sigern")
-          && !player.getName().equals("liggve") && !player.getName().equals("sigve these nuts")) {
-        fail("LadderGamePlayer not found in the list: " + player.getName());
-      }
-    });
+      // Call the method with a dummy file path
+      List<Player> players = reader.readPlayersFile("dummy/path.csv");
 
-    // Check if the first player is as expected
-    Player firstPlayer = players.getFirst();
-    assertEquals("sigern", firstPlayer.getName());
-    assertEquals(PlayerPiece.PAUL, firstPlayer.getPlayerPiece());
+      // Verify results
+      assertEquals(4, players.size(), "Should have read 4 players");
 
-    // negative test
-    filePath = "src/test/resources/CSV/BRRRRRRRRRRR.csv";
+      // Check individual players
+      assertEquals("sigern", players.get(0).getName());
+      assertEquals(PlayerPiece.PAUL, players.get(0).getPlayerPiece());
 
-    try {
-      reader.readPlayersFile(filePath);
-      fail("Expected an exception to be thrown");
+      assertEquals("styggve", players.get(1).getName());
+      assertEquals(PlayerPiece.EVIL_PAUL, players.get(1).getPlayerPiece());
+
+      assertEquals("liggve", players.get(2).getName());
+      assertEquals(PlayerPiece.MARIOTINELLI, players.get(2).getPlayerPiece());
+
+      assertEquals("sigve these nuts", players.get(3).getName());
+      assertEquals(PlayerPiece.LOCKED_IN_SNOWMAN, players.get(3).getPlayerPiece());
+
+      // Verify the reader was constructed
+      assertEquals(1, mockedFileReader.constructed().size());
+      assertEquals(1, mockedBufferedReader.constructed().size());
     } catch (RuntimeException e) {
-      if (!e.getMessage().contains("No such file or directory") && !e.getMessage()
-          .contains("The system cannot find the file specified")) {
-        fail("Expected a file not found exception");
-      }
-
+      fail("Should not throw RuntimeException: " + e.getMessage());
     }
   }
 

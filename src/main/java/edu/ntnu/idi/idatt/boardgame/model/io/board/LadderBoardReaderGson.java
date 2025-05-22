@@ -130,4 +130,15 @@ public class LadderBoardReaderGson implements BoardFileReader, JsonDeserializer<
           throw new InvalidTileException("Cannot add Pario Marty tile to a ladder game board");
     };
   }
+
+  /**
+   * Returns a static instance of the LadderBoardReaderGson class. This is used because the class is
+   * stateless and does not need to be instantiated multiple times, and it is needed in the test
+   * classes when mocking file handling.
+   *
+   * @return a new instance of LadderBoardReaderGson
+   */
+  public static LadderBoardReaderGson getInstance() {
+    return new LadderBoardReaderGson();
+  }
 }

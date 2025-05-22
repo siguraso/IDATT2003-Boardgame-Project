@@ -237,20 +237,20 @@ public class BoardFactory {
   }
 
   private static Board vanillaLadderGameBoardJson() {
-    LadderBoardReaderGson boardFileReader = new LadderBoardReaderGson();
+    LadderBoardReaderGson boardFileReader = LadderBoardReaderGson.getInstance();
 
     return boardFileReader.readBoardFile("/JSON/LadderGameRegular.json", false);
   }
 
   private static Board specialLadderGameBoardJson() {
-    LadderBoardReaderGson boardFileReader = new LadderBoardReaderGson();
+    LadderBoardReaderGson boardFileReader = LadderBoardReaderGson.getInstance();
 
     return boardFileReader.readBoardFile(
         "/JSON/LadderGameSpecial.json", false);
   }
 
   private static Board ladderGameCustomJsonBoard(String filePath) {
-    LadderBoardReaderGson boardFileReader = new LadderBoardReaderGson();
+    LadderBoardReaderGson boardFileReader = LadderBoardReaderGson.getInstance();
     Board board;
 
     try {
