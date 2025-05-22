@@ -63,7 +63,7 @@
           <execution>
             <id>default-cli</id>
             <configuration>
-              <mainClass>edu.ntnu.idi.idatt.boardgame.apps.BoardGameApp</mainClass>
+              <mainClass>edu.ntnu.idi.idatt.boardgame.BoardGameApp</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
@@ -88,7 +88,7 @@
               <transformers>
                 <transformer
                   implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>edu.ntnu.idi.idatt.boardgame.apps.BoardGameApp</mainClass>
+                  <mainClass>edu.ntnu.idi.idatt.boardgame.BoardGameApp</mainClass>
                 </transformer>
                 <transformer
                   implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>

@@ -4,6 +4,8 @@ import edu.ntnu.idi.idatt.boardgame.controller.GameController;
 import edu.ntnu.idi.idatt.boardgame.controller.LadderGameController;
 import edu.ntnu.idi.idatt.boardgame.controller.ParioMartyGameController;
 import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
+import edu.ntnu.idi.idatt.boardgame.exception.InvalidBoardException;
+import edu.ntnu.idi.idatt.boardgame.exception.MalformedBoardException;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersReaderCsv;
 import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersWriterCsv;
@@ -222,14 +224,14 @@ public class MainWindow implements Window {
         startGameButton.setOnAction(onPress -> {
           try {
             jsonFileChooserSequence();
-          } catch (IllegalStateException e) {
+          } catch (MalformedBoardException e) {
             warningDialog.update(
                 "There is something wrong with the provided board file: \n" + e.getMessage(),
                 "Error creating board");
             warningDialog.show();
             playersController.clearPlayers();
 
-          } catch (RuntimeException e) {
+          } catch (InvalidBoardException e) {
             warningDialog.update("There was an error loading the file: \n" + e.getMessage(),
                 "Error reading file");
             warningDialog.show();

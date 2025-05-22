@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.board;
 
+import edu.ntnu.idi.idatt.boardgame.exception.InvalidBoardException;
+import edu.ntnu.idi.idatt.boardgame.exception.MalformedBoardException;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.AddCoinsTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.AddCrownTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
@@ -45,14 +47,14 @@ public class BoardFactory {
         case LADDER_GAME_SPECIAL -> specialLadderGameBoard();
         case LADDER_GAME_REGULAR -> vanillaLadderGameBoard();
         case PARIO_MARTY -> parioMartyBoard();
-        default -> throw new IllegalArgumentException("Unknown BoardType: " + boardType);
+        default -> throw new InvalidBoardException("Unknown BoardType: " + boardType);
       };
     } else {
       return switch (boardType) {
         case LADDER_GAME_SPECIAL -> specialLadderGameBoardJson();
         case LADDER_GAME_REGULAR -> vanillaLadderGameBoardJson();
         case LADDER_GAME_JSON -> ladderGameCustomJsonBoard(filePath);
-        default -> throw new IllegalArgumentException("Unknown BoardType: " + boardType);
+        default -> throw new InvalidBoardException("Unknown BoardType: " + boardType);
       };
     }
   }
@@ -262,16 +264,16 @@ public class BoardFactory {
     // the first tile must be a normal tile, and the last tile must be winner tile
     // the tiles must be in order from 1 to 90
     if (board.tiles().size() != 90) {
-      throw new IllegalStateException("Board must have 90 tiles");
+      throw new MalformedBoardException("Board must have 90 tiles");
 
     } else if (board.tiles().keySet().stream().anyMatch(tile -> tile < 1 || tile > 90)) {
-      throw new IllegalStateException("Tiles must be in order from 1 to 90");
+      throw new MalformedBoardException("Tiles must be in order from 1 to 90");
 
     } else if (!board.tiles().get(1).getTileType().equals(TileType.NORMAL.getTileType())) {
-      throw new IllegalStateException("First tile must be a normal tile");
+      throw new MalformedBoardException("First tile must be a normal tile");
 
     } else if (!board.tiles().get(90).getTileType().equals(TileType.WINNER.getTileType())) {
-      throw new IllegalStateException("Last tile must be a winner tile");
+      throw new MalformedBoardException("Last tile must be a winner tile");
     }
 
     return board;

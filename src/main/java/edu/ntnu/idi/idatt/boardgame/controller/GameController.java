@@ -1,5 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.controller;
 
+import edu.ntnu.idi.idatt.boardgame.exception.InvalidBoardException;
+import edu.ntnu.idi.idatt.boardgame.exception.MalformedBoardException;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
@@ -63,10 +65,10 @@ public abstract class GameController implements BoardGameObserver, BoardGameObse
   public void setBoard(BoardType boardType, boolean useJson, String filePath) {
     try {
       this.board = BoardFactory.createBoard(boardType, useJson, filePath);
-    } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException(e.getMessage());
-    } catch (IllegalStateException e) {
-      throw new IllegalStateException("The board was could not be created: \n" + e.getMessage());
+    } catch (InvalidBoardException e) {
+      throw new InvalidBoardException(e.getMessage());
+    } catch (MalformedBoardException e) {
+      throw new MalformedBoardException("The board was could not be created: \n" + e.getMessage());
     }
   }
 

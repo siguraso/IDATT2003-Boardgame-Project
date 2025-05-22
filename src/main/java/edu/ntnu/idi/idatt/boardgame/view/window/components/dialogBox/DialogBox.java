@@ -7,12 +7,14 @@ import edu.ntnu.idi.idatt.boardgame.view.window.components.helperComponents.Ladd
 import edu.ntnu.idi.idatt.boardgame.view.window.components.helperComponents.ParioMartyHelper;
 import java.util.Objects;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 /**
  * Abstract class for a dialog box that is displayed to the user.
@@ -21,6 +23,7 @@ public abstract class DialogBox implements WindowComponent {
 
   private final Label dialogText = new Label();
   private final HelperWindow helpWindow;
+  private final Button helperButton = new Button("?");
 
   public DialogBox(BoardType boardType) {
     if (boardType == BoardType.PARIO_MARTY) {
@@ -69,6 +72,21 @@ public abstract class DialogBox implements WindowComponent {
     speakerBox.getStyleClass().add("speaker-box");
     speakerBox.getChildren().add(speaker);
 
+    VBox speakerHelpBox = new VBox();
+    speakerHelpBox.getChildren().addAll(speakerBox, helperButton);
+    speakerHelpBox.setAlignment(javafx.geometry.Pos.CENTER);
+    speakerHelpBox.setSpacing(20);
+
+    helperButton.setOnAction(e -> {
+      Stage helpStage = new Stage();
+      helpStage.setScene(getHelpWindow().getScene());
+      helpStage.setTitle("Help");
+      helpStage.setResizable(true);
+      helpStage.show();
+    });
+
+    helperButton.getStyleClass().add("helper-button");
+
     // initialize dialog text box
     dialogText.setText(message);
 
@@ -86,8 +104,8 @@ public abstract class DialogBox implements WindowComponent {
     // create a border pane to hold the speaker and dialog text
     BorderPane speakerSection = new BorderPane();
     speakerSection.getStyleClass().add("dialog-box");
-    speakerSection.setLeft(speakerBox);
-    BorderPane.setAlignment(speakerBox, javafx.geometry.Pos.CENTER);
+    speakerSection.setLeft(speakerHelpBox);
+    BorderPane.setAlignment(speakerHelpBox, javafx.geometry.Pos.CENTER);
     speakerSection.setRight(dialogText);
     speakerSection.getRight().prefWidth(300);
     speakerSection.getRight().prefHeight(130);
