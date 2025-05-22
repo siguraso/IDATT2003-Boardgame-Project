@@ -89,7 +89,7 @@ class RandomActionTileTest {
     // test getPlayerToSwapWith
     try {
       assertEquals("TestPlayer1", ((RandomActionTile) tile).getPlayerToSwapWith().getName());
-      assertEquals("SwapPlayersAction", ((RandomActionTile) tile).getTileAction());
+      assertEquals(2, ((RandomActionTile) tile).getTileAction());
     } catch (Exception e) {
       fail("Expected no exception to be thrown");
     }
@@ -157,25 +157,25 @@ class RandomActionTileTest {
 
       while (numberOfActionsRun < 4) {
         ((RandomActionTile) tile).performAction(player);
-        if (((RandomActionTile) tile).getTileAction().equals("ReturnToStartAction")) {
+        if (((RandomActionTile) tile).getTileAction() == 0) {
           if (!returnToStartAction) {
             numberOfActionsRun++;
             returnToStartAction = true;
             assertEquals(1, player.getPosition());
           }
-        } else if (((RandomActionTile) tile).getTileAction().equals("RollAgainAction")) {
+        } else if (((RandomActionTile) tile).getTileAction() == 1) {
           if (!rollAgainAction) {
             numberOfActionsRun++;
             rollAgainAction = true;
             assertTrue(player.canRollAgain());
           }
-        } else if (((RandomActionTile) tile).getTileAction().equals("SwapPlayersAction")) {
+        } else if (((RandomActionTile) tile).getTileAction() == 2) {
           if (!swapAction) {
             numberOfActionsRun++;
             swapAction = true;
             assertEquals("TestPlayer1", ((RandomActionTile) tile).getPlayerToSwapWith().getName());
           }
-        } else if (((RandomActionTile) tile).getTileAction().equals("MoveToRandomTileAction")) {
+        } else if (((RandomActionTile) tile).getTileAction() == 3) {
           if (!moveToRandomTileAction) {
             numberOfActionsRun++;
             moveToRandomTileAction = true;

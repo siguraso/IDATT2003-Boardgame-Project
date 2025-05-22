@@ -53,6 +53,33 @@ class BoardFactoryTest {
       }
     });
 
+    Board parioMartyBoard = BoardFactory.createBoard(BoardType.PARIO_MARTY, false, null);
+    HashMap<Integer, String> parioTileTypes = new HashMap<>(parioMartyBoard.getTileTypes());
+
+    IntStream.range(1, 36).forEach(i -> {
+      if (!parioTileTypes.containsKey(i)) {
+        fail("Tile " + i + " should be present in the board");
+      }
+
+      if (i == 1) {
+        assertEquals(TileType.NORMAL.getTileType(), parioTileTypes.get(i));
+      } else if (i == 2 || i == 3 || i == 5 || i == 7 || i == 9 || i == 10 || i == 11 || i == 14
+          || i == 15 || i == 18 || i == 19 || i == 20 || i == 22 || i == 23 || i == 26 || i == 27
+          || i == 30 || i == 31 || i == 33 || i == 34) {
+        assertEquals(TileType.ADD_COINS.getTileType(), parioTileTypes.get(i));
+      } else if (i == 13 || i == 21) {
+        assertEquals(TileType.MOWSER.getTileType(), parioTileTypes.get(i));
+      } else if (i == 24) {
+        assertEquals(TileType.RETURN_TO_START.getTileType(), parioTileTypes.get(i));
+      } else if (i == 28 || i == 6 || i == 16) {
+        assertEquals(TileType.ROLL_AGAIN.getTileType(), parioTileTypes.get(i));
+      } else if (i == 17 || i == 35) {
+        assertEquals(TileType.RANDOM_ACTION.getTileType(), parioTileTypes.get(i));
+      } else {
+        assertEquals(TileType.REMOVE_COINS.getTileType(), parioTileTypes.get(i));
+      }
+    });
+
   }
 
 

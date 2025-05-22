@@ -15,5 +15,9 @@ class TileTypeTest {
     assertEquals("RollAgainTile", TileType.ROLL_AGAIN.getTileType());
     assertEquals("ReturnToStartTile", TileType.RETURN_TO_START.getTileType());
     assertEquals("WinnerTile", TileType.WINNER.getTileType());
+    assertEquals("AddCoinsTile", TileType.ADD_COINS.getTileType());
+    assertEquals("RemoveCoinsTile", TileType.REMOVE_COINS.getTileType());
+    assertEquals("AddCrownTile", TileType.ADD_CROWN.getTileType());
+    assertEquals("MowserTile", TileType.MOWSER.getTileType());
   }
 }
