@@ -12,9 +12,9 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public abstract class SpecialTile implements Tile {
 
+  protected transient TileAction tileAction;
   protected int tileNumber;
   protected int[] onscreenPosition;
-  protected TileAction tileAction;
   protected TileType tileType;
 
   /**

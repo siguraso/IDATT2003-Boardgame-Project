@@ -1,7 +1,7 @@
 package edu.ntnu.idi.idatt.boardgame.model.dice;
 
-import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
-import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
+import edu.ntnu.idi.idatt.boardgame.observer.BoardGameObservable;
+import edu.ntnu.idi.idatt.boardgame.observer.BoardGameObserver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

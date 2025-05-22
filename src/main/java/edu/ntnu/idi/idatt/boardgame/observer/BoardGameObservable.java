@@ -1,4 +1,4 @@
-package edu.ntnu.idi.idatt.boardgame.model.observerPattern;
+package edu.ntnu.idi.idatt.boardgame.observer;
 
 import java.util.List;
 
