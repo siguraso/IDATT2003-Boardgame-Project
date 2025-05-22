@@ -2,23 +2,25 @@ package edu.ntnu.idi.idatt.boardgame.model.dice;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.ArrayList;
 import java.util.Collections;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class DiceTest {
+
   private Dice dice;
-  private Player player;
+  private LadderGamePlayer player;
 
   @BeforeEach
   void setUp() {
     // Arrange
     dice = new Dice(2, 6);
-    player = new Player("TestPlayer", PlayerPiece.LOCKED_IN_SNOWMAN);
+    player = new LadderGamePlayer("TestPlayer", PlayerPiece.LOCKED_IN_SNOWMAN);
     dice.addObserver(player);
   }
 
@@ -30,6 +32,18 @@ class DiceTest {
   }
 
   @Test
+  @DisplayName("Test the constructor of Dice, and check for exceptions")
+  void testConstructor() {
+    // Act
+    try {
+      new Dice(2, 6);
+    } catch (IllegalArgumentException e) {
+      fail("Constructor should not throw an exception");
+    }
+  }
+
+  @Test
+  @DisplayName("Positive test for the roll method of Dice")
   void roll() {
     // Arrange
     int initialValue = player.getPosition();
@@ -43,8 +57,10 @@ class DiceTest {
   }
 
   @Test
+  @DisplayName("Tests the observer pattern of the Dice class")
   void testObserverPattern() {
-    Player newPlayer = new Player("testPlayer2", PlayerPiece.PROPELLER_ACCESSORIES);
+    LadderGamePlayer newPlayer = new LadderGamePlayer("testPlayer2",
+        PlayerPiece.PROPELLER_ACCESSORIES);
     // Test add
     assertDoesNotThrow(() -> dice.addObserver(newPlayer));
     assertTrue(dice.getObservers().contains(newPlayer));
@@ -69,6 +85,7 @@ class DiceTest {
   }
 
   @Test
+  @DisplayName("Negative test for the constructor of Dice")
   void testInvalidDiceCreation() {
     // Test invalid die creation
     assertThrows(IllegalArgumentException.class, () -> new Dice(0, 6));

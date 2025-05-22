@@ -1,14 +1,15 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.MoveToRandomTileAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.ReturnToStartAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RollAgainAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.SwapPlayersAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Tile that performs a random action when a player lands on it.
@@ -20,8 +21,9 @@ import java.util.List;
 public class RandomActionTile extends SpecialTile {
 
   private final transient TileAction[] tileActions = new TileAction[4];
-  private final transient Board board;
-  private final TileType tileType = TileType.RANDOM_ACTION;
+  private int randomIndex;
+  private final transient Random random = new Random();
+  private final transient BoardType boardType;
 
   /**
    * Constructor for the RandomActionTile class.
@@ -29,14 +31,11 @@ public class RandomActionTile extends SpecialTile {
    * @param tileNumber       The number of the tile on the board.
    * @param onscreenPosition The position of the tile on the screen.
    */
-  public RandomActionTile(int tileNumber, int[] onscreenPosition, Board board) {
-    if (board == null) {
-      throw new NullPointerException("Board cannot be null.");
-    }
+  public RandomActionTile(int tileNumber, int[] onscreenPosition, BoardType boardType) {
+    super(tileNumber, onscreenPosition);
 
-    this.tileNumber = tileNumber;
-    this.onscreenPosition = onscreenPosition;
-    this.board = board;
+    this.tileType = TileType.RANDOM_ACTION;
+    this.boardType = boardType;
 
     initializeTileActions();
   }
@@ -63,8 +62,8 @@ public class RandomActionTile extends SpecialTile {
   public void performAction(Player player) {
     try {
       // initialize the tileAction with a random TileAction
-      int randomAction = (int) (Math.random() * tileActions.length);
-      this.tileAction = tileActions[randomAction];
+      randomIndex = random.nextInt(0, tileActions.length);
+      this.tileAction = tileActions[randomIndex];
 
       tileAction.performAction(player);
     } catch (NullPointerException e) {
@@ -72,30 +71,24 @@ public class RandomActionTile extends SpecialTile {
     }
   }
 
-  @Override
-  public String getTileType() {
-    return tileType.getTileType();
-  }
-
-
   private void initializeTileActions() {
     tileActions[0] = new ReturnToStartAction();
     tileActions[1] = new RollAgainAction();
     tileActions[2] = new SwapPlayersAction();
-    tileActions[3] = new MoveToRandomTileAction(board);
+    tileActions[3] = new MoveToRandomTileAction(boardType);
   }
 
   /**
    * Method that returns the {@link TileAction} that was previously performed on this tile.
    *
-   * @return the {@link TileAction} (represented as a String) that was performed on this tile.
+   * @return the {@link TileAction} (represented as an integer) that was performed on this tile.
    */
-  public String getTileAction() {
+  public int getTileAction() {
     if (tileAction == null) {
       throw new NullPointerException("No tile action has been performed yet.");
     }
 
-    return tileAction.getClass().getSimpleName();
+    return randomIndex;
   }
 
   /**

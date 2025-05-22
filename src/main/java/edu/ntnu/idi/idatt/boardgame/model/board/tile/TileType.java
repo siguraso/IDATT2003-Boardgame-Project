@@ -44,10 +44,34 @@ public enum TileType {
     public String getTileType() {
       return "WinnerTile";
     }
+  },
+  ADD_COINS() {
+    @Override
+    public String getTileType() {
+      return "AddCoinsTile";
+    }
+  },
+  REMOVE_COINS() {
+    @Override
+    public String getTileType() {
+      return "RemoveCoinsTile";
+    }
+  },
+  ADD_CROWN() {
+    @Override
+    public String getTileType() {
+      return "AddCrownTile";
+    }
+  },
+  MOWSER() {
+    @Override
+    public String getTileType() {
+      return "MowserTile";
+    }
   };
 
   /**
-   * Method to identify the type of tile by returning the name of the tile as a string
+   * Method to identify the type of tile by returning the name of the tile as a string.
    *
    * @return The name of the tile as a string
    */

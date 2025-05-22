@@ -1,6 +1,5 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
-import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
 /**
@@ -12,11 +11,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class ReturnToStartAction implements TileAction {
 
-  /**
-   * Constructor for the ReturnToStartAction class.
-   */
-  public ReturnToStartAction() {
-  }
 
   @Override
   public void performAction(Player player) {

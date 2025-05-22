@@ -1,14 +1,17 @@
 package edu.ntnu.idi.idatt.boardgame.view.window;
 
 import edu.ntnu.idi.idatt.boardgame.controller.GameController;
+import edu.ntnu.idi.idatt.boardgame.controller.LadderGameController;
+import edu.ntnu.idi.idatt.boardgame.controller.ParioMartyGameController;
 import edu.ntnu.idi.idatt.boardgame.controller.PlayersController;
+import edu.ntnu.idi.idatt.boardgame.exception.InvalidBoardException;
+import edu.ntnu.idi.idatt.boardgame.exception.MalformedBoardException;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersReaderCsv;
 import edu.ntnu.idi.idatt.boardgame.model.io.player.PlayersWriterCsv;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -107,6 +110,7 @@ public class MainWindow implements Window {
 
     window.setMinWidth(900);
     window.setMinHeight(735);
+    window.setTitle("Board Games");
     window.setScene(scene);
   }
 
@@ -128,15 +132,13 @@ public class MainWindow implements Window {
 
     buttons.getStyleClass().add("button-bar");
 
-    ladderGameButton.setOnAction(onPressed -> {
-      boardGameSelection.setCenter(ladderBoardSelection);
-      boardType = null;
-    });
+    ladderGameButton.setOnAction(onPressed ->
+        boardGameSelection.setCenter(ladderBoardSelection)
+    );
 
-    parioMartyButton.setOnAction(onPressed -> {
-      boardGameSelection.setCenter(parioMartyBoardSelection);
-      boardType = null;
-    });
+    parioMartyButton.setOnAction(onPressed ->
+        boardGameSelection.setCenter(parioMartyBoardSelection)
+    );
 
     buttons.getChildren().add(ladderGameButton);
     buttons.getChildren().add(parioMartyButton);
@@ -164,7 +166,14 @@ public class MainWindow implements Window {
 
   private FlowPane getParioMartyPage() {
     FlowPane flowPane = new FlowPane();
-    // TODO add all the board selection views to the flow pane
+
+    flowPane.getChildren().add(getBoardSelectionView(BoardType.PARIO_MARTY, "Pario Marty Game"));
+
+    flowPane.setVgap(20);
+    flowPane.setHgap(20);
+
+    flowPane.setAlignment(Pos.CENTER);
+    flowPane.setPadding(new Insets(20, 20, 20, 20));
 
     return flowPane;
   }
@@ -214,15 +223,15 @@ public class MainWindow implements Window {
         // define the action for the start game button to fetch a json file
         startGameButton.setOnAction(onPress -> {
           try {
-            showFileChooserJson();
-          } catch (IllegalStateException e) {
+            jsonFileChooserSequence();
+          } catch (MalformedBoardException e) {
             warningDialog.update(
                 "There is something wrong with the provided board file: \n" + e.getMessage(),
                 "Error creating board");
             warningDialog.show();
             playersController.clearPlayers();
 
-          } catch (RuntimeException e) {
+          } catch (InvalidBoardException e) {
             warningDialog.update("There was an error loading the file: \n" + e.getMessage(),
                 "Error reading file");
             warningDialog.show();
@@ -230,9 +239,17 @@ public class MainWindow implements Window {
           }
         });
 
-      } else {
+      } else if (boardType != BoardType.PARIO_MARTY) {
         if (startGameButtons.getChildren().size() < 2) {
           startGameButtons.getChildren().add(startGameJsonButton);
+        }
+
+        startGameButton.setOnAction(onPress ->
+            startGame()
+        );
+      } else {
+        if (startGameButtons.getChildren().size() > 1) {
+          startGameButtons.getChildren().remove(1);
         }
 
         startGameButton.setOnAction(onPress ->
@@ -331,7 +348,7 @@ public class MainWindow implements Window {
     fileButtons.setAlignment(Pos.CENTER);
 
     readButton.setOnAction(onPressed ->
-        showFileChooserCsv()
+        csvFileChooserSequence()
     );
 
     writeButton.setOnAction(onPressed ->
@@ -347,13 +364,13 @@ public class MainWindow implements Window {
     separator.setEndX(200);
     separator.setEndY(0);
 
-    Label playerSelectionHeader = new Label("Add Players: ");
-
     errorLabel.getStyleClass().add("error-label");
     // placeholder text for error label so that the height of the VBox does not change when
     // showing the label.
     errorLabel.setText("error");
     errorLabel.setVisible(false);
+
+    Label playerSelectionHeader = new Label("Add Players: ");
 
     playerSelection.getChildren()
         .addAll(separator, playerSelectionHeader, addPlayerButton, playerSelectionView, errorLabel,
@@ -366,6 +383,16 @@ public class MainWindow implements Window {
     TextField playerName = new TextField();
     playerName.setPromptText("Enter Name");
     playerName.setPrefWidth(100);
+
+    playerName.textProperty().addListener((observable, oldValue, newValue) -> {
+      playerSelectionView.getStyleClass().remove("player-selection-view-error");
+      errorLabel.setVisible(false);
+
+      if (newValue.length() > 30) {
+        playerName.setText(oldValue);
+      }
+
+    });
 
     ImageView playerImage = new ImageView(new
         Image(
@@ -493,8 +520,8 @@ public class MainWindow implements Window {
     return numberOfDiceComponent;
   }
 
-  private void showFileChooserJson() {
-    if (!arePlayersValid()) {
+  private void jsonFileChooserSequence() {
+    if (arePlayersInvalid()) {
       playerSelectionView.getStyleClass().add("player-selection-view-error");
       errorLabel.setText("Please fill in all player fields!");
       errorLabel.setVisible(true);
@@ -520,7 +547,7 @@ public class MainWindow implements Window {
     }
   }
 
-  private void showFileChooserCsv() {
+  private void csvFileChooserSequence() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Open CSV File");
 
@@ -573,6 +600,16 @@ public class MainWindow implements Window {
           ((ComboBox<String>) playerProfileEditor.getChildren().get(2))
               .setValue(player.getPlayerPiece().getPieceName());
         });
+      } catch (IllegalArgumentException e) {
+        if (e.getMessage().contains("Duplicate player name")) {
+          playerSelectionView.getStyleClass().add("player-selection-view-error");
+          errorLabel.setVisible(true);
+          errorLabel.setText(e.getMessage() + "!");
+        } else {
+          warningDialog.update("There was an error reading the file. \n "
+              + "Is it formatted correctly?", "Error reading file");
+          warningDialog.show();
+        }
       } catch (Exception e) {
         warningDialog.update("There was an error reading the file. \n "
             + "Is it formatted correctly?", "Error reading file");
@@ -584,7 +621,7 @@ public class MainWindow implements Window {
   }
 
   private void showFileWriterCsv() {
-    if (!arePlayersValid()) {
+    if (arePlayersInvalid()) {
       playerSelectionView.getStyleClass().add("player-selection-view-error");
       errorLabel.setText("Please fill in all player fields!");
       errorLabel.setVisible(true);
@@ -610,7 +647,7 @@ public class MainWindow implements Window {
 
         PlayerPiece playerPiece = selectPlayerPiece(playerPieceString);
 
-        playersController.addPlayer(playerName, playerPiece);
+        playersController.addLadderGamePlayer(playerName, playerPiece);
 
       });
 
@@ -631,35 +668,74 @@ public class MainWindow implements Window {
 
   private void startGame() {
     try {
-      // get all players
-      playerSelectionView.getChildren().forEach(playerProfile -> {
-        HBox playerProfileEditor = (HBox) playerProfile;
+      if (boardType != BoardType.PARIO_MARTY) {
+        // get all players
 
-        PlayerPiece playerPiece = selectPlayerPiece(
-            ((ComboBox<String>) playerProfileEditor.getChildren()
-                .get(2)).getValue());
+        playerSelectionView.getChildren().forEach(playerProfile -> {
+          HBox playerProfileEditor = (HBox) playerProfile;
 
-        playersController.addPlayer(
-            ((TextField) playerProfileEditor.getChildren().get(1)).getText(),
-            playerPiece);
+          PlayerPiece playerPiece = selectPlayerPiece(
+              ((ComboBox<String>) playerProfileEditor.getChildren()
+                  .get(2)).getValue());
 
-      });
+          playersController.addLadderGamePlayer(
+              ((TextField) playerProfileEditor.getChildren().get(1)).getText(),
+              playerPiece);
 
-      GameController gameController = new GameController(playersController, useTwoDice);
-      gameController.setBoard(boardType, useJson, jsonFilePath);
+        });
 
-      BoardGameWindow gameWindow = new BoardGameWindow(gameController, useTwoDice);
+        GameController gameController = new LadderGameController(playersController, useTwoDice);
+        gameController.setBoard(boardType, useJson, jsonFilePath);
 
-      window.close();
-      gameWindow.show();
+        BoardGameWindow gameWindow = new LadderGameWindow(gameController, useTwoDice, boardType);
 
+        close();
+        gameWindow.show();
+
+      } else {
+        // get all players
+        playerSelectionView.getChildren().forEach(playerProfile -> {
+              HBox playerProfileEditor = (HBox) playerProfile;
+
+              PlayerPiece playerPiece = selectPlayerPiece(
+                  ((ComboBox<String>) playerProfileEditor.getChildren()
+                      .get(2)).getValue());
+
+              playersController.addParioMartyPlayer(
+                  ((TextField) playerProfileEditor.getChildren().get(1)).getText(),
+                  playerPiece);
+            }
+        );
+
+        GameController gameController = new ParioMartyGameController(playersController, useTwoDice);
+        gameController.setBoard(boardType, useJson, jsonFilePath);
+
+        BoardGameWindow gameWindow = new ParioMartyGameWindow(gameController, useTwoDice,
+            boardType);
+
+        close();
+        gameWindow.show();
+      }
     } catch (NullPointerException e) {
       playersController.clearPlayers();
 
       playerSelectionView.getStyleClass().add("player-selection-view-error");
       errorLabel.setText("Please fill in all player fields!");
       errorLabel.setVisible(true);
+    } catch (IllegalArgumentException e) {
+      if (e.getMessage().contains("Duplicate player name")) {
+        playersController.clearPlayers();
+        playerSelectionView.getStyleClass().add("player-selection-view-error");
+        errorLabel.setText(e.getMessage() + "!");
+        errorLabel.setVisible(true);
+      } else {
+        playersController.clearPlayers();
+        playerSelectionView.getStyleClass().add("player-selection-view-error");
+        errorLabel.setText("Please fill in all player fields!");
+        errorLabel.setVisible(true);
+      }
     }
+
 
   }
 
@@ -692,7 +768,7 @@ public class MainWindow implements Window {
     }
   }
 
-  private boolean arePlayersValid() {
+  private boolean arePlayersInvalid() {
     var arePlayersValidWrapper = new Object() {
       boolean areValid = true;
     };
@@ -701,12 +777,13 @@ public class MainWindow implements Window {
       String piece = ((ComboBox<String>) ((HBox) playerProfile).getChildren().get(2)).getValue();
       String name = ((TextField) ((HBox) playerProfile).getChildren().get(1)).getText();
 
-      if (piece == null || name == null || piece.isEmpty() || name.isEmpty()) {
+      if (piece == null || name == null || piece.isEmpty() || name.isBlank()) {
         arePlayersValidWrapper.areValid = false;
       }
 
     });
-    return arePlayersValidWrapper.areValid;
+
+    return !arePlayersValidWrapper.areValid;
   }
 
 }

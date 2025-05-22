@@ -16,7 +16,7 @@ public interface PlayersFileWriter {
    * Writes a player to a new file so that it can be loaded later on by the user.
    *
    * @param fileDirectory directory to save the file to.
-   * @param players       {@link java.util.HashMap} containing the players to write to the file.
+   * @param players       {@link List} containing the players to write to the file.
    * @param fileName      name of the file to write to.
    */
   void writePlayersFile(String fileDirectory, String fileName, List<Player> players);

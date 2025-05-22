@@ -1,7 +1,11 @@
 package edu.ntnu.idi.idatt.boardgame.view.window.components.dialogBox;
 
+
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
@@ -13,10 +17,18 @@ public class HappeningDialogBox extends DialogBox {
   private final VBox dialogBox;
   private final Button confirmationButton = new Button("OK");
 
+
+  private final Button noButton = new Button("No");
+  private final Button yesButton = new Button("Yes");
+
+  private final HBox yesNoButtons = new HBox();
+
+
   /**
    * Constructor for the HappeningDialogBox.
    */
-  public HappeningDialogBox(String message) {
+  public HappeningDialogBox(String message, BoardType boardType) {
+    super(boardType);
     dialogBox = (VBox) getTemplate(message);
   }
 
@@ -24,11 +36,18 @@ public class HappeningDialogBox extends DialogBox {
   public Node getComponent() {
     init();
 
+    yesNoButtons.setSpacing(10);
+    yesNoButtons.setAlignment(Pos.CENTER);
+
+    yesNoButtons.getChildren().addAll(yesButton, noButton);
+
     return dialogBox;
   }
 
   private void init() {
     dialogBox.getChildren().add(confirmationButton);
+
+    dialogBox.setSpacing(10);
   }
 
   @Override
@@ -46,4 +65,46 @@ public class HappeningDialogBox extends DialogBox {
   public Button getConfirmationButton() {
     return confirmationButton;
   }
+
+  /**
+   * Accesses the yes {@link Button} in the dialog box. This allows the
+   * {@link edu.ntnu.idi.idatt.boardgame.view.window.BoardGameWindow} class to choose what happens
+   * when the {@link Button} is pressed.
+   *
+   * @return the yes {@link Button} in the dialog box.
+   */
+  public Button getYesButton() {
+    return yesButton;
+  }
+
+  /**
+   * Accesses the no {@link Button} in the dialog box. This allows the
+   * {@link edu.ntnu.idi.idatt.boardgame.view.window.BoardGameWindow} class to choose what happens
+   * when the {@link Button} is pressed.
+   *
+   * @return the no {@link Button} in the dialog box.
+   */
+  public Button getNoButton() {
+    return noButton;
+  }
+
+  /**
+   * Changes the button mode of the dialog box to a yes/no dialog box. This is used when the user is
+   * asked to confirm an action, such as buying a crown in the Pario Marty game.
+   */
+  public void showYesNoDialogBox() {
+    dialogBox.getChildren().remove(confirmationButton);
+    dialogBox.getChildren().add(yesNoButtons);
+  }
+
+  /**
+   * Changes the button mode of the dialog box to an OK dialog box. This is what is typically
+   * displayed during the game.
+   */
+  public void showOkDialogBox() {
+    dialogBox.getChildren().remove(yesNoButtons);
+    dialogBox.getChildren().add(confirmationButton);
+  }
+
+
 }

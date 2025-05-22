@@ -12,8 +12,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  * @since 1.0
  */
 public class LadderTile extends SpecialTile {
-
-  private final TileType tileType = TileType.LADDER;
   private final int destinationTileNumber;
 
 
@@ -24,9 +22,12 @@ public class LadderTile extends SpecialTile {
    * @param onscreenPosition The position of the tile on the screen.
    */
   public LadderTile(int tileNumber, int[] onscreenPosition, int destinationTileNumber) {
-    this.tileNumber = tileNumber;
-    this.onscreenPosition = onscreenPosition;
+    super(tileNumber, onscreenPosition);
     this.destinationTileNumber = destinationTileNumber;
+
+    // initialize the tileAction with a LadderAction
+    this.tileAction = new LadderAction(destinationTileNumber);
+    this.tileType = TileType.LADDER;
   }
 
   /**
@@ -41,17 +42,12 @@ public class LadderTile extends SpecialTile {
   @Override
   public void performAction(Player player) {
     try {
-      // initialize the tileAction with a LadderAction
-      this.tileAction = new LadderAction(destinationTileNumber);
       tileAction.performAction(player);
     } catch (NullPointerException e) {
       throw new NullPointerException(e.getMessage());
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(e.getMessage());
     }
-  }
-
-  @Override
-  public String getTileType() {
-    return tileType.getTileType();
   }
 
 }

@@ -9,5 +9,5 @@ module edu.ntnu.idi.idatt.boardgame {
   opens edu.ntnu.idi.idatt.boardgame.model.board.tile to com.google.gson;
   opens edu.ntnu.idi.idatt.boardgame.model.board to com.google.gson;
   opens edu.ntnu.idi.idatt.boardgame.view.window to javafx.graphics;
-  exports edu.ntnu.idi.idatt.boardgame.apps;
+  exports edu.ntnu.idi.idatt.boardgame;
 }

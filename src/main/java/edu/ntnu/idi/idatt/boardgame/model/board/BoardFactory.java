@@ -1,15 +1,21 @@
 package edu.ntnu.idi.idatt.boardgame.model.board;
 
+import edu.ntnu.idi.idatt.boardgame.exception.InvalidBoardException;
+import edu.ntnu.idi.idatt.boardgame.exception.MalformedBoardException;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.AddCoinsTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.MowserTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.RandomActionTile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.RemoveCoinsTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.ReturnToStartTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.RollAgainTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.WinnerTile;
-import edu.ntnu.idi.idatt.boardgame.model.io.board.BoardReaderGson;
+import edu.ntnu.idi.idatt.boardgame.model.io.board.LadderBoardReaderGson;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 /**
@@ -24,12 +30,16 @@ public class BoardFactory {
   private static final int LADDER_GAME_ROWS = 10;
   private static final int LADDER_GAME_COLS = 9;
 
+  private BoardFactory() {
+    // private constructor to prevent instantiation
+  }
+
   /**
    * Creates a new hardcoded board based on the given {@link BoardType}.
    *
    * <p>SNAKES_AND_LADDERS: A {@link Board} for the game Snakes and Ladders.</p>
    *
-   * <p>PARIO_MARTI: A {@link Board} for the Pario Marti game.</p>
+   * <p>PARIO_MARTY: A {@link Board} for the Pario Marti game.</p>
    *
    * @param boardType the boardType of board to create.
    * @return a new board of the given boardType.
@@ -39,36 +49,84 @@ public class BoardFactory {
       return switch (boardType) {
         case LADDER_GAME_SPECIAL -> specialLadderGameBoard();
         case LADDER_GAME_REGULAR -> vanillaLadderGameBoard();
-        default -> throw new IllegalArgumentException("Unknown BoardType: " + boardType);
+        case PARIO_MARTY -> parioMartyBoard();
+        default -> throw new InvalidBoardException("Unknown BoardType: " + boardType);
       };
     } else {
       return switch (boardType) {
         case LADDER_GAME_SPECIAL -> specialLadderGameBoardJson();
         case LADDER_GAME_REGULAR -> vanillaLadderGameBoardJson();
         case LADDER_GAME_JSON -> ladderGameCustomJsonBoard(filePath);
-        default -> throw new IllegalArgumentException("Unknown BoardType: " + boardType);
+        default -> throw new InvalidBoardException("Unknown BoardType: " + boardType);
       };
     }
   }
 
   // specific board creation methods
+  private static Board parioMartyBoard() {
+    Map<Integer, Tile> tiles = new HashMap<>();
+    Board board = new Board(tiles);
+
+    tiles.put(1, new NormalTile(1, new int[]{1, 0}));
+    tiles.put(2, new AddCoinsTile(2, new int[]{2, 0}, 5));
+    tiles.put(3, new AddCoinsTile(3, new int[]{3, 0}, 5));
+    tiles.put(4, new RemoveCoinsTile(4, new int[]{4, 0}, 5));
+    tiles.put(5, new AddCoinsTile(5, new int[]{5, 0}, 5));
+    tiles.put(6, new RollAgainTile(6, new int[]{6, 0}));
+    tiles.put(7, new AddCoinsTile(7, new int[]{6, 1}, 5));
+    tiles.put(8, new RemoveCoinsTile(8, new int[]{6, 2}, 5));
+    tiles.put(9, new AddCoinsTile(9, new int[]{7, 2}, 5));
+    tiles.put(10, new AddCoinsTile(10, new int[]{8, 2}, 5));
+    tiles.put(11, new AddCoinsTile(11, new int[]{8, 3}, 5));
+    tiles.put(12, new RemoveCoinsTile(12, new int[]{8, 4}, 5));
+    tiles.put(13, new MowserTile(13, new int[]{8, 5}));
+    tiles.put(14, new AddCoinsTile(14, new int[]{8, 6}, 5));
+    tiles.put(15, new AddCoinsTile(15, new int[]{8, 7}, 5));
+    tiles.put(16, new RollAgainTile(16, new int[]{7, 7}));
+    tiles.put(17, new RandomActionTile(17, new int[]{6, 7}, BoardType.PARIO_MARTY));
+    tiles.put(18, new AddCoinsTile(18, new int[]{6, 8}, 5));
+    tiles.put(19, new AddCoinsTile(19, new int[]{6, 9}, 5));
+    tiles.put(20, new AddCoinsTile(20, new int[]{5, 9}, 5));
+    tiles.put(21, new MowserTile(21, new int[]{4, 9}));
+    tiles.put(22, new AddCoinsTile(22, new int[]{3, 9}, 5));
+    tiles.put(23, new AddCoinsTile(23, new int[]{2, 9}, 5));
+    tiles.put(24, new ReturnToStartTile(24, new int[]{2, 8}));
+    tiles.put(25, new RemoveCoinsTile(25, new int[]{2, 7}, 5));
+    tiles.put(26, new AddCoinsTile(26, new int[]{1, 7}, 5));
+    tiles.put(27, new AddCoinsTile(27, new int[]{0, 7}, 5));
+    tiles.put(28, new RollAgainTile(28, new int[]{0, 6}));
+    tiles.put(29, new RemoveCoinsTile(29, new int[]{0, 5}, 5));
+    tiles.put(30, new AddCoinsTile(30, new int[]{0, 4}, 5));
+    tiles.put(31, new AddCoinsTile(31, new int[]{0, 3}, 5));
+    tiles.put(32, new RemoveCoinsTile(32, new int[]{0, 2}, 5));
+    tiles.put(33, new AddCoinsTile(33, new int[]{1, 2}, 5));
+    tiles.put(34, new AddCoinsTile(34, new int[]{2, 2}, 5));
+    tiles.put(35, new RandomActionTile(35, new int[]{2, 1}, BoardType.PARIO_MARTY));
+
+    return board;
+  }
+
+
   private static Board specialLadderGameBoard() {
-    HashMap<Integer, Tile> tiles = getBlankBoard();
+    Map<Integer, Tile> tiles = getBlankBoard();
     Board specialLadderGameBoard = new Board(tiles);
 
     // add the special tiles to the board
     // random action tiles
     tiles.put(3,
-        new RandomActionTile(3, tiles.get(3).getOnscreenPosition(), specialLadderGameBoard));
+        new RandomActionTile(3, tiles.get(3).getOnscreenPosition(), BoardType.LADDER_GAME_SPECIAL));
 
     tiles.put(10,
-        new RandomActionTile(10, tiles.get(10).getOnscreenPosition(), specialLadderGameBoard));
+        new RandomActionTile(10, tiles.get(10).getOnscreenPosition(),
+            BoardType.LADDER_GAME_SPECIAL));
 
     tiles.put(43,
-        new RandomActionTile(43, tiles.get(43).getOnscreenPosition(), specialLadderGameBoard));
+        new RandomActionTile(43, tiles.get(43).getOnscreenPosition(),
+            BoardType.LADDER_GAME_SPECIAL));
 
     tiles.put(85,
-        new RandomActionTile(85, tiles.get(85).getOnscreenPosition(), specialLadderGameBoard));
+        new RandomActionTile(85, tiles.get(85).getOnscreenPosition(),
+            BoardType.LADDER_GAME_SPECIAL));
 
     // roll again tiles
     tiles.put(6,
@@ -130,8 +188,7 @@ public class BoardFactory {
   }
 
   private static Board vanillaLadderGameBoard() {
-    HashMap<Integer, Tile> tiles = getBlankBoard();
-    Board vanillaLadderGameBoard = new Board(tiles);
+    Map<Integer, Tile> tiles = getBlankBoard();
 
     // ladder tiles
 
@@ -181,30 +238,30 @@ public class BoardFactory {
 
     tiles.put(90, new WinnerTile(90, tiles.get(90).getOnscreenPosition()));
 
-    return vanillaLadderGameBoard;
+    return new Board(tiles);
   }
 
   private static Board vanillaLadderGameBoardJson() {
-    BoardReaderGson boardFileReader = new BoardReaderGson();
+    LadderBoardReaderGson boardFileReader = LadderBoardReaderGson.getInstance();
 
     return boardFileReader.readBoardFile("/JSON/LadderGameRegular.json", false);
   }
 
   private static Board specialLadderGameBoardJson() {
-    BoardReaderGson boardFileReader = new BoardReaderGson();
+    LadderBoardReaderGson boardFileReader = LadderBoardReaderGson.getInstance();
 
     return boardFileReader.readBoardFile(
         "/JSON/LadderGameSpecial.json", false);
   }
 
   private static Board ladderGameCustomJsonBoard(String filePath) {
-    BoardReaderGson boardFileReader = new BoardReaderGson();
+    LadderBoardReaderGson boardFileReader = LadderBoardReaderGson.getInstance();
     Board board;
 
     try {
       board = boardFileReader.readBoardFile(filePath, true);
-    } catch (RuntimeException e) {
-      throw new RuntimeException(e.getMessage());
+    } catch (NullPointerException e) {
+      throw new NullPointerException(e.getMessage());
     }
 
     // check if the board is valid:
@@ -212,23 +269,23 @@ public class BoardFactory {
     // the first tile must be a normal tile, and the last tile must be winner tile
     // the tiles must be in order from 1 to 90
     if (board.tiles().size() != 90) {
-      throw new IllegalStateException("Board must have 90 tiles");
+      throw new MalformedBoardException("Board must have 90 tiles");
 
     } else if (board.tiles().keySet().stream().anyMatch(tile -> tile < 1 || tile > 90)) {
-      throw new IllegalStateException("Tiles must be in order from 1 to 90");
+      throw new MalformedBoardException("Tiles must be in order from 1 to 90");
 
     } else if (!board.tiles().get(1).getTileType().equals(TileType.NORMAL.getTileType())) {
-      throw new IllegalStateException("First tile must be a normal tile");
+      throw new MalformedBoardException("First tile must be a normal tile");
 
     } else if (!board.tiles().get(90).getTileType().equals(TileType.WINNER.getTileType())) {
-      throw new IllegalStateException("Last tile must be a winner tile");
+      throw new MalformedBoardException("Last tile must be a winner tile");
     }
 
     return board;
   }
 
-  private static HashMap<Integer, Tile> getBlankBoard() {
-    HashMap<Integer, Tile> tiles = new HashMap<>();
+  private static Map<Integer, Tile> getBlankBoard() {
+    Map<Integer, Tile> tiles = new HashMap<>();
 
     IntStream.range(0, 90).forEach(i -> {
       int row = (LADDER_GAME_ROWS - 1) - (i / LADDER_GAME_COLS);

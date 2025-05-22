@@ -1,11 +1,12 @@
 package edu.ntnu.idi.idatt.boardgame.controller;
 
+import edu.ntnu.idi.idatt.boardgame.exception.InvalidBoardException;
+import edu.ntnu.idi.idatt.boardgame.exception.MalformedBoardException;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
+import edu.ntnu.idi.idatt.boardgame.model.board.tile.MowserTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.RandomActionTile;
-import edu.ntnu.idi.idatt.boardgame.model.board.tile.SpecialTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import edu.ntnu.idi.idatt.boardgame.model.dice.Dice;
@@ -16,24 +17,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <h1>Class - GameController.</h1>
- *
- * <p>A controller-class to control the flow of the game</p>
+ * Abstract class for the game controller. This class is responsible for controlling the flow of the
+ * game, including rolling the die, moving players, and handling special tiles.
  *
  * @author Magnus Næssan Gaarder & siguraso
  * @version 1.0
  * @see BoardGameObserver
  * @since 1.0
  */
-public class GameController implements BoardGameObserver, BoardGameObservable {
+public abstract class GameController implements BoardGameObserver, BoardGameObservable {
 
-  private final Die die;
-  private final PlayersController playersController;
-  private Board board;
+  protected final Die die;
+  protected final PlayersController playersController;
+  protected Board board;
 
-  private final ArrayList<BoardGameObserver> uiObservers = new ArrayList<>();
-
-  private int lastSpecialTile;
+  protected final ArrayList<BoardGameObserver> uiObservers = new ArrayList<>();
+  protected int lastSpecialTile;
 
   /**
    * Constructor for the GameController.
@@ -42,7 +41,7 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
    *
    * @param playersController The controller object for the players in the game.
    */
-  public GameController(PlayersController playersController, boolean useTwoDice) {
+  protected GameController(PlayersController playersController, boolean useTwoDice) {
     this.playersController = playersController;
 
     die = useTwoDice ? new Dice(2, 6) : new Die(6);
@@ -64,10 +63,10 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   public void setBoard(BoardType boardType, boolean useJson, String filePath) {
     try {
       this.board = BoardFactory.createBoard(boardType, useJson, filePath);
-    } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException(e.getMessage());
-    } catch (IllegalStateException e) {
-      throw new IllegalStateException("The board was could not be created: \n" + e.getMessage());
+    } catch (InvalidBoardException e) {
+      throw new InvalidBoardException(e.getMessage());
+    } catch (MalformedBoardException e) {
+      throw new MalformedBoardException("The board was could not be created: \n" + e.getMessage());
     }
   }
 
@@ -99,58 +98,27 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
   /**
    * Finishes the current players turn, and sets the next player to take their turn.
    */
-  public void finishTurn() {
-    // check the tile the current player is on
-    Tile currentTile = board.tiles().get(playersController.getCurrentPlayer().getPosition());
-
-    // check what typa tile it is, do the action if it is a special tile
-    if (!currentTile.getTileType().equals(TileType.NORMAL.getTileType())) {
-      if (currentTile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())) {
-        ((RandomActionTile) currentTile).setPlayers(playersController.getPlayers());
-      }
-
-      lastSpecialTile = playersController.getCurrentPlayer().getPosition();
-      ((SpecialTile) currentTile).performAction(playersController.getCurrentPlayer());
-    }
-
-    if (playersController.getCurrentPlayer() != null) {
-      die.removeObserver(playersController.getCurrentPlayer());
-    }
-
-    playersController.nextPlayer();
-
-    die.addObserver(playersController.getCurrentPlayer());
-  }
-
-  /**
-   * Method to get the destination tile number of a LadderTile.
-   *
-   * @param tileNumber an integer representing the tile number.
-   */
-  public int getLadderDestinationTileNumber(int tileNumber) {
-    Tile tile = board.tiles().get(tileNumber);
-
-    if (!tile.getTileType().equals(TileType.LADDER.getTileType())) {
-      throw new IllegalArgumentException("Tile number " + tileNumber + " is not a LadderTile");
-    }
-
-    return ((LadderTile) tile).getDestinationTileNumber();
-  }
+  public abstract void finishTurn();
 
   /**
    * Accesses the action last performed by a RandomActionTile represented as a String.
    *
    * @return the action last performed by a RandomActionTile represented as a String.
    */
-  public String getLastRandomAction() {
+  public int getLastRandomAction() {
 
-    //this method is only called when the last special tile was a RandomActionTile
+    // this method is only called when the last special tile was a RandomActionTile
     Tile tile = board.tiles().get(lastSpecialTile);
 
-    if (!tile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())) {
+    if (!tile.getTileType().equals(TileType.RANDOM_ACTION.getTileType())
+        && !tile.getTileType().equals(TileType.MOWSER.getTileType())) {
       throw new IllegalArgumentException(
           "Tile number " + playersController.getPreviousPlayer().getPosition()
-              + " is not a RandomActionTile");
+              + " is not a RandomActionTile or a MowserTile");
+    }
+
+    if (tile.getTileType().equals(TileType.MOWSER.getTileType())) {
+      return ((MowserTile) tile).getTileAction();
     }
 
     return ((RandomActionTile) tile).getTileAction();
@@ -174,6 +142,13 @@ public class GameController implements BoardGameObserver, BoardGameObservable {
 
     return ((RandomActionTile) tile).getPlayerToSwapWith().getName();
   }
+
+  /**
+   * Checks if the game has reached a winning state.
+   *
+   * @return true if the game has reached a winning state, false otherwise.
+   */
+  public abstract boolean isGameOver();
 
   @Override
   public void update(int[] i) {

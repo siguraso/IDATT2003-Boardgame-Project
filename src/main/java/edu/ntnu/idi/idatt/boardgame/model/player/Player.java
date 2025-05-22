@@ -1,19 +1,13 @@
 package edu.ntnu.idi.idatt.boardgame.model.player;
 
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
+
 import java.util.Arrays;
 
-/**
- * A player in a board game.
- *
- * @author siguraso & MagnusNaessanGaarder
- * @version 1.0
- * @since 1.0
- */
-public class Player implements BoardGameObserver {
+public abstract class Player implements BoardGameObserver {
 
   private final String name;
-  private int position;
+  protected int position;
   private boolean isWinner = false;
   private final PlayerPiece piece;
   private boolean rollAgain = false;
@@ -26,7 +20,7 @@ public class Player implements BoardGameObserver {
    * @param playerPiece The piece that the player uses on the board, as defined in the
    *                    {@link PlayerPiece} enum.
    */
-  public Player(String name, PlayerPiece playerPiece) {
+  protected Player(String name, PlayerPiece playerPiece) {
     if (name == null || playerPiece == null) {
       throw new NullPointerException("Name or Player piece cannot be null.");
     } else if (name.isEmpty()) {
@@ -146,6 +140,13 @@ public class Player implements BoardGameObserver {
     this.rollAgain = rollAgain;
   }
 
+  /**
+   * Used to check if the player can do a ladder action.
+   *
+   * @param destination The new position of the player.
+   */
+  public abstract void handleLadderAction(int destination);
+
   @Override
   public void update(int[] i) {
     if (i == null) {
@@ -159,4 +160,6 @@ public class Player implements BoardGameObserver {
       moveForward(steps);
     }
   }
+
+
 }

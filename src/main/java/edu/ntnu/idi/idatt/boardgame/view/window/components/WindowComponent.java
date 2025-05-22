@@ -10,8 +10,9 @@ import javafx.scene.Node;
  * @since 1.0
  */
 public interface WindowComponent {
+
   /**
-   * Retrieves the node that contains the window component
+   * Retrieves the node that contains the window component.
    */
   Node getComponent();
 }

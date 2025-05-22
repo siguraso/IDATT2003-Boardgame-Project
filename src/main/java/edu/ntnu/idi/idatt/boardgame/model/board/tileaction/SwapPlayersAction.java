@@ -3,6 +3,7 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A tile action that swaps to players positions on the board.
@@ -15,12 +16,8 @@ public class SwapPlayersAction implements TileAction {
 
   private ArrayList<Player> players;
   private Player playerToSwapWith;
+  private final Random random = new Random();
 
-  /**
-   * Constructor for the SwapPlayersAction class.
-   */
-  public SwapPlayersAction() {
-  }
 
   /**
    * Returns the players that are currently in the game.
@@ -80,7 +77,7 @@ public class SwapPlayersAction implements TileAction {
     playersToSwapWith.remove(player);
 
     playerToSwapWith = playersToSwapWith.get(
-        (int) (Math.random() * playersToSwapWith.size()));
+        random.nextInt(playersToSwapWith.size()));
 
     int landingPlayerPosition = player.getPosition();
     int swappingPlayerPosition = playerToSwapWith.getPosition();

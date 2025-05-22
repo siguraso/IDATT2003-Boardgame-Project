@@ -6,7 +6,7 @@
 
   <groupId>edu.ntnu.idi.idatt</groupId>
   <artifactId>Boardgame</artifactId>
-  <version>0.0.1-ALPHA</version>
+  <version>1.0</version>
   <name>Boardgame</name>
 
   <properties>
@@ -33,6 +33,18 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>5.8.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>5.8.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>2.10.1</version>
@@ -46,30 +58,6 @@
       </resource>
     </resources>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <archive>
-                <manifest>
-                  <mainClass>
-                    edu.ntnu.idi.idatt.boardgame.apps.BoardGameApp
-                  </mainClass>
-                </manifest>
-              </archive>
-              <descriptorRefs>
-                <descriptorRef>jar-with-dependencies</descriptorRef>
-              </descriptorRefs>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -87,7 +75,7 @@
           <execution>
             <id>default-cli</id>
             <configuration>
-              <mainClass>edu.ntnu.idi.idatt.boardgame.apps.BoardGameApp</mainClass>
+              <mainClass>edu.ntnu.idi.idatt.boardgame.BoardGameApp</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
@@ -97,19 +85,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.3.0</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>edu.ntnu.idi.idatt.boardgame.apps.BoardGameApp</mainClass>
-              <addClasspath>true</addClasspath>
-            </manifest>
-          </archive>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -125,7 +100,7 @@
               <transformers>
                 <transformer
                   implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>edu.ntnu.idi.idatt.boardgame.apps.BoardGameApp</mainClass>
+                  <mainClass>edu.ntnu.idi.idatt.boardgame.BoardGameApp</mainClass>
                 </transformer>
                 <transformer
                   implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
