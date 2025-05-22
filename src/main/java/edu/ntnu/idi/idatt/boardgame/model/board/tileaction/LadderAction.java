@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
+import edu.ntnu.idi.idatt.boardgame.exception.InvalidPlayerException;
 import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 
@@ -34,8 +35,8 @@ public class LadderAction implements TileAction {
     } else {
       try {
         player.handleLadderAction(destination);
-      } catch (IllegalArgumentException e) {
-        throw new IllegalArgumentException(e.getMessage());
+      } catch (InvalidPlayerException e) {
+        throw new InvalidPlayerException(e.getMessage());
       }
     }
   }

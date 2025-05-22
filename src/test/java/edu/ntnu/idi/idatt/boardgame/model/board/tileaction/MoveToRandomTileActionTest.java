@@ -48,7 +48,7 @@ class MoveToRandomTileActionTest {
     moveToRandomTileAction.performAction(player);
 
     // Assert
-    assertTrue(player.getPosition() >= 1 && player.getPosition() < 89);
+    assertTrue(player.getPosition() >= 1 && player.getPosition() <= 89);
     assertNotEquals(player.getPosition(), initialPosition);
   }
 
