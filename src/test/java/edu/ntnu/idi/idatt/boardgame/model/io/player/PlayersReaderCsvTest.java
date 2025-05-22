@@ -6,11 +6,13 @@ import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PlayersReaderCsvTest {
 
   @Test
+  @DisplayName("positive tests for the readPlayersFile method")
   void testReadPlayersFile() {
     PlayersReaderCsv reader = new PlayersReaderCsv();
     String filePath = "src/test/resources/CSV/sigve_players.csv";

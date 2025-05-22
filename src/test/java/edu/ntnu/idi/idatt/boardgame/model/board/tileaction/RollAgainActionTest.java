@@ -6,6 +6,7 @@ import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class RollAgainActionTest {
@@ -28,6 +29,17 @@ class RollAgainActionTest {
   }
 
   @Test
+  @DisplayName("Test the constructor of RollAgainAction, and check for exceptions")
+  void testRollAgainContructor() {
+    try {
+      new RollAgainAction();
+    } catch (Exception e) {
+      fail("Constructor should not throw an exception");
+    }
+  }
+
+  @Test
+  @DisplayName("Positive test for performAction method of RollAgainAction")
   void performAction() {
     // Act
     action.performAction(player);
@@ -37,6 +49,7 @@ class RollAgainActionTest {
   }
 
   @Test
+  @DisplayName("Negative test for performAction method of RollAgainAction")
   void testConstructor() {
     // Assert
     assertNotNull(action, "RollAgainAction should be instantiated");

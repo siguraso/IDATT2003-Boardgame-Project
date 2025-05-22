@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class LadderBoardReaderGsonTest {
@@ -19,10 +20,19 @@ class LadderBoardReaderGsonTest {
     ladderBoardReaderGson = new LadderBoardReaderGson();
   }
 
+  @Test
+  @DisplayName("Test the constructor of LadderBoardReaderGson")
+  void testConstructor() {
+    try {
+      new LadderBoardReaderGson();
+    } catch (Exception e) {
+      fail("Constructor should not throw an exception");
+    }
+  }
 
   @Test
+  @DisplayName("Positive test the readBoardFile method of LadderBoardReaderGson")
   void testReadBoard() {
-    // Positive tests
     File file = new File("src/test/resources/JSON/TestBoard.json");
     String filePath = file.getAbsolutePath();
 
@@ -82,7 +92,13 @@ class LadderBoardReaderGsonTest {
       }
     });
 
-    // Negative tests
+  }
+
+  @Test
+  @DisplayName("Negative test the readBoardFile method of LadderBoardReaderGson")
+  public void testReadBoardFileNegative() {
+    Board board;
+    String filePath;
 
     try {
       board = ladderBoardReaderGson.readBoardFile("src/test/resources/JSON/60DAYSSSS.json", true);
@@ -106,7 +122,5 @@ class LadderBoardReaderGsonTest {
         fail("Did not throw the expected exception");
       }
     }
-
-
   }
 }

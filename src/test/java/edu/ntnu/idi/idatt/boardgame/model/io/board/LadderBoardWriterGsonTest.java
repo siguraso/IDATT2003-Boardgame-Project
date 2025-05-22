@@ -7,6 +7,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.Tile;
 import java.util.HashMap;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class LadderBoardWriterGsonTest {
@@ -21,6 +22,7 @@ class LadderBoardWriterGsonTest {
   }
 
   @Test
+  @DisplayName("Tests the write board file method of LadderBoardWriterGson")
   void testWriteBoard() {
     // Positive tests
     String filePath = "src/test/resources/JSON/";

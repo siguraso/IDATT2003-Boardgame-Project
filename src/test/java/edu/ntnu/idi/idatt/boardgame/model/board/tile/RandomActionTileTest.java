@@ -10,6 +10,7 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class RandomActionTileTest {
@@ -38,19 +39,24 @@ class RandomActionTileTest {
   }
 
   @Test
+  @DisplayName("positive test the constructor of RandomActionTile")
   void testConstructor() {
-    // negative test for constructor
-    try {
-      tile = new RandomActionTile(1, new int[]{0, 0}, null);
-      fail("Expected an exception to be thrown");
-    } catch (NullPointerException e) {
-      assertEquals("Board cannot be null.", e.getMessage());
-    }
-
     // Test constructor
     assertEquals(1, tile.getTileNumber());
     assertArrayEquals(new int[]{0, 0}, tile.getOnscreenPosition());
     assertEquals("RandomActionTile", tile.getTileType());
+  }
+
+  @Test
+  @DisplayName("negative test the constructor of RandomActionTile")
+  void testNegativeConstructor() {
+    // Test constructor with null board
+    try {
+      new RandomActionTile(1, new int[]{0, 0}, null);
+      fail("Expected an exception to be thrown");
+    } catch (NullPointerException e) {
+      assertEquals("Board cannot be null.", e.getMessage());
+    }
   }
 
 
@@ -59,15 +65,6 @@ class RandomActionTileTest {
     assertEquals(1, tile.getTileNumber());
     assertArrayEquals(new int[]{0, 0}, tile.getOnscreenPosition());
     assertEquals("RandomActionTile", tile.getTileType());
-
-    // negative test getPlayerToSwapWith
-    try {
-      ((RandomActionTile) tile).getPlayerToSwapWith();
-      fail("Expected an exception to be thrown");
-    } catch (Exception e) {
-      assertEquals("Player to swap with is not set. Please call performAction() first.",
-          e.getMessage());
-    }
 
     ((RandomActionTile) tile).setPlayers(players);
 
@@ -99,21 +96,6 @@ class RandomActionTileTest {
   @Test
   void testSetPlayers() {
 
-    try {
-      ((RandomActionTile) tile).setPlayers(null);
-      fail("Expected an exception to be thrown");
-    } catch (NullPointerException e) {
-      assertEquals("Players cannot be null. Please provide a valid list of players.",
-          e.getMessage());
-    }
-
-    try {
-      ((RandomActionTile) tile).setPlayers(new ArrayList<>());
-      fail("Expected an exception to be thrown");
-    } catch (IllegalArgumentException e) {
-      assertEquals("At least two players are required to perform a swap.", e.getMessage());
-    }
-
     ((RandomActionTile) tile).setPlayers(players);
 
     boolean swapAction = false;
@@ -135,15 +117,6 @@ class RandomActionTileTest {
 
   @Test
   void testPerformAction() {
-    // negative test for performAction
-    try {
-      ((RandomActionTile) tile).performAction(null);
-      fail("Expected an exception to be thrown");
-    } catch (NullPointerException e) {
-      if (!e.getMessage().contains("Player cannot be null")) {
-        fail("Expected a player cannot be null exception");
-      }
-    }
 
     try {
       ((RandomActionTile) tile).setPlayers(players);
@@ -186,6 +159,44 @@ class RandomActionTileTest {
 
     } catch (Exception e) {
       fail("Expected no exception to be thrown");
+    }
+  }
+
+  @Test
+  @DisplayName("Negative tests")
+  void negativeTests() {
+    // negative test getPlayerToSwapWith
+    try {
+      ((RandomActionTile) tile).getPlayerToSwapWith();
+      fail("Expected an exception to be thrown");
+    } catch (Exception e) {
+      assertEquals("Player to swap with is not set. Please call performAction() first.",
+          e.getMessage());
+    }
+
+    // negative test for performAction
+    try {
+      ((RandomActionTile) tile).performAction(null);
+      fail("Expected an exception to be thrown");
+    } catch (NullPointerException e) {
+      if (!e.getMessage().contains("Player cannot be null")) {
+        fail("Expected a player cannot be null exception");
+      }
+    }
+
+    try {
+      ((RandomActionTile) tile).setPlayers(null);
+      fail("Expected an exception to be thrown");
+    } catch (NullPointerException e) {
+      assertEquals("Players cannot be null. Please provide a valid list of players.",
+          e.getMessage());
+    }
+
+    try {
+      ((RandomActionTile) tile).setPlayers(new ArrayList<>());
+      fail("Expected an exception to be thrown");
+    } catch (IllegalArgumentException e) {
+      assertEquals("At least two players are required to perform a swap.", e.getMessage());
     }
   }
 }

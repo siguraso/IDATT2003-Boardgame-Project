@@ -8,6 +8,7 @@ import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class AddCoinsActionTest {
@@ -22,7 +23,8 @@ class AddCoinsActionTest {
   }
 
   @Test
-  void testConstructor() {
+  @DisplayName("Test the constructor of AddCoinsAction, and check for exceptions")
+  public void testConstructor() {
     assertThrows(IllegalArgumentException.class, () -> new AddCoinsAction(-1));
 
     try {
@@ -33,12 +35,8 @@ class AddCoinsActionTest {
   }
 
   @Test
-  void testPerformAction() {
-    assertThrows(NullPointerException.class, () -> addCoinsAction.performAction(null));
-
-    Player invalidPlayer = new LadderGamePlayer("Invalid Player", PlayerPiece.EVIL_PAUL);
-    assertThrows(InvalidPlayerException.class, () -> addCoinsAction.performAction(invalidPlayer));
-
+  @DisplayName("Positive test for performAction method of AddCoinsAction")
+  public void testPerformAction() {
     try {
       int initialCoins = ((ParioMartyPlayer) player).getCoins();
       addCoinsAction.performAction(player);
@@ -47,5 +45,15 @@ class AddCoinsActionTest {
     } catch (InvalidPlayerException e) {
       fail("performAction should not throw an exception for a valid player");
     }
+  }
+
+  @Test
+  @DisplayName("Negative test for performAction method of AddCoinsAction")
+  public void negativeTestPerformAction() {
+    assertThrows(NullPointerException.class, () -> addCoinsAction.performAction(null));
+
+    Player invalidPlayer = new LadderGamePlayer("Invalid Player", PlayerPiece.EVIL_PAUL);
+    assertThrows(InvalidPlayerException.class, () -> addCoinsAction.performAction(invalidPlayer));
+    ;
   }
 }

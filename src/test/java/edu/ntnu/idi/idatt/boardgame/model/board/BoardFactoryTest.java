@@ -5,11 +5,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.TileType;
 import java.util.HashMap;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BoardFactoryTest {
 
   @Test
+  @DisplayName("Test all of the board types of create board")
   void testCreateBoard() {
     Board regularBoard = BoardFactory.createBoard(BoardType.LADDER_GAME_REGULAR, false, null);
     HashMap<Integer, String> tileTypes = new HashMap<>(regularBoard.getTileTypes());
@@ -84,6 +86,7 @@ class BoardFactoryTest {
 
 
   @Test
+  @DisplayName("Test all of the board types of create board with json")
   void testCreateBoardJson() {
     Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_REGULAR, true,
         null);
@@ -134,7 +137,34 @@ class BoardFactoryTest {
   }
 
   @Test
+  @DisplayName("positive tests all of the board types of create board with json and custom board")
   void testCreateCustomBoardJson() {
+
+    // Positive test
+
+    try {
+      Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_JSON, true,
+          "src/test/resources/JSON/TestBoard.json");
+      assertNotNull(board);
+
+      board.getTileTypes().forEach((key, value) -> {
+        if (key == 1) {
+          assertEquals(TileType.NORMAL.getTileType(), value);
+        } else if (key == 90) {
+          assertEquals(TileType.WINNER.getTileType(), value);
+        } else {
+          assertEquals(TileType.RANDOM_ACTION.getTileType(), value);
+        }
+      });
+    } catch (RuntimeException e) {
+      fail("Should not throw an exception");
+    }
+
+  }
+
+  @Test
+  @DisplayName("Negative tests all of the board types of create board with json and custom board")
+  void testCreateCustomBoardJsonNegative() {
     // negative tests
     try {
       Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_JSON, true,
@@ -167,26 +197,5 @@ class BoardFactoryTest {
     } catch (RuntimeException e) {
       assertEquals("Last tile must be a winner tile", e.getMessage());
     }
-
-    // Positive test
-
-    try {
-      Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_JSON, true,
-          "src/test/resources/JSON/TestBoard.json");
-      assertNotNull(board);
-
-      board.getTileTypes().forEach((key, value) -> {
-        if (key == 1) {
-          assertEquals(TileType.NORMAL.getTileType(), value);
-        } else if (key == 90) {
-          assertEquals(TileType.WINNER.getTileType(), value);
-        } else {
-          assertEquals(TileType.RANDOM_ACTION.getTileType(), value);
-        }
-      });
-    } catch (RuntimeException e) {
-      fail("Should not throw an exception");
-    }
-
   }
 }

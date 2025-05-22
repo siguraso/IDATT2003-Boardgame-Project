@@ -6,6 +6,7 @@ import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class WinnerActionTest {
@@ -26,6 +27,17 @@ class WinnerActionTest {
   }
 
   @Test
+  @DisplayName("Test the constructor of WinnerAction, and check for exceptions")
+  void testConstructor() {
+    try {
+      new WinnerAction();
+    } catch (Exception e) {
+      fail("Constructor should not throw an exception");
+    }
+  }
+
+  @Test
+  @DisplayName("Positive test for performAction method of WinnerAction")
   void performAction() {
     // Act
     winnerAction.performAction(player);
@@ -35,6 +47,7 @@ class WinnerActionTest {
   }
 
   @Test
+  @DisplayName("Negative test for performAction method of WinnerAction")
   void performActionWithNullPlayer() {
     assertThrows(NullPointerException.class, () -> winnerAction.performAction(null));
   }

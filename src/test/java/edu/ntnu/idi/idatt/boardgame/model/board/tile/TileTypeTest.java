@@ -2,12 +2,14 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class TileTypeTest {
 
 
   @Test
+  @DisplayName("Test the getTileType method")
   void testGetTileType() {
     assertEquals("NormalTile", TileType.NORMAL.getTileType());
     assertEquals("LadderTile", TileType.LADDER.getTileType());

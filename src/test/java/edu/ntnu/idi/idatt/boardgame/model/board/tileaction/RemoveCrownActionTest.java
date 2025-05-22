@@ -35,14 +35,8 @@ class RemoveCrownActionTest {
   }
 
   @Test
-  @DisplayName("Test the performAction method of RemoveCrownAction, and check for exceptions")
+  @DisplayName("Positive test the performAction method of RemoveCrownAction")
   public void testPerformAction() {
-    assertThrows(NullPointerException.class, () -> removeCrownAction.performAction(null));
-
-    Player invalidPlayer = new LadderGamePlayer("spreaddie gibbs", PlayerPiece.EVIL_PAUL);
-    assertThrows(InvalidPlayerException.class,
-        () -> removeCrownAction.performAction(invalidPlayer));
-
     try {
       // test if it removes a crown when it shouldnt
       assertEquals(0, ((ParioMartyPlayer) player).getCrowns());
@@ -58,5 +52,15 @@ class RemoveCrownActionTest {
     } catch (ClassCastException e) {
       fail("performAction should not throw an exception for a valid player");
     }
+  }
+
+  @Test
+  @DisplayName("Negative test for the performAction method of RemoveCrownAction")
+  public void negativeTestPerformAction() {
+    assertThrows(NullPointerException.class, () -> removeCrownAction.performAction(null));
+
+    Player invalidPlayer = new LadderGamePlayer("spreaddie gibbs", PlayerPiece.EVIL_PAUL);
+    assertThrows(InvalidPlayerException.class,
+        () -> removeCrownAction.performAction(invalidPlayer));
   }
 }

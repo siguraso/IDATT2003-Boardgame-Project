@@ -6,11 +6,19 @@ import edu.ntnu.idi.idatt.boardgame.exception.InvalidPlayerException;
 import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class LadderActionTest {
 
   @Test
+  @DisplayName("Tests the constructor of LadderAction, and check for exceptions")
+  void testConstructor() {
+    assertDoesNotThrow(() -> new LadderAction(5));
+  }
+
+  @Test
+  @DisplayName("Positive test for performAction method of LadderAction")
   void performAction() {
     // Arrange
     int destination = 5;
@@ -25,6 +33,7 @@ class LadderActionTest {
   }
 
   @Test
+  @DisplayName("Negative test for performAction method of LadderAction")
   void testNegativePerformAction() {
     // Arrange
     int destination = -5;

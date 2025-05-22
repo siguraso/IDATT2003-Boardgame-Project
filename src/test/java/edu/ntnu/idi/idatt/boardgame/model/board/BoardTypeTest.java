@@ -2,11 +2,15 @@ package edu.ntnu.idi.idatt.boardgame.model.board;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BoardTypeTest {
 
   @Test
+  @DisplayName("Tests the accessor for the board file path for the image")
   void testGetFilePath() {
     assertEquals("/Images/boards/ladder_game_special.png",
         BoardType.LADDER_GAME_SPECIAL.getFilePath());
@@ -17,6 +21,7 @@ class BoardTypeTest {
   }
 
   @Test
+  @DisplayName("Test the accessor for the name of the board")
   void testGetBoardName() {
     assertEquals("Ladder Game Special", BoardType.LADDER_GAME_SPECIAL.getBoardName());
     assertEquals("Ladder Game Regular", BoardType.LADDER_GAME_REGULAR.getBoardName());

@@ -8,11 +8,14 @@ import edu.ntnu.idi.idatt.boardgame.model.player.PlayerPiece;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class PlayersWriterCsvTest {
 
   @Test
+  @DisplayName("positive tests for the writePlayersFile method")
   void testWritePlayersFile() {
     PlayersWriterCsv writer = new PlayersWriterCsv();
     String fileDirectory = "test.csv";

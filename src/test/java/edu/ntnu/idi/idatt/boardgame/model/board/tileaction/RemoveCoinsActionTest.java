@@ -57,11 +57,8 @@ class RemoveCoinsActionTest {
   }
 
   @Test
-  @DisplayName("Test the setCoinsToRemove method of RemoveCoinsAction, and check for exceptions")
+  @DisplayName("Positive test the setCoinsToRemove method of RemoveCoinsAction")
   public void testSetCoinsToRemove() {
-    assertThrows(IllegalArgumentException.class,
-        () -> ((RemoveCoinsAction) removeCoinsAction).setCoinsToRemove(-2));
-
     try {
       ((RemoveCoinsAction) removeCoinsAction).setCoinsToRemove(3);
       int initialCoins = ((ParioMartyPlayer) player).getCoins();
@@ -81,6 +78,13 @@ class RemoveCoinsActionTest {
     } catch (Exception e) {
       fail("setCoinsToRemove should not throw an exception");
     }
+  }
+
+  @Test
+  @DisplayName("Negative test the setCoinsToRemove method of RemoveCoinsAction")
+  public void testNegativeSetCoinsToRemove() {
+    assertThrows(IllegalArgumentException.class,
+        () -> ((RemoveCoinsAction) removeCoinsAction).setCoinsToRemove(-2));
   }
 
 }
