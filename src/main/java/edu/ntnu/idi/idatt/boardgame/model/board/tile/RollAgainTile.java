@@ -19,8 +19,7 @@ public class RollAgainTile extends SpecialTile {
    * @param onscreenPosition the position of the tile on the screen.
    */
   public RollAgainTile(int tileNumber, int[] onscreenPosition) {
-    this.tileNumber = tileNumber;
-    this.onscreenPosition = onscreenPosition;
+    super(tileNumber, onscreenPosition);
     this.tileAction = new RollAgainAction();
 
     this.tileType = TileType.ROLL_AGAIN;

@@ -117,7 +117,6 @@ class RandomActionTileTest {
 
   @Test
   void testPerformAction() {
-
     try {
       ((RandomActionTile) tile).setPlayers(players);
       ((RandomActionTile) tile).performAction(player);
@@ -160,6 +159,7 @@ class RandomActionTileTest {
     } catch (Exception e) {
       fail("Expected no exception to be thrown");
     }
+   
   }
 
   @Test

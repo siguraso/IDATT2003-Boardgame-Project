@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
+import edu.ntnu.idi.idatt.boardgame.exception.InvalidPlayerException;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RemoveCoinsAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RemoveCrownAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.ReturnToStartAction;
@@ -20,8 +21,7 @@ public class MowserTile extends SpecialTile {
    * @param onscreenPosition The position of the tile on the screen.
    */
   public MowserTile(int tileNumber, int[] onscreenPosition) {
-    this.tileNumber = tileNumber;
-    this.onscreenPosition = onscreenPosition;
+    super(tileNumber, onscreenPosition);
     this.tileType = TileType.MOWSER;
 
     initializeTileActions();
@@ -63,8 +63,15 @@ public class MowserTile extends SpecialTile {
    *
    * @param player the player that has landed on the moweser tile.
    */
-  public void setPlayerCoins(ParioMartyPlayer player) {
-    ((RemoveCoinsAction) tileActions[1]).setCoinsToRemove(player.getCoins());
+  public void setPlayerCoins(Player player) {
+    if (player == null) {
+      throw new NullPointerException("Player cannot be null");
+    }
+    try {
+      ((RemoveCoinsAction) tileActions[1]).setCoinsToRemove(((ParioMartyPlayer) player).getCoins());
+    } catch (ClassCastException e) {
+      throw new InvalidPlayerException(e.getMessage());
+    }
   }
 
 
