@@ -11,7 +11,7 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tile;
  */
 public class NormalTile implements Tile {
 
-  private final TileType tileType = TileType.NORMAL;
+  private static final TileType TILE_TYPE = TileType.NORMAL;
   private final int tileNumber;
   private final int[] onscreenPosition;
 
@@ -49,7 +49,7 @@ public class NormalTile implements Tile {
 
   @Override
   public String getTileType() {
-    return tileType.getTileType();
+    return TILE_TYPE.getTileType();
   }
 
 }

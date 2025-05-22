@@ -25,12 +25,6 @@ public class PlayersController {
   private Player previousPlayer;
 
   /**
-   * Constructor for the PlayersController.
-   */
-  public PlayersController() {
-  }
-
-  /**
    * Returns the {@link Player} that is currently taking their turn.
    *
    * @return The {@link Player} that is currently taking their turn.
@@ -113,7 +107,7 @@ public class PlayersController {
   public List<ParioMartyPlayer> getPlayersAsParioMarty() throws IllegalArgumentException {
     List<ParioMartyPlayer> parioMartyPlayers = new ArrayList<>();
 
-    players.forEach((player) -> {
+    players.forEach(player -> {
       try {
         parioMartyPlayers.add((ParioMartyPlayer) player);
       } catch (ClassCastException e) {

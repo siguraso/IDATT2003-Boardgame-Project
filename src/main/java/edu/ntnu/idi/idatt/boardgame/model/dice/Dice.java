@@ -1,7 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.dice;
 
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
-import java.util.List;
 import java.util.stream.IntStream;
 
 
@@ -37,9 +36,9 @@ public final class Dice extends Die {
   public void roll() {
     int[] rolls = new int[numberOfDice];
 
-    IntStream.range(0, numberOfDice).forEach(i -> {
-      rolls[i] = (int) (Math.random() * sides) + 1;
-    });
+    IntStream.range(0, numberOfDice).forEach(i ->
+        rolls[i] = random.nextInt(1, sides + 1)
+    );
 
     notifyObservers(rolls);
   }
@@ -60,13 +59,8 @@ public final class Dice extends Die {
       throw new IllegalArgumentException("Number of dice rolled does not match the number of dice");
     }
 
-    super.getObservers().forEach(o -> {
-      o.update(i);
-    });
-  }
-
-  @Override
-  public List<BoardGameObserver> getObservers() {
-    return super.getObservers();
+    super.getObservers().forEach(o ->
+        o.update(i)
+    );
   }
 }

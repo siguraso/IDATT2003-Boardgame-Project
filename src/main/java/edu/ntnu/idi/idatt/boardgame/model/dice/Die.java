@@ -4,6 +4,7 @@ import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObservable;
 import edu.ntnu.idi.idatt.boardgame.model.observerPattern.BoardGameObserver;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A class representing a die with a given number of sides.
@@ -13,8 +14,10 @@ import java.util.List;
  * @since 1.0
  */
 public class Die implements BoardGameObservable {
+
   private final int sides;
   private final List<BoardGameObserver> observers = new ArrayList<>();
+  protected final Random random = new Random();
 
   /**
    * Creates a new die with the given number of sides.
@@ -32,9 +35,8 @@ public class Die implements BoardGameObservable {
    * Throws the {@link Die} and notifies the observers.
    */
   public void roll() {
-    int[] currentThrow = new int[]{(int) (Math.random() * sides) + 1};
-    //to test confetti
-    //int[] currentThrow = new int[] {89};
+    int[] currentThrow = new int[]{random.nextInt(1, sides + 1)};
+
     notifyObservers(currentThrow);
   }
 

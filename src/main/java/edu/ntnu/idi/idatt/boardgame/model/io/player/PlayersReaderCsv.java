@@ -16,11 +16,6 @@ import java.util.List;
  */
 public class PlayersReaderCsv implements PlayersFileReader {
 
-  /**
-   * Constructor for the PlayersReaderCsv class.
-   */
-  public PlayersReaderCsv() {
-  }
 
   @Override
   public List<Player> readPlayersFile(String filePath) {

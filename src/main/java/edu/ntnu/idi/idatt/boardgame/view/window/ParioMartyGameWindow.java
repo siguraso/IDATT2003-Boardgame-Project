@@ -39,7 +39,6 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
   private final BoardType boardType;
 
-  private StackPane mowserActionPane;
   private Label turns;
 
 
@@ -148,7 +147,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
     };
 
     for (int i = 1; i <= steps; i++) {
-      KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), e -> {
+      KeyFrame keyFrame = new KeyFrame(Duration.millis((double) 300 * i), e -> {
         if (nextTileWrapper.nextTile == 36) {
           boardDisplay.getPlayerGrid().get(nextTileWrapper.nextTile - 1).getChildren()
               .remove(currentPlayerPiece);
@@ -390,7 +389,7 @@ public class ParioMartyGameWindow extends BoardGameWindow {
 
     MowserActionComponent mowserActionComponent = new MowserActionComponent();
 
-    mowserActionPane = (StackPane) mowserActionComponent.getComponent();
+    StackPane mowserActionPane = (StackPane) mowserActionComponent.getComponent();
 
     allElements.getChildren().add(mowserActionPane);
 

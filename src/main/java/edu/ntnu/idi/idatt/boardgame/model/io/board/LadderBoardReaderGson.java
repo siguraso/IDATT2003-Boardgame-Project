@@ -11,6 +11,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import edu.ntnu.idi.idatt.boardgame.exception.InvalidTileException;
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.LadderTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.NormalTile;
 import edu.ntnu.idi.idatt.boardgame.model.board.tile.RandomActionTile;
@@ -60,8 +61,9 @@ public class LadderBoardReaderGson implements BoardFileReader, JsonDeserializer<
       try {
         // Get the resource as a stream
         InputStream resourceStream = this.getClass().getResourceAsStream(filePath);
+
         if (resourceStream == null) {
-          throw new RuntimeException("Resource not found: " + filePath);
+          throw new NullPointerException("Resource not found: " + filePath);
         }
 
         // Use InputStreamReader to read the resource
@@ -123,7 +125,8 @@ public class LadderBoardReaderGson implements BoardFileReader, JsonDeserializer<
       case LADDER -> new LadderTile(tileNumber, onscreenPosition,
           jsonObject.get("destinationTileNumber").getAsInt());
       case RETURN_TO_START -> new ReturnToStartTile(tileNumber, onscreenPosition);
-      case RANDOM_ACTION -> new RandomActionTile(tileNumber, onscreenPosition, board);
+      case RANDOM_ACTION ->
+          new RandomActionTile(tileNumber, onscreenPosition, BoardType.LADDER_GAME_SPECIAL);
       case WINNER -> new WinnerTile(tileNumber, onscreenPosition);
       case ROLL_AGAIN -> new RollAgainTile(tileNumber, onscreenPosition);
       default ->

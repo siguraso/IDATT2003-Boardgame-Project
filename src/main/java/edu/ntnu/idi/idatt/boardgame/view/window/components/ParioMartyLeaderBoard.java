@@ -30,7 +30,7 @@ public class ParioMartyLeaderBoard implements WindowComponent {
 
   private final PlayersController playersController;
 
-  private final VBox parioMartyLeaderBoard = new VBox();
+  private final VBox parioMartyLeaderboard = new VBox();
 
   private final Map<String, ImageView> playerPieces;
 
@@ -53,14 +53,14 @@ public class ParioMartyLeaderBoard implements WindowComponent {
    */
   public void update() {
     // Clear the leaderboard grid
-    this.parioMartyLeaderBoard.getChildren().clear();
+    this.parioMartyLeaderboard.getChildren().clear();
 
     Map<String, Integer[]> playersMap = new HashMap<>();
 
-    playersController.getPlayersAsParioMarty().forEach(player -> {
-      // crowns is at index 1, coins is at index 0
-      playersMap.put(player.getName(), new Integer[]{player.getCoins(), player.getCrowns()});
-    });
+    playersController.getPlayersAsParioMarty().forEach(player ->
+        // crowns is at index 1, coins is at index 0
+        playersMap.put(player.getName(), new Integer[]{player.getCoins(), player.getCrowns()})
+    );
 
     // Sort the players by coins and crowns
     List<Map.Entry<String, Integer[]>> sortedPlayers = new ArrayList<>(playersMap.entrySet());
@@ -69,7 +69,7 @@ public class ParioMartyLeaderBoard implements WindowComponent {
         Comparator.comparingInt((Map.Entry<String, Integer[]> entry) -> entry.getValue()[1])
             .thenComparingInt(entry -> entry.getValue()[0]).reversed());
 
-    sortedPlayers.forEach((entry) -> {
+    sortedPlayers.forEach(entry -> {
       String playerName = entry.getKey();
       Integer[] playerData = entry.getValue();
 
@@ -81,7 +81,7 @@ public class ParioMartyLeaderBoard implements WindowComponent {
       playerBox.setLeft(placement);
       playerBox.setRight(playerRow);
 
-      parioMartyLeaderBoard.getChildren().add(playerBox);
+      parioMartyLeaderboard.getChildren().add(playerBox);
     });
 
   }
@@ -89,9 +89,9 @@ public class ParioMartyLeaderBoard implements WindowComponent {
   @Override
   public Node getComponent() {
     VBox leaderboard = new VBox();
-    parioMartyLeaderBoard.setSpacing(10);
+    parioMartyLeaderboard.setSpacing(10);
     leaderboard.setMinHeight(100);
-    leaderboard.getChildren().addAll(new Label("Leaderboard"), parioMartyLeaderBoard);
+    leaderboard.getChildren().addAll(new Label("Leaderboard"), parioMartyLeaderboard);
 
     leaderboard.setAlignment(Pos.CENTER);
     leaderboard.setPadding(new Insets(10));

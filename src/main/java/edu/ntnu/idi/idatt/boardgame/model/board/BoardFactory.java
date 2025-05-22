@@ -30,6 +30,10 @@ public class BoardFactory {
   private static final int LADDER_GAME_ROWS = 10;
   private static final int LADDER_GAME_COLS = 9;
 
+  private BoardFactory() {
+    // private constructor to prevent instantiation
+  }
+
   /**
    * Creates a new hardcoded board based on the given {@link BoardType}.
    *
@@ -79,7 +83,7 @@ public class BoardFactory {
     tiles.put(14, new AddCoinsTile(14, new int[]{8, 6}, 5));
     tiles.put(15, new AddCoinsTile(15, new int[]{8, 7}, 5));
     tiles.put(16, new RollAgainTile(16, new int[]{7, 7}));
-    tiles.put(17, new RandomActionTile(17, new int[]{6, 7}, board));
+    tiles.put(17, new RandomActionTile(17, new int[]{6, 7}, BoardType.PARIO_MARTY));
     tiles.put(18, new AddCoinsTile(18, new int[]{6, 8}, 5));
     tiles.put(19, new AddCoinsTile(19, new int[]{6, 9}, 5));
     tiles.put(20, new AddCoinsTile(20, new int[]{5, 9}, 5));
@@ -97,7 +101,7 @@ public class BoardFactory {
     tiles.put(32, new RemoveCoinsTile(32, new int[]{0, 2}, 5));
     tiles.put(33, new AddCoinsTile(33, new int[]{1, 2}, 5));
     tiles.put(34, new AddCoinsTile(34, new int[]{2, 2}, 5));
-    tiles.put(35, new RandomActionTile(35, new int[]{2, 1}, board));
+    tiles.put(35, new RandomActionTile(35, new int[]{2, 1}, BoardType.PARIO_MARTY));
 
     return board;
   }
@@ -110,16 +114,19 @@ public class BoardFactory {
     // add the special tiles to the board
     // random action tiles
     tiles.put(3,
-        new RandomActionTile(3, tiles.get(3).getOnscreenPosition(), specialLadderGameBoard));
+        new RandomActionTile(3, tiles.get(3).getOnscreenPosition(), BoardType.LADDER_GAME_SPECIAL));
 
     tiles.put(10,
-        new RandomActionTile(10, tiles.get(10).getOnscreenPosition(), specialLadderGameBoard));
+        new RandomActionTile(10, tiles.get(10).getOnscreenPosition(),
+            BoardType.LADDER_GAME_SPECIAL));
 
     tiles.put(43,
-        new RandomActionTile(43, tiles.get(43).getOnscreenPosition(), specialLadderGameBoard));
+        new RandomActionTile(43, tiles.get(43).getOnscreenPosition(),
+            BoardType.LADDER_GAME_SPECIAL));
 
     tiles.put(85,
-        new RandomActionTile(85, tiles.get(85).getOnscreenPosition(), specialLadderGameBoard));
+        new RandomActionTile(85, tiles.get(85).getOnscreenPosition(),
+            BoardType.LADDER_GAME_SPECIAL));
 
     // roll again tiles
     tiles.put(6,
@@ -253,8 +260,8 @@ public class BoardFactory {
 
     try {
       board = boardFileReader.readBoardFile(filePath, true);
-    } catch (RuntimeException e) {
-      throw new RuntimeException(e.getMessage());
+    } catch (NullPointerException e) {
+      throw new NullPointerException(e.getMessage());
     }
 
     // check if the board is valid:

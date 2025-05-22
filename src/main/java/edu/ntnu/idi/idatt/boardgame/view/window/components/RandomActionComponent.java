@@ -25,11 +25,6 @@ public class RandomActionComponent implements WindowComponent {
   protected final VBox listViewContainer = new VBox();
   protected final Label header = new Label("Random Happening!");
 
-  /**
-   * Constructor for the RandomActionComponent class.
-   */
-  public RandomActionComponent() {
-  }
 
   @Override
   public Node getComponent() {
@@ -46,8 +41,8 @@ public class RandomActionComponent implements WindowComponent {
 
     // from css sheet
     int listHeight = 30;
-    actionsListView.setMaxHeight(listHeight * actionsListView.getItems().size() + 3);
-    actionsListView.setPrefHeight(listHeight * actionsListView.getItems().size() + 3);
+    actionsListView.setMaxHeight(listHeight * actionsListView.getItems().size() + (double) 3);
+    actionsListView.setPrefHeight(listHeight * actionsListView.getItems().size() + (double) 3);
 
     header.getStyleClass().add("header");
     header.setStyle("-fx-text-fill: text_wht;");
@@ -91,7 +86,7 @@ public class RandomActionComponent implements WindowComponent {
 
     for (int i = 0; i < actionsListView.getItems().size() * 3; i++) {
       KeyFrame keyFrame = new KeyFrame(
-          javafx.util.Duration.millis(i * 150),
+          javafx.util.Duration.millis(i * (double) 150),
           event -> {
             actionsListView.getSelectionModel().select(selectedWrapper.currentSelected);
             selectedWrapper.currentSelected++;
@@ -107,7 +102,7 @@ public class RandomActionComponent implements WindowComponent {
     }
 
     KeyFrame keyFrame = new KeyFrame(
-        javafx.util.Duration.millis(actionsListView.getItems().size() * 3 * 150),
+        javafx.util.Duration.millis(actionsListView.getItems().size() * (double) 3 * 150),
         event -> {
           actionsListView.getSelectionModel().select(selectedWrapper.finalSelected);
 
@@ -118,7 +113,7 @@ public class RandomActionComponent implements WindowComponent {
     randomActionTimeline.getKeyFrames().add(keyFrame);
 
     KeyFrame finalKeyFrame = new KeyFrame(
-        javafx.util.Duration.millis(actionsListView.getItems().size() * 3 * 150 + 700),
+        javafx.util.Duration.millis(actionsListView.getItems().size() * (double) 3 * 150 + 700),
         event -> {
           listViewContainer.getChildren().remove(actionsListView);
 
@@ -133,7 +128,7 @@ public class RandomActionComponent implements WindowComponent {
     // create a dummy keyframe to show the finalKeyFrame, since the program just ignores the last
     // keyframe if it is not followed by a dummy keyframe
     KeyFrame dummyKeyFrame = new KeyFrame(
-        javafx.util.Duration.millis(actionsListView.getItems().size() * 3 * 150 + 1500),
+        javafx.util.Duration.millis(actionsListView.getItems().size() * (double) 3 * 150 + 1500),
         event -> {
         });
 

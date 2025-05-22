@@ -30,17 +30,6 @@ public record Board(Map<Integer, Tile> tiles) {
   // accessor methods
 
   /**
-   * Used to get the HashMap containtning all the tiles on the board.
-   *
-   * @return A HashMap containing all the tiles on the board.
-   */
-  @Override
-  public Map<Integer, Tile> tiles() {
-    return tiles;
-  }
-
-
-  /**
    * Return all the TileTypes on the board as a {@link HashMap} with the tile number as the key and
    * the tile type as the value.
    *

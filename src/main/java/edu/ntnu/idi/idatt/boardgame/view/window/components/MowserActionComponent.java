@@ -14,12 +14,6 @@ import javafx.scene.layout.StackPane;
  */
 public class MowserActionComponent extends RandomActionComponent {
 
-  /**
-   * Constructor for the MowserActionComponent class.
-   */
-  public MowserActionComponent() {
-  }
-
   @Override
   public Node getComponent() {
     actionsListView.getItems()
@@ -36,8 +30,8 @@ public class MowserActionComponent extends RandomActionComponent {
 
     // from css sheet
     int listHeight = 30;
-    actionsListView.setMaxHeight(listHeight * actionsListView.getItems().size() + 3);
-    actionsListView.setPrefHeight(listHeight * actionsListView.getItems().size() + 3);
+    actionsListView.setMaxHeight(listHeight * actionsListView.getItems().size() + (double) 3);
+    actionsListView.setPrefHeight(listHeight * actionsListView.getItems().size() + (double) 3);
 
     header.getStyleClass().add("header");
     header.setStyle("-fx-text-fill: text_wht;");

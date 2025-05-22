@@ -6,7 +6,6 @@ import edu.ntnu.idi.idatt.boardgame.view.window.components.ladder.LadderDrawer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.stream.IntStream;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
@@ -63,12 +62,12 @@ public class BoardDisplay implements WindowComponent {
    *                   key designates what tile number it is.
    */
   public void init(int tileWidth, int tileHeight, Map<Integer, String> tileTypes) {
-    boardGrid.setMaxWidth(tileWidth * COLS);
-    boardGrid.setMaxHeight(tileHeight * ROWS);
+    boardGrid.setMaxWidth(tileWidth * (double) COLS);
+    boardGrid.setMaxHeight(tileHeight * (double) ROWS);
     boardGrid.setAlignment(javafx.geometry.Pos.CENTER);
 
-    playersGrid.setMaxWidth(tileWidth * COLS);
-    playersGrid.setMaxHeight(tileHeight * ROWS);
+    playersGrid.setMaxWidth(tileWidth * (double) COLS);
+    playersGrid.setMaxHeight(tileHeight * (double) ROWS);
     playersGrid.setAlignment(javafx.geometry.Pos.CENTER);
 
     // fill out the grid with empty tiles if it is a ParioMarty board, because of the more complex
@@ -178,8 +177,6 @@ public class BoardDisplay implements WindowComponent {
           int destTileNum = ((LadderGameController) gameController).getLadderDestinationTileNumber(
               t);
 
-          /*logger.log(Level.INFO, "Ladder tile " + t + " has destination tile "
-              + gameController.getLadderDestinationTileNumber(t));*/
           int deltaTileNumber = destTileNum - t;
 
           if (deltaTileNumber > 0) {

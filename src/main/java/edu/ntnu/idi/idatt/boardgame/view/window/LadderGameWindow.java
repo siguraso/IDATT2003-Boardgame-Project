@@ -149,7 +149,7 @@ public class LadderGameWindow extends BoardGameWindow {
 
     for (int i = 1; i <= steps; i++) {
 
-      KeyFrame keyFrame = new KeyFrame(Duration.millis(300 * i), event -> {
+      KeyFrame keyFrame = new KeyFrame(Duration.millis((double) 300 * i), event -> {
 
         if (nextTileWrapper.nextTile == boardDisplay.getPlayerGrid().size() + 1) {
           // if it is about to moveForward one over the last tile, moveForward them backwards,

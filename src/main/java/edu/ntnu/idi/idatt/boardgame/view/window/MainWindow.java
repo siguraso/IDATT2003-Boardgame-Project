@@ -110,6 +110,7 @@ public class MainWindow implements Window {
 
     window.setMinWidth(900);
     window.setMinHeight(735);
+    window.setTitle("Board Games");
     window.setScene(scene);
   }
 
@@ -131,13 +132,13 @@ public class MainWindow implements Window {
 
     buttons.getStyleClass().add("button-bar");
 
-    ladderGameButton.setOnAction(onPressed -> {
-      boardGameSelection.setCenter(ladderBoardSelection);
-    });
+    ladderGameButton.setOnAction(onPressed ->
+        boardGameSelection.setCenter(ladderBoardSelection)
+    );
 
-    parioMartyButton.setOnAction(onPressed -> {
-      boardGameSelection.setCenter(parioMartyBoardSelection);
-    });
+    parioMartyButton.setOnAction(onPressed ->
+        boardGameSelection.setCenter(parioMartyBoardSelection)
+    );
 
     buttons.getChildren().add(ladderGameButton);
     buttons.getChildren().add(parioMartyButton);
@@ -781,6 +782,7 @@ public class MainWindow implements Window {
       }
 
     });
+
     return !arePlayersValidWrapper.areValid;
   }
 

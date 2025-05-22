@@ -1,5 +1,6 @@
 package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
+import edu.ntnu.idi.idatt.boardgame.exception.InvalidBoardException;
 import edu.ntnu.idi.idatt.boardgame.exception.InvalidPlayerException;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RemoveCoinsAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.RemoveCrownAction;
@@ -7,6 +8,7 @@ import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.ReturnToStartAction;
 import edu.ntnu.idi.idatt.boardgame.model.board.tileaction.TileAction;
 import edu.ntnu.idi.idatt.boardgame.model.player.ParioMartyPlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import java.util.Random;
 
 /**
  * A special tile that only appears in the ParioMarty game. This tile has 4 tile actions that happen
@@ -25,6 +27,7 @@ public class MowserTile extends SpecialTile {
 
   private final TileAction[] tileActions = new TileAction[4];
   private int randomIndex;
+  private final transient Random random = new Random();
 
 
   /**
@@ -57,16 +60,16 @@ public class MowserTile extends SpecialTile {
   public void performAction(Player player) {
     try {
       // initialize the tileAction with a random TileAction
-      randomIndex = (int) (Math.random() * tileActions.length);
+      randomIndex = random.nextInt(0, tileActions.length);
       tileAction = tileActions[randomIndex];
-      try {
-        tileAction.performAction(player);
-      } catch (ClassCastException e) {
-        throw new ClassCastException(e.getMessage());
-      }
+
+      tileAction.performAction(player);
+
 
     } catch (NullPointerException e) {
       throw new NullPointerException(e.getMessage());
+    } catch (InvalidPlayerException e) {
+      throw new InvalidPlayerException(e.getMessage());
     }
   }
 

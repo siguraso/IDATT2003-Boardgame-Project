@@ -29,13 +29,17 @@ public abstract class DialogBox implements WindowComponent {
    *
    * @param boardType the type of board game being played (used for the help window).
    */
-  public DialogBox(BoardType boardType) {
-    if (boardType == BoardType.PARIO_MARTY) {
-      this.helpWindow = new ParioMartyHelper();
-    } else if (boardType == BoardType.LADDER_GAME_REGULAR) {
-      this.helpWindow = new LaddergameHelper("Regular");
-    } else {
-      this.helpWindow = new LaddergameHelper("Special");
+  protected DialogBox(BoardType boardType) {
+    switch (boardType) {
+      case BoardType.PARIO_MARTY -> {
+        this.helpWindow = new ParioMartyHelper();
+      }
+      case BoardType.LADDER_GAME_REGULAR -> {
+        this.helpWindow = new LaddergameHelper("Regular");
+      }
+      default -> {
+        this.helpWindow = new LaddergameHelper("Special");
+      }
     }
   }
 

@@ -15,12 +15,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class RemoveCrownAction implements TileAction {
 
-  /**
-   * Constructor for the RemoveCrownAction class.
-   */
-  public RemoveCrownAction() {
-  }
-
   @Override
   public void performAction(Player player) {
     if (player == null) {

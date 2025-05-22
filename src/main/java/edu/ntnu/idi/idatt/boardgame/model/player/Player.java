@@ -20,7 +20,7 @@ public abstract class Player implements BoardGameObserver {
    * @param playerPiece The piece that the player uses on the board, as defined in the
    *                    {@link PlayerPiece} enum.
    */
-  public Player(String name, PlayerPiece playerPiece) {
+  protected Player(String name, PlayerPiece playerPiece) {
     if (name == null || playerPiece == null) {
       throw new NullPointerException("Name or Player piece cannot be null.");
     } else if (name.isEmpty()) {

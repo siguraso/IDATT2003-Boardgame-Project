@@ -11,12 +11,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class WinnerAction implements TileAction {
 
-  /**
-   * Constructor for the WinnerAction class.
-   */
-  public WinnerAction() {
-  }
-
   @Override
   public void performAction(Player player) {
     if (player == null) {

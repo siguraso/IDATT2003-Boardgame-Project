@@ -28,7 +28,7 @@ class MoveToRandomTileActionTest {
     tiles = (HashMap<Integer, Tile>) BoardFactory
         .createBoard(BoardType.LADDER_GAME_SPECIAL, false, null).tiles();
     board = new Board(tiles);
-    moveToRandomTileAction = new MoveToRandomTileAction(board);
+    moveToRandomTileAction = new MoveToRandomTileAction(BoardType.LADDER_GAME_SPECIAL);
     player = new LadderGamePlayer("TestPlayer", PlayerPiece.MARIOTINELLI);
   }
 
@@ -45,7 +45,7 @@ class MoveToRandomTileActionTest {
   @DisplayName("Test the constructor of MoveToRandomTileAction, and check for exceptions")
   void testConstructor() {
     try {
-      new MoveToRandomTileAction(board);
+      new MoveToRandomTileAction(BoardType.LADDER_GAME_SPECIAL);
     } catch (IllegalArgumentException e) {
       fail("Constructor should not throw an exception");
     }
@@ -72,12 +72,9 @@ class MoveToRandomTileActionTest {
       moveToRandomTileAction = new MoveToRandomTileAction(null);
       moveToRandomTileAction.performAction(player);
     });
-    assertThrows(IllegalArgumentException.class, () -> {
-      moveToRandomTileAction = new MoveToRandomTileAction(new Board(new HashMap<>()));
-      moveToRandomTileAction.performAction(player);
-    });
+
     assertThrows(NullPointerException.class, () -> {
-      moveToRandomTileAction = new MoveToRandomTileAction(board);
+      moveToRandomTileAction = new MoveToRandomTileAction(BoardType.LADDER_GAME_SPECIAL);
       moveToRandomTileAction.performAction(null);
     });
   }

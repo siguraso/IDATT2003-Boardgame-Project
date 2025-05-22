@@ -2,8 +2,6 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tile;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.idi.idatt.boardgame.model.board.Board;
-import edu.ntnu.idi.idatt.boardgame.model.board.BoardFactory;
 import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.player.LadderGamePlayer;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
@@ -17,18 +15,14 @@ class RandomActionTileTest {
 
   private Tile tile;
   private LadderGamePlayer player;
-  private LadderGamePlayer player1;
   private ArrayList<Player> players;
 
   @BeforeEach
   void setUp() {
-    Board board = BoardFactory.createBoard(BoardType.LADDER_GAME_REGULAR, false,
-        null);
-
-    tile = new RandomActionTile(1, new int[]{0, 0}, board);
+    tile = new RandomActionTile(1, new int[]{0, 0}, BoardType.LADDER_GAME_REGULAR);
 
     player = new LadderGamePlayer("TestPlayer", PlayerPiece.EVIL_PAUL);
-    player1 = new LadderGamePlayer("TestPlayer1", PlayerPiece.EVIL_PAUL);
+    LadderGamePlayer player1 = new LadderGamePlayer("TestPlayer1", PlayerPiece.EVIL_PAUL);
 
     player1.moveTo(2);
     player.moveTo(5);
@@ -55,7 +49,7 @@ class RandomActionTileTest {
       new RandomActionTile(1, new int[]{0, 0}, null);
       fail("Expected an exception to be thrown");
     } catch (NullPointerException e) {
-      assertEquals("Board cannot be null.", e.getMessage());
+      assertEquals("Board type cannot be null", e.getMessage());
     }
   }
 
@@ -108,7 +102,7 @@ class RandomActionTileTest {
         ((RandomActionTile) tile).getPlayerToSwapWith();
         swapAction = true;
       } catch (Exception e) {
-        continue;
+        assertFalse(swapAction);
       }
 
     }
@@ -159,7 +153,7 @@ class RandomActionTileTest {
     } catch (Exception e) {
       fail("Expected no exception to be thrown");
     }
-   
+
   }
 
   @Test

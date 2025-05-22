@@ -11,12 +11,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class RollAgainAction implements TileAction {
 
-  /**
-   * Constructor for the RollAgainAction class.
-   */
-  public RollAgainAction() {
-  }
-
   @Override
   public void performAction(Player player) {
     if (player == null) {

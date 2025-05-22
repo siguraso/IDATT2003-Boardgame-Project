@@ -2,7 +2,9 @@ package edu.ntnu.idi.idatt.boardgame.model.board.tileaction;
 
 
 import edu.ntnu.idi.idatt.boardgame.model.board.Board;
+import edu.ntnu.idi.idatt.boardgame.model.board.BoardType;
 import edu.ntnu.idi.idatt.boardgame.model.player.Player;
+import java.util.Random;
 
 /**
  * Interface for the special actions that can be performed on a special tile.
@@ -13,21 +15,20 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class MoveToRandomTileAction implements TileAction {
 
-  private final Board board;
+  private final Random random = new Random();
+  private final BoardType boardType;
 
   /**
    * Constructor for the MoveToRandomTileAction class.
    *
-   * @param board HashMap containing all the tiles on the board.
+   * @param boardType the type of the board. This is used to determine the number of tiles on the
+   *                  board.
    */
-  public MoveToRandomTileAction(Board board) {
-    if (board == null) {
-      throw new NullPointerException("Board cannot be null");
-    } else if (board.tiles().isEmpty()) {
-      throw new IllegalArgumentException("Board cannot be empty");
-    } else {
-      this.board = board;
+  public MoveToRandomTileAction(BoardType boardType) {
+    if (boardType == null) {
+      throw new NullPointerException("Board type cannot be null");
     }
+    this.boardType = boardType;
   }
 
   @Override
@@ -36,11 +37,18 @@ public class MoveToRandomTileAction implements TileAction {
       throw new NullPointerException("Player cannot be null");
     }
 
-    int newPosition = (int) (Math.random() * (board.tiles().size() - 1)) + 1;
+    int newPosition;
 
-    // if the new position is 0 or 90, move to 1 to avoid landing on the end tile or on tile 0
-    // which is not a valid tile
-    newPosition = newPosition == 90 ? 89 : newPosition;
+    if (boardType != BoardType.PARIO_MARTY) {
+      newPosition = random.nextInt(1, 90);
+
+      // if the new position is 0 or 90, move to 1 to avoid landing on the end tile or on tile 0
+      // which is not a valid tile
+      newPosition = newPosition == 90 ? 89 : newPosition;
+    } else {
+      // there are only 35 tiles on the ParioMarty board
+      newPosition = random.nextInt(1, 36);
+    }
 
     player.moveTo(newPosition);
   }

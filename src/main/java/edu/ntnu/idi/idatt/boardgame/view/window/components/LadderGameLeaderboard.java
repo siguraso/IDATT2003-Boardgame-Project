@@ -43,7 +43,7 @@ public class LadderGameLeaderboard implements WindowComponent {
     sortedPlayers.sort(Map.Entry.<String, Integer>comparingByValue().reversed());
 
     // Add the players to the leaderboard grid
-    sortedPlayers.forEach((playerEntry) -> {
+    sortedPlayers.forEach(playerEntry -> {
       String playerName = playerEntry.getKey();
       Integer position = playerEntry.getValue();
       int i = sortedPlayers.indexOf(playerEntry);
@@ -56,13 +56,13 @@ public class LadderGameLeaderboard implements WindowComponent {
 
   @Override
   public Node getComponent() {
-    VBox leaderboard = new VBox();
-    leaderboard.setMinHeight(110);
-    leaderboard.setMinWidth(380);
-    leaderboard.setMaxWidth(380);
-    leaderboard.setAlignment(javafx.geometry.Pos.TOP_CENTER);
-    leaderboard.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
-    leaderboard.setSpacing(10);
+    VBox leaderboardVbox = new VBox();
+    leaderboardVbox.setMinHeight(110);
+    leaderboardVbox.setMinWidth(380);
+    leaderboardVbox.setMaxWidth(380);
+    leaderboardVbox.setAlignment(javafx.geometry.Pos.TOP_CENTER);
+    leaderboardVbox.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
+    leaderboardVbox.setSpacing(10);
 
     this.leaderboard.setHgap(30);
     this.leaderboard.setVgap(12);
@@ -80,11 +80,11 @@ public class LadderGameLeaderboard implements WindowComponent {
 
     header.getStyleClass().add("header");
 
-    leaderboard.getChildren().addAll(header, this.leaderboard);
+    leaderboardVbox.getChildren().addAll(header, this.leaderboard);
 
-    leaderboard.getStyleClass().add("leaderboard");
+    leaderboardVbox.getStyleClass().add("leaderboard");
 
-    return leaderboard;
+    return leaderboardVbox;
   }
 
 

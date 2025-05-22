@@ -15,11 +15,6 @@ import java.util.List;
  */
 public class PlayersWriterCsv implements PlayersFileWriter {
 
-  /**
-   * Writes a player to a new file so that it can be loaded later on by the user.
-   */
-  public PlayersWriterCsv() {
-  }
 
   @Override
   public void writePlayersFile(String fileDirectory, String fileName,

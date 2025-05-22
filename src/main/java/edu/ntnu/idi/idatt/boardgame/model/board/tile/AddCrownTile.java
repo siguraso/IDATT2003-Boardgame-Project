@@ -32,11 +32,8 @@ public class AddCrownTile extends SpecialTile {
   public void performAction(Player player) {
     try {
       if (((ParioMartyPlayer) player).getCoins() >= 10) {
-        try {
-          tileAction.performAction(player);
-        } catch (NullPointerException e) {
-          throw new NullPointerException(e.getMessage());
-        }
+
+        tileAction.performAction(player);
         ((ParioMartyPlayer) player).removeCoins(10);
 
       } else {

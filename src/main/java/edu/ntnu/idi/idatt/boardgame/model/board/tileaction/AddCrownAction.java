@@ -15,12 +15,6 @@ import edu.ntnu.idi.idatt.boardgame.model.player.Player;
  */
 public class AddCrownAction implements TileAction {
 
-  /**
-   * Constructor for the AddCrownAction class.
-   */
-  public AddCrownAction() {
-  }
-
 
   @Override
   public void performAction(Player player) {

@@ -74,6 +74,8 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
   // movement animation (changes based on the current player and the die throw)
   protected Timeline movementAnimation;
 
+  private final Random random = new Random();
+
 
   /**
    * Constructor for the BoardGameWindow class.
@@ -144,11 +146,11 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
 
     this.movementAnimation = moveCurrentPlayerAnimation(steps);
 
-    this.movementAnimation.setOnFinished(onMovementFinished -> {
-      // when the movement animation is finished, we need to update the current player
-      // and set the die button to be enabled again
-      finishTurn();
-    });
+    this.movementAnimation.setOnFinished(onMovementFinished ->
+        // when the movement animation is finished, we need to update the current player
+        // and set the die button to be enabled again
+        finishTurn()
+    );
   }
 
   /**
@@ -349,10 +351,9 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
   protected int[] getPlayerPositions() {
     int[] playerPositions = new int[gameController.getPlayersController().getPlayers().size()];
 
-    gameController.getPlayersController().getPlayers().forEach((player) -> {
-      playerPositions[gameController.getPlayersController().getPlayers()
-          .indexOf(player)] = player.getPosition();
-    });
+    gameController.getPlayersController().getPlayers().forEach(player ->
+        playerPositions[gameController.getPlayersController().getPlayers()
+            .indexOf(player)] = player.getPosition());
 
     return playerPositions;
   }
@@ -395,9 +396,9 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
 
     Button exitButton = new Button("Return to main menu");
     exitButton.setOnAction(e -> {
-      Stage MainWindowStage = new Stage();
+      Stage mainWindowStage = new Stage();
 
-      MainWindow mainWindow = new MainWindow(MainWindowStage);
+      MainWindow mainWindow = new MainWindow(mainWindowStage);
       mainWindow.init();
 
       sfxPlayer.stopSound();
@@ -451,7 +452,6 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
     confettiContainer.setPrefWidth(winnerScreen.getWidth());
     winnerScreen.getChildren().add(confettiContainer);
 
-    Random random = new Random();
     Platform.runLater(() -> {
       double stageWidth = winnerScreen.getWidth();
       double stageHeight = winnerScreen.getHeight();
@@ -509,7 +509,6 @@ public abstract class BoardGameWindow implements Window, BoardGameObserver {
   }
 
   private Color getRandomColor() {
-    Random random = new Random();
     return Color.rgb(
         random.nextInt(256),
         random.nextInt(256),

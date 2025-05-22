@@ -41,7 +41,7 @@ public abstract class GameController implements BoardGameObserver, BoardGameObse
    *
    * @param playersController The controller object for the players in the game.
    */
-  public GameController(PlayersController playersController, boolean useTwoDice) {
+  protected GameController(PlayersController playersController, boolean useTwoDice) {
     this.playersController = playersController;
 
     die = useTwoDice ? new Dice(2, 6) : new Die(6);

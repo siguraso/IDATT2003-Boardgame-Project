@@ -23,12 +23,6 @@ public class SfxPlayer implements SoundPlayer {
 
   private Clip clip;
 
-  /**
-   * Class that plays sound effects based on the {@link SoundFile} that is currently opened.
-   */
-  public SfxPlayer() {
-  }
-
   @Override
   public void openSoundFile(SoundFile soundfile) {
     String soundPath = soundfile.getSoundPath();

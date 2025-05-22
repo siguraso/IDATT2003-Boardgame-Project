@@ -3,9 +3,7 @@ package edu.ntnu.idi.idatt.boardgame.view.window.components.helperComponents;
 import edu.ntnu.idi.idatt.boardgame.view.window.BoardGameWindow;
 import edu.ntnu.idi.idatt.boardgame.view.window.components.WindowComponent;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Objects;
-import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -37,7 +35,7 @@ public abstract class HelperWindow extends BorderPane implements WindowComponent
    * Base constructor for the HelperWindow class. This class serves as a baseline for the other
    * helper windows.
    */
-  public HelperWindow() {
+  protected HelperWindow() {
     titleLabel = new Label("Title");
     subTitleLabel = new Label("Subtitle");
     image = new ImageView();
@@ -59,27 +57,6 @@ public abstract class HelperWindow extends BorderPane implements WindowComponent
     this.scene.getStylesheets().add(
         Objects.requireNonNull(BoardGameWindow.class.getResource("/Styles/Style.css"))
             .toExternalForm());
-  }
-
-  private boolean validateImage(String image) {
-    if (image == null || image.isEmpty()) {
-      throw new IllegalArgumentException("Image cannot be null or empty");
-    } else {
-      try {
-        ImageView testImage = new ImageView(new Image(image));
-        if (testImage.getImage().isError()) {
-          throw new IllegalStateException(
-              "Image path is wrong. Image is not found in the project.");
-        } else if (testImage.getImage() == null) {
-          throw new IllegalStateException("Image is null. Image is not found in the project.");
-        }
-      } catch (IllegalArgumentException e) {
-        throw new IllegalArgumentException("Image cannot be null or empty");
-      } catch (IllegalStateException e) {
-        throw new IllegalArgumentException("Unexpected error occured: " + e.getMessage());
-      }
-    }
-    return true;
   }
 
   /**

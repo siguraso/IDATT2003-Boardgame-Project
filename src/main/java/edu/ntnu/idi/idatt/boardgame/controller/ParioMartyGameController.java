@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -32,6 +33,8 @@ public class ParioMartyGameController extends GameController {
   private Player crownPlayer;
 
   private Tile currentTile;
+
+  private final Random random = new Random();
 
   /**
    * Constructor for the ParioMartyGameController class. This constructor initializes the game board
@@ -98,7 +101,7 @@ public class ParioMartyGameController extends GameController {
 
     // place the crown tile on a random addCoins tile
     while (!hasPlacedCrownTile) {
-      currentCrownTile = (int) (Math.random() * board.tiles().size()) + 1;
+      currentCrownTile = random.nextInt(1, board.tiles().size() + 1);
       Tile tile = board.tiles().get(currentCrownTile);
 
       if (tile.getTileType().equals(TileType.ADD_COINS.getTileType())) {
